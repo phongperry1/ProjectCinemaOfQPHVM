@@ -1,7 +1,5 @@
 package com.example.mo;
 
-import java.sql.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,23 +12,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class User {
+public class CinemaOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int UserId;
-    private String UserName;
-    private String Phone;
+    private int CinemaOwnerID;
+    private String CinemaName;
+    private String AddressCinema;
+    private String Hotline;
     private String Email;
-    private String UserPassword;
-    private Date Birthdate;
-    private String Location;
-    private String Gender;
-    private String UserRank;
-    private int MemberPoints;
-    private String PaymentMethod;
-    private String UserType;
-    private String ProfileImageURL;
+    private String PromotionProgram;
+    private int EmployeeID;
 
- 
+
 }
