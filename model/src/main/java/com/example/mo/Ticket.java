@@ -14,24 +14,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class User {
+public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int UserId;
-    private String UserName;
-    private String Phone;
-    private String Email;
-    private String UserPassword;
-    private Date Birthdate;
-    private String Location;
-    private String Gender;
-    private String UserRank;
-    private int MemberPoints;
-    private String PaymentMethod;
-    private String UserType;
-    private String ProfileImageURL;
+    private int TicketID;
+    private int MovieID;
+    private int ShowtimeID;
+    private int SeatID;
+    private int FoodID;
+    private Date ShowDate;
+    private int TheaterID;
+    private double price;
 
- 
 
+    
 }
