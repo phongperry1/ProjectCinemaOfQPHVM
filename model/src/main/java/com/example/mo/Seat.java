@@ -1,7 +1,5 @@
 package com.example.mo;
 
-import java.sql.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,18 +12,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ticket {
+public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int TicketID;
-    private int MovieID;
-    private int ShowtimeID;
-    private int SeatID;
-    private int FoodID;
-    private Date ShowDate;
-    private int TheaterID;
-    private double price;
+   private int SeatID;
+   private String SeatType;
+   private char StatusSeat;
 
 
-    
 }
