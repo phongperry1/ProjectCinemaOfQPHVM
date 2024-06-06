@@ -53,4 +53,5 @@ public class Users {
 
     @Column(name = "UserType")
     private String userType; 
+
 }

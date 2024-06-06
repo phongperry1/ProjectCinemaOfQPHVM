@@ -115,6 +115,8 @@ public class UserController {
                                  @RequestParam("curPassword") String curPassword,
                                  @RequestParam("confirmPassword") String confirmPassword,
                                  @ModelAttribute Users user, Model model) {
+        Users users = ser.getUsersById(1);
+        model.addAttribute("user3", users);
             if (!newPassword.equals(confirmPassword)) {
                 model.addAttribute("error", "New password and confirm password do not match!");
                 return "change-password";

@@ -46,4 +46,10 @@ public class UserService {
     public Users getUsersById(int id) {
         return userRepository.findById(id).orElse(null);
     }
+
+    public Users getUserByUserName(String username) {
+        // Gọi phương thức findByUserName của UserRepository để lấy đối tượng User từ cơ sở dữ liệu
+        Users user = userRepository.findByUserName(username);
+        return user;
+    }
 }

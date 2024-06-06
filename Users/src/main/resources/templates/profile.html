@@ -81,8 +81,8 @@
 
         /* Footer Styling */
         footer {
-            background-color: #282a36;
-            color: #ffffff;
+            background-color: #555555;
+            /* color: #ffffff; */
             padding: 40px 0;
             border-top: 2px solid #44475a;
         }
@@ -92,15 +92,6 @@
             margin-bottom: 20px;
         }
 
-        footer .nav-link {
-            color: #ffffff !important;
-            text-decoration: none;
-        }
-
-        footer .nav-link:hover {
-            color: red !important;
-            text-decoration: underline;
-        }
 
         footer .text-muted {
             color: #bbbbbb !important;
@@ -149,11 +140,20 @@
 
     /* Style cho card */
     .card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+            background-color: #292a2f; 
+            color: #eeeeee; 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
+        .card1 {
+            background-color: #3f4148; 
+            color: #eeeeee; 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
     /* Style cho card-body */
     .card-body {
     padding: 20px;
@@ -180,6 +180,49 @@
         margin-top: 50px; /* Adjust margin-top to center the content vertically */
     }
 
+    .brozen-rank {
+        background-color: #cd7f32; /* Màu nền đồng */
+        color: #ffffff; /* Màu chữ trắng */
+        padding: 5px; /* Phần padding */
+        border-radius: 5px; /* Độ cong viền */
+
+    }
+
+    .silver-rank {
+        background-color: #c0c0c0; /* Màu nền bạc */
+        color: #000000; /* Màu chữ đen */
+        padding: 5px; /* Phần padding */
+        border-radius: 5px; /* Độ cong viền */
+    }
+
+    .gold-rank {
+        background-color: #ffd700; /* Màu nền vàng */
+        color: #000000; /* Màu chữ đen */
+        padding: 5px; /* Phần padding */
+        border-radius: 5px; /* Độ cong viền */
+    }
+
+        footer .social-box{
+        display:flex;
+        gap:10px;
+        justify-content:end;
+    }
+    
+    footer .social-box .fa{
+        border:2px solid #fff;
+        border-radius:50%;
+        width:40px;
+        height:40px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        cursor:pointer;
+    }
+    
+    footer .social-box .fa:hover{
+        background:#fff;
+        color:#DB0000;
+    }
     </style>
 </head>
 <body>
@@ -217,43 +260,74 @@
     </header>
 
     <div class="container mt-5 mb-5">
-        <div class="row container d-flex justify-content-center">
+        <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="generalInfo">
-                        <div class="card">
+                        <div class="card" style="background-color: #292a2f; color: #eeeeee;">
                             <div class="card-body">
-                                <h4 class="text-center mb-5">General Information</h4>
+                                <h1 class="text-center mb-5">General Information</h1>
                                 <div class="row">
                                     <div class="col-md-4 text-center">
-                                        <form id="avatarForm" enctype="multipart/form-data" action="/profile/upload-avatar" method="post">
-                                            <input type="file" name="file" id="fileInput" accept="image/*">
-                                            <div class="avatarPreview mb-3"></div>
-                                            <div class="avatarPreview mb-3" id="currentAvatar">
-                                                <img th:src="@{/uploads/{imageName}(imageName=${user1.profileImageUrl})}" alt="Avatar">
+                                        <div class="card1">
+                                            <div class="card-body">
+                                                <form id="avatarForm" enctype="multipart/form-data" action="/profile/upload-avatar" method="post">
+                                                    <label for="fileInput" class="btn btn-secondary">Change Avatar</label>
+                                                    <button type="submit" class="btn btn-secondary">Upload</button>
+                                                    <input type="file" name="file" id="fileInput" accept="image/*" style="display: none;" onchange="validateFileSize()">
+                                                    <div class="avatarPreview mb-3"></div>
+                                                    <div class="avatarPreview mb-3" id="currentAvatar">
+                                                        <img th:src="@{/uploads/{imageName}(imageName=${user1.profileImageUrl})}" alt="Avatar">
+                                                    </div>
+                                                </form>
+                                                <span><strong><h2><span th:text="${user1.userName}"></span></h2></strong></span>
                                             </div>
-                                            <button type="submit">Upload</button>
-                                        </form>
+                                        </div>                                        
                                     </div>
                                     <div class="col-md-8">
                                         <div class="container">
                                             <div class="user-info">
                                                 <ul>
-                                                    <li><strong>Name: </strong> <span th:text="${user1.userName}"></span></li>
-                                                    <li><strong>Email: </strong> <span th:text="${user1.email}"></span></li>
-                                                    <li><strong>Phone Number: </strong> <span th:text="${user1.phone}"></span></li>
-                                                    <li><strong>Date of Birth: </strong> <span th:text="${user1.birthdate}"></span></li>
-                                                    <li><strong>Address: </strong> <span th:text="${user1.location}"></span></li>
-                                                    <li><strong>Gender: </strong><span th:text="${user1.gender}"></span></li>
-                                                    <li><strong>User Rank: </strong> <span th:text="${user1.userRank}"></span></li>
-                                                    <li><strong>Member Points: </strong> <span th:text="${user1.memberPoints}"></span></li>
-                                                    <li><strong>User Type: </strong> <span th:text="${user1.userType}"></span></li>
+                                                    <li>
+                                                        <i class="fas fa-envelope"></i>
+                                                        <strong>Email: </strong>
+                                                        <span th:text="${user1.email}"></span>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-phone"></i>
+                                                        <strong>Phone Number: </strong>
+                                                        <span th:text="${user1.phone}"></span>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                        <strong>Address: </strong>
+                                                        <span th:text="${user1.location}"></span>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>   
+                                        <div class="card mt-5" style="background-color: #51535c; color: #eeeeee;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Membership</h5>
+                                                <div class="row justify-content-center">
+                                                    <div class="col text-center border-right">
+                                                        <strong>User Rank</strong><br>
+                                                        <span th:text="${user1.userRank}" th:class="${user1.userRank == 'Brozen' ? 'brozen-rank' : (user1.userRank == 'Silver' ? 'silver-rank' : 'gold-rank')}"></span>
+                                                    </div>
+                                                    <div class="col text-center border-right">
+                                                        <strong>Member Points</strong><br>
+                                                        <span th:text="${user1.memberPoints}"></span>
+                                                    </div>
+                                                    <div class="col text-center">
+                                                        <strong>User Type</strong><br>
+                                                        <span th:text="${user1.userType}"></span>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                    </div>                                              
                                     <div class="text-center mt-4">
-                                        <a href="update-profile" class="btn btn-primary">Cập nhật thông tin</a>
+                                        <a href="update-profile" class="btn btn-secondary">Update Information</a>
                                     </div>                                 
                                 </div>
                             </div>
@@ -306,11 +380,11 @@
                     <h6 class="text-uppercase mb-4 font-weight-bold ">Follow us</h6>
     
                     <!-- Facebook -->
-                    <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
-                    <!-- Google -->
-                    <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39" href="#!" role="button"><i class="fab fa-google"></i></a>
-                    <!-- Github -->
-                    <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="#!" role="button"><i class="fab fa-github"></i></a>
+                    <div class="socail-box">
+                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-google"></i>
+                        <i class="fab fa-github"></i>
+                    </div>
                 </div>
             </div>
             <!--Grid row-->
