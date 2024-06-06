@@ -5,44 +5,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[[${pageTitle}]]</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* styles.css */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h2 {
+    color: #343a40;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+.text-center {
+    margin-bottom: 20px;
+}
+
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+    </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
-        <form th:action="@{/theater/save}" method="post" th:object="${theater}"
-        style="max-width: 500px; margin: 0 auto;">
-        <input type="hidden" th:field="*{TheaterID}">
-            <div class="border border-secondary rounded p-3">
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">CinemaOwnerID:</label>
-                    <div class="col-sm-8">
-                        <input type="number" th:field="*{CinemaOwnerID}" class="form-control" />
+    <div class="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100">
+        <div class="text-center mb-4"><h2>[[${pageTitle}]]</h2></div>
+        <form th:action="@{/theater/save}" method="post" th:object="${theater}" class="w-100" style="max-width: 500px;">
+            <input type="hidden" th:field="*{TheaterID}">
+            <div class="card shadow border-0">
+                <div class="card-body p-4">
+                    <div class="form-group mb-3">
+                        <label for="cinemaOwnerID" class="form-label">Cinema Owner ID:</label>
+                        <input type="number" th:field="*{CinemaOwnerID}" class="form-control" id="cinemaOwnerID" />
                     </div>
-                </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">TheaterName:</label>
-                    <div class="col-sm-8">
-                        <input type="text" th:field="*{TheaterName}" class="form-control" required minlength="2" maxlength="45"/>
+                    <div class="form-group mb-3">
+                        <label for="theaterName" class="form-label">Theater Name:</label>
+                        <input type="text" th:field="*{TheaterName}" class="form-control" id="theaterName" required minlength="2" maxlength="45"/>
                     </div>
-                </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Address:</label>
-                    <div class="col-sm-8">
-                        <input type="text" th:field="*{Address}" class="form-control" required minlength="4" maxlength="100"/>
+                    <div class="form-group mb-3">
+                        <label for="address" class="form-label">Address:</label>
+                        <input type="text" th:field="*{Address}" class="form-control" id="address" required minlength="4" maxlength="100"/>
                     </div>
-                </div>
 
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary m-2">Save</button>
-                    <!-- Thêm sự kiện onclick để gọi hàm cancelForm() -->
-                    <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Cancel</button>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary m-2">Save</button>
+                        <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Cancel</button>
+                    </div>
                 </div>
             </div>
         </form>
     </div>
-    
+
     <script type="text/javascript">
         function cancelForm() {
             window.location.href = "/theater";

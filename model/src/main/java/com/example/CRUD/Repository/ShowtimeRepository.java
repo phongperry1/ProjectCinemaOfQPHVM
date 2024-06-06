@@ -7,4 +7,5 @@ import com.example.mo.Showtime;
 
 @Repository
 public interface ShowtimeRepository extends JpaRepository<Showtime, Integer > {
+    
 }
