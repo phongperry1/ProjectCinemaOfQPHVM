@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Rank</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url(https://user-images.githubusercontent.com/33485020/108069438-5ee79d80-7089-11eb-8264-08fdda7e0d11.jpg);
+
+        }
+        .badge {
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .bg-secondary {
+            background-color: #6c757d;
+        }
+
+        .bg-warning {
+            background-color: #fa7704;
+        }
+
+        .bg-light {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .bg-danger {
+            background-color: #eaff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Rank</h1>
+        <div class="card">
+            <div class="card-body">
+                <img th:src="${user.profileImageURL}" class="float-right" width="250" height="250"/>
+                <p>Username: <span th:text="${user.userName}"></span></p>
+                <p>Current Points: <span th:text="${currentPoints}"></span></p>
+                <p>Current Rank: 
+                    <span th:if="${currentRank == 'None'}" class="badge bg-secondary">None</span>
+                    <span th:if="${currentRank == 'Bronze'}" class="badge bg-danger">Bronze</span>
+                    <span th:if="${currentRank == 'Silver'}" class="badge bg-light text-dark">Silver</span>
+                    <span th:if="${currentRank == 'Gold'}" class="badge bg-warning">Gold</span>
+                </p>
+                <p>Next Rank:
+                    <span th:if="${nextRank == 'None'}" class="badge bg-secondary">None</span>
+                    <span th:if="${nextRank == 'Bronze'}" class="badge bg-danger">Bronze</span>
+                    <span th:if="${nextRank == 'Silver'}" class="badge bg-light text-dark">Silver</span>
+                    <span th:if="${nextRank == 'Gold'}" class="badge bg-warning">Gold</span>
+                </p>
+                <p>Points Needed for Next Rank: <span th:text="${pointsNeeded}"></span></p>
+                <a th:href="@{/updaterank/{UserId}(UserId=${user.UserId})}" class="btn btn-primary" onclick="return confirmUpdate()">Update Rank</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmUpdate() {
+            return confirm("Are you sure you want to update the rank?");
+        }
+    </script>
+</body>
+</html>
