@@ -27,4 +27,37 @@ public class ScreeningRoom {
     @Column(length = 45 ,nullable = false, name = "roomname")
     private String Roomname;
 
+
+
+    public Integer getScreeningRoomID() {
+        return this.ScreeningRoomID;
+    }
+
+    public void setScreeningRoomID(Integer ScreeningRoomID) {
+        this.ScreeningRoomID = ScreeningRoomID;
+    }
+
+    public Integer getTheaterID() {
+        return this.TheaterID;
+    }
+
+    public void setTheaterID(Integer TheaterID) {
+        this.TheaterID = TheaterID;
+    }
+
+    public String getRoomname() {
+        return this.Roomname;
+    }
+
+    public void setRoomname(String Roomname) {
+        this.Roomname = Roomname;
+    }
+
+
+    
+
+
+   
+
+
 }
