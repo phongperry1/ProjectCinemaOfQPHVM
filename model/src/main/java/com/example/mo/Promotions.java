@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,8 @@ public class Promotions {
     private Date StartDate;
     @Column(name = "EndDate")
     private Date EndDate;
+    @Column(nullable = true, length = 64, name = "PhotosImagePath")
+    private String PhotoPromotions;
 
 
     public Integer getPromotionID() {
@@ -41,6 +44,25 @@ public class Promotions {
     public void setPromotionID(Integer PromotionID) {
         this.PromotionID = PromotionID;
     }
+
+     @Transient
+    public String getPhotosImagePath() {
+        if (PhotoPromotions == null) return null;
+
+        return "/promotions-photo/" + PromotionID + "/" + PhotoPromotions;
+    }
+
+
+    public String getPhotoPromotions() {
+        return this.PhotoPromotions;
+    }
+
+    public void setPhotoPromotions(String PhotoPromotions) {
+        this.PhotoPromotions = PhotoPromotions;
+    }
+
+
+
 
     public Integer getCinemaOwnerID() {
         return this.CinemaOwnerID;

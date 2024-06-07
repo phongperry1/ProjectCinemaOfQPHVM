@@ -28,6 +28,7 @@
                         <th>DiscountRate</th>
                         <th>StartDate</th>
                         <th>EndDate</th>
+                        <th>Photo Promotion</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -41,6 +42,8 @@
                         <td th:text="${promotions.DiscountRate}"></td>
                         <td th:text="${promotions.StartDate}"></td>
                         <td th:text="${promotions.EndDate}"></td>
+                        <td><img th:src="${promotions.PhotosImagePath}" class="img-round" alt="No pic" width="100" height="60" ></td>
+                                    
 
                         <td>
                             <a class="h4 mr-3" th:href="@{'/promotions/edit/' + ${promotions.PromotionID}}">Edit</a>

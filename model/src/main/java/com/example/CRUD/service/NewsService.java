@@ -22,8 +22,8 @@ public class NewsService {
         return (List<News>) repo.findAll();
     }
 
-     public void save(News news) {
-        repo.save(news);
+     public News save(News news) {
+        return repo.save(news);
     }
 
     public News get(Integer newsID) throws NewsNotFoundException {

@@ -21,8 +21,8 @@ public class PromotionsService {
         return (List<Promotions>) repo.findAll();
     }
 
-     public void save(Promotions promotions) {
-        repo.save(promotions);
+     public Promotions save(Promotions promotions) {
+        return repo.save(promotions);
     }
 
      public Promotions get(Integer promotionsID) throws PromotionsNotFoundException {

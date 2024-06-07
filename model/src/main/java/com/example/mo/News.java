@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,8 @@ public class News {
     private String Content;
     @Column(name = "PublishDate")
     private Date PublishDate;
-    
+    @Column(nullable = true, length = 64, name = "PhotosImagePath")
+    private String PhotoNews;
 
     public Integer getNewsID() {
         return this.NewsID;
@@ -46,6 +48,23 @@ public class News {
 
     public void setAuthorID(Integer AuthorID) {
         this.AuthorID = AuthorID;
+    }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (PhotoNews == null) return null;
+
+        return "/news-photo/" + NewsID + "/" + PhotoNews;
+    }
+
+
+    public String getPhotoNews() {
+        return this.PhotoNews;
+    }
+    
+
+    public void setPhotoNews(String PhotoNews) {
+        this.PhotoNews = PhotoNews;
     }
 
     public Integer getMovieID() {

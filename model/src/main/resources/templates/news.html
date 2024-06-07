@@ -27,6 +27,7 @@
                         <th>Title</th>
                         <th>Content</th>
                         <th>PublishDate</th>
+                        <th>PhotoNews</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -39,6 +40,7 @@
                         <td th:text="${news.Title}"></td>
                         <td th:text="${news.Content}"></td>
                         <td th:text="${news.PublishDate}"></td>
+                        <td><img th:src="${news.PhotosImagePath}" class="img-round" alt="No pic" width="100" height="60" ></td>
                         <td>
                             <a class="h4 mr-3" th:href="@{'/news/edit/' + ${news.NewsID}}">Edit</a>
                             <a class="h4" th:href="@{'/news/delete/' + ${news.NewsID}}">Delete</a>

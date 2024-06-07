@@ -9,7 +9,7 @@
 <body>
     <div class="container-fluid">
         <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
-        <form th:action="@{/news/save}" method="post" th:object="${news}"
+        <form th:action="@{/news/save}" method="post" th:object="${news}" enctype="multipart/form-data"
         style="max-width: 500px; margin: 0 auto;">
         <input type="hidden" th:field="*{NewsID}">
             <div class="border border-secondary rounded p-3">
@@ -52,6 +52,13 @@
                     <label class="col-sm-4 col-form-label">PublishDate</label>
                     <div class="col-sm-8">
                         <input type="date" th:field="*{PublishDate}" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Photo</label>
+                    <div class="col-sm-8">
+                        <input type="file" name="image" accept="image/png, image/jpeg" class="form-control" />
                     </div>
                 </div>
 
