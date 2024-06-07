@@ -1,5 +1,6 @@
 package com.example.mo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,10 @@ public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int FoodID;
-    private String FoodName;
-    private double Price;
     private int CinemaOwnerID;
+    @Column(length = 45, nullable = false, name = "FoodName")
+    private String FoodName;
+    @Column(name = "Price")
+    private double Price;
+   
 }

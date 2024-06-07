@@ -2,6 +2,7 @@ package com.example.mo;
 
 import java.sql.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +19,10 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int MovieID;
+
+    @Column(length = 100 ,name = "Title", nullable = false)
     private String Title;
+    @Column(length = 45 ,name = "Genre", nullable = false)
     private String Genre;
     private int Duration;
     private String Director;
