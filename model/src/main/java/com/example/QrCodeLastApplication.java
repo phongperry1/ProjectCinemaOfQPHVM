@@ -2,8 +2,11 @@ package com.example;
 
 import ch.qos.logback.core.model.Model;
 import com.example.Controller.UserByAdminControllere;
+import com.example.Repository.PurchaseHistoryRepositoy;
 import com.example.Repository.UserByAdminRepository;
+import com.example.Service.PurchaseHistoryService;
 import com.example.Service.UserByAdminService;
+import com.example.entity.PurchaseHistory;
 import com.example.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -19,8 +22,12 @@ public class QrCodeLastApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(QrCodeLastApplication.class, args);
-		UserByAdminRepository adminRepository = context.getBean(UserByAdminRepository.class);
-		System.out.println(adminRepository.findByUserNameContainingIgnoreCase("2"));
+		PurchaseHistoryService historyService = context.getBean(PurchaseHistoryService.class);
+		String UserId = "1";
+		List<PurchaseHistory> histories = historyService.getPurchaseHistoryById(UserId);
+		for (PurchaseHistory purchaseHistory : histories) {
+            System.out.println(purchaseHistory);
+		// System.out.println(adminRepository.findByUserNameContainingIgnoreCase("2"));
 	// 	// Lấy instance của UserByAdminService
 	// 	UserByAdminService userByAdminService = context.getBean(UserByAdminService.class);
 
@@ -53,4 +60,5 @@ public class QrCodeLastApplication {
 	// 	System.out.println(userbyid);
 
 	}
+}
 }

@@ -171,6 +171,11 @@
                             <strong>Payment Method:</strong>
                             <span th:text="${user.paymentMethod}"></span>
                         </div>
+                        <div class="detail">
+                            <strong>Purchase History:</strong>
+                            <a th:href="@{/purchasehistory/{UserId}(UserId=${user.UserId})}" class="btn btn-primary">View Detail</a>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

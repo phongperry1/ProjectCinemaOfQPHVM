@@ -3,7 +3,9 @@ package com.example.Controller;
 // import Util.QRCodeGenerator;
 
 import com.example.Repository.UserByAdminRepository;
+import com.example.Service.PurchaseHistoryService;
 import com.example.Service.UserByAdminService;
+import com.example.entity.PurchaseHistory;
 import com.example.entity.Users;
 // import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class UserByAdminControllere {
     @Autowired
     private UserByAdminService userByAdminService;
     private final UserByAdminRepository userByAdminRepository;
+    private final PurchaseHistoryService historyService;
     
     // @GetMapping
     // public ResponseEntity<List<UserByAdmin>> getTicket() throws IOException,
@@ -136,6 +139,12 @@ public String lockAccount(@PathVariable("UserId") String userId, Model model) {
     return "redirect:/show";
 }
 
+@GetMapping("/purchasehistory/{UserId}")
+public String getPurchaseHistory(@PathVariable("UserId") String userId, Model model){
+    List<PurchaseHistory> purchaseHistories = historyService.getPurchaseHistoryById(userId);
+    model.addAttribute("purchaseHistories", purchaseHistories);
+    return "test";
+}
 
     // @GetMapping("/{id}")
     // public UserByAdmin findById(@PathVariable("id") Long id) {
