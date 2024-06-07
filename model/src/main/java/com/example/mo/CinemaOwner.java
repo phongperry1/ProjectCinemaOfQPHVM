@@ -20,6 +20,5 @@ public class CinemaOwner {
     private String AddressCinema;
     private String Hotline;
     private String Email;
-   
     private int EmployeeID;
 }
