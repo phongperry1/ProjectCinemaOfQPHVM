@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <title>Users Management</title>
+  <style>
+    .content-section {
+      display: none;
+    }
+
+    .text-success {
+      color: green;
+      font-size: 20px;
+    }
+
+    .text-danger {
+      color: red;
+      font-size: 20px;
+    }
+
+    .badge {
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .bg-secondary {
+      background-color: #6c757d;
+    }
+
+    .bg-warning {
+      background-color: #ffc107;
+    }
+
+    .bg-light {
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+
+    .bg-danger {
+      background-color: #dc3545;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 bg-light vh-100">
+        <div class="py-4 text-center">
+          <h2>User Details</h2>
+        </div>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/show}">
+              <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-10">
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline" th:action="@{/search}" method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="userName"
+              th:value="${userName}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          <div class="ml-auto">
+            <span class="navbar-text mr-3">Admin</span>
+            <!-- <img class="rounded-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLNYkCP3u7J2yb8IJcHqt154e9MIOPsQEgNQ&s" alt="Profile" style="width: 40px; height: 40px;">
+            <img src="./public/claritynotificationoutlinebadged.svg" alt="Notifications" class="ml-3"> -->
+          </div>
+        </nav>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Status</th>
+              <th>User Type</th>
+              <th>Rank</th>
+              <th>MenberPoint</th>
+              <th>Profile Image</th>
+              <th>View Detail</th>
+              <th>Lock Account</th>
+              <th>Update Rank</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="user : ${UserByAdmins}">
+              <td th:text="${user.userName}"></td>
+              <td>
+                <span th:if="${user.Status}" class="text-success">&#10004;</span>
+                <span th:unless="${user.Status}" class="text-danger">&#10006;</span>
+              </td>
+              <td th:text="${user.userType}"></td>
+              <td>
+                <span th:if="${user.UserRank == 'None'}" class="badge bg-secondary">None</span>
+                <span th:if="${user.UserRank == 'Bronze'}" class="badge bg-danger">Bronze</span>
+                <span th:if="${user.UserRank == 'Silver'}" class="badge bg-light text-dark">Silver</span>
+                <span th:if="${user.UserRank == 'Gold'}" class="badge bg-warning">Gold</span>
+              </td>
+              <td th:text="${user.memberPoints}"></td>
+              <td><img th:src="${user.profileImageURL}" width="50" height="50" /></td>
+              <td>
+                <a th:href="@{/userdetails/{UserId}(UserId=${user.UserId})}" class="btn btn-primary">View Detail</a>
+              </td>
+              <td>
+                <a th:href="@{/lockacount/{UserId}(UserId=${user.UserId})}" class="btn btn-danger"
+                  onclick="return confirLock()">Lock Account</a>
+              </td>
+              <td>
+                <a th:href="@{/RankInfo/{UserId}(UserId=${user.UserId})}" class="btn btn-warning">
+                  Update Rank
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Other content sections can be added here -->
+      </div>
+    </div>
+  </div>
+  <script>
+    function confirLock() {
+      return confirm("Are you sure you want to lock user?");
+    }
+  </script>
+</body>
+
+</html>

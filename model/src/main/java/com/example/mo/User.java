@@ -1,5 +1,6 @@
 package com.example.mo;
 
+
 import java.sql.Date;
 
 
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 
 public class User {
     @Id
