@@ -14,6 +14,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+      .manage {
+        text-decoration: none;
+        color: #fff;
+      }
+      .market {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0); /* Màu trắng với độ trong suốt 50% */
+            border-radius: 5px;
+        }
+        .market li {
+            margin: 0 15px;
+        }
+        .market a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 15px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        .market a:hover {
+            background-color: rgba(255, 255, 255, 0.7); /* Màu trắng với độ trong suốt cao hơn khi hover */
+        }
+        .link-light {
+            color: #fff; /* Màu chữ trắng */
+        }
+        .link-secondary {
+            color: #aaa; /* Màu chữ xám nhạt */
+        }
+
+        .container1 {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+        }
+        .rating input {
+            display: none;
+        }
+        .rating label {
+            font-size: 2em;
+            color: #ddd;
+            cursor: pointer;
+        }
+        .rating input:checked ~ label {
+            color: #f5b301;
+        }
+        .rating input:hover ~ label,
+        .rating label:hover ~ input:checked ~ label {
+            color: #f5d301;
+        }
+        .comment-box {
+            margin-top: 20px;
+        }
+        .comment-box textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .comment-box button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5cb85c;
+            color: white;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
     <header>
@@ -23,10 +105,10 @@
                 <a class="navbar-brand logo" href="index.html">Movie<span>Tic</span></a>
               
                 <ul class="container-fluid market nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-light">Home</a></li>
-                <li><a href="#" class="nav-link px-2 link-secondary">Showtime</a></li>
-                <li><a href="#" class="nav-link px-2 link-secondary">News</a></li>
-                <li><a href="#" class="nav-link px-2 link-secondary">Contact</a></li>
+                <li><a href="#" class=" link-light manage">Home</a></li>
+                <li><a href="#" class=" link-secondary manage">Showtime</a></li>
+                <li><a href="#" class="link-secondary manage">News</a></li>
+                <li><a href="#" class="link-secondary manage">Contact</a></li>
                 </ul>
         
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -82,6 +164,30 @@
         <!---slider--->
         
     </header>
+
+    <div class="container1">
+      <h2>Rate and Comment on the Movie</h2>
+      <div class="rating">
+          <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+          <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+          <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+          <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+          <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+      </div>
+      <div class="comment-box">
+          <textarea id="comment" placeholder="Write your comment..."></textarea>
+          <button onclick="submitRating()">Submit</button>
+      </div>
+  </div>
+  <h1>Ratings from other users</h1>
+  <div th:each="rating : ${ratings}">
+      <div>
+          <p>User: <span th:text="${rating.user.name}"></span></p>
+          <p>Comment: <span th:text="${rating.comment}"></span></p>
+          <p>Rating: <span th:text="${rating.ratingValue}"></span></p>
+      </div>
+      <hr>
+  </div>
     
 
     
@@ -104,9 +210,9 @@
     
     
     <div class="socail-box">
-      <i class="fab fa-facebook-f"></i>
-      <i class="fab fa-google"></i>
-      <i class="fab fa-github"></i>
+      <i class="fa fa-facebook-f"></i>
+      <i class="fa fa-google"></i>
+      <i class="fa fa-github"></i>
     </div>
       
     </footer>
