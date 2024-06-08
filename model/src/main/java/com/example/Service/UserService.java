@@ -1,12 +1,12 @@
-package com.example.Users.service;
+package com.example.Service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Users.entity.Users;
-import com.example.Users.repository.UserRepository;
+import com.example.mo.Users;
+import com.example.Repository.UserRepository;
 
 @Service
 public class UserService {
@@ -22,7 +22,7 @@ public class UserService {
             existingUser.setLocation(users.getLocation());
             existingUser.setPhone(users.getPhone());
             existingUser.setBirthdate(users.getBirthdate());
-            existingUser.setProfileImageUrl(users.getProfileImageUrl());
+            existingUser.setProfileImageURL(users.getProfileImageURL());
             return userRepository.save(existingUser);
     }
 

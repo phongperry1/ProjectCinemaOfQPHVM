@@ -1,4 +1,4 @@
-package com.example.Users.controller;
+package com.example.Controller;
 
 
 import java.io.IOException;
@@ -6,20 +6,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.example.Users.entity.Users;
-
-import com.example.Users.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.Service.UserService;
+import com.example.mo.Users;
+
+import lombok.RequiredArgsConstructor;
 
 
 @Controller
@@ -36,7 +35,7 @@ public class UserController {
     //     User user = UserDAO.getUserByUserName(username);
     public String getUserProfile(Model model) {
         Users user = ser.getUsersById(1);
-        model.addAttribute("user1", user);    
+        model.addAttribute("user", user);    
         return "profile";
     }
 
@@ -46,9 +45,9 @@ public class UserController {
         String originalFilename = file.getOriginalFilename();
         Path fileNameAndPath = Paths.get(uploadDirectory, originalFilename);
         Files.write(fileNameAndPath, file.getBytes());
-        user.setProfileImageUrl(originalFilename);
+        user.setProfileImageURL(originalFilename);
         ser.updateUser(user);
-        model.addAttribute("user1", user);  
+        model.addAttribute("user", user);  
         return "redirect:/profile";
     }
     
@@ -57,7 +56,7 @@ public class UserController {
     @GetMapping("/update-profile")
     public String showUpdateProfile(@ModelAttribute Users user, Model model) {
         Users users = ser.getUsersById(1);
-        model.addAttribute("user2", users);
+        model.addAttribute("user", users);
         return "update-profile";
     }
 
@@ -98,14 +97,14 @@ public class UserController {
             model.addAttribute("error", "No information has been updated.");
         }
 
-        model.addAttribute("user2", updateUser);
+        model.addAttribute("user", updateUser);
         return "update-profile";
     }
 
     @GetMapping("/change-password")
     public String showChangePasswordForm(@ModelAttribute Users user, Model model) {
         Users users = ser.getUsersById(1);
-        model.addAttribute("user3", users);   
+        model.addAttribute("user", users);   
         return "change-password";
     }
 
@@ -116,7 +115,7 @@ public class UserController {
                                  @RequestParam("confirmPassword") String confirmPassword,
                                  @ModelAttribute Users user, Model model) {
         Users users = ser.getUsersById(1);
-        model.addAttribute("user3", users);
+        model.addAttribute("user", users);
             if (!newPassword.equals(confirmPassword)) {
                 model.addAttribute("error", "New password and confirm password do not match!");
                 return "change-password";

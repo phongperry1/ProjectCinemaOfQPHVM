@@ -84,6 +84,9 @@
             <img src="./public/claritynotificationoutlinebadged.svg" alt="Notifications" class="ml-3"> -->
           </div>
         </nav>
+        <div th:if="${message}" class="alert alert-success text-center">
+          [[${message}]]
+        </div>
         <table class="table table-striped">
           <thead>
             <tr>

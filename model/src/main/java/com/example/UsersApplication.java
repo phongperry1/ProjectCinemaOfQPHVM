@@ -1,11 +1,11 @@
-package com.example.Users;
+package com.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import com.example.Users.entity.Users;
-import com.example.Users.service.UserService;
+import com.example.Service.UserService;
+import com.example.mo.Users;
 
 @SpringBootApplication
 public class UsersApplication {

@@ -1,9 +1,9 @@
-package com.example.Users.repository;
+package com.example.Repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.Users.entity.Users;
+import com.example.mo.Users;
 
 
 
