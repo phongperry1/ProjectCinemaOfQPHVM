@@ -1,7 +1,19 @@
 {
     "configurations": [
-
-
+        {
+            "type": "java",
+            "name": "ProjectApplication",
+            "request": "launch",
+            "mainClass": "com.example.ProjectApplication",
+            "projectName": "model"
+        },
+        {
+            "type": "java",
+            "name": "UsersApplication",
+            "request": "launch",
+            "mainClass": "com.example.UsersApplication",
+            "projectName": "model"
+        },
         {
             "type": "java",
             "name": "UsersApplication",
