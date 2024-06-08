@@ -1,4 +1,4 @@
-package com.example.Minh;
+package com.example;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import com.example.Minh.model.Promotions;
-import com.example.Minh.repository.PromotionsRepository;
-import com.example.Minh.service.PromotionsService;
+import com.example.mo.Promotions;
+import com.example.CRUD.Repository.PromotionsRepository;
+import com.example.CRUD.service.PromotionsService;
 
 @SpringBootApplication
 public class Application {

@@ -1,4 +1,4 @@
-package com.example.Minh.config;
+package com.example.CRUD.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

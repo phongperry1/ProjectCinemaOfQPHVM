@@ -1,7 +1,8 @@
-package com.example.Minh.repository;
+package com.example.CRUD.Repository;
 
-import com.example.Minh.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.mo.Movie;
 
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
     

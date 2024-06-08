@@ -1,8 +1,8 @@
-package com.example.Minh.service;
-
-import com.example.Minh.model.Movie;
+package com.example.CRUD.service;
 
 import java.util.List;
+
+import com.example.mo.Movie;
 
 public interface MovieService {
 

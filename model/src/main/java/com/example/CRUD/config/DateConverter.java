@@ -1,4 +1,4 @@
-package com.example.Minh.config;
+package com.example.CRUD.config;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

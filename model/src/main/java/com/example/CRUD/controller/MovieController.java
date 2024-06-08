@@ -1,7 +1,8 @@
-package com.example.Minh.controller;
+package com.example.CRUD.controller;
 
-import com.example.Minh.model.Movie;
-import com.example.Minh.service.MovieService;
+import com.example.CRUD.service.MovieService;
+import com.example.mo.Movie;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

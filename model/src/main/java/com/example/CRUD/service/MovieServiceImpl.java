@@ -1,7 +1,8 @@
-package com.example.Minh.service;
+package com.example.CRUD.service;
 
-import com.example.Minh.model.Movie;
-import com.example.Minh.repository.MovieRepository;
+import com.example.CRUD.Repository.MovieRepository;
+import com.example.mo.Movie;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
