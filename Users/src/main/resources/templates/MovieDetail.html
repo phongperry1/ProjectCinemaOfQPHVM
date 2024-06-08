@@ -180,14 +180,13 @@
       </div>
   </div>
   <h1>Ratings from other users</h1>
-  <div th:each="rating : ${ratings}">
-      <div>
-          <p>User: <span th:text="${rating.user.name}"></span></p>
-          <p>Comment: <span th:text="${rating.comment}"></span></p>
-          <p>Rating: <span th:text="${rating.ratingValue}"></span></p>
-      </div>
-      <hr>
-  </div>
+  <div th:if="${listRatings != null}">
+    <ul>
+        <li th:each="rating : ${listRatings}">
+            <span th:text="${rating.comment}"></span>
+        </li>
+    </ul>
+</div>
     
 
     

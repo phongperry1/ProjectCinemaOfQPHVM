@@ -3,6 +3,7 @@ package com.example.Users.entity;
 
 import lombok.Data;
 
+import java.sql.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +35,7 @@ public class Users {
     private String userPassword; 
     
     @Column(name = "Birthdate")  
-    private String birthdate;
+    private Date birthdate;
     
     @Column(name = "Location")  
     private String location;
