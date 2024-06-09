@@ -37,7 +37,7 @@
         <h1>Update Rank</h1>
         <div class="card">
             <div class="card-body">
-                <img th:src="${user.profileImageURL}" class="float-right" width="250" height="250"/>
+                <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" class="float-right" width="250" height="250"/>
                 <p>Username: <span th:text="${user.userName}"></span></p>
                 <p>Current Points: <span th:text="${currentPoints}"></span></p>
                 <p>Current Rank: 

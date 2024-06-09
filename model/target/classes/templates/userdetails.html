@@ -18,12 +18,12 @@
     }
 
     .text-success {
-      color: green;
+      color: green !important;
       font-size: 20px;
     }
 
     .text-danger {
-      color: red;
+      color: red !important;
       font-size: 20px;
     }
 
@@ -116,7 +116,7 @@
                 <span th:if="${user.UserRank == 'Gold'}" class="badge bg-warning">Gold</span>
               </td>
               <td th:text="${user.memberPoints}"></td>
-              <td><img th:src="${user.profileImageURL}" width="50" height="50" /></td>
+              <td><img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" width="50" height="50" /></td>
               <td>
                 <a th:href="@{/userdetails/{UserId}(UserId=${user.UserId})}" class="btn btn-primary">View Detail</a>
               </td>

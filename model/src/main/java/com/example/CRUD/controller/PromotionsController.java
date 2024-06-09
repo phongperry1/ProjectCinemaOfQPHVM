@@ -27,7 +27,7 @@ public class PromotionsController {
     public String showNewsList(Model model) {
         List<Promotions> listPromotions = service.listAll();
         model.addAttribute("listPromotions", listPromotions);
-        return "test"; 
+        return "promotions"; 
     }
 
     @GetMapping("/promotions/new")
