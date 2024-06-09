@@ -136,4 +136,14 @@ public class MovieController {
         model.addAttribute("movies", simplifiedMovies);
         return "home";
     }
+    @GetMapping("/book/{id}")
+public String showMovieDetails(@PathVariable("id") Integer id, Model model) {
+    Movie movie = movieService.getMovieById(id);
+    if (movie != null) {
+        model.addAttribute("movie", movie);
+        return "book"; // Tên của trang HTML cho chi tiết phim
+    }
+    return "redirect:/movie";
+}
+
 }

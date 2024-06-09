@@ -15,6 +15,7 @@ public class MovieServiceImpl implements MovieService {
         this.movieRepository = movieRepository;
     }
 
+    
     @Override
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();

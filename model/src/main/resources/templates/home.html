@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 
 </html>
 
 <head>
-  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script type="text/javascript" src="home.js"></script>
@@ -14,6 +15,227 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+
+</head>
+
+<body>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <p class="logo">
+          Movie<span>Ticket<span>
+        </p>
+
+        <i class="fa fa-bars" id="menu"></i>
+
+        <ul id="menu-box">
+          <div class="marker"></div>
+          <li>main</li>
+          <li>schedlues</li>
+          <li>tickets</li>
+          <li>news</li>
+          <li>contact</li>
+          <li><a class="manage" th:href="@{/movie}">movie</a></li>
+          <li><a class="manage" th:href="@{/showtime}">Showtime</a></li>
+          <li><a class="manage" th:href="@{/screeningroom}">ScreeningRoom</a></li>
+          <li><a class="manage" th:href="@{/paypal}">Paypal</a></li>
+          <li><a class="manage" th:href="@{/theater}">Theater</a></li>
+          <li><a class="manage" th:href="@{/news}">News</a></li>
+          <li><a class="manage" th:href="@{/promotions}">Promotions</a></li>
+          <li><a class="manage" th:href="@{/food}">Food</a></li>
+          <li><span>mr.john doe <img
+                src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg">
+              <i class="fa fa-angle-down"></i></span></li>
+          <li><b>sign out</b></li>
+        </ul>
+
+
+      </nav>
+    </header>
+
+    <section>
+      <div class="movie-list-section">
+        <div>
+         
+          <div class="carousel-container">
+            <button class="button prev-btn">
+              <div class="button-box">
+                <span class="button-elem">
+                  <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+                    </path>
+                  </svg>
+                </span>
+                <span class="button-elem">
+                  <svg viewBox="0 0 46 40">
+                    <path
+                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+                    </path>
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <div class="carousel">
+              <div class="movie-card" th:each="movie : ${movies}">
+                <figure class="card2">
+                  <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
+                    style="height: 400px; width: 400px; border-top-left-radius: 17px; border-top-right-radius: 17px;">
+                </figure>
+              </div>
+            </div>
+            <button class="button next-btn">
+              <div class="button-box">
+                <span class="button-elem">
+                  <svg class="rotated-arrow" viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+                    </path>
+                  </svg>
+                </span>
+                <span class="button-elem">
+                  <svg class="rotated-arrow" viewBox="0 0 46 40">
+                    <path
+                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+                    </path>
+                  </svg>
+                </span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <!---movie-ticket-book-->
+
+
+      <div class="movie-list-section">
+        <div class="filter-search-box">
+          <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="shine">MOVIES</div>
+          <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      <!----filter-search-box---->
+
+      <div class="movie-list-section">
+        <div class="container">
+          <div class="row justify-content-center">
+            <!-- Thymeleaf syntax for iterating over movies -->
+            <div class="movie-list d-flex flex-wrap justify-content-center">
+              <div class="movie-item col-lg-3 col-md-4 col-sm-6 mb-4" th:each="movie : ${movies}">
+                <div class="card">
+                  <div class="card__content">
+                    <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
+                      style="height: 500px; width: 100%;  border-top-left-radius: 17px; border-top-right-radius: 17px;">
+                    <div class="card-body d-flex flex-column p-2">
+                      <h5 class="card-title text-white" th:text="${movie.title}"></h5>
+                      <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p>
+                      <!-- Thêm URL động để chuyển hướng đến trang chi tiết của bộ phim -->
+                      <a th:href="@{'/movie/book/' + ${movie.movieID}}" class="shadow__btn mt-auto">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="movie-list-section">
+        <div class="filter-search-box">
+          <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="shine">PROMOTIONS</div>
+          <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+
+        <div class="promotions-container">
+          <div th:each="promotion : ${listPromotions}" class="promotion">
+            <div class="promotion-item">
+              <img th:src="${promotion.photosImagePath}" alt="Promotion Image" />
+              <div class="promotion-details">
+                <p><strong>Description:</strong> <span th:text="${promotion.description}"></span></p>
+                <p><strong>Start Date:</strong> <span th:text="${promotion.startDate}"></span></p>
+                <p><strong>End Date:</strong> <span th:text="${promotion.endDate}"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!---movie-card--->
+
+      <div class="show">
+        <div class="show-bar">
+          <div class="bar"></div>
+        </div>
+        <button>Show more</button>
+      </div>
+      <!---bar--->
+
+
+    </section>
+
+    <footer>
+
+      <div class="logo-box">
+        <p class="logo">
+          multi<span>flex</span>
+        </p>
+        <p><i class="fa fa-copyright"></i> 2001-2017, SIA Multiflex</p>
+      </div>
+
+      <ul>
+        <li>main</li>
+        <li>schedlues</li>
+        <li>tickets</li>
+        <li>news</li>
+        <li>contact</li>
+      </ul>
+
+      <div class="socail-box">
+        <i class="fa fa-facebook-f"></i>
+        <i class="fa fa-twitter"></i>
+        <i class="fa fa-instagram"></i>
+
+      </div>
+    </footer>
+
+
+  </body>
   <style>
     * {
       margin: 0;
@@ -23,7 +245,7 @@
     }
 
     .card {
-      width: 600px;
+      width: 474px;
       height: 600px;
       border-radius: 20px;
       padding: 5px;
@@ -96,9 +318,11 @@
       display: flex;
       flex-wrap: wrap;
     }
+
     .movie-list-section {
-    background-color: #020000; /* Thay #f0f0f0 bằng mã màu bạn muốn sử dụng */
-}
+      background-color: #020000;
+      /* Thay #f0f0f0 bằng mã màu bạn muốn sử dụng */
+    }
 
     .movie-item {
       flex: 0 0 auto;
@@ -116,15 +340,13 @@
       }
     }
 
-
     header {
-      
+
       background-position: center;
       width: 100%;
       height: 56px;
-      
-    }
 
+    }
 
     header:before {
       content: "";
@@ -132,7 +354,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 6%;
+      height: 11%;
       background: rgba(0, 0, 0, .75);
       box-shadow: inset 0 0 80px #000;
     }
@@ -576,8 +798,6 @@
       background: #000;
     }
 
-
-
     /*---footer------*/
     footer {
       background: #222;
@@ -651,18 +871,12 @@
       color: #DB0000;
     }
 
-
-
-
-
     @media (min-width: 1024px) and (max-width: 1080px) {
 
       section .movie-card-section {
         grid-template-columns: auto auto auto;
         gap: 15px;
       }
-
-
     }
 
     @media (min-width: 720px) and (max-width: 1023px) {
@@ -684,7 +898,6 @@
         display: block;
       }
 
-
       header .popular-movie-slider {
         padding: 10px 50px;
       }
@@ -694,18 +907,12 @@
         height: 300px;
       }
 
-
-
       section .movie-ticket-book {
         grid-template-columns: auto;
         justify-content: center;
         align-items: center;
         padding: 30px 50px;
       }
-
-
-
-
 
       section .movie-ticket-book .choose-date .wrapper,
       section .movie-ticket-book .choose-time .wrapper {
@@ -749,8 +956,6 @@
         transform: translate(-50%, 0);
       }
 
-
-
       section .movie-ticket-book button {
         width: 20%;
         margin-top: 20px;
@@ -764,19 +969,14 @@
         padding: 20px 50px;
       }
 
-
       section .filter-search-box .filters-box {
         gap: 10px;
       }
-
-
-
 
       section .filter-search-box .search-bar {
         left: 50px;
         width: 85%;
       }
-
 
       section .movie-card-section {
         padding: 20px 50px;
@@ -788,8 +988,6 @@
         width: 100%;
         height: 300px;
       }
-
-
 
       section .show {
         padding: 10px 50px;
@@ -808,8 +1006,6 @@
 
 
     }
-
-
 
     @media (min-width: 0px) and (max-width: 719px) {
 
@@ -853,8 +1049,6 @@
         margin-bottom: 20px;
       }
 
-
-
       section .movie-ticket-book {
         grid-template-columns: auto;
         justify-content: center;
@@ -871,9 +1065,6 @@
         gap: 10px;
       }
 
-
-
-
       section .filter-search-box .search-bar {
         left: 20px;
         width: 90%;
@@ -885,20 +1076,15 @@
         grid-template-columns: auto auto;
       }
 
-
       section .movie-card-section .card img {
         width: 100%;
         height: 300px;
       }
 
-
-
       section .show {
         padding: 10px 20px;
         padding-bottom: 40px;
       }
-
-
 
       footer {
         padding: 40px 20px;
@@ -935,513 +1121,386 @@
         margin-top: 10px;
       }
 
-     
+
 
       .background-black {
         background-color: black;
       }
 
-      
-    }
-  </style>
-</head>
 
-<body>
+    }
+
+    .new-text {
+      font-size: 24px;
+      /* Tùy chỉnh kích thước chữ "New" theo ý muốn */
+      color: #f0eeef
+    }
+
+    .carousel-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .carousel {
+      display: flex;
+      overflow-x: hidden;
+      /* Hide the scrollbar */
+      scroll-behavior: smooth;
+      width: calc(100% - 80px);
+      /* Adjust width to account for buttons */
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+    .movie-card {
+      flex: 0 0 auto;
+      margin: 0 10px;
+    }
+
+    .prev-btn,
+    .next-btn {
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      font-size: 2em;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .prev-btn {
+      position: absolute;
+      left: 0;
+    }
+
+    .next-btn {
+      position: absolute;
+      right: 0;
+    }
+
+    .button {
+      display: block;
+      position: relative;
+      width: 56px;
+      height: 56px;
+      margin: 0;
+      overflow: hidden;
+      outline: none;
+      background-color: transparent;
+      cursor: pointer;
+      border: 0;
+    }
+
+    .button:before,
+    .button:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      inset: 7px;
+    }
+
+    .button:before {
+      border: 4px solid #f0eeef;
+      transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+        transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+    }
+
+    .button:after {
+      border: 4px solid #96daf0;
+      transform: scale(1.3);
+      transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+        transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0;
+    }
+
+    .button:hover:before,
+    .button:focus:before {
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+        transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .button:hover:after,
+    .button:focus:after {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+        transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+    }
+
+    .button-box {
+      display: flex;
+      position: absolute;
+      top: 10px;
+      left: 0;
+    }
+
+    .button-elem {
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 17px 18px 0 18px;
+      transform: rotate(180deg);
+      fill: #f0eeef;
+    }
+
+    .button:hover .button-box,
+    .button:focus .button-box {
+      transition: 0.4s;
+      transform: translateX(-56px);
+    }
+
+    .rotated-arrow {
+      transform: rotate(180deg);
+    }
+
+    .promotions-container {
+      display: flex;
+      flex-wrap: wrap;
+      /* Cho phép các phần tử con xuống dòng khi không đủ không gian */
+    }
+
+    .promotion {
+      flex: 0 0 auto;
+      /* Không co dãn hoặc co giãn các phần tử */
+      margin-right: 50px;
+      margin-left: 50px;
+    }
+
+    .promotion-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-direction: row;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      /* Khoảng cách giữa các cặp hình ảnh và chi tiết */
+    }
+
+    .promotion-item img {
+      width: 100px;
+      height: auto;
+      margin-right: 20px;
+    }
+
+    .promotion-details {
+      flex-grow: 1;
+      color: #f0eeef;
+    }
+
+    .spinner {
+      width: 70.4px;
+      height: 70.4px;
+      --clr: rgb(247, 197, 159);
+      --clr-alpha: rgb(247, 197, 159, .1);
+      animation: spinner 1.6s infinite ease;
+      transform-style: preserve-3d;
+    }
+
+    .spinner>div {
+      background-color: var(--clr-alpha);
+      height: 100%;
+      position: absolute;
+      width: 100%;
+      border: 3.5px solid var(--clr);
+    }
+
+    .spinner div:nth-of-type(1) {
+      transform: translateZ(-35.2px) rotateY(180deg);
+    }
+
+    .spinner div:nth-of-type(2) {
+      transform: rotateY(-270deg) translateX(50%);
+      transform-origin: top right;
+    }
+
+    .spinner div:nth-of-type(3) {
+      transform: rotateY(270deg) translateX(-50%);
+      transform-origin: center left;
+    }
+
+    .spinner div:nth-of-type(4) {
+      transform: rotateX(90deg) translateY(-50%);
+      transform-origin: top center;
+    }
+
+    .spinner div:nth-of-type(5) {
+      transform: rotateX(-90deg) translateY(50%);
+      transform-origin: bottom center;
+    }
+
+    .spinner div:nth-of-type(6) {
+      transform: translateZ(35.2px);
+    }
+
+    @keyframes spinner {
+      0% {
+        transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
+      }
+
+      50% {
+        transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
+      }
+
+      100% {
+        transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
+      }
+    }
+
+    .shine {
+      font-size: 2em;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.3);
+      background: #222 -webkit-gradient(linear,
+          left top,
+          right top,
+          from(#222),
+          to(#222),
+          color-stop(0.5, #fff)) 0 0 no-repeat;
+      background-image: -webkit-linear-gradient(-40deg,
+          transparent 0%,
+          transparent 40%,
+          #fff 50%,
+          transparent 60%,
+          transparent 100%);
+      -webkit-background-clip: text;
+      -webkit-background-size: 50px;
+      -webkit-animation: zezzz;
+      -webkit-animation-duration: 5s;
+      -webkit-animation-iteration-count: infinite;
+    }
+
+    @-webkit-keyframes zezzz {
+
+      0%,
+      10% {
+        background-position: -200px;
+      }
+
+      20% {
+        background-position: top left;
+      }
+
+      100% {
+        background-position: 200px;
+      }
+    }
+
+    img3 {
+    max-width: 100%;
+    height: auto;
+}
+        section3 {
+            padding: 60px 0;
+           /* min-height: 100vh;*/
+        }
+ ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+.contact-area {
+    border-bottom: 1px solid #353C46;
+}
+
+.contact-content p {
+    font-size: 15px;
+    margin: 30px 0 60px;
+    position: relative;
+}
+
+.contact-content p::after {
+    background: #353C46;
+    bottom: -30px;
+    content: "";
+    height: 1px;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%);
+    width: 80%;
+}
+
+.contact-content h6 {
+    color: #8b9199;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.contact-content span {
+    color: #353c47;
+    margin: 0 10px;
+}
+
+.contact-social {
+    margin-top: 30px;
+}
+
+.contact-social > ul {
+    display: inline-flex;
+}
+
+.contact-social ul li a {
+    border: 1px solid #8b9199;
+    color: #8b9199;
+    display: inline-block;
+    height: 40px;
+    margin: 0 10px;
+    padding-top: 7px;
+    transition: all 0.4s ease 0s;
+    width: 40px;
+}
+
+.contact-social ul li a:hover {
+    border: 1px solid #FAB702;
+    color: #FAB702;
+}
+
+.contact-content img {
+    max-width: 210px;
+}
+
+section, footer {
+    background: #1A1E25;
+    color: #868c96;
+}
+
+footer p {
+    padding: 40px 0;
+    text-align: center;
+}
+
+footer img {
+    width: 44px;
+}
+    
+  </style>
+
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-  const carousel = document.querySelector('.carousel');
-  const nextButton = document.querySelector('.next-btn');
-  const prevButton = document.querySelector('.prev-btn');
+      const carousel = document.querySelector('.carousel');
+      const nextButton = document.querySelector('.next-btn');
+      const prevButton = document.querySelector('.prev-btn');
 
-  nextButton.addEventListener('click', () => {
-    carousel.scrollBy({
-      left: carousel.clientWidth,
-      behavior: 'smooth'
-    });
-  });
+      nextButton.addEventListener('click', () => {
+        carousel.scrollBy({
+          left: carousel.clientWidth,
+          behavior: 'smooth'
+        });
+      });
 
-  prevButton.addEventListener('click', () => {
-    carousel.scrollBy({
-      left: -carousel.clientWidth,
-      behavior: 'smooth'
-    });
-  });
-});
-
-  </script>
-  <header>
-    <nav>
-      <p class="logo">
-        Movie<span>Ticket<span>
-      </p>
-
-      <i class="fa fa-bars" id="menu"></i>
-
-      <ul id="menu-box">
-        <div class="marker"></div>
-        <li><a th:href="@{/movie}">movie</a></li>
-        <li><a th:href="@{/promotions}">movie</a></li>
-        <li>main</li>
-        <li>schedlues</li>
-        <li>tickets</li>
-        <li>news</li>
-        <li>contact</li>
-        <li><span>mr.john doe <img
-              src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg">
-            <i class="fa fa-angle-down"></i></span></li>
-        <li><b>sign out</b></li>
-      </ul>
-
-    </nav>
-  </header>
-
-
-
-    <!---slider--->
-    
-
-  <section>
-    <div class="movie-list-section">
-      <div>
-          <h1>Welcome</h1>
-        <div class="carousel-container">
-          <button class="button prev-btn">
-            <div class="button-box">
-              <span class="button-elem">
-                <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
-                  ></path>
-                </svg>
-              </span>
-              <span class="button-elem">
-                <svg viewBox="0 0 46 40">
-                  <path
-                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
-                  ></path>
-                </svg>
-              </span>
-            </div>
-          </button>
-          <div class="carousel">
-            <div class="movie-card" th:each="movie : ${movies}">
-              <figure class="card2">
-                <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
-                  style="height: 400px; width: 400px; border-top-left-radius: 17px; border-top-right-radius: 17px;">
-              </figure>
-            </div>
-          </div>
-          <button class="button next-btn">
-            <div class="button-box">
-              <span class="button-elem">
-                <svg class="rotated-arrow" viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
-                  ></path>
-                </svg>
-              </span>
-              <span class="button-elem">
-                <svg class="rotated-arrow" viewBox="0 0 46 40">
-                  <path
-                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
-                  ></path>
-                </svg>
-              </span>
-            </div>
-          </button>
-        </div>
-      </div>
-    </div>
-    
-    
-    
-    
-    <!---movie-ticket-book-->
-
-
-    <div class="filter-search-box">
-
-      <div class="filters-box">
-
-        <div class="all-filters filters">
-          All formats <i class="fa fa-angle-down"></i>
-        </div>
-
-        <div class="date-filters filters">
-          By Date <i class="fa fa-angle-down"></i>
-        </div>
-
-        <div class="category-filters filters">
-          By category <i class="fa fa-angle-down"></i>
-        </div>
-
-        <div class="category-filters filters">
-          Coming soon
-        </div>
-
-      </div>
-
-      <div class="search-filters">
-        <input type="text" placeholder="Search by name...">
-        <i class="fa fa-search"></i>
-      </div>
-
-      <div class="search-bar">
-        <div class="bar"></div>
-      </div>
-
-    </div>
-    <!----filter-search-box---->
-
-    <div class="movie-list-section">
-      <div class="container">
-        <div class="row justify-content-center">
-          <!-- Thymeleaf syntax for iterating over movies -->
-          <div class="movie-list d-flex flex-wrap justify-content-center">
-            <div class="movie-item col-lg-3 col-md-4 col-sm-6 mb-4" th:each="movie : ${movies}">
-              <div class="card">
-                <div class="card__content">
-                  <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
-                    style="height: 500px; width: 100%;  border-top-left-radius: 17px; border-top-right-radius: 17px;">
-                  <div class="card-body d-flex flex-column p-2">
-                    <h5 class="card-title text-white" th:text="${movie.title}"></h5>
-                    <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p>
-                    <!-- Thêm URL động để chuyển hướng đến trang chi tiết của bộ phim -->
-                    <a th:href="@{'/movie/details/' + ${movie.movieID}}" class="shadow__btn mt-auto">Details</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    
-    <div class="movie-list-section">
-      <div class="filter-search-box">
-        <div class="spinner">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <div class="shine">PROMOTIONS</div>
-        <div class="spinner">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-      
-    <div class="promotions-container">
-      <div th:each="promotion : ${listPromotions}" class="promotion">
-          <div class="promotion-item">
-              <img th:src="${promotion.photosImagePath}" alt="Promotion Image" />
-              <div class="promotion-details">
-                  <p><strong>Description:</strong> <span th:text="${promotion.description}"></span></p>
-                  <p><strong>Start Date:</strong> <span th:text="${promotion.startDate}"></span></p>
-                  <p><strong>End Date:</strong> <span th:text="${promotion.endDate}"></span></p>
-              </div>
-          </div>
-      </div>
-  </div>
-</div>
-
-    <!---movie-card--->
-
-    <div class="show">
-      <div class="show-bar">
-        <div class="bar"></div>
-      </div>
-      <button>Show more</button>
-    </div>
-    <!---bar--->
-
-
-  </section>
-
-  <footer>
-
-     <div class="logo-box">
-      <p class="logo">
-        multi<span>flex</span>
-      </p>
-      <p><i class="fa fa-copyright"></i> 2001-2017, SIA Multiflex</p>
-    </div>
-
-    <ul>
-      <li>main</li>
-      <li>schedlues</li>
-      <li>tickets</li>
-      <li>news</li>
-      <li>contact</li>
-    </ul>
-
-
-    <div class="socail-box">
-      <i class="fa fa-facebook-f"></i>
-      <i class="fa fa-twitter"></i>
-      <i class="fa fa-instagram"></i>
-    </div> 
-    
-    
+      prevButton.addEventListener('click', () => {
+        carousel.scrollBy({
+          left: -carousel.clientWidth,
+          behavior: 'smooth'
+        });
+      });
+    }); 
    
-  </footer>
-  
-
+  </script>
 </body>
-<style>
 
-.new-text {
-  font-size: 24px; /* Tùy chỉnh kích thước chữ "New" theo ý muốn */
-  color:#f0eeef
-}
-  .carousel-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.carousel {
-  display: flex;
-  overflow-x: hidden; /* Hide the scrollbar */
-  scroll-behavior: smooth;
-  width: calc(100% - 80px); /* Adjust width to account for buttons */
-}
-
-.movie-card {
-  flex: 0 0 auto;
-  margin: 0 10px;
-}
-
-.prev-btn, .next-btn {
-  background-color: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: white;
-  font-size: 2em;
-  cursor: pointer;
-  z-index: 1;
-}
-
-.prev-btn {
-  position: absolute;
-  left: 0;
-}
-
-.next-btn {
-  position: absolute;
-  right: 0;
-}
-.button {
-  display: block;
-  position: relative;
-  width: 56px;
-  height: 56px;
-  margin: 0;
-  overflow: hidden;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-  border: 0;
-}
-
-.button:before,
-.button:after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  inset: 7px;
-}
-
-.button:before {
-  border: 4px solid #f0eeef;
-  transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
-    transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
-}
-
-.button:after {
-  border: 4px solid #96daf0;
-  transform: scale(1.3);
-  transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
-    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  opacity: 0;
-}
-
-.button:hover:before,
-.button:focus:before {
-  opacity: 0;
-  transform: scale(0.7);
-  transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
-    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.button:hover:after,
-.button:focus:after {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
-    transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
-}
-
-.button-box {
-  display: flex;
-  position: absolute;
-  top: 10px;
-  left: 0;
-}
-
-.button-elem {
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin: 17px 18px 0 18px;
-  transform: rotate(180deg);
-  fill: #f0eeef;
-}
-
-.button:hover .button-box,
-.button:focus .button-box {
-  transition: 0.4s;
-  transform: translateX(-56px);
-}
-.rotated-arrow {
-  transform: rotate(180deg);
-}
-
-.promotions-container {
-    display: flex;
-    flex-wrap: wrap; /* Cho phép các phần tử con xuống dòng khi không đủ không gian */
-}
-
-.promotion {
-    flex: 0 0 auto; /* Không co dãn hoặc co giãn các phần tử */
-    margin-right: 50px;
-    margin-left: 50px;
-}
-
-.promotion-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: row;
-    margin-top: 10px;
-    margin-bottom: 20px; /* Khoảng cách giữa các cặp hình ảnh và chi tiết */
-}
-
-.promotion-item img {
-    width: 100px;
-    height: auto;
-    margin-right: 20px;
-}
-
-.promotion-details {
-    flex-grow: 1;
-    color:#f0eeef;
-}
-
-.spinner {
-  width: 70.4px;
-  height: 70.4px;
-  --clr: rgb(247, 197, 159);
-  --clr-alpha: rgb(247, 197, 159,.1);
-  animation: spinner 1.6s infinite ease;
-  transform-style: preserve-3d;
-}
-
-.spinner > div {
-  background-color: var(--clr-alpha);
-  height: 100%;
-  position: absolute;
-  width: 100%;
-  border: 3.5px solid var(--clr);
-}
-
-.spinner div:nth-of-type(1) {
-  transform: translateZ(-35.2px) rotateY(180deg);
-}
-
-.spinner div:nth-of-type(2) {
-  transform: rotateY(-270deg) translateX(50%);
-  transform-origin: top right;
-}
-
-.spinner div:nth-of-type(3) {
-  transform: rotateY(270deg) translateX(-50%);
-  transform-origin: center left;
-}
-
-.spinner div:nth-of-type(4) {
-  transform: rotateX(90deg) translateY(-50%);
-  transform-origin: top center;
-}
-
-.spinner div:nth-of-type(5) {
-  transform: rotateX(-90deg) translateY(50%);
-  transform-origin: bottom center;
-}
-
-.spinner div:nth-of-type(6) {
-  transform: translateZ(35.2px);
-}
-
-@keyframes spinner {
-  0% {
-    transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
-  }
-
-  50% {
-    transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
-  }
-
-  100% {
-    transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
-  }
-}  
-.shine {
-  font-size: 2em;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.3);
-  background: #222 -webkit-gradient(
-      linear,
-      left top,
-      right top,
-      from(#222),
-      to(#222),
-      color-stop(0.5, #fff)
-    ) 0 0 no-repeat;
-  background-image: -webkit-linear-gradient(
-    -40deg,
-    transparent 0%,
-    transparent 40%,
-    #fff 50%,
-    transparent 60%,
-    transparent 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-background-size: 50px;
-  -webkit-animation: zezzz;
-  -webkit-animation-duration: 5s;
-  -webkit-animation-iteration-count: infinite;
-}
-@-webkit-keyframes zezzz {
-  0%,
-  10% {
-    background-position: -200px;
-  }
-  20% {
-    background-position: top left;
-  }
-  100% {
-    background-position: 200px;
-  }
-}
-
-</style>
 </html>

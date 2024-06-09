@@ -30,6 +30,7 @@ public class HomeController {
         List<Movie> simplifiedMovies = movies.stream()
                 .map(m -> {
                     Movie simplifiedMovie = new Movie();
+                    simplifiedMovie.setMovieID(m.getMovieID());
                     simplifiedMovie.setTitle(m.getTitle());
                     simplifiedMovie.setShowTime(m.getShowTime());
                     simplifiedMovie.setAddress(m.getAddress());
