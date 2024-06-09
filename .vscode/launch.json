@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        
+        {
+            "type": "java",
+            "name": "ProjectApplication",
+            "request": "launch",
+            "mainClass": "com.example.ProjectApplication",
+            "projectName": "model"
+        }
+    ]
+}

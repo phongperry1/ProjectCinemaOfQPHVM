@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title th:text="${movie.movieID == null} ? 'Add Movie' : 'Edit Movie'">Movie Form</title>
+</head>
+<body>
+    <h1 th:text="${movie.movieID == null} ? 'Add New Movie' : 'Edit Movie'">Movie Form</h1>
+    <form th:action="@{${movie.movieID == null} ? '/movie/create' : '/movie/update/' + ${movie.movieID}}" th:object="${movie}" method="post" enctype="multipart/form-data">
+        <div>
+            <label>Title:</label>
+            <input type="text" th:field="*{title}" required />
+        </div>
+        <!-- Những trường dữ liệu không cần người dùng nhập -->
+        <input type="hidden" th:field="*{ratingCount}" th:value="0" />
+        <input type="hidden" th:field="*{averageRating}" th:value="0" />
+        <!-- Kết thúc trường dữ liệu ẩn -->
+        <div>
+            <label>Genre:</label>
+            <input type="text" th:field="*{genre}" required />
+        </div>
+        <div>
+            <label>Duration:</label>
+            <input type="number" th:field="*{duration}" required />
+        </div>
+        <div>
+            <label>Director:</label>
+            <input type="text" th:field="*{director}" required />
+        </div>
+        <div>
+            <label>Cast:</label>
+            <input type="text" th:field="*{cast}" required />
+        </div>
+        <div>
+            <label>Release Date:</label>
+            <input type="date" th:field="*{releaseDate}" required />
+        </div>
+        <div>
+            <label>Show Time:</label>
+            <input type="text" th:field="*{showTime}" required />
+        </div>
+        <div>
+            <label>Languages:</label>
+            <input type="text" th:field="*{languages}" required />
+        </div>
+        <div>
+            <label>Description:</label>
+            <textarea th:field="*{description}" required></textarea>
+        </div>
+        <div>
+            <label>Trailer URL:</label>
+            <input type="text" th:field="*{trailerURL}" required />
+        </div>
+        <div>
+            <label>Upload Image:</label>
+            <input type="file" name="imageFile" />
+        </div>
+        <div>
+            <img th:src="@{/uploads/{imageurl}(imageurl=${movie.address})}" alt="Movie Image" th:if="${movie.address != null}" />
+        </div>
+        <div>
+            <button type="submit">Save</button>
+            <a href="/movie">Cancel</a>
+        </div>
+    </form>
+</body>
+</html>
