@@ -32,8 +32,6 @@ public class UserController {
     public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
     
     @GetMapping("/profile")
-    // public String getUserProfile(@RequestParam(name = "username") String username, Model model) {
-    //     User user = UserDAO.getUserByUserName(username);
     public String getUserProfile(Model model) {
         Users user = ser.getUsersById(1);
         model.addAttribute("user1", user);    
