@@ -48,4 +48,12 @@ public class UserService implements IUserService {
         return userRepository.findById(id);
     }
 
+    @Transactional
+    public void updateUserStatus(Long userId, int status) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        userOptional.ifPresent(user -> {
+            user.setStatus(status);
+            userRepository.save(user);
+        });
+    }
 }

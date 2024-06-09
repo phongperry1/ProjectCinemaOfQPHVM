@@ -7,13 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.Quan.mo.User;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author Sampson Alfred
+ * Author: Sampson Alfred
  */
 @Data
 public class EndToEndUserDetails implements UserDetails {
@@ -21,14 +20,17 @@ public class EndToEndUserDetails implements UserDetails {
     private String userName;
     private String password;
     private boolean isEnabled;
+    private int status; // Add status field
+
     private List<GrantedAuthority> authorities;
 
     public EndToEndUserDetails(User user) {
         this.userName = user.getEmail();
         this.password = user.getPassword();
         this.isEnabled = user.isEnabled();
-        this.authorities = Arrays.stream(user.getRoles().toString().split(","))
-                .map(SimpleGrantedAuthority::new)
+        this.status = user.getStatus(); // Set status
+        this.authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
     }
 
@@ -64,6 +66,7 @@ public class EndToEndUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return status == 1; // Assuming 1 means active status
     }
+
 }

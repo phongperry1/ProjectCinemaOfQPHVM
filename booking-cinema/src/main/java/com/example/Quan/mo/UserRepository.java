@@ -17,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "UPDATE User u set u.firstName =:firstName," +
             " u.lastName =:lastName," + "u.email =:email where u.id =:id")
     void update(String firstName, String lastName, String email, Long id);
+
 }

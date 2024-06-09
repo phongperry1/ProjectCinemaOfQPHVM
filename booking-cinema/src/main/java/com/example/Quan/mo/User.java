@@ -9,7 +9,7 @@ import org.hibernate.annotations.NaturalId;
 import java.util.Collection;
 
 /**
- * @author Sampson Alfred
+ * Author: Sampson Alfred
  */
 @Entity
 @Getter
@@ -48,6 +48,9 @@ public class User {
     private String userType;
 
     private String profileImageURL;
+
+    private int status = 1; // Set default status to 1
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;

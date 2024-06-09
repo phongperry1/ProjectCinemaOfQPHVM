@@ -19,7 +19,8 @@ public class EndToEndUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
+                .filter(user -> user.getStatus() == 1) // Assuming 1 means active status
                 .map(EndToEndUserDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found or inactive"));
     }
 }
