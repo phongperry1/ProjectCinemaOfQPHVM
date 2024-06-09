@@ -5,17 +5,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.Service.PurchaseHistoryService;
 import com.example.Service.UserService;
+import com.example.mo.PurchaseHistory;
 import com.example.mo.Users;
 
 import lombok.RequiredArgsConstructor;
@@ -27,9 +31,12 @@ public class UserController {
 
     @Autowired
     private UserService ser;
+    private PurchaseHistoryService historyService;
     
     public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
     
+    
+
     @GetMapping("/profile")
     // public String getUserProfile(@RequestParam(name = "username") String username, Model model) {
     //     User user = UserDAO.getUserByUserName(username);
@@ -131,5 +138,13 @@ public class UserController {
         }
         return "change-password";
     }
+@GetMapping("/history")
+public String getPurchaseHistory(Model model){
+    List<PurchaseHistory> purchaseHistories = historyService.getPurchaseHistoryById(1);
+    model.addAttribute("purchaseHistories", purchaseHistories);
+    return "hieu";
+}
+
+
     
 }
