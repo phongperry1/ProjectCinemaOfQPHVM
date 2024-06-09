@@ -11,6 +11,8 @@ import com.example.mo.Users;
 
 public interface UserRepository extends JpaRepository<Users, Integer>{
 
-    Optional<Users> findById(int id);
+    Optional<Users> findById(int UserId);
     Users findByUserName(String username);
+    Optional<Users> findByEmail(String email);
 }
+
