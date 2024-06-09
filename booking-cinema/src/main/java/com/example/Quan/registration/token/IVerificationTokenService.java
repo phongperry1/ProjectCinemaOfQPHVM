@@ -2,7 +2,7 @@ package com.example.Quan.registration.token;
 
 import java.util.Optional;
 
-import com.example.Quan.mo.User;
+import com.example.Quan.mo.Users;
 
 /**
  * @author Sampson Alfred
@@ -11,9 +11,8 @@ import com.example.Quan.mo.User;
 public interface IVerificationTokenService {
     String validateToken(String token);
 
-    void saveVerificationTokenForUser(User user, String token);
+    void saveVerificationTokenForUser(Users user, String token);
 
     Optional<VerificationToken> findByToken(String token);
 
-    void deleteUserToken(Long id);
 }

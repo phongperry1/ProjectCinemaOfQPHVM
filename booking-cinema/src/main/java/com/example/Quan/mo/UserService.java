@@ -24,13 +24,13 @@ public class UserService implements IUserService {
     private final VerificationTokenService verificationTokenService;
 
     @Override
-    public List<User> getAllUsers() {
+    public List<Users> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public User registerUser(RegistrationRequest registration) {
-        var user = new User(registration.getFirstName(), registration.getLastName(),
+    public Users registerUser(RegistrationRequest registration) {
+        var user = new Users(registration.getUserName(),
                 registration.getEmail(),
                 passwordEncoder.encode(registration.getPassword()),
                 Arrays.asList(new Role("ROLE_USER")));
@@ -38,19 +38,19 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<Users> findByEmail(String email) {
         return Optional.ofNullable(userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found")));
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    public Optional<Users> findById(Integer userID) {
+        return userRepository.findById(userID);
     }
 
     @Transactional
-    public void updateUserStatus(Long userId, int status) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public void updateUserStatus(Integer userID, int status) {
+        Optional<Users> userOptional = userRepository.findById(userID);
         userOptional.ifPresent(user -> {
             user.setStatus(status);
             userRepository.save(user);

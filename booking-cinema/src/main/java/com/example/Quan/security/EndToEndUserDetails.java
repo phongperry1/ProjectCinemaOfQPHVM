@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.Quan.mo.User;
+import com.example.Quan.mo.Users;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +24,7 @@ public class EndToEndUserDetails implements UserDetails {
 
     private List<GrantedAuthority> authorities;
 
-    public EndToEndUserDetails(User user) {
+    public EndToEndUserDetails(Users user) {
         this.userName = user.getEmail();
         this.password = user.getPassword();
         this.isEnabled = user.isEnabled();

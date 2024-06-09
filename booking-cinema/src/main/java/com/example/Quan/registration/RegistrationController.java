@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.Quan.event.RegistrationCompleteEvent;
 import com.example.Quan.event.listener.RegistrationCompleteEventListener;
 import com.example.Quan.mo.IUserService;
-import com.example.Quan.mo.User;
+import com.example.Quan.mo.Users;
 import com.example.Quan.registration.password.IPasswordResetTokenService;
 import com.example.Quan.registration.token.VerificationToken;
 import com.example.Quan.registration.token.VerificationTokenService;
@@ -42,7 +42,7 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") RegistrationRequest registration, HttpServletRequest request) {
-        User user = userService.registerUser(registration);
+        Users user = userService.registerUser(registration);
         publisher.publishEvent(new RegistrationCompleteEvent(user, UrlUtil.getApplicationUrl(request)));
         return "redirect:/registration/registration-form?success";
     }
@@ -72,7 +72,7 @@ public class RegistrationController {
     @PostMapping("/forgot-password")
     public String resetPasswordRequest(HttpServletRequest request, Model model) {
         String email = request.getParameter("email");
-        Optional<User> user = userService.findByEmail(email);
+        Optional<Users> user = userService.findByEmail(email);
         if (user.isEmpty()) {
             return "redirect:/registration/forgot-password-request?not_fond";
         }
@@ -103,7 +103,7 @@ public class RegistrationController {
         if (!tokenVerificationResult.equalsIgnoreCase("valid")) {
             return "redirect:/error?invalid_token";
         }
-        Optional<User> theUser = passwordResetTokenService.findUserByPasswordResetToken(theToken);
+        Optional<Users> theUser = passwordResetTokenService.findUserByPasswordResetToken(theToken);
         if (theUser.isPresent()) {
             passwordResetTokenService.resetPassword(theUser.get(), password);
             return "redirect:/login?reset_success";

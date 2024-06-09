@@ -107,13 +107,8 @@
         <h2>User Registration Form</h2>
         <form th:action="@{/registration/register}" method="post" th:object="${user}" class="px-4">
             <div class="input-box">
-                <input type="text" id="firstName" autofocus="autofocus"
-                       class="form-control" required name="firstName" th:field="*{firstName}" placeholder="First Name">
-            </div>
-
-            <div class="input-box">
-                <input type="text" id="lastName" autofocus="autofocus"
-                       class="form-control" required name="lastName" th:field="*{lastName}" placeholder="Last Name">
+                <input type="text" id="userName" autofocus="autofocus"
+                       class="form-control" required name="userName" th:field="*{userName}" placeholder="User Name">
             </div>
 
             <div class="input-box">

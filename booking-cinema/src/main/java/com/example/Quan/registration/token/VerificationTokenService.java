@@ -3,7 +3,7 @@ package com.example.Quan.registration.token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import com.example.Quan.mo.User;
+import com.example.Quan.mo.Users;
 import com.example.Quan.mo.UserRepository;
 
 import java.util.Calendar;
@@ -24,7 +24,7 @@ public class VerificationTokenService implements IVerificationTokenService {
         if (theToken.isEmpty()) {
             return "INVALID";
         }
-        User user = theToken.get().getUser();
+        Users user = theToken.get().getUser();
         Calendar calendar = Calendar.getInstance();
         if ((theToken.get().getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             return "EXPIRED";
@@ -35,7 +35,7 @@ public class VerificationTokenService implements IVerificationTokenService {
     }
 
     @Override
-    public void saveVerificationTokenForUser(User user, String token) {
+    public void saveVerificationTokenForUser(Users user, String token) {
         var verificationToken = new VerificationToken(token, user);
         tokenRepository.save(verificationToken);
     }
@@ -45,8 +45,4 @@ public class VerificationTokenService implements IVerificationTokenService {
         return tokenRepository.findByToken(token);
     }
 
-    @Override
-    public void deleteUserToken(Long id) {
-        tokenRepository.deleteByUserId(id);
-    }
 }

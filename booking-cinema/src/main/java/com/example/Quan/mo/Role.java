@@ -19,7 +19,7 @@ import org.yaml.snakeyaml.events.Event;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int userID;
     private String name;
 
     public Role(String name) {

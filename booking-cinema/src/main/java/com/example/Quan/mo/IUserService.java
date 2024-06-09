@@ -10,12 +10,12 @@ import com.example.Quan.registration.RegistrationRequest;
  */
 
 public interface IUserService {
-    List<User> getAllUsers();
+    List<Users> getAllUsers();
 
-    User registerUser(RegistrationRequest registrationRequest);
+    Users registerUser(RegistrationRequest registrationRequest);
 
-    Optional<User> findByEmail(String email);
+    Optional<Users> findByEmail(String email);
 
-    Optional<User> findById(Long id);
+    Optional<Users> findById(Integer userID);
 
 }

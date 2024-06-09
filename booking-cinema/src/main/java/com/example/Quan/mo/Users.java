@@ -15,12 +15,11 @@ import java.util.Collection;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String firstName;
-    private String lastName;
+    private int userID;
+    private String userName;
     @NaturalId(mutable = true)
     private String email;
     private String password;
@@ -49,16 +48,15 @@ public class User {
 
     private String profileImageURL;
 
-    private int status = 1; // Set default status to 1
+    private boolean status = true; // Set default status to 1
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "UserId"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "UserId"))
     private Collection<Role> roles;
 
-    public User(String firstName, String lastName, String email,
+    public Users(String userName, String email,
             String password, Collection<Role> roles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.userName = userName;
         this.email = email;
         this.password = password;
         this.roles = roles;

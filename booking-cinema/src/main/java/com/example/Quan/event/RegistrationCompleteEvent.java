@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
-import com.example.Quan.mo.User;
+import com.example.Quan.mo.Users;
 
 /**
  * @author Sampson Alfred
@@ -13,10 +13,10 @@ import com.example.Quan.mo.User;
 @Getter
 @Setter
 public class RegistrationCompleteEvent extends ApplicationEvent {
-    private User user;
+    private Users user;
     private String confirmationUrl;
 
-    public RegistrationCompleteEvent(User user, String confirmationUrl) {
+    public RegistrationCompleteEvent(Users user, String confirmationUrl) {
         super(user);
         this.user = user;
         this.confirmationUrl = confirmationUrl;

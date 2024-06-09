@@ -2,7 +2,7 @@ package com.example.Quan.registration.password;
 
 import java.util.Optional;
 
-import com.example.Quan.mo.User;
+import com.example.Quan.mo.Users;
 
 /**
  * @author Sampson Alfred
@@ -11,9 +11,9 @@ import com.example.Quan.mo.User;
 public interface IPasswordResetTokenService {
     String validatePasswordResetToken(String theToken);
 
-    Optional<User> findUserByPasswordResetToken(String theToken);
+    Optional<Users> findUserByPasswordResetToken(String theToken);
 
-    void resetPassword(User theUser, String password);
+    void resetPassword(Users theUser, String password);
 
-    void createPasswordResetTokenForUser(User user, String passwordResetToken);
+    void createPasswordResetTokenForUser(Users user, String passwordResetToken);
 }

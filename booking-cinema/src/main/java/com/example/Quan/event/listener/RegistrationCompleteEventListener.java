@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import com.example.Quan.event.RegistrationCompleteEvent;
-import com.example.Quan.mo.User;
+import com.example.Quan.mo.Users;
 import com.example.Quan.registration.token.VerificationTokenService;
 
 import java.io.UnsupportedEncodingException;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class RegistrationCompleteEventListener implements ApplicationListener<RegistrationCompleteEvent> {
     private final VerificationTokenService tokenService;
     private final JavaMailSender mailSender;
-    private User user;
+    private Users user;
 
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
@@ -46,7 +46,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     public void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {
         String subject = "Email Verification";
         String senderName = "Users Verification Service";
-        String mailContent = "<p> Hi, " + user.getFirstName() + ", </p>" +
+        String mailContent = "<p> Hi, " + user.getUserName() + ", </p>" +
                 "<p>Thank you for registering with us," + "" +
                 "Please, follow the link below to complete your registration.</p>" +
                 "<a href=\"" + url + "\">Verify your email to activate your account</a>" +
@@ -57,7 +57,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     public void sendPasswordResetVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {
         String subject = "Password Reset Request Verification";
         String senderName = "Users Verification Service";
-        String mailContent = "<p> Hi, " + user.getFirstName() + ", </p>" +
+        String mailContent = "<p> Hi, " + user.getUserName() + ", </p>" +
                 "<p><b>You recently requested to reset your password,</b>" + "" +
                 "Please, follow the link below to complete the action.</p>" +
                 "<a href=\"" + url + "\">Reset password</a>" +
@@ -66,7 +66,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     }
 
     private static void emailMessage(String subject, String senderName,
-            String mailContent, JavaMailSender mailSender, User theUser)
+            String mailContent, JavaMailSender mailSender, Users theUser)
             throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
         var messageHelper = new MimeMessageHelper(message);

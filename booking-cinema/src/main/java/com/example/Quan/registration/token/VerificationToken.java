@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.util.Date;
 
-import com.example.Quan.mo.User;
+import com.example.Quan.mo.Users;
 import com.example.Quan.utility.TokenExpirationTime;
 
 /**
@@ -25,9 +25,9 @@ public class VerificationToken {
     private Date expirationTime;
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
-    public VerificationToken(String token, User user) {
+    public VerificationToken(String token, Users user) {
         this.token = token;
         this.user = user;
         this.expirationTime = TokenExpirationTime.getExpirationTime();
