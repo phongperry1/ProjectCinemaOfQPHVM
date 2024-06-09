@@ -34,3 +34,4 @@ public class Users {
     private String profileImageURL;
     private boolean status;  // Changed from `Status` to `status` for consistency with field naming conventions
 }
+
