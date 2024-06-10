@@ -23,6 +23,7 @@ public class Food {
     private String FoodName;
     @Column(name = "Price")
     private double Price;
+
     @Column(nullable = true, length = 64, name = "PhotosImagePath")
     private String PhotoFood;
 
@@ -75,4 +76,5 @@ public class Food {
         this.PhotoFood = PhotoFood;
     }
    
+
 }

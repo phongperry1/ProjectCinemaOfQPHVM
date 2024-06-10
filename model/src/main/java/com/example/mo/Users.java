@@ -1,56 +1,36 @@
 package com.example.mo;
 
-import lombok.Data;
-
-
-import jakarta.persistence.Column;
+import java.sql.Date;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "Users")  // Ensures the table name is correctly mapped
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UserID") 
-    private Integer userId; 
-    
-    @Column(name = "UserName")  
+    private int userId;  // Changed from `UserId` to `userId` for consistency with field naming conventions
+
     private String userName;
-    
-    @Column(name = "Phone")  
     private String phone;
-    
-    @Column(name = "Email")  
     private String email;
-    
-    @Column(name = "UserPassword") 
-    private String userPassword; 
-    
-    @Column(name = "Birthdate")  
-    private String birthdate;
-    
-    @Column(name = "Location")  
+    private String userPassword;
+    private Date birthdate;
     private String location;
-
-    @Column(name = "ProfileImageURL")
-    private String profileImageUrl;
-
-    @Column(name = "Gender")
     private String gender;
-
-    @Column(name = "UserRank")
     private String userRank;
-
-    @Column(name = "MemberPoints") 
-    private String memberPoints; 
-
-    @Column(name = "UserType")
-    private String userType; 
-
+    private int memberPoints;
+    private String paymentMethod;
+    private String userType;
+    private String profileImageURL;
+    private boolean status;  // Changed from `Status` to `status` for consistency with field naming conventions
 }
