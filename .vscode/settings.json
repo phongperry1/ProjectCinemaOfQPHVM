@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "java.compile.nullAnalysis.mode": "automatic",
     "sqltools.connections": [
         {
@@ -19,4 +20,12 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.debug.settings.onBuildFailureProceed": true,
     "liveServer.settings.port": 5501
+=======
+
+    "java.compile.nullAnalysis.mode": "automatic",
+    "maven.view": "flat",
+
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.configuration.updateBuildConfiguration": "interactive"
+>>>>>>> 9af1a39694804e8792e33d40f403ca1d86d9f041
 }
