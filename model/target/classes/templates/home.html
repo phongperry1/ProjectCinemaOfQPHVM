@@ -15,6 +15,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+        .menu-btn {
+  background-color: #09000000; /* Màu nền */
+  border: none; /* Không có viền */
+  color: white; /* Màu chữ */
+  padding: 10px 20px; /* Kích thước nút */
+  text-align: center; /* Căn giữa văn bản */
+  text-decoration: none; /* Không có gạch chân */
+  display: inline-block; /* Hiển thị là khối nút */
+  font-size: 16px; /* Cỡ chữ */
+  margin: 4px 2px; /* Khoảng cách giữa nút */
+  cursor: pointer; /* Con trỏ khi hover */
+  border-radius: 4px; /* Bo tròn cạnh */
+}
+.menu-btn:hover {
+  background-color: #00000000; /* Màu nền khi hover */
+}
+  </style>
 
 </head>
 
@@ -36,7 +86,10 @@
           <li>schedlues</li>
           <li>tickets</li>
           <li>news</li>
-          <li>contact</li>
+          <li>contact</li>  
+          <div class="dropdown">
+            <button class="menu-btn">MENU</button>
+            <div class="dropdown-content">
           <li><a class="manage" th:href="@{/movie}">movie</a></li>
           <li><a class="manage" th:href="@{/showtime}">Showtime</a></li>
           <li><a class="manage" th:href="@{/screeningroom}">ScreeningRoom</a></li>
@@ -45,11 +98,19 @@
           <li><a class="manage" th:href="@{/news}">News</a></li>
           <li><a class="manage" th:href="@{/promotions}">Promotions</a></li>
           <li><a class="manage" th:href="@{/food}">Food</a></li>
-          <li><span>mr.john doe <img
-                src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg">
-              <i class="fa fa-angle-down"></i></span></li>
+          </div>
+          </div>
+          <li>
+            <span><span th:text="${user.userName}"></span></span>
+          </li>
+          <li>
+            <a th:href="@{/profile}">
+              <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
+          </a>
+          </li>
           <li><b>sign out</b></li>
         </ul>
+
 
       </nav>
     </header>
@@ -57,7 +118,7 @@
     <section>
       <div class="movie-list-section">
         <div>
-         
+          <h1>Welcome</h1>
           <div class="carousel-container">
             <button class="button prev-btn">
               <div class="button-box">
@@ -109,28 +170,42 @@
 
 
 
+
       <!---movie-ticket-book-->
 
-      <div class="movie-list-section">
-        <div class="filter-search-box">
-          <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+
+      <div class="filter-search-box">
+
+        <div class="filters-box">
+
+          <div class="all-filters filters">
+            All formats <i class="fa fa-angle-down"></i>
           </div>
-          <div class="shine">MOVIES</div>
-          <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+
+          <div class="date-filters filters">
+            By Date <i class="fa fa-angle-down"></i>
           </div>
+
+          <div class="category-filters filters">
+            By category <i class="fa fa-angle-down"></i>
+          </div>
+
+          <div class="category-filters filters">
+            Coming soon
+          </div>
+
         </div>
+
+        <div class="search-filters">
+          <input type="text" placeholder="Search by name...">
+          <i class="fa fa-search"></i>
+        </div>
+
+        <div class="search-bar">
+          <div class="bar"></div>
+        </div>
+
+      </div>
       <!----filter-search-box---->
 
       <div class="movie-list-section">
@@ -147,7 +222,7 @@
                       <h5 class="card-title text-white" th:text="${movie.title}"></h5>
                       <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p>
                       <!-- Thêm URL động để chuyển hướng đến trang chi tiết của bộ phim -->
-                      <a th:href="@{'/movie/book/' + ${movie.movieID}}" class="shadow__btn mt-auto">Details</a>
+                      <a th:href="@{'/movie/details/' + ${movie.movieID}}" class="shadow__btn mt-auto">Details</a>
                     </div>
                   </div>
                 </div>
@@ -156,6 +231,7 @@
           </div>
         </div>
       </div>
+
 
       <div class="movie-list-section">
         <div class="filter-search-box">
@@ -202,6 +278,7 @@
       </div>
       <!---bar--->
 
+
     </section>
 
     <footer>
@@ -229,6 +306,7 @@
       </div>
     </footer>
 
+
   </body>
   <style>
     * {
@@ -239,7 +317,7 @@
     }
 
     .card {
-      width: 474px;
+      width: 600px;
       height: 600px;
       border-radius: 20px;
       padding: 5px;
@@ -294,6 +372,7 @@
         0 0 100px rgb(255, 0, 0);
     }
 
+
     body {
       font-family: 'Roboto', sans-serif;
       overflow: hidden;
@@ -347,10 +426,11 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 11%;
+      height: 6%;
       background: rgba(0, 0, 0, .75);
       box-shadow: inset 0 0 80px #000;
     }
+
 
     header nav {
       color: #fff;
@@ -366,10 +446,12 @@
 
     }
 
+
     header nav .fa {
       cursor: pointer;
       display: none;
     }
+
 
     header nav .fa:hover {
       color: #DB0000;
@@ -408,6 +490,7 @@
       border-radius: 20px;
     }
 
+
     header nav ul {
       display: flex;
       justify-content: center;
@@ -418,9 +501,11 @@
       position: relative;
     }
 
+
     header nav ul li {
       cursor: pointer;
     }
+
 
     header nav ul li span {
       display: flex;
@@ -434,6 +519,7 @@
       border-radius: 50%;
       object-fit: cover;
     }
+
 
     header .popular-movie-slider {
       color: #fff;
@@ -452,6 +538,7 @@
       border-radius: 10px;
     }
 
+
     header .popular-movie-slider .popular-movie-slider-content {
       line-height: 25px;
     }
@@ -459,6 +546,7 @@
     header .popular-movie-slider .popular-movie-slider-content .movie-name {
       font-size: 1.8em;
     }
+
 
     header .popular-movie-slider .popular-movie-slider-content .category {
       display: flex;
@@ -488,10 +576,12 @@
       font-size: 15px;
     }
 
+
     header .popular-movie-slider .popular-movie-slider-content .movie-btns {
       display: flex;
       gap: 10px;
     }
+
 
     header .popular-movie-slider .popular-movie-slider-content .movie-btns button {
       width: 200px;
@@ -514,6 +604,7 @@
       color: #fff;
     }
 
+
     header .popular-movie-slider .popular-movie-slider-content .movie-btns .read-more {
       background: none;
     }
@@ -526,6 +617,7 @@
       background: #000;
     }
 
+
     section .movie-ticket-book {
       background: #222;
       color: #fff;
@@ -535,6 +627,7 @@
       align-items: center;
       padding: 30px 100px;
     }
+
 
     section .movie-ticket-book .choose-date,
     section .movie-ticket-book .choose-time {
@@ -574,11 +667,13 @@
       justify-content: space-between;
     }
 
+
     section .movie-ticket-book .choose-date .carousel .card p:nth-child(1),
     section .movie-ticket-book .choose-time .carousel .card p:nth-child(1) {
       color: #888;
       font-size: .75em;
     }
+
 
     section .movie-ticket-book .choose-date .carousel .card p:nth-child(2),
     section .movie-ticket-book .choose-time .carousel .card p:nth-child(2) {
@@ -586,6 +681,7 @@
       font-size: 1.2em;
       text-transform: uppercase;
     }
+
 
     section .movie-ticket-book .choose-date .wrapper .marker,
     section .movie-ticket-book .choose-time .wrapper .marker {
@@ -596,6 +692,7 @@
       left: 45%;
       transform: translate(-50%, 0);
     }
+
 
 
     section .movie-ticket-book button {
@@ -615,6 +712,7 @@
 
 
 
+
     section .filter-search-box {
       background: #111;
       display: flex;
@@ -625,6 +723,7 @@
       position: relative;
     }
 
+
     section .filter-search-box .filters-box {
       display: flex;
       gap: 50px;
@@ -632,9 +731,11 @@
     }
 
 
+
     section .filter-search-box .filters-box .filters {
       cursor: pointer;
     }
+
 
     section .filter-search-box .search-bar {
       position: absolute;
@@ -652,6 +753,7 @@
       height: inherit;
       background: #DB0000;
     }
+
 
     section .filter-search-box .search-filters {
       color: #fff;
@@ -671,6 +773,7 @@
 
 
 
+
     section .movie-card-section {
       background: #111;
       padding: 20px 100px;
@@ -680,6 +783,7 @@
       gap: 18px;
       padding-top: 50px;
     }
+
 
     section .movie-card-section .card {
       margin-bottom: 20px;
@@ -695,6 +799,7 @@
       box-shadow: 0 0 30px #000;
     }
 
+
     section .movie-card-section .card .card-content .movie-name {
       font-weight: 700;
       margin-top: 10px;
@@ -704,6 +809,7 @@
       font-size: .95em;
       margin-top: 10px;
     }
+
 
     section .movie-card-section .card .card-content .movie-info span {
       color: #666;
@@ -718,6 +824,7 @@
       margin-left: 3px;
     }
 
+
     section .show {
       display: flex;
       justify-content: space-between;
@@ -728,6 +835,7 @@
       padding: 10px 100px;
       padding-bottom: 40px;
     }
+
 
     section .show .show-bar {
       background: #fff;
@@ -744,6 +852,7 @@
       border-radius: 50px;
     }
 
+
     section .show button {
       border: none;
       outline: none;
@@ -755,6 +864,7 @@
       color: #fff;
       cursor: pointer;
     }
+
 
     section .show button:hover {
       background: #000;
@@ -770,9 +880,11 @@
       align-items: center;
     }
 
+
     footer .logo-box {
       font-size: .85em;
     }
+
 
     footer .logo-box .logo {
       font-size: 1.8em;
@@ -784,6 +896,7 @@
     }
 
 
+
     footer ul {
       text-transform: uppercase;
       list-style: none;
@@ -792,10 +905,12 @@
       gap: 20px;
     }
 
+
     footer ul li {
       cursor: pointer;
       color: #888;
     }
+
 
     footer ul li:nth-child(1) {
       color: #fff;
@@ -804,6 +919,7 @@
     footer ul li:hover {
       color: #fff;
     }
+
 
     footer .socail-box {
       display: flex;
@@ -901,6 +1017,7 @@
       }
 
 
+
       section .movie-ticket-book .choose-date .wrapper .marker,
       section .movie-ticket-book .choose-time .wrapper .marker {
         width: 60px;
@@ -918,6 +1035,7 @@
         left: 50%;
         transform: translate(-50%, 0);
       }
+
 
       section .filter-search-box {
         padding: 20px 50px;
@@ -937,6 +1055,7 @@
         grid-template-columns: auto auto auto;
       }
 
+
       section .movie-card-section .card img {
         width: 100%;
         height: 300px;
@@ -948,6 +1067,7 @@
       }
 
 
+
       footer {
         padding: 40px 50px;
         grid-template-columns: auto;
@@ -956,9 +1076,11 @@
         gap: 30px;
       }
 
+
     }
 
     @media (min-width: 0px) and (max-width: 719px) {
+
 
       header {
         height: auto;
@@ -968,6 +1090,7 @@
       header nav {
         padding: 10px 20px;
       }
+
 
       header nav ul {
         display: none;
@@ -985,6 +1108,7 @@
         cursor: pointer;
         display: block;
       }
+
 
       header .popular-movie-slider {
         padding: 10px 20px;
@@ -1008,6 +1132,7 @@
         padding: 20px 20px;
       }
 
+
       section .filter-search-box .filters-box {
         gap: 10px;
       }
@@ -1016,6 +1141,7 @@
         left: 20px;
         width: 90%;
       }
+
 
       section .movie-card-section {
         padding: 20px 20px;
@@ -1041,19 +1167,23 @@
         font-size: .85em;
       }
 
+
       section .filter-search-box {
         gap: 20px;
         overflow-x: scroll;
       }
 
+
       section .filter-search-box::-webkit-scrollbar {
         display: none;
       }
+
 
       section .filter-search-box .search-filters input {
         width: 50px;
         padding: 5px 10px;
       }
+
 
       section .movie-ticket-book {
         padding: 30px 0px;
@@ -1064,9 +1194,11 @@
       }
 
 
+
       .background-black {
         background-color: black;
       }
+
 
     }
 
@@ -1090,8 +1222,6 @@
       scroll-behavior: smooth;
       width: calc(100% - 80px);
       /* Adjust width to account for buttons */
-      margin-top: 15px;
-      margin-bottom: 15px;
     }
 
     .movie-card {
@@ -1327,119 +1457,30 @@
         background-position: 200px;
       }
     }
-
-    img3 {
-    max-width: 100%;
-    height: auto;
-}
-        section3 {
-            padding: 60px 0;
-           /* min-height: 100vh;*/
-        }
- ul {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-.contact-area {
-    border-bottom: 1px solid #353C46;
-}
-
-.contact-content p {
-    font-size: 15px;
-    margin: 30px 0 60px;
-    position: relative;
-}
-
-.contact-content p::after {
-    background: #353C46;
-    bottom: -30px;
-    content: "";
-    height: 1px;
-    left: 50%;
-    position: absolute;
-    transform: translate(-50%);
-    width: 80%;
-}
-
-.contact-content h6 {
-    color: #8b9199;
-    font-size: 15px;
-    font-weight: 400;
-    margin-bottom: 10px;
-}
-
-.contact-content span {
-    color: #353c47;
-    margin: 0 10px;
-}
-
-.contact-social {
-    margin-top: 30px;
-}
-
-.contact-social > ul {
-    display: inline-flex;
-}
-
-.contact-social ul li a {
-    border: 1px solid #8b9199;
-    color: #8b9199;
-    display: inline-block;
-    height: 40px;
-    margin: 0 10px;
-    padding-top: 7px;
-    transition: all 0.4s ease 0s;
-    width: 40px;
-}
-
-.contact-social ul li a:hover {
-    border: 1px solid #FAB702;
-    color: #FAB702;
-}
-
-.contact-content img {
-    max-width: 210px;
-}
-
-section, footer {
-    background: #1A1E25;
-    color: #868c96;
-}
-
-footer p {
-    padding: 40px 0;
-    text-align: center;
-}
-
-footer img {
-    width: 44px;
-}
-    
   </style>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const carousel = document.querySelector('.carousel');
-      const nextButton = document.querySelector('.next-btn');
-      const prevButton = document.querySelector('.prev-btn');
 
-      nextButton.addEventListener('click', () => {
-        carousel.scrollBy({
-          left: carousel.clientWidth,
-          behavior: 'smooth'
-        });
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('carousel');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+
+    prevButton.addEventListener('click', () => {
+      carousel.scrollBy({
+        left: -carousel.clientWidth,
+        behavior: 'smooth'
       });
+    });
 
-  prevButton.addEventListener('click', () => {
-    carousel.scrollBy({
-      left: -carousel.clientWidth,
-      behavior: 'smooth'
+    nextButton.addEventListener('click', () => {
+      carousel.scrollBy({
+        left: carousel.clientWidth,
+        behavior: 'smooth'
+      });
     });
   });
-});
+</script>
+</body>
 
-  </script>
-  
-
-
+</html>
