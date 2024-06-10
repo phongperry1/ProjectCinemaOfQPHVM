@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Application",
+            "request": "launch",
+            "mainClass": "com.example.Minh.Application",
+            "projectName": "model"
+        },
+        {
+            "type": "java",
+            "name": "ProjectApplication",
+            "request": "launch",
+            "mainClass": "com.example.ProjectApplication",
+            "projectName": "model"
+        }
+    ]
+}
