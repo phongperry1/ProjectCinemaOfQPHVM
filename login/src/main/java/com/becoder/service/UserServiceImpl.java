@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 		user.setUserPassword(password);
 		user.setRole("ROLE_USER");
 
-		user.setstatus(false);
+		user.setStatus(false);
 		user.setVerificationCode(UUID.randomUUID().toString());
 
 		Users newuser = userRepo.save(user);
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void sendEmail(Users user, String url) {
 
-		String from = "dhquan235@gmail.com";
+		String from = "daspabitra55@gmail.com";
 		String to = user.getEmail();
 		String subject = "Account Verfication";
 		String content = "Dear [[name]],<br>" + "Please click the link below to verify your registration:<br>"
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 			return false;
 		} else {
 
-			user.setstatus(true);
+			user.setStatus(true);
 			user.setVerificationCode(null);
 
 			userRepo.save(user);

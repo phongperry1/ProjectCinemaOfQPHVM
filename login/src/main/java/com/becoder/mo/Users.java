@@ -10,7 +10,7 @@ public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int userID;
 	private String userName;
 	private String email;
 	private String phone;
@@ -19,33 +19,24 @@ public class Users {
 	private boolean status;
 	private String verificationCode;
 	private String birthdate;
-
 	private String location;
-
 	private String gender;
-
 	private String captcha;
-
 	private String userRank;
-
 	private Integer memberPoints;
-
-	private String idCard;
-
+	private String userIDCard;
 	private String paymentMethod;
-
 	private String userType;
-
 	private String profileImageURL;
 
 	// Getters and setters
 
-	public int getId() {
-		return id;
+	public int getUserID() {
+		return userID;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 
 	public String getUserName() {
@@ -72,6 +63,14 @@ public class Users {
 		this.phone = phone;
 	}
 
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
 	public String getRole() {
 		return role;
 	}
@@ -80,11 +79,11 @@ public class Users {
 		this.role = role;
 	}
 
-	public boolean isstatus() {
+	public boolean isStatus() {
 		return status;
 	}
 
-	public void setstatus(boolean status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
@@ -94,14 +93,6 @@ public class Users {
 
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
-	}
-
-	public String getUserPassword() {
-		return userPassword;
-	}
-
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
 	}
 
 	public String getBirthdate() {
@@ -152,12 +143,12 @@ public class Users {
 		this.memberPoints = memberPoints;
 	}
 
-	public String getIdCard() {
-		return idCard;
+	public String getUserIDCard() {
+		return userIDCard;
 	}
 
-	public void setIdCard(String idCard) {
-		this.idCard = idCard;
+	public void setUserIDCard(String userIDCard) {
+		this.userIDCard = userIDCard;
 	}
 
 	public String getPaymentMethod() {
@@ -183,13 +174,4 @@ public class Users {
 	public void setProfileImageURL(String profileImageURL) {
 		this.profileImageURL = profileImageURL;
 	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
 }
