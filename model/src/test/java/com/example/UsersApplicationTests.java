@@ -1,6 +1,4 @@
 
-package com.Precious.MvcEndToEndApplication;
-
 package com.example;
 
 
@@ -9,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 
+
+
 class SbEnd2endapplicationApplicationTests {
 
 class UsersApplicationTests {
@@ -16,4 +16,5 @@ class UsersApplicationTests {
 	void contextLoads() {
 	}
 
+}
 }
