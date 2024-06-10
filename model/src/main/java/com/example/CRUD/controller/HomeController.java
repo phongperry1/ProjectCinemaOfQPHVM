@@ -46,7 +46,7 @@ public class HomeController {
         return "login";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/userLogin")
     public String login(@ModelAttribute("user") Users user, HttpSession session, Model model) {
         Users authenticatedUser = userService.authenticate(user.getEmail(), user.getUserPassword());
         if (authenticatedUser != null) {
@@ -108,13 +108,18 @@ public class HomeController {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute Users user, HttpSession session, Model m, HttpServletRequest request) {
+    public String saveUser(@ModelAttribute Users user, HttpSession session, Model model, HttpServletRequest request) {
         String url = request.getRequestURL().toString();
         url = url.replace(request.getServletPath(), "");
 
-        Users u = userService.saveUser(user, url);
+        // Ensure member points are not null
+        if (user.getMemberPoints() == null) {
+            user.setMemberPoints(0);
+        }
 
-        if (u != null) {
+        Users savedUser = userService.saveUser(user, url);
+
+        if (savedUser != null) {
             session.setAttribute("msg", "Register successfully");
         } else {
             session.setAttribute("msg", "Something went wrong on the server");
@@ -122,6 +127,8 @@ public class HomeController {
 
         return "redirect:/register";
     }
+
+
 
     @GetMapping("/verify")
     public String verifyAccount(@Param("code") String code, Model m) {

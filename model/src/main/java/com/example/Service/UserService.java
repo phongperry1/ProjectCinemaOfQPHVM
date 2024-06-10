@@ -38,8 +38,8 @@ public class UserService {
 
 
     public Users authenticate(String email, String password) {
-        Users user = userRepo.findByEmail(email);
-        if (user != null && user.getUserPassword().equals(password)) {
+        Users user = userRepository.findByEmail(email);
+        if (user != null && passwordEncoder.matches(password, user.getUserPassword())) {
             return user;
         }
         return null;
@@ -82,21 +82,13 @@ public class UserService {
     private JavaMailSender mailSender;
 
     public Users saveUser(Users user, String url) {
-
-        String password = passwordEncoder.encode(user.getUserPassword());
-        user.setUserPassword(password);
-        user.setRole("ROLE_USER");
-
-        user.setStatus(false);
-        user.setVerificationCode(UUID.randomUUID().toString());
-
-        Users newuser = userRepo.save(user);
-
-        if (newuser != null) {
-            sendEmail(newuser, url);
+        // Ensure member points are not null
+        if (user.getMemberPoints() == null) {
+            user.setMemberPoints(0);
         }
 
-        return newuser;
+        user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
+        return userRepository.save(user);
     }
 
     public void sendEmail(Users user, String url) {
