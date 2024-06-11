@@ -1,67 +1,147 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/styles.css">
     <title th:text="${movie.movieID == null} ? 'Add Movie' : 'Edit Movie'">Movie Form</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #343a40;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control,
+        .form-control-file {
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .img-thumbnail {
+            max-width: 200px;
+            margin-top: 20px;
+        }
+
+        .center-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .backhome {
+            background-color: #04AA6D;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+        }
+    </style>
 </head>
+
 <body>
-    <h1 th:text="${movie.movieID == null} ? 'Add New Movie' : 'Edit Movie'">Movie Form</h1>
-    <form th:action="@{${movie.movieID == null} ? '/movie/create' : '/movie/update/' + ${movie.movieID}}" th:object="${movie}" method="post" enctype="multipart/form-data">
-        <div>
-            <label>Title:</label>
-            <input type="text" th:field="*{title}" required />
-        </div>
-        <!-- Những trường dữ liệu không cần người dùng nhập -->
-        <input type="hidden" th:field="*{ratingCount}" th:value="0" />
-        <input type="hidden" th:field="*{averageRating}" th:value="0" />
-        <!-- Kết thúc trường dữ liệu ẩn -->
-        <div>
-            <label>Genre:</label>
-            <input type="text" th:field="*{genre}" required />
-        </div>
-        <div>
-            <label>Duration:</label>
-            <input type="number" th:field="*{duration}" required />
-        </div>
-        <div>
-            <label>Director:</label>
-            <input type="text" th:field="*{director}" required />
-        </div>
-        <div>
-            <label>Cast:</label>
-            <input type="text" th:field="*{cast}" required />
-        </div>
-        <div>
-            <label>Release Date:</label>
-            <input type="date" th:field="*{releaseDate}" required />
-        </div>
-        <div>
-            <label>Show Time:</label>
-            <input type="text" th:field="*{showTime}" required />
-        </div>
-        <div>
-            <label>Languages:</label>
-            <input type="text" th:field="*{languages}" required />
-        </div>
-        <div>
-            <label>Description:</label>
-            <textarea th:field="*{description}" required></textarea>
-        </div>
-        <div>
-            <label>Trailer URL:</label>
-            <input type="text" th:field="*{trailerURL}" required />
-        </div>
-        <div>
-            <label>Upload Image:</label>
-            <input type="file" name="imageFile" />
-        </div>
-        <div>
-            <img th:src="@{/uploads/{imageurl}(imageurl=${movie.address})}" alt="Movie Image" th:if="${movie.address != null}" />
-        </div>
-        <div>
-            <button type="submit">Save</button>
-            <a href="/movie">Cancel</a>
-        </div>
-    </form>
+    <div class="container mt-5">
+        <h1 class="mb-4" th:text="${movie.movieID == null} ? 'Add New Movie' : 'Edit Movie'">Movie Form</h1>
+        <form th:action="@{${movie.movieID == null} ? '/movie/create' : '/movie/update/' + ${movie.movieID}}"
+            th:object="${movie}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" th:field="*{title}" required />
+            </div>
+            <!-- Hidden fields for data not entered by user -->
+            <input type="hidden" th:field="*{ratingCount}" th:value="0" />
+            <input type="hidden" th:field="*{averageRating}" th:value="0" />
+            <!-- End hidden fields -->
+            <div class="form-group">
+                <label for="genre">Genre:</label>
+                <input type="text" class="form-control" id="genre" th:field="*{genre}" required />
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration:</label>
+                <input type="number" class="form-control" id="duration" th:field="*{duration}" required />
+            </div>
+            <div class="form-group">
+                <label for="director">Director:</label>
+                <input type="text" class="form-control" id="director" th:field="*{director}" required />
+            </div>
+            <div class="form-group">
+                <label for="cast">Cast:</label>
+                <input type="text" class="form-control" id="cast" th:field="*{cast}" required />
+            </div>
+            <div class="form-group">
+                <label for="releaseDate">Release Date:</label>
+                <input type="date" class="form-control" id="releaseDate" th:field="*{releaseDate}" required />
+            </div>
+            <div class="form-group">
+                <label for="showTime">Show Time:</label>
+                <input type="text" class="form-control" id="showTime" th:field="*{showTime}" required />
+            </div>
+            <div class="form-group">
+                <label for="languages">Languages:</label>
+                <input type="text" class="form-control" id="languages" th:field="*{languages}" required />
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="trailerURL">Trailer URL:</label>
+                <input type="text" class="form-control" id="trailerURL" th:field="*{trailerURL}" required />
+            </div>
+            <div class="form-group">
+                <label for="imageFile">Upload Image:</label>
+                <input type="file" class="form-control-file" id="imageFile" name="imageFile" />
+            </div>
+            <div class="form-group">
+                <img th:src="@{/uploads/{imageurl}(imageurl=${movie.address})}" alt="Movie Image"
+                    th:if="${movie.address != null}" class="img-thumbnail" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/movie" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+
+        <a href="/" class="backhome" style="margin-left: 500px;">Back</a>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
