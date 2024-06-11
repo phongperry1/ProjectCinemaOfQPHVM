@@ -29,9 +29,9 @@ public class UserController {
 
     }
 
-    @GetMapping("/admin_profile")
+    @GetMapping("/home")
     public String profile() {
-        return "adminprofile";
+        return "home";
     }
 
 }

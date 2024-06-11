@@ -87,19 +87,6 @@
           <li>tickets</li>
           <li>news</li>
           <li>contact</li>  
-          <div class="dropdown">
-            <button class="menu-btn">MENU</button>
-            <div class="dropdown-content">
-          <li><a class="manage" th:href="@{/movie}">movie</a></li>
-          <li><a class="manage" th:href="@{/showtime}">Showtime</a></li>
-          <li><a class="manage" th:href="@{/screeningroom}">ScreeningRoom</a></li>
-          <li><a class="manage" th:href="@{/paypal}">Paypal</a></li>
-          <li><a class="manage" th:href="@{/theater}">Theater</a></li>
-          <li><a class="manage" th:href="@{/news}">News</a></li>
-          <li><a class="manage" th:href="@{/promotions}">Promotions</a></li>
-          <li><a class="manage" th:href="@{/food}">Food</a></li>
-          </div>
-          </div>
           <li>
             <span><span th:text="${user.userName}"></span></span>
           </li>
@@ -108,7 +95,7 @@
               <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
           </a>
           </li>
-          <li><b>sign out</b></li>
+          <li><a href="/logout">Logout</a></li>
         </ul>
 
 
