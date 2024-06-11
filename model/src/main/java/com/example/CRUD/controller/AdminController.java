@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.Repository.UserRepository;
 import com.example.mo.Users;
-
+import com.example.Repository.UserRepository;
 
 @Controller
 @RequestMapping("/admin")
@@ -29,8 +28,8 @@ public class AdminController {
 		}
 	}
 
-	@GetMapping("/profile")
+	@GetMapping("/admin_profile")
 	public String profile() {
-		return "admin_profile";
+		return "adminprofile";
 	}
 }

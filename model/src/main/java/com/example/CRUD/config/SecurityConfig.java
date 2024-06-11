@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Autowired
-    public CustomAuthSuccessHandler successHandler;
+    public CustomAuthSucessHandler sucessHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -37,16 +37,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/user/**").hasRole("USER")
+        /*
+         * http.csrf().disable()
+         * .authorizeHttpRequests().requestMatchers("/","/register","/signin",
+         * "/saveUser").permitAll() .requestMatchers("/user/**").authenticated().and()
+         * .formLogin().loginPage("/signin").loginProcessingUrl("/userLogin")
+         * //.usernameParameter("email")
+         * .defaultSuccessUrl("/user/profile").permitAll();
+         */
+        http.csrf().disable()
+                .authorizeHttpRequests().requestMatchers("/user/**").hasRole("USER")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/**").permitAll())
-            .formLogin(login -> login
-                .loginPage("/")
-                .loginProcessingUrl("/userLogin")
-                .successHandler(successHandler)
-                .permitAll());
+                .requestMatchers("/**").permitAll().and()
+                .formLogin().loginPage("/login").loginProcessingUrl("/userLogin")
+                .successHandler(sucessHandler)
+                .permitAll();
 
         return http.build();
     }

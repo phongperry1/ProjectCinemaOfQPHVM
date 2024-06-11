@@ -33,36 +33,29 @@ public class HomeController {
     private final UserRepository userRepo;
 
     @Autowired
-    public HomeController(MovieService movieService, PromotionsService promotionsService, UserService userService, UserRepository userRepo) {
+    public HomeController(MovieService movieService, PromotionsService promotionsService, UserService userService,
+            UserRepository userRepo) {
         this.movieService = movieService;
         this.promotionsService = promotionsService;
         this.userService = userService;
         this.userRepo = userRepo;
     }
 
-    @GetMapping("/")
-    public String showLoginPage(Model model) {
-        model.addAttribute("user", new Users()); // Add empty user object to the model for form binding
+    @GetMapping("/login")
+    public String userLogin() {
         return "login";
     }
 
-    @PostMapping("/userLogin")
-    public String login(@ModelAttribute("user") Users user, HttpSession session, Model model) {
-        Users authenticatedUser = userService.authenticate(user.getEmail(), user.getUserPassword());
-        if (authenticatedUser != null) {
-            session.setAttribute("user", authenticatedUser);
-            return "redirect:/home";
-        } else {
-            model.addAttribute("error", "Invalid email or password");
-            return "login";
-        }
+    @PostMapping("/login")
+    public String login(@ModelAttribute("user") Users user, Model model) {
+        return "redirect:/home"; // Redirect to the home page after successful authentication
     }
 
     @GetMapping("/home")
     public String showHomePage(Model model, HttpSession session) {
         Users user = (Users) session.getAttribute("user");
         if (user == null) {
-            return "redirect:/";
+            return "redirect:/home";
         }
 
         List<Movie> movies = movieService.getAllMovies();
@@ -99,6 +92,7 @@ public class HomeController {
             Users user = userRepo.findByEmail(email);
             m.addAttribute("user", user);
         }
+
     }
 
     @GetMapping("/register")
@@ -106,39 +100,27 @@ public class HomeController {
         return "register";
     }
 
-    @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute Users user, HttpSession session, Model model, HttpServletRequest request) {
+    @PostMapping("/save")
+    public String save(@ModelAttribute Users user, HttpSession session, Model m, HttpServletRequest request) {
         String url = request.getRequestURL().toString();
         url = url.replace(request.getServletPath(), "");
-
-        // Ensure member points are not null
-        if (user.getMemberPoints() == null) {
-            user.setMemberPoints(0);
-        }
-
-        Users savedUser = userService.saveUser(user, url);
-
-        if (savedUser != null) {
+        Users u = userService.save(user, url);
+        if (u != null) {
             session.setAttribute("msg", "Register successfully");
         } else {
-            session.setAttribute("msg", "Something went wrong on the server");
+            session.setAttribute("msg", "Something wrong server");
         }
-
         return "redirect:/register";
     }
-
-
 
     @GetMapping("/verify")
     public String verifyAccount(@Param("code") String code, Model m) {
         boolean f = userService.verifyAccount(code);
-
         if (f) {
-            m.addAttribute("msg", "Successfully your account is verified");
+            m.addAttribute("msg", "Sucessfully your account is verified");
         } else {
-            m.addAttribute("msg", "Your verification code is incorrect or already verified");
+            m.addAttribute("msg", "may be your vefication code is incorrect or already veified ");
         }
-
         return "message";
     }
 }

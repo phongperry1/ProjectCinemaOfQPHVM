@@ -18,7 +18,8 @@ import jakarta.servlet.http.HttpSession;
 
 import com.example.Repository.UserRepository;
 
-@Service
+@Service("userServiceImpl")
+
 public class UserService {
 
     @Autowired
@@ -35,7 +36,6 @@ public class UserService {
         existingUser.setProfileImageURL(users.getProfileImageURL());
         return userRepository.save(existingUser);
     }
-
 
     public Users authenticate(String email, String password) {
         Users user = userRepository.findByEmail(email);
@@ -73,34 +73,35 @@ public class UserService {
     }
 
     @Autowired
-    private UserRepository userRepo;
+    private JavaMailSender mailSender;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private JavaMailSender mailSender;
+    public Users save(Users user, String url) {
+        String password = passwordEncoder.encode(user.getUserPassword());
+        user.setUserPassword(password);
+        user.setRole("ROLE_USER");
+        user.setStatus(false);
+        user.setVerificationCode(UUID.randomUUID().toString());
 
-    public Users saveUser(Users user, String url) {
-        // Ensure member points are not null
-        if (user.getMemberPoints() == null) {
-            user.setMemberPoints(0);
+        Users newUser = userRepository.save(user);
+
+        if (newUser != null) {
+            sendEmail(newUser, url);
         }
 
-        user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
-        return userRepository.save(user);
+        return newUser;
     }
 
     public void sendEmail(Users user, String url) {
-
         String from = "dhquan235@gmail.com";
         String to = user.getEmail();
-        String subject = "Account Verfication";
+        String subject = "Account Verification";
         String content = "Dear [[name]],<br>" + "Please click the link below to verify your registration:<br>"
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>" + "Thank you,<br>" + "Becoder";
 
         try {
-
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
 
@@ -122,12 +123,11 @@ public class UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public boolean verifyAccount(String verificationCode) {
 
-        Users user = userRepo.findByVerificationCode(verificationCode);
+        Users user = userRepository.findByVerificationCode(verificationCode);
 
         if (user == null) {
             return false;
@@ -136,7 +136,7 @@ public class UserService {
             user.setStatus(true);
             user.setVerificationCode(null);
 
-            userRepo.save(user);
+            userRepository.save(user);
 
             return true;
         }
