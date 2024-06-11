@@ -15,11 +15,11 @@ public class Application {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(Application.class, args);
-        
+
         // Retrieve beans after the application context has been initialized
         PromotionsRepository promotionsRepository = context.getBean(PromotionsRepository.class);
         PromotionsService promotionsService = context.getBean(PromotionsService.class);
-        
+
         // Use the services provided by the beans
         List<Promotions> promotions = promotionsService.listAll();
         for (Promotions promotions2 : promotions) {
@@ -27,4 +27,3 @@ public class Application {
         }
     }
 }
-

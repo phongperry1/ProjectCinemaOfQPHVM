@@ -4,16 +4,6 @@
             "type": "java",
             "name": "Application",
             "request": "launch",
-
-
-            "mainClass": "com.becoder.Application",
-            "projectName": "10_Register_Login_Security_App"
-        },
-        {
-            "type": "java",
-            "name": "Application",
-            "request": "launch",
-
             "mainClass": "com.example.Application",
             "projectName": "model"
         },
