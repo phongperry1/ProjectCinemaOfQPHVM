@@ -46,10 +46,11 @@ public class HomeController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute("user") Users user, Model model) {
-        return "redirect:/home"; // Redirect to the home page after successful authentication
-    }
+    // @PostMapping("/login")
+    // public String login(@ModelAttribute("user") Users user, Model model) {
+    // return "redirect:/home"; // Redirect to the home page after successful
+    // authentication
+    // }
 
     @GetMapping("/home")
     public String showHomePage(Model model, HttpSession session) {

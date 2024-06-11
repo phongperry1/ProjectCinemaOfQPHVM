@@ -15,7 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Autowired
-    public CustomAuthSucessHandler sucessHandler;
+    private CustomAuthSucessHandler successHandler;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -23,35 +26,31 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService getDetailsService() {
-        return new CustomUserDetailsService();
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 
     @Bean
-    public DaoAuthenticationProvider getAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(getDetailsService());
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        /*
-         * http.csrf().disable()
-         * .authorizeHttpRequests().requestMatchers("/","/register","/signin",
-         * "/saveUser").permitAll() .requestMatchers("/user/**").authenticated().and()
-         * .formLogin().loginPage("/signin").loginProcessingUrl("/userLogin")
-         * //.usernameParameter("email")
-         * .defaultSuccessUrl("/user/profile").permitAll();
-         */
-        http.csrf().disable()
-                .authorizeHttpRequests().requestMatchers("/user/**").hasRole("USER")
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/**").permitAll().and()
-                .formLogin().loginPage("/login").loginProcessingUrl("/userLogin")
-                .successHandler(sucessHandler)
-                .permitAll();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .authorizeRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/login", "/register").permitAll() // Cho phép truy c?p vào trang ??ng nh?p và
+                                                                            // ??ng ký mà không c?n ??ng nh?p
+                        .anyRequest().authenticated() // T?t c? các URL khác ??u yêu c?u xác th?c
+                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login") // Ch? ??nh trang ??ng nh?p c?a b?n
+                        .loginProcessingUrl("/userLogin") // Xác th?c form s? ???c g?i ??n ?âu
+                        .successHandler(successHandler) // X? lý ??ng nh?p thành công
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"));
 
         return http.build();
     }
