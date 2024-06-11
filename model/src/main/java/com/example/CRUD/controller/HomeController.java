@@ -1,15 +1,8 @@
 package com.example.CRUD.controller;
 
-import com.example.mo.Movie;
-import com.example.mo.Promotions;
-import com.example.mo.Users;
-import com.example.CRUD.service.MovieService;
-import com.example.CRUD.service.PromotionsService;
-import com.example.Repository.UserRepository;
-import com.example.Service.UserService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -20,9 +13,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.example.CRUD.service.MovieService;
+import com.example.CRUD.service.PromotionsService;
+import com.example.Repository.UserRepository;
+import com.example.Service.UserService;
+import com.example.mo.Movie;
+import com.example.mo.Promotions;
+import com.example.mo.Users;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
@@ -102,8 +102,7 @@ public class HomeController {
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("user", new Users()); // Add empty user object to the model for form binding
+    public String register() {
         return "register";
     }
 
