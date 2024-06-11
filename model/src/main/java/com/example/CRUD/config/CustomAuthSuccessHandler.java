@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class CustomAuthSucessHandler implements AuthenticationSuccessHandler {
+public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -24,8 +24,7 @@ public class CustomAuthSucessHandler implements AuthenticationSuccessHandler {
 		if (roles.contains("ROLE_ADMIN")) {
 			response.sendRedirect("/admin/admin_profile");
 		} else {
-			response.sendRedirect("/user/admin_profile");
+			response.sendRedirect("/user/user_profile");
 		}
-
 	}
 }
