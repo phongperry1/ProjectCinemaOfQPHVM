@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration Form</title>
     <style>
         /* Custom CSS */
@@ -71,14 +70,13 @@
             font-size: 16px;
             padding: 10px 0;
         }
-
-        .container .container-header {
+		.container .container-header{
             position: absolute;
             top: 20px;
             right: 20px;
-        }
+		}
 
-        .container .container-header .btn {
+			.container .container-header	.btn {
             background-color: red;
             color: white;
             border: none;
@@ -88,7 +86,7 @@
             font-weight: bold;
             transition: background-color 0.3s ease;
         }
-
+		
         .register-button {
             width: 310px;
             display: flex;
@@ -125,32 +123,49 @@
 </head>
 <body>
 <div class="container">
-    <div class="container-header">
-        <a href="#" th:href="@{/}" class="btn">Back</a>
+	<div class="container-header">
+        <a href="#" th:href="@{/login}" class="btn">Back</a>
     </div>
     <div class="register-form">
         <h2>User Registration Form</h2>
-        <form th:action="@{/saveUser}" th:object="${user}" method="post">
-            <div class="register-input">
-                <label>Enter Full Name</label>
-                <input type="text" th:field="*{userName}" />
-            </div>
-            <div class="register-input">
-                <label>Enter Email</label>
-                <input type="email" th:field="*{email}" />
-            </div>
-            <div class="register-input">
-                <label>Enter Password</label>
-                <input type="password" th:field="*{userPassword}" />
-            </div>
-            <div class="register-input">
-                <label>Enter Mobile Number</label>
-                <input type="text" th:field="*{phone}" />
-            </div>
-            <div class="register-button">
-                <button type="submit">Register</button>
-            </div>
-        </form>
+        <div class="card">
+            <div style="color: white;" class="card-header text-center fs-4">Register Page</div>
+
+			<div style="color: green;">
+				<th:block th:if="${session.msg}">
+                <p class="text-center text-success fs-4">[[${session.msg}]]</p>
+                <th:block th:text="${@userServiceImpl.removeSessionMessage()}"></th:block>
+
+            	</th:block>
+			</div>
+            
+            <form action="saveUser" method="post" class="px-4">
+                <div class="register-input">
+                    <label>Enter Full Name</label> 
+                    <input type="text" name="userName"
+                                            class="form-control">
+                                         </div>
+    
+                <div class="register-input">
+                    <label>Enter Email</label> 
+                    <input type="text" name="email"
+                    class="form-control">
+                       </div>
+    
+                <div class="register-input">
+                    <label>Enter Password</label> <input type="text"
+                    name="userPassword" class="form-control"> 
+                </div>
+                <div class="register-input">
+                    <label>Enter Mobile Number</label> <input type="number"
+                    name="phone" class="form-control">
+                </div>
+                <div class="register-button">
+                    <button class="btn">Register</button>
+                </div>
+            </form>
+        </div>
+        
     </div>
 </div>
 </body>

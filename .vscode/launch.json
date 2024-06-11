@@ -1,5 +1,6 @@
 {
     "configurations": [
+<<<<<<< HEAD
         {
             "type": "java",
             "name": "Application",
@@ -7,6 +8,9 @@
             "mainClass": "com.example.Application",
             "projectName": "model"
         },
+=======
+        
+>>>>>>> db4f8e1f6c5d23307d252cfb35a08bb5059d362c
         {
             "type": "java",
             "name": "ProjectApplication",

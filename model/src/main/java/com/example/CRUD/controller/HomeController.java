@@ -41,22 +41,29 @@ public class HomeController {
         this.userRepo = userRepo;
     }
 
-    @GetMapping("/login")
-    public String userLogin() {
+    @GetMapping("/")
+    public String showLoginPage(Model model) {
+        model.addAttribute("user", new Users()); // Add empty user object to the model for form binding
         return "login";
     }
 
-    // @PostMapping("/login")
-    // public String login(@ModelAttribute("user") Users user, Model model) {
-    // return "redirect:/home"; // Redirect to the home page after successful
-    // authentication
-    // }
+    @PostMapping("/userLogin")
+    public String login(@ModelAttribute("user") Users user, HttpSession session, Model model) {
+        Users authenticatedUser = userService.authenticate(user.getEmail(), user.getUserPassword());
+        if (authenticatedUser != null) {
+            session.setAttribute("user", authenticatedUser);
+            return "redirect:/home";
+        } else {
+            model.addAttribute("error", "Invalid email or password");
+            return "login";
+        }
+    }
 
     @GetMapping("/home")
     public String showHomePage(Model model, HttpSession session) {
         Users user = (Users) session.getAttribute("user");
         if (user == null) {
-            return "redirect:/home";
+            return "redirect:/";
         }
 
         List<Movie> movies = movieService.getAllMovies();
@@ -93,7 +100,6 @@ public class HomeController {
             Users user = userRepo.findByEmail(email);
             m.addAttribute("user", user);
         }
-
     }
 
     @GetMapping("/register")
@@ -101,11 +107,16 @@ public class HomeController {
         return "register";
     }
 
-    @PostMapping("/save")
-    public String save(@ModelAttribute Users user, HttpSession session, Model m, HttpServletRequest request) {
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping("/saveUser")
+    public String saveUser(@ModelAttribute Users user, HttpSession session, Model m, HttpServletRequest request) {
         String url = request.getRequestURL().toString();
         url = url.replace(request.getServletPath(), "");
-        Users u = userService.save(user, url);
+        Users u = userService.saveUser(user, url);
         if (u != null) {
             session.setAttribute("msg", "Register successfully");
         } else {
@@ -117,11 +128,13 @@ public class HomeController {
     @GetMapping("/verify")
     public String verifyAccount(@Param("code") String code, Model m) {
         boolean f = userService.verifyAccount(code);
+
         if (f) {
             m.addAttribute("msg", "Sucessfully your account is verified");
         } else {
             m.addAttribute("msg", "may be your vefication code is incorrect or already veified ");
         }
+
         return "message";
     }
 }

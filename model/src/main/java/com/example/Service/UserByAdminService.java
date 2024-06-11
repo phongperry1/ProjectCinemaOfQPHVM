@@ -13,28 +13,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserByAdminService {
 
-        @Autowired
+    @Autowired
     private UserByAdminRepository userByAdminRepository;
-    public List<Users> getUserByAdmins(){
+
+    public List<Users> getUserByAdmins() {
         return userByAdminRepository.findAll();
     }
 
-    public Users addTicket(Users userByAdmin){
+    public Users addTicket(Users userByAdmin) {
         return userByAdminRepository.save(userByAdmin);
     }
 
-    
-
-    public Users findById(Integer UserId){
+    public Users findById(Integer UserId) {
         return userByAdminRepository.findById(UserId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
-    public void saveUser(Users userByAdmin){
+
+    public void saveUserProfile(Users userByAdmin) {
         userByAdminRepository.save(userByAdmin);
     }
-    public void updateRankUser(Users userByAdmin){
+
+    public void updateRankUser(Users userByAdmin) {
         userByAdminRepository.save(userByAdmin);
     }
+
     public List<Users> searchUsersByName(String userName) {
         if (userName == null || userName.isEmpty()) {
             return userByAdminRepository.findAll();

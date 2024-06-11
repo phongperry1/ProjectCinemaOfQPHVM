@@ -33,12 +33,14 @@ public class SecurityConfig {
         return authProvider;
     }
 
+    @SuppressWarnings("deprecation")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/login", "/register").permitAll() // Cho phép truy c?p vào trang ??ng nh?p và
-                                                                            // ??ng ký mà không c?n ??ng nh?p
+                        .requestMatchers("/login", "/register", "/saveUser").permitAll() // Cho phép truy c?p vào trang
+                                                                                         // ??ng nh?p và
+                        // ??ng ký mà không c?n ??ng nh?p
                         .anyRequest().authenticated() // T?t c? các URL khác ??u yêu c?u xác th?c
                 )
                 .formLogin(formLogin -> formLogin

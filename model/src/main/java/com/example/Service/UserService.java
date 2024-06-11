@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpSession;
 import com.example.Repository.UserRepository;
 
 @Service("userServiceImpl")
-
 public class UserService {
 
     @Autowired
@@ -73,35 +72,42 @@ public class UserService {
     }
 
     @Autowired
-    private JavaMailSender mailSender;
+    private UserRepository userRepo;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public Users save(Users user, String url) {
+    @Autowired
+    private JavaMailSender mailSender;
+
+    public Users saveUser(Users user, String url) {
+
         String password = passwordEncoder.encode(user.getUserPassword());
         user.setUserPassword(password);
         user.setRole("ROLE_USER");
+
         user.setStatus(false);
         user.setVerificationCode(UUID.randomUUID().toString());
 
-        Users newUser = userRepository.save(user);
+        Users newuser = userRepo.save(user);
 
-        if (newUser != null) {
-            sendEmail(newUser, url);
+        if (newuser != null) {
+            sendEmail(newuser, url);
         }
 
-        return newUser;
+        return newuser;
     }
 
     public void sendEmail(Users user, String url) {
+
         String from = "dhquan235@gmail.com";
         String to = user.getEmail();
-        String subject = "Account Verification";
+        String subject = "Account Verfication";
         String content = "Dear [[name]],<br>" + "Please click the link below to verify your registration:<br>"
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>" + "Thank you,<br>" + "Becoder";
 
         try {
+
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
 
@@ -123,11 +129,12 @@ public class UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public boolean verifyAccount(String verificationCode) {
 
-        Users user = userRepository.findByVerificationCode(verificationCode);
+        Users user = userRepo.findByVerificationCode(verificationCode);
 
         if (user == null) {
             return false;
@@ -136,7 +143,7 @@ public class UserService {
             user.setStatus(true);
             user.setVerificationCode(null);
 
-            userRepository.save(user);
+            userRepo.save(user);
 
             return true;
         }
