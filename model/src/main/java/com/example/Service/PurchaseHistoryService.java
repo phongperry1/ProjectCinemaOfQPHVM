@@ -20,5 +20,7 @@ public class PurchaseHistoryService {
     public List<PurchaseHistory> getPurchaseHistoryById(Integer UserId){
         Users user = adminService.findById(UserId);
         return historyRepositoy.findByUser(user);
-    }   
+    }
+    
+    
 }

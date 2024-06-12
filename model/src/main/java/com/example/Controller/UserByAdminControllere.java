@@ -1,10 +1,15 @@
 package com.example.Controller;
 
+import com.example.CRUD.Repository.CinemaOwnerRepository;
+import com.example.CRUD.service.CinemaOwnerService;
+
 // import Util.QRCodeGenerator;
 
 import com.example.Repository.UserByAdminRepository;
+
 import com.example.Service.PurchaseHistoryService;
 import com.example.Service.UserByAdminService;
+import com.example.mo.CinemaOwner;
 import com.example.mo.PurchaseHistory;
 import com.example.mo.Users;
 
@@ -29,7 +34,9 @@ public class UserByAdminControllere {
     private UserByAdminService userByAdminService;
     private final UserByAdminRepository userByAdminRepository;
     private final PurchaseHistoryService historyService;
-    
+    private final CinemaOwnerService cinemaOwnerService;
+    private final CinemaOwnerRepository cinemaOwnerRepository;
+
     // @GetMapping
     // public ResponseEntity<List<UserByAdmin>> getTicket() throws IOException,
     // WriterException {
@@ -48,6 +55,26 @@ public class UserByAdminControllere {
         model.addAttribute("UserByAdmins", userByAdmins);
         return "userdetails";
     }
+
+    @GetMapping("/cinema_owner")
+    public String getCinemaOwner(Model model){
+        List<CinemaOwner> cinemaOwners = cinemaOwnerService.getCinemaOwnerByAdmins();
+        model.addAttribute("cinemaOwners", cinemaOwners);
+        return "cinemaowner";
+    }
+
+    @GetMapping("/search_cinema_owner")
+public String searcgCinemaOwner(@RequestParam(name = "cinemaName", required = false) String cinemaName, Model model) {
+    List<CinemaOwner> cinemaOwners;
+    if (cinemaName == null || cinemaName.isEmpty()) {
+        cinemaOwners = cinemaOwnerRepository.findAll();
+    } else {
+        cinemaOwners = cinemaOwnerRepository.findByCinemaNameContainingIgnoreCase(cinemaName);
+    }
+    model.addAttribute("cinemaOwners", cinemaOwners);
+    model.addAttribute("cinemaName", cinemaName);
+    return "cinemaowner";
+}
 
     @PostMapping()
     public Users addTicket(@RequestBody Users userByAdmin) {

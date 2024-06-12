@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "QrCodeLastApplication",
+            "request": "launch",
+            "mainClass": "com.example.QrCodeLastApplication",
+            "projectName": "model"
+        },
+        {
+            "type": "java",
             "name": "Application",
             "request": "launch",
             "mainClass": "com.example.Application",

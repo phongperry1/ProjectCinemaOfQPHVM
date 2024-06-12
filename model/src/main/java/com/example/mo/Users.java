@@ -18,8 +18,7 @@ import lombok.NoArgsConstructor;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;  // Changed from `UserId` to `userId` for consistency with field naming conventions
-
+    private int userId;  
     private String userName;
     private String phone;
     private String email;
@@ -32,5 +31,5 @@ public class Users {
     private String paymentMethod;
     private String userType;
     private String profileImageURL;
-    private boolean status;  // Changed from `Status` to `status` for consistency with field naming conventions
+    private boolean status;  
 }

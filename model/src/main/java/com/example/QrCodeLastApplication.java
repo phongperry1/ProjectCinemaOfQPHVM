@@ -2,7 +2,11 @@ package com.example;
 
 
 
+
+import com.example.CRUD.Repository.CinemaOwnerRepository;
+import com.example.CRUD.service.CinemaOwnerService;
 import com.example.Service.PurchaseHistoryService;
+import com.example.mo.CinemaOwner;
 import com.example.mo.PurchaseHistory;
 
 import org.springframework.boot.SpringApplication;
@@ -18,18 +22,37 @@ public class QrCodeLastApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(QrCodeLastApplication.class, args);
-		PurchaseHistoryService historyService = context.getBean(PurchaseHistoryService.class);
-		Integer UserId = 1;
-		List<PurchaseHistory> histories = historyService.getPurchaseHistoryById(UserId);
-		for (PurchaseHistory purchaseHistory : histories) {
-            System.out.println(purchaseHistory);
+		// PurchaseHistoryService historyService = context.getBean(PurchaseHistoryService.class);
+		CinemaOwnerService cinemaOwnerService = context.getBean(CinemaOwnerService.class);
+		
+		// List<CinemaOwner> cinemaOwners = cinemaOwnerService.getCinemaOwnerByAdmins();
+		// for (CinemaOwner cinemaOwner : cinemaOwners) {
+		// 	System.out.println("Id" + cinemaOwner.getEmployeeID());
+		// 	System.out.println("Id" + cinemaOwner.getAddressCinema());
+		// 	System.out.println("Id" + cinemaOwner.getCinemaName());
+		// 	System.out.println("Id" + cinemaOwner.getEmail());
+		// 	System.out.println("Id" + cinemaOwner.getCinemaOwnerID());
+		// }
+		// CinemaOwnerService cinemaOwnerService = context.getBean(CinemaOwnerService.class);
+		// Integer UserId = 1;
+		// List<PurchaseHistory> histories = historyService.getPurchaseHistoryById(UserId);
+		// for (PurchaseHistory purchaseHistory : histories) {
+        //     System.out.println(purchaseHistory);
+
 		// System.out.println(adminRepository.findByUserNameContainingIgnoreCase("2"));
 	// 	// Lấy instance của UserByAdminService
 	// 	UserByAdminService userByAdminService = context.getBean(UserByAdminService.class);
 
 	// 	// Gọi phương thức getTickets()
 	// 	List<UserByAdmin> userByAdmins = userByAdminService.getTickets();
-
+		// List<CinemaOwner> cinemaOwners = cinemaOwnerService.getCinemaOwnerByAdmins();
+		// for (CinemaOwner CinemaOwner : cinemaOwners) {
+		// 	System.out.println("ID" + CinemaOwner.getCinemaOwnerID());
+		// 	System.out.println("Name" +CinemaOwner.getCinemaName());
+		// 	System.out.println("Name" +CinemaOwner.getAddressCinema());
+		// 	System.out.println("Name" +CinemaOwner.getEmail());
+		// 	System.out.println("Name" +CinemaOwner.getEmployeeID());
+		// }
 	// 	// Hiển thị thông tin các UserByAdmin
 	// 	for (UserByAdmin userByAdmin : userByAdmins) {
 	// 		System.out.println("ID: " + userByAdmin.getId());
@@ -52,9 +75,7 @@ public class QrCodeLastApplication {
 
 	// 	int userid = 2;
 
-	// 	UserByAdmin userbyid = userByAdminService.findById((String.valueOf(userid)));
-	// 	System.out.println(userbyid);
-
+		List<CinemaOwner> cinemaOwners2 = cinemaOwnerService.searchCinemasOwnerByCinemaName("C");
+		System.out.println(cinemaOwners2);
 	}
-}
 }
