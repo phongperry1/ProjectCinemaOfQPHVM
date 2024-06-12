@@ -1,11 +1,11 @@
-package com.example.Service;
+package com.example.CRUD.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Repository.PurchaseHistoryRepositoy;
+import com.example.CRUD.Repository.PurchaseHistoryRepositoy;
 import com.example.mo.PurchaseHistory;
 import com.example.mo.Users;
 

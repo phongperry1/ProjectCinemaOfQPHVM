@@ -1,5 +1,15 @@
 package com.example.CRUD.controller;
 
+
+
+import com.example.mo.Movie;
+import com.example.mo.Promotions;
+import com.example.mo.Users;
+import com.example.CRUD.Repository.UserRepository;
+import com.example.CRUD.service.MovieService;
+import com.example.CRUD.service.PromotionsService;
+import com.example.CRUD.service.UserService;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,13 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.CRUD.service.MovieService;
-import com.example.CRUD.service.PromotionsService;
-import com.example.Repository.UserRepository;
-import com.example.Service.UserService;
-import com.example.mo.Movie;
-import com.example.mo.Promotions;
-import com.example.mo.Users;
+
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -41,11 +45,7 @@ public class HomeController {
         this.userRepo = userRepo;
     }
 
-    @GetMapping("/")
-    public String showLoginPage(Model model) {
-        model.addAttribute("user", new Users()); // Add empty user object to the model for form binding
-        return "login";
-    }
+   
 
     @PostMapping("/userLogin")
     public String login(@ModelAttribute("user") Users user, HttpSession session, Model model) {

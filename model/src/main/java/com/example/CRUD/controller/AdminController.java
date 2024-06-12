@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.mo.Users;
-import com.example.Repository.UserRepository;
+import com.example.CRUD.Repository.UserRepository;
 
 @Controller
 @RequestMapping("/admin")

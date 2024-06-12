@@ -1,4 +1,4 @@
-package com.example.Service;
+package com.example.CRUD.service;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +16,7 @@ import com.example.mo.Users;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 
-import com.example.Repository.UserRepository;
+import com.example.CRUD.Repository.UserRepository;
 
 @Service("userServiceImpl")
 public class UserService {

@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.CRUD.Repository.UserRepository;
 import com.example.mo.Users;
-import com.example.Repository.UserRepository;
+
 
 @Controller
 @RequestMapping("/cinemaowner")
@@ -32,4 +34,14 @@ public class CinemaController {
 	public String profile() {
 		return "homecinemaowner";
 	}
+
+	@GetMapping("/profile")
+	public String getMethodName(@RequestParam String param) {
+		return "profile";
+	}
+	@GetMapping("/update-profile/save")
+	public String updateprofile(@RequestParam String param) {
+		return "update-profile";
+	}
+	
 }

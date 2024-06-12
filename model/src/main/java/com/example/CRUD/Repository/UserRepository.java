@@ -1,4 +1,4 @@
-package com.example.Repository;
+package com.example.CRUD.Repository;
 
 import java.util.Optional;
 

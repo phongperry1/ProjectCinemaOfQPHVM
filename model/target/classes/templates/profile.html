@@ -232,7 +232,7 @@
                 <a class="navbar-brand logo" href="/">Movie<span>Tic</span></a>
         
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="/" class="nav-link px-2 link-light">Home</a></li>
+                <li><a href="#" th:href="@{/cinemaowner/homecinemaowner}" class="nav-link px-2 link-light">Home</a></li>
                 <li><a href="#" class="nav-link px-2 link-secondary">Showtime</a></li>
                 <li><a href="#" class="nav-link px-2 link-secondary">News</a></li>
                 <li><a href="#" class="nav-link px-2 link-secondary">Contact</a></li>
@@ -320,7 +320,7 @@
                                                     </div>
                                                     <div class="col text-center">
                                                         <strong>User Type</strong><br>
-                                                        <span th:text="${user.userType}"></span>
+                                                        <span th:text="${user.role}"></span>
                                                     </div>
                                                 </div>
                                             </div>                                            
