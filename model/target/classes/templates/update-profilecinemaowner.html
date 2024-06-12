@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-    <html xmlns:th="http://www.thymeleaf.org"></html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Update profile</title>
+    <title>Update Profile</title>
     <style>
         body {
             background: #1f2025 !important;
@@ -19,7 +18,6 @@
             padding: 0;
         }
 
-        /* Header Styling */
         header {
             background-color: #282a36;
             padding: 20px 0;
@@ -81,7 +79,6 @@
             border: 2px solid white;
         }
 
-        /* Footer Styling */
         footer {
             background-color: #282a36;
             color: #ffffff;
@@ -116,11 +113,6 @@
         footer .col ul li {
             margin-bottom: 10px;
         }
-        
-        .radio-inline {
-            display: inline-block;
-            margin-right: 20px; 
-        }
 
         .card {
             background-color: #292a2f; 
@@ -135,16 +127,21 @@
             color: #eeeeee; 
             border-color: #363740; 
         }
+
+        .radio-inline {
+            display: inline-block;
+            margin-right: 20px; 
+        }
     </style>
 </head>
 <body>
     <header class="p-3 mb-3 border-bottom">
         <div class="container1">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a class="navbar-brand logo" href="/">Movie<span>Tic</span></a>
+            <a class="navbar-brand logo" href="/cinemaowner/homecinemaowner">Movie<span>Tic</span></a>
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="#" class="nav-link px-2 link-light">Home</a></li>
+              <li><a href="/cinemaowner/homecinemaowner" class="nav-link px-2 link-light">Home</a></li>
               <li><a href="#" class="nav-link px-2 link-secondary">Showtime</a></li>
               <li><a href="#" class="nav-link px-2 link-secondary">News</a></li>
               <li><a href="#" class="nav-link px-2 link-secondary">Contact</a></li>
@@ -156,15 +153,15 @@
     
             <div class="dropdown text-end">
               <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="mdo" width="32" height="32" class="rounded-circle">
+                <img th:src="@{/uploads/{imageName}(imageName=${cinemaowner.profileImageURL})}" alt="mdo" width="32" height="32" class="rounded-circle">
               </a>
               <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
-                <li><a class="dropdown-item" href="/user/update-profile">Update profile</a></li>
-                <li><a class="dropdown-item" href="/user/change-password">Change Password</a></li>
-                <li><a class="dropdown-item" href="/user/transaction-history">Transaction history</a></li>
+                <li><a class="dropdown-item" href="/cinemaowner/profilecinemaowner">Profile</a></li>
+                <li><a class="dropdown-item" href="/cinemaowner/update-profilecinemaowner">Update profile</a></li>
+                <li><a class="dropdown-item" href="/cinemaowner/change-passwordcinemaowner">Change Password</a></li>
+                <li><a class="dropdown-item" href="/cinemaowner/historycinemaowner">Transaction history</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                <li><a class="dropdown-item" href="/logout">Sign out</a></li>
               </ul>
             </div>
           </div>
@@ -172,51 +169,47 @@
     </header>
 
 
-    <form action="/user/edit/update-profile/save" method="post" enctype="multipart/form-data">
+    <form action="/cinemaowner/edit/update-profile/save" method="post" enctype="multipart/form-data">
         <div class="container mt-5 mb-5">
             <div class="row justify-content-center align-items-center">
                 <div class="col-md-7">
-                    <h2 class="card-title mt-5 mb-3">Update profile</h2>
+                    <h2 class="card-title mt-5 mb-3">Update Profile</h2>
                     <div class="card">
                         <div class="card-body">
-                                <!-- <div class="form-group">
-                                    <label for="userID">ID:</label>
-                                    <input type="text" class="form-control" id="userID" name="userID" th:value="${user2.userID}">
-                                </div> -->
                                 <div class="form-group mb-3">
                                     <label for="userName">Name:</label>
-                                    <input type="text" class="form-control" id="userName" name="userName" th:value="${user.userName}">
+                                    <input type="text" class="form-control" id="userName" name="userName" th:value="${cinemaowner.userName}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="email">Email:</label>
-                                    <input type="email" class="form-control" id="email" name="email" th:value="${user.email}">
+                                    <input type="email" class="form-control" id="email" name="email" th:value="${cinemaowner.email}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="phone">Phone Number:</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" th:value="${user.phone}">
+                                    <input type="text" class="form-control" id="phone" name="phone" th:value="${cinemaowner.phone}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="birthdate">Date of Birth:</label>
-                                    <input type="date" class="form-control" id="birthdate" name="birthdate" th:value="${user.birthdate}">
+                                    <input type="date" class="form-control" id="birthdate" name="birthdate" th:value="${cinemaowner.birthdate}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <strong>Gender:</strong><br>
                                     <div class="form-check radio-inline mt-2">
-                                        <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" th:checked="${user.gender == 'Male'}">
+                                        <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" th:checked="${cinemaowner.gender == 'Male'}">
                                         <label class="form-check-label" for="genderMale">Male</label>
                                     </div>
                                     <div class="form-check radio-inline">
-                                        <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" th:checked="${user.gender == 'Female'}">
+                                        <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" th:checked="${cinemaowner.gender == 'Female'}">
                                         <label class="form-check-label" for="genderFemale">Female</label>
                                     </div>
                                     <div class="form-check radio-inline">
-                                        <input class="form-check-input" type="radio" name="gender" id="genderOther" value="Other" th:checked="${user.gender == 'Other'}">
+                                        <input class="form-check-input" type="radio" name="gender" id="genderOther" value="Other" th:checked="${cinemaowner.gender == 'Other'}">
                                         <label class="form-check-label" for="genderOther">Other</label>
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="location">Address:</label>
-                                    <input type="text" class="form-control" id="location" name="location" th:value="${user.location}">
+                                    <input type="text" class="form-control" id="location" name="location" th:value="${cinemaowner.location}">
                                 </div>
                             <div>
                                 <span th:if="${message}" th:text="${message}" id="message" style="display:none;"></span>
@@ -225,7 +218,7 @@
                         </div>
                     </div>
                     <div class="text-end">
-                        <button type="submit" class="btn btn-secondary mt-5 mb-5 col-2">Save change</button>
+                        <button type="submit" class="btn btn-secondary mt-5 mb-5 col-2">Save Change</button>
                     </div>
                 </div>
             </div>
@@ -233,22 +226,17 @@
 </div>
 
 <footer class="text-center text-lg-start text-white" style="background-color: #282a36">
-    <!-- Section: Links -->
     <section class="container">
-        <!--Grid row-->
         <div class="row">
-            <!-- Grid column -->
             <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h6 class="text-uppercase mb-4 font-weight-bold">MovieTic</h6>
                 <p>
                    ....
                 </p>
             </div>
-            <!-- Grid column -->
 
             <hr class="w-100 clearfix d-md-none" />
 
-            <!-- Grid column -->
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                 <h6 class="text-uppercase mb-4 font-weight-bold link-light">Buy Movie Ticket</h6>
                 <p><a href="#" class="text-white link-secondary">Home</a></p>
@@ -256,66 +244,57 @@
                 <p><a href="#" class="text-white link-secondary">Theater</a></p>
                 <p><a href="#" class="text-white link-secondary">Top movie</a></p>
             </div>
-            <!-- Grid column -->
 
             <hr class="w-100 clearfix d-md-none" />
 
-            <!-- Grid column -->
             <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h6 class="text-uppercase mb-4 font-weight-bold link-light">Contact</h6>
                 <p><i class="fas fa-home mr-3 link-secondary"></i> Address: </p>
                 <p><i class="fas fa-envelope mr-3 link-secondary"></i> Email: </p>
                 <p><i class="fas fa-phone mr-3 link-secondary"></i> Phone: +84...</p>
             </div>
-            <!-- Grid column -->
 
-            <!-- Grid column -->
             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-                <h6 class="text-uppercase mb-4 font-weight-bold ">Follow us</h6>
-
-                <!-- Facebook -->
-                <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
-                <!-- Google -->
-                <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39" href="#!" role="button"><i class="fab fa-google"></i></a>
-                <!-- Github -->
-                <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="#!" role="button"><i class="fab fa-github"></i></a>
+                <h6 class="text-uppercase mb-4 font-weight-bold">Follow us</h6>
+                <div class="social-box">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-google"></i>
+                    <i class="fab fa-github"></i>
+                </div>
             </div>
         </div>
-        <!--Grid row-->
     </section>
-    <!-- Section: Links -->
 
-    <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
         © 2020 Copyright:
         <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
     </div>
-    <!-- Copyright -->
 </footer>
-    <script>
-        function showAlert(message, type) {
-            Swal.fire({
-                icon: type,
-                title: message,
-                showConfirmButton: true,
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var messageElement = document.getElementById("message");
-            var errorElement = document.getElementById("error");
-            var message = messageElement ? messageElement.innerText : "";
-            var error = errorElement ? errorElement.innerText : "";
-
-            if (message) {
-                showAlert(message, 'success');
-            }
-            if (error) {
-                showAlert(error, 'error');
-            }
+<script>
+    function showAlert(message, type) {
+        Swal.fire({
+            icon: type,
+            title: message,
+            showConfirmButton: true,
         });
-    </script>
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var messageElement = document.getElementById("message");
+        var errorElement = document.getElementById("error");
+        var message = messageElement ? messageElement.innerText : "";
+        var error = errorElement ? errorElement.innerText : "";
+
+        if (message) {
+            showAlert(message, 'success');
+        }
+        if (error) {
+            showAlert(error, 'error');
+        }
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
+</html>

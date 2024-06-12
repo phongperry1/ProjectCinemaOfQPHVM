@@ -217,35 +217,29 @@
 </head>
 <body>
     <header class="p-3 mb-3 border-bottom">
-        <div class="container1">
+        <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a class="navbar-brand logo" href="/user/home">Movie<span>Tic</span></a>
-    
+                <a class="navbar-brand logo" href="/cinemaowner/homecinemaowner">Movie<span>Tic</span></a>
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="/user/home" class="nav-link px-2 link-light">Home</a></li>
+                    <li><a href="/cinemaowner/homecinemaowner" class="nav-link px-2 link-light">Home</a></li>
                     <li><a href="#" class="nav-link px-2 link-secondary">Showtime</a></li>
                     <li><a href="#" class="nav-link px-2 link-secondary">News</a></li>
                     <li><a href="#" class="nav-link px-2 link-secondary">Contact</a></li>
                 </ul>
-                
-                
-    
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                     <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
                 </form>
-    
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="mdo" width="32" height="32" class="rounded-circle">
+                        <img th:src="@{/uploads/{imageName}(imageName=${cinemaowner.profileImageURL})}" alt="mdo" width="32" height="32" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                        <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
-                        <li><a class="dropdown-item" href="/user/update-profile">Update profile</a></li>
-                        <li><a class="dropdown-item" href="/user/change-password">Change Password</a></li>
-                        <li><a class="dropdown-item" href="/user/history">Transaction history</a></li>
+                        <li><a class="dropdown-item" href="/cinemaowner/profilecinemaowner">Profile</a></li>
+                        <li><a class="dropdown-item" href="/cinemaowner/update-profilecinemaowner">Update profile</a></li>
+                        <li><a class="dropdown-item" href="/cinemaowner/change-passwordcinemaowner">Change Password</a></li>
+                        <li><a class="dropdown-item" href="/cinemaowner/transaction-historycinemaowner">Transaction history</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/logout">Sign out</a></li>
-                        
                     </ul>
                 </div>
             </div>
@@ -264,15 +258,15 @@
                                     <div class="col-md-4 text-center">
                                         <div class="card1">
                                             <div class="card-body">
-                                                <form id="avatarForm" enctype="multipart/form-data" action="/user/upload-avatar" method="post">
+                                                <form id="avatarForm" enctype="multipart/form-data" action="/cinemaowner/upload-avatar" method="post">
                                                     <label for="fileInput" class="btn btn-secondary">Change Avatar</label>
                                                     <button type="submit" class="btn btn-secondary">Upload</button>
                                                     <input type="file" name="file" id="fileInput" accept="image/*" style="display: none;" onchange="validateFileSize()">
                                                     <div class="avatarPreview mb-3" id="avatarPreview">
-                                                        <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
+                                                        <img th:src="@{/uploads/{imageName}(imageName=${cinemaowner.profileImageURL})}" alt="Avatar">
                                                     </div>
                                                 </form> 
-                                                <span><strong><h2><span th:text="${user.userName}"></span></h2></strong></span>
+                                                <span><strong><h2><span th:text="${cinemaowner.userName}"></span></h2></strong></span>
                                             </div>
                                         </div>                                        
                                     </div>
@@ -283,17 +277,17 @@
                                                     <li>
                                                         <i class="fas fa-envelope"></i>
                                                         <strong>Email: </strong>
-                                                        <span th:text="${user.email}"></span>
+                                                        <span th:text="${cinemaowner.email}"></span>
                                                     </li>
                                                     <li>
                                                         <i class="fas fa-phone"></i>
                                                         <strong>Phone Number: </strong>
-                                                        <span th:text="${user.phone}"></span>
+                                                        <span th:text="${cinemaowner.phone}"></span>
                                                     </li>
                                                     <li>
                                                         <i class="fas fa-map-marker-alt"></i>
                                                         <strong>Address: </strong>
-                                                        <span th:text="${user.location}"></span>
+                                                        <span th:text="${cinemaowner.location}"></span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -304,22 +298,22 @@
                                                 <div class="row justify-content-center">
                                                     <div class="col text-center border-right">
                                                         <strong>User Rank</strong><br>
-                                                        <span th:text="${user.userRank}" th:class="${user.userRank == 'Brozen' ? 'brozen-rank' : (user.userRank == 'Silver' ? 'silver-rank' : 'gold-rank')}"></span>
+                                                        <span th:text="${cinemaowner.userRank}" th:class="${cinemaowner.userRank == 'Brozen' ? 'brozen-rank' : (cinemaowner.userRank == 'Silver' ? 'silver-rank' : 'gold-rank')}"></span>
                                                     </div>
                                                     <div class="col text-center border-right">
                                                         <strong>Member Points</strong><br>
-                                                        <span th:text="${user.memberPoints}"></span>
+                                                        <span th:text="${cinemaowner.memberPoints}"></span>
                                                     </div>
                                                     <div class="col text-center">
                                                         <strong>User Type</strong><br>
-                                                        <span th:text="${user.userType}"></span>
+                                                        <span th:text="${cinemaowner.userType}"></span>
                                                     </div>
                                                 </div>
                                             </div>                                            
                                         </div>
                                     </div>                                              
                                     <div class="text-center mt-4">
-                                        <a href="/user/update-profile" class="btn btn-secondary">Update Information</a>
+                                        <a href="/cinemaowner/update-profilecinemaowner" class="btn btn-secondary">Update Information</a>
                                     </div>                                 
                                 </div>
                             </div>

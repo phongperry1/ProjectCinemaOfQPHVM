@@ -26,8 +26,8 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/user")
-public class UserControllerEditProfile {
+@RequestMapping("/cinemaowner")
+public class CinemaOwnerEditProfile {
 
     @Autowired
     private UserService userService;
@@ -35,6 +35,15 @@ public class UserControllerEditProfile {
     private PurchaseHistoryService historyService;
 
     public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
+
+    @ModelAttribute
+    public void commonUser(Principal p, Model m) {
+        if (p != null) {
+            String email = p.getName();
+            Users user = userService.getUsersByEmail(email);
+            m.addAttribute("user", user);
+        }
+    }
 
     @GetMapping("/edit/profile")
     public String getUserProfile(Model model, Principal principal) {
@@ -54,7 +63,7 @@ public class UserControllerEditProfile {
         user.setProfileImageURL(originalFilename);
         userService.updateUser(user);
         model.addAttribute("user", user);
-        return "redirect:/user/edit/profile";
+        return "redirect:/cinemaowner/edit/profile";
     }
 
     @GetMapping("/edit/update-profile")
