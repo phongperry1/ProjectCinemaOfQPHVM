@@ -2,7 +2,7 @@ package com.example;
 
 
 
-import com.example.Service.PurchaseHistoryService;
+import com.example.CRUD.service.PurchaseHistoryService;
 import com.example.mo.PurchaseHistory;
 
 import org.springframework.boot.SpringApplication;

@@ -1,6 +1,6 @@
-package com.example.Service;
+package com.example.CRUD.service;
 
-import com.example.Repository.UserByAdminRepository;
+import com.example.CRUD.Repository.UserByAdminRepository;
 import com.example.mo.Users;
 
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.Repository;
+package com.example.CRUD.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.mo.PurchaseHistory;

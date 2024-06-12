@@ -1,4 +1,4 @@
-package com.example.Controller;
+package com.example.CRUD.controller;
 
 
 import java.io.IOException;
@@ -12,13 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.Service.PurchaseHistoryService;
-import com.example.Service.UserService;
+import com.example.CRUD.service.PurchaseHistoryService;
+import com.example.CRUD.service.UserService;
 import com.example.mo.PurchaseHistory;
 import com.example.mo.Users;
 
@@ -27,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class UserController {
+public class UserControllerEditProfile {
 
     @Autowired
     private UserService ser;

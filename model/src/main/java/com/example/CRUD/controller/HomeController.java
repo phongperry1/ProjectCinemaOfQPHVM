@@ -7,7 +7,7 @@ import com.example.mo.Promotions;
 import com.example.mo.Users;
 import com.example.CRUD.service.MovieService;
 import com.example.CRUD.service.PromotionsService;
-import com.example.Service.UserService;
+import com.example.CRUD.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

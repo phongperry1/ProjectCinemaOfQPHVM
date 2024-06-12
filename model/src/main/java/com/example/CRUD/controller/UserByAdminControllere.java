@@ -1,10 +1,8 @@
-package com.example.Controller;
+package com.example.CRUD.controller;
 
-// import Util.QRCodeGenerator;
-
-import com.example.Repository.UserByAdminRepository;
-import com.example.Service.PurchaseHistoryService;
-import com.example.Service.UserByAdminService;
+import com.example.CRUD.Repository.UserByAdminRepository;
+import com.example.CRUD.service.PurchaseHistoryService;
+import com.example.CRUD.service.UserByAdminService;
 import com.example.mo.PurchaseHistory;
 import com.example.mo.Users;
 
