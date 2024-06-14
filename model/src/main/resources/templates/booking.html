@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>Ticket Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .poster {
+            width: 250px;
+        }
+
+        .movie-info {
+            width: 700px;
+        }
+
+        .schedule-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .day-button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .day-button.active {
+            background-color: #f0f0f0;
+        }
+
+        .cinema-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .cinema-item img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 5px;
+        }
+
+        .location-select {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .location-select select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .location-select .location-button {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .showtimes {
+        display: none;
+        }
+        .showtimes.active {
+        display: block;
+        }
+
+        .list-group-item {
+        border-radius: 10px;
+        }
+
+        /* Sắp xếp lựa chọn suất chiếu theo hàng ngang */
+        .showtimes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Khoảng cách giữa các nút */
+            margin-top: 20px;
+        }
+
+
+        /* .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn.active {
+            background-color: #0056b3;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        } */
+
+        .showtimes li {
+        flex: 0 0 33.33%; /* Hiển thị 3 lựa chọn mỗi hàng */
+        padding: 5px;
+        box-sizing: border-box;
+        }
+
+        .screen {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+
+
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .row span {
+            margin: 0 5px;
+        }
+
+        .seat {
+            list-style: none;
+            width: 30px;
+            height: 30px;
+            margin: 0 5px;
+            background-color: #ccc;
+            border: 1px solid #999;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .seat.selected {
+            background-color: #6fa8dc;
+            border-color: #6fa8dc;
+            color: #fff;
+        }
+
+        .seat.disabled {
+            background-color: #ddd;
+            border-color: #ddd;
+            color: #777;
+            cursor: not-allowed;
+        }
+
+        .seat:hover {
+            background-color: #6fa8dc;
+            border-color: #6fa8dc;
+            color: #fff;
+        }
+
+        .selected-seats {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+
+        .selected-seats {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            flex-grow: 1;
+        }
+        .selected-seats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        #removeAllButton {
+            cursor: pointer;
+        }
+                
+    </style>
+</head>
+<body>
+    <div class="poster">
+
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="movie-info">
+                            <!-- <h2>Lịch chiếu Garfield - Mèo Béo Siêu Quậy</h2>
+                            <div class="location-select mb-3"> -->
+                                <!-- <select class="form-control">
+                                    <option value="Da Nang">Đà Nẵng</option>
+                                    <option value="Ha Noi">Hà Nội</option>
+                                    <option value="Ho Chi Minh City">Hồ Chí Minh City</option>
+                                </select> -->
+                            <!-- </div> -->
+                            <div class="schedule-container mb-3">
+
+                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-15')">15</button>
+                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-16')">16</button>
+                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-17')">17</button>
+                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-18')">18</button>
+                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-19')">19</button>
+                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-20')">20</button>
+                            </div>
+                            <div class="schedule-container mb-3" id="schedule-container">
+                                <div th:each="theater : ${theaters}">
+                                    <button type="button" class="list-group-item list-group-item-action mt-3" th:onclick="'showShowtimes(\'' + ${theater.theaterName} + '\')'">
+                                        <div class="cinema-item">
+                                            <img src="https://i.imgur.com/D5O0h8H.png" alt="CGV">
+                                            <div>
+                                                <p th:text="${theater.theaterName}"></p>
+                                                <p th:text="${theater.address}"></p>
+                                            </div>
+                                        </div>
+                                    </button>
+                                    <div class="showtimes mt-3 mb-3" th:id="'showtimes-' + ${theater.theaterName}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+
+<!-- Modal -->
+    <div class="modal fade" id="chooseSeatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Choose Seat</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="screen" id="screen">
+                Screen
+            </div>
+            <div class="modal-body">
+                <div class="chair" id="chair">
+                    <div class="row">
+                        <button class="seat">A1</button>
+                        <button class="seat">A2</button>
+                        <button class="seat">A3</button>
+                        <button class="seat">A4</button>
+                        <button class="seat">A5</button>
+                        <button class="seat">A6</button>
+                        <button class="seat">A7</button>
+                        <button class="seat">A8</button>
+                        <button class="seat">A9</button>
+                        <button class="seat">A10</button>
+                    </div> 
+                    <div class="row">
+                        <button class="seat">B1</button>
+                        <button class="seat">B2</button>
+                        <button class="seat">B3</button>
+                        <button class="seat">B4</button>
+                        <button class="seat">B5</button>
+                        <button class="seat">B6</button>
+                        <button class="seat">B7</button>
+                        <button class="seat">B8</button>
+                        <button class="seat">B9</button>
+                        <button class="seat">B10</button>
+                    </div> 
+                    <div class="row">
+                        <button class="seat">C1</button>
+                        <button class="seat">C2</button>
+                        <button class="seat">C3</button>
+                        <button class="seat">C4</button>
+                        <button class="seat">C5</button>
+                        <button class="seat">C6</button>
+                        <button class="seat">C7</button>
+                        <button class="seat">C8</button>
+                        <button class="seat">C9</button>
+                        <button class="seat">C10</button>
+                    </div> 
+                    <div class="row">
+                        <button class="seat">D1</button>
+                        <button class="seat">D2</button>
+                        <button class="seat">D3</button>
+                        <button class="seat">D4</button>
+                        <button class="seat">D5</button>
+                        <button class="seat">D6</button>
+                        <button class="seat">D7</button>
+                        <button class="seat">D8</button>
+                        <button class="seat">D9</button>
+                        <button class="seat">D10</button>
+                    </div> 
+                    <div class="row">
+                        <button class="seat">E1</button>
+                        <button class="seat">E2</button>
+                        <button class="seat">E3</button>
+                        <button class="seat">E4</button>
+                        <button class="seat">E5</button>
+                        <button class="seat">E6</button>
+                        <button class="seat">E7</button>
+                        <button class="seat">E8</button>
+                        <button class="seat">E9</button>
+                        <button class="seat">E10</button>
+                    </div> 
+                    <div class="row">
+                        <button class="seat">F1</button>
+                        <button class="seat">F2</button>
+                        <button class="seat">F3</button>
+                        <button class="seat">F4</button>
+                        <button class="seat">F5</button>
+                        <button class="seat">F6</button>
+                        <button class="seat">F7</button>
+                        <button class="seat">F8</button>
+                        <button class="seat">F9</button>
+                        <button class="seat">F10</button>
+                    </div>
+                </div>
+                <div class="showtimes-container" id="movieInfo">
+                    <p id="movieTitle">Tên phim: Avengers: Endgame</p>
+                    <p id="showtime">Suất chiếu: 10:00 AM</p>
+                    <p id="date">Ngày: 2024-06-15</p>
+                </div>
+                <div id="selectedSeatsContainer" class="selected-seats-container">
+                    <span id="selectedSeatsList" class="selected-seats">Selected Seats: </span>
+                    <i id="removeAllButton" class="fas fa-times-circle"></i>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <script>
+        function showShowtimes(cinemaName) {
+        // Gọi API hoặc xử lý logic để lấy danh sách suất chiếu cho rạp được chọn
+        // Sau đó cập nhật nội dung trong phần tử có id "showtimes-<cinemaName>"
+        fetch(`/booking/showtimes/${cinemaName}`)
+            .then(response => response.json())
+            .then(data => {
+                let showtimeList = document.getElementById(`showtimes-${cinemaName}`);
+                showtimeList.innerHTML = '';
+
+                // Duyệt qua từng suất chiếu và hiển thị thông tin
+                data.forEach(showtime => {
+                    let button = document.createElement('button');
+                    button.classList.add('list-group-item', 'list-group-item-action', 'mt-3');
+                    button.setAttribute('type', 'button');
+                    button.setAttribute('data-toggle', 'modal');
+                    button.setAttribute('data-target', '#chooseSeatModal');
+                    button.setAttribute('onclick', `setSelectedShowtime('${cinemaName}', '${showtime}')`);
+                    button.textContent = showtime;
+                    showtimeList.appendChild(button);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function loadShowtimes(date) {
+        fetch(`/booking/theaters/${date}`)
+            .then(response => response.json())
+            .then(data => {
+                let theaterList = document.getElementById('theater-list');
+                theaterList.innerHTML = '';
+
+                // Duyệt qua từng rạp và hiển thị thông tin
+                data.forEach(theater => {
+                    let button = document.createElement('button');
+                    button.classList.add('list-group-item', 'list-group-item-action', 'mt-3');
+                    button.setAttribute('type', 'button');
+                    button.setAttribute('onclick', `showShowtimes('${theater.name}')`);
+                    button.innerHTML = `
+                        <div class="cinema-item">
+                            <img src="https://i.imgur.com/D5O0h8H.png" alt="${theater.name}">
+                            <div>
+                                <p>${theater.name}</p>
+                                <p>${theater.address}</p>
+                            </div>
+                        </div>
+                    `;
+                    theaterList.appendChild(button);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+      
+        // Hardcoded showtimes data for each theater
+        // function getShowtimesForTheater(theater) {
+        //   switch (theater) {
+        //     case 'CGV Vĩnh Trung Plaza':
+        //       return ['10:00 AM', '1:00 PM', '4:00 PM'];
+        //     case 'CGV Vincom Đà Nẵng':
+        //       return ['11:00 AM', '2:00 PM', '5:00 PM'];
+        //     // Add more cases for other theaters if needed
+        //     default:
+        //       return [];
+        //   }
+        // }
+
+
+        const seats = document.querySelectorAll('.seat');
+
+        // Lặp qua từng ghế và thêm sự kiện nhấp vào
+        document.querySelectorAll('.seat').forEach(seat => {
+            seat.addEventListener('click', () => {
+                const selectedSeats = document.querySelectorAll('.seat.selected');
+                if (seat.classList.contains('selected')) {
+                    seat.classList.remove('selected');
+                } else if (selectedSeats.length < 6) {
+                    seat.classList.add('selected');
+                }
+                updateSelectedSeatsList();
+            });
+        });
+
+        const removeAllButton = document.getElementById('removeAllButton');
+        // Thêm sự kiện click cho nút "Remove All"
+        removeAllButton.addEventListener('click', () => {
+            // Lấy danh sách tất cả các ghế đã chọn
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+            
+            // Lặp qua từng ghế đã chọn và xóa lớp 'selected'
+            selectedSeats.forEach(seat => {
+                seat.classList.remove('selected');
+            });
+
+            // Cập nhật danh sách ghế đã chọn
+            updateSelectedSeatsList();
+        });
+        
+
+        // Hàm cập nhật danh sách các ghế đã chọn
+        function updateSelectedSeatsList() {
+        const selectedSeats = document.querySelectorAll('.seat.selected');
+        const selectedSeatsList = document.getElementById('selectedSeatsList');
+        let seatsText = 'Selected Seats: ';
+
+        // Tạo danh sách các ghế đã chọn
+        selectedSeats.forEach((seat, index) => {
+            seatsText += seat.textContent;
+
+            // Thêm dấu phẩy nếu không phải là ghế cuối cùng
+            if (index !== selectedSeats.length - 1) {
+                seatsText += ', ';
+            }
+        });
+
+        // Hiển thị danh sách các ghế đã chọn
+        selectedSeatsList.textContent = seatsText;
+
+        // Hiển thị phần tử danh sách các ghế đã chọn
+        selectedSeatsList.style.display = 'block';
+    }
+
+    
+      </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
+
+</body>
+</html>

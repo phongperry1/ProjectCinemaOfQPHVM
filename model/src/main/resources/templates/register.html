@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration Form</title>
+    <style>
+        /* Custom CSS */
+        html, body {
+            background-image: url(https://user-images.githubusercontent.com/33485020/108069438-5ee79d80-7089-11eb-8264-08fdda7e0d11.jpg);
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            margin: 0;
+        }
+
+        body {
+            background-position: center;
+            background-size: cover;
+            min-height: 100vh;
+            width: 100%;
+            background-color: #032124;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .register-form {
+            position: relative;
+            width: 400px;
+            height: 650px; /* Increase height to accommodate captcha */
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            display: flex;
+            background-color: #032124;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .register-form h2 {
+            color: white;
+            text-align: center;
+            font-size: 32px;
+            margin: 20px 0;
+        }
+
+        .register-input {
+            position: relative;
+            margin: 15px 0;
+            width: 310px;
+            border-bottom: 2px solid white;
+        }
+
+        .register-input label {
+            color: white;
+        }
+
+        .register-input input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            padding: 10px 0;
+        }
+		.container .container-header{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+		}
+
+			.container .container-header	.btn {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+		
+        .register-button {
+            width: 310px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45px;
+            background-color: white;
+            border: none;
+            outline: none;
+            border-radius: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            cursor: pointer;
+            font-size: 16px;
+            color: black;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .register-button button {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: none;
+            color: black;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .register-button button:hover {
+            background: #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+	<div class="container-header">
+        <a href="#" th:href="@{/login}" class="btn">Back</a>
+    </div>
+    <div class="register-form">
+        <h2>User Registration Form</h2>
+        <div class="card">
+            <div style="color: white;" class="card-header text-center fs-4">Register Page</div>
+
+			<div style="color: green;">
+				<th:block th:if="${session.msg}">
+                <p class="text-center text-success fs-4">[[${session.msg}]]</p>
+                <th:block th:text="${@userServiceImpl.removeSessionMessage()}"></th:block>
+
+            	</th:block>
+			</div>
+            
+            <form action="saveUser" method="post" class="px-4">
+                <div class="register-input">
+                    <label>Enter Full Name</label> 
+                    <input type="text" name="userName"
+                                            class="form-control">
+                                         </div>
+    
+                <div class="register-input">
+                    <label>Enter Email</label> 
+                    <input type="text" name="email"
+                    class="form-control">
+                       </div>
+    
+                <div class="register-input">
+                    <label>Enter Password</label> <input type="text"
+                    name="userPassword" class="form-control"> 
+                </div>
+                <div class="register-input">
+                    <label>Enter Mobile Number</label> <input type="number"
+                    name="phone" class="form-control">
+                </div>
+                <div class="register-button">
+                    <button class="btn">Register</button>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</div>
+</body>
+</html>
