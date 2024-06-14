@@ -54,7 +54,8 @@ public class CinemaOwnerEditProfile {
     }
 
     @PostMapping("/edit/upload-avatar")
-    public String changeAvatar(Model model, @RequestParam("file") MultipartFile file, Principal principal) throws IOException {
+    public String changeAvatar(Model model, @RequestParam("file") MultipartFile file, Principal principal)
+            throws IOException {
         String email = principal.getName();
         Users user = userService.getUsersByEmail(email);
         String originalFilename = file.getOriginalFilename();
@@ -75,7 +76,8 @@ public class CinemaOwnerEditProfile {
     }
 
     @PostMapping("/edit/update-profile/save")
-    public String updateProfile(@ModelAttribute Users user, Model model, Principal principal, @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+    public String updateProfile(@ModelAttribute Users user, Model model, Principal principal,
+            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
         String email = principal.getName();
         Users updateUser = userService.getUsersByEmail(email);
 
@@ -133,9 +135,9 @@ public class CinemaOwnerEditProfile {
 
     @PostMapping("/edit/change-password/save")
     public String changePassword(@RequestParam("newPassword") String newPassword,
-                                 @RequestParam("curPassword") String curPassword,
-                                 @RequestParam("confirmPassword") String confirmPassword,
-                                 Model model, Principal principal) {
+            @RequestParam("curPassword") String curPassword,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model, Principal principal) {
         String email = principal.getName();
         Users user = userService.getUsersByEmail(email);
         model.addAttribute("user", user);

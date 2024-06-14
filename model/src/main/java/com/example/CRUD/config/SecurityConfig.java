@@ -1,7 +1,6 @@
 package com.example.CRUD.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,7 +18,6 @@ public class SecurityConfig {
     private CustomAuthSucessHandler successHandler;
 
     @Autowired
-    @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
     @Bean
@@ -40,16 +38,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/login", "/register", "/saveUser", "/verify",
-                                "/forgotPassword**", "resetPassword/**",
-                                "resetPassword")
-                        .permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/login", "/register", "/saveUser", "/verify").permitAll() // Cho phép truy c?p
+                                                                                                    // vào trang
+                        // ??ng nh?p và
+                        // ??ng ký mà không c?n ??ng nh?p
+                        .anyRequest().authenticated() // T?t c? các URL khác ??u yêu c?u xác th?c
+                )
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .loginProcessingUrl("/userLogin")
-                        .successHandler(successHandler)
-                        .permitAll())
+                        .loginPage("/login") // Ch? ??nh trang ??ng nh?p c?a b?n
+                        .loginProcessingUrl("/userLogin") // Xác th?c form s? ???c g?i ??n ?âu
+                        .successHandler(successHandler) // X? lý ??ng nh?p thành công
+                )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")

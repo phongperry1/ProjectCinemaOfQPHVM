@@ -1,6 +1,5 @@
 package com.example.CRUD.controller;
 
-
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -19,14 +18,12 @@ import com.example.CRUD.Repository.ShowtimeRepository;
 import com.example.CRUD.service.ShowtimeService;
 import com.example.mo.Showtime;
 
-
-
-
-
 @Controller
 public class ShowtimeController {
-    @Autowired private ShowtimeService service;
-    @Autowired private ShowtimeRepository showtimeRepository;
+    @Autowired
+    private ShowtimeService service;
+    @Autowired
+    private ShowtimeRepository showtimeRepository;
 
     @GetMapping("/showtime")
     public String showTheaterList(Model model) {
@@ -44,14 +41,14 @@ public class ShowtimeController {
 
     @PostMapping("/showtime/save")
     public String saveShowtime(@ModelAttribute Showtime showtime, RedirectAttributes ra, BindingResult result) {
-        
-        if(result.hasErrors()) {
+
+        if (result.hasErrors()) {
             return "showtime_form";
         }
 
         try {
             Date showDate = Date.valueOf(showtime.getShowDate().toLocalDate().toString());
-            Time showTime = Time.valueOf(showtime.getShowTime().toLocalTime()); 
+            Time showTime = Time.valueOf(showtime.getShowTime().toLocalTime());
 
             // Đặt lại các giá trị đã chuyển đổi vào đối tượng showtime
             showtime.setShowDate(showDate);
@@ -69,8 +66,7 @@ public class ShowtimeController {
         }
     }
 
-
-     @GetMapping("showtime/edit/{ShowtimeID}")
+    @GetMapping("showtime/edit/{ShowtimeID}")
     public String showEditForm(@PathVariable("ShowtimeID") Integer ShowtimeID, Model model, RedirectAttributes ra) {
         try {
             Showtime showtime = service.get(ShowtimeID);
@@ -79,33 +75,21 @@ public class ShowtimeController {
             return "showtime_form";
         } catch (ShowtimeNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
-             return "redirect:/showtime";
+            return "redirect:/showtime";
         }
-        
-        
+
     }
 
     @GetMapping("showtime/delete/{ShowtimeID}")
     public String deleteShowtime(@PathVariable("ShowtimeID") Integer ShowtimeID, RedirectAttributes ra) {
         try {
             service.delete(ShowtimeID);
-            
+
         } catch (ShowtimeNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
         }
         return "redirect:/showtime";
-        
-        
+
     }
-
-
-
-
-
-
-
-
-
-
 
 }

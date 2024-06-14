@@ -47,7 +47,8 @@ public class UserController {
     }
 
     @PostMapping("/upload-avatar")
-    public String changeAvatar(Model model, @RequestParam("file") MultipartFile file, Principal principal) throws IOException {
+    public String changeAvatar(Model model, @RequestParam("file") MultipartFile file, Principal principal)
+            throws IOException {
         String email = principal.getName();
         Users user = ser.getUsersByEmail(email);
         String originalFilename = file.getOriginalFilename();
