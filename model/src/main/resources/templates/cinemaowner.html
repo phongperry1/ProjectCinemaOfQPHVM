@@ -79,9 +79,9 @@
       </div>
       <div class="col-md-10">
         <nav class="navbar navbar-light bg-light">
-          <form class="form-inline" th:action="@{/search}" method="get">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="userName"
-              th:value="${userName}">
+          <form class="form-inline" th:action="@{/search_cinema_owner}" method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="cinemaName"
+              th:value="${cinemaName}">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
           <div class="ml-auto">
@@ -94,59 +94,31 @@
           [[${message}]]
         </div>
         <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Status</th>
-              <th>User Type</th>
-              <th>Rank</th>
-              <th>MenberPoint</th>
-              <th>Profile Image</th>
-              <th>View Detail</th>
-              <th>Lock Account</th>
-              <th>Update Rank</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="user : ${UserByAdmins}">
-              <td th:text="${user.userName}"></td>
-              <td>
-                <span th:if="${user.Status}" class="text-success">&#10004;</span>
-                <span th:unless="${user.Status}" class="text-danger">&#10006;</span>
-              </td>
-              <td th:text="${user.userType}"></td>
-              <td>
-                <span th:if="${user.UserRank == 'None'}" class="badge bg-secondary">None</span>
-                <span th:if="${user.UserRank == 'Bronze'}" class="badge bg-danger">Bronze</span>
-                <span th:if="${user.UserRank == 'Silver'}" class="badge bg-light text-dark">Silver</span>
-                <span th:if="${user.UserRank == 'Gold'}" class="badge bg-warning">Gold</span>
-              </td>
-              <td th:text="${user.memberPoints}"></td>
-              <td><img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" width="50" height="50" /></td>
-              <td>
-                <a th:href="@{/userdetails/{UserId}(UserId=${user.UserId})}" class="btn btn-primary">View Detail</a>
-              </td>
-              <td>
-                <a th:href="@{/lockacount/{UserId}(UserId=${user.UserId})}" class="btn btn-danger"
-                  onclick="return confirLock()">Lock Account</a>
-              </td>
-              <td>
-                <a th:href="@{/RankInfo/{UserId}(UserId=${user.UserId})}" class="btn btn-warning">
-                  Update Rank
-                </a>
-              </td>
-            </tr>
-          </tbody>
+            <thead>
+                <tr>
+                    <th>Cinema Owner ID</th>
+                    <th>Cinema Name</th>
+                    <th>Address</th>
+                    <th>Hotline</th>
+                    <th>Email</th>
+                    <th>Employee ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="owner : ${cinemaOwners}">
+                    <td th:text="${owner.cinemaOwnerID}"></td>
+                    <td th:text="${owner.cinemaName}"></td>
+                    <td th:text="${owner.addressCinema}"></td>
+                    <td th:text="${owner.hotline}"></td>
+                    <td th:text="${owner.email}"></td>
+                    <td th:text="${owner.employeeID}"></td>
+                </tr>
+            </tbody>
         </table>
         <!-- Other content sections can be added here -->
       </div>
     </div>
   </div>
-  <script>
-    function confirLock() {
-      return confirm("Are you sure you want to lock user?");
-    }
-  </script>
 </body>
 
 </html>
