@@ -17,14 +17,15 @@ import lombok.NoArgsConstructor;
 public class CinemaOwner  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int CinemaOwnerID;
+    private int cinemaOwnerID;
     @OneToOne
     @JoinColumn(name = "UserId")
     private Users users;
 
     private String cinemaName;
-    private String AddressCinema;
+    private String AddressCinema;   
     private String Hotline;
     private String Email;
     private int EmployeeID;
+    private boolean approved;
 }

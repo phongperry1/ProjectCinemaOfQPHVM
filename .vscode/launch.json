@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CinemaOwnerRegistrationService",
+            "request": "launch",
+            "mainClass": "com.example.CinemaOwnerRegistrationService",
+            "projectName": "model"
+        },
+        {
+            "type": "java",
             "name": "QrCodeLastApplication",
             "request": "launch",
             "mainClass": "com.example.QrCodeLastApplication",
