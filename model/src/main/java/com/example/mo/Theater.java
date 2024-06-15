@@ -1,10 +1,15 @@
 package com.example.mo;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +33,13 @@ public class Theater {
     
     @Column(length = 100, nullable = false, name = "address")
     private String Address;
+
+    @ManyToOne
+    @JoinColumn(name = "showtimeID")
+    private Showtime showtime;
+
+    @OneToMany(mappedBy = "theater")
+    private List<Showtime> showtimes;
 
 
     public Integer getTheaterID() {

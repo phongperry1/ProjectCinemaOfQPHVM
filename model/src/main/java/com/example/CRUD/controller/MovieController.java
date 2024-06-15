@@ -129,7 +129,7 @@ public class MovieController {
                 .map(m -> {
                     Movie simplifiedMovie = new Movie();
                     simplifiedMovie.setTitle(m.getTitle());
-                    simplifiedMovie.setShowTime(m.getShowTime());
+                    // simplifiedMovie.setShowTime(m.getShowTime());
                     simplifiedMovie.setAddress(m.getAddress());
                     return simplifiedMovie;
                 })

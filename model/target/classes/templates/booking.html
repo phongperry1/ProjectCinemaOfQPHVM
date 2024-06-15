@@ -216,26 +216,18 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="movie-info">
-                            <!-- <h2>Lịch chiếu Garfield - Mèo Béo Siêu Quậy</h2>
-                            <div class="location-select mb-3"> -->
-                                <!-- <select class="form-control">
-                                    <option value="Da Nang">Đà Nẵng</option>
-                                    <option value="Ha Noi">Hà Nội</option>
-                                    <option value="Ho Chi Minh City">Hồ Chí Minh City</option>
-                                </select> -->
-                            <!-- </div> -->
-                            <div class="schedule-container mb-3">
+                            <h2>Lịch chiếu Garfield - Mèo Béo Siêu Quậy</h2>
 
-                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-15')">15</button>
-                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-16')">16</button>
-                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-17')">17</button>
-                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-18')">18</button>
-                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-19')">19</button>
-                                <button class="day-button btn" onclick="showCinemasAndShowtimes('2024-06-20')">20</button>
+                            <div class="schedule-container mb-3">
+                                <button class="day-button btn" onclick="loadShowtimes('2024-06-15')">15</button>
+                                <button class="day-button btn" onclick="loadShowtimes('2024-06-16')">16</button>
+                                <button class="day-button btn" onclick="loadShowtimes('2024-06-17')">17</button>
                             </div>
                             <div class="schedule-container mb-3" id="schedule-container">
                                 <div th:each="theater : ${theaters}">
-                                    <button type="button" class="list-group-item list-group-item-action mt-3" th:onclick="'showShowtimes(\'' + ${theater.theaterName} + '\')'">
+                                    <button type="button" class="list-group-item list-group-item-action mt-3"
+                                            th:attr="data-theater-name=${theater.theaterName}"
+                                            onclick="showShowtimes(this.getAttribute('data-theater-name'))">
                                         <div class="cinema-item">
                                             <img src="https://i.imgur.com/D5O0h8H.png" alt="CGV">
                                             <div>
@@ -359,25 +351,31 @@
 
     <script>
         function showShowtimes(cinemaName) {
-        // Gọi API hoặc xử lý logic để lấy danh sách suất chiếu cho rạp được chọn
-        // Sau đó cập nhật nội dung trong phần tử có id "showtimes-<cinemaName>"
-        fetch(`/booking/showtimes/${cinemaName}`)
+        // Lấy ra div chứa danh sách suất chiếu của rạp được chọn
+        var showtimesContainer = document.getElementById('showtimes-' + cinemaName);
+
+        // Kiểm tra nếu div này đã có dữ liệu thì không gọi API nữa
+        if (showtimesContainer.innerHTML.trim() !== '') {
+            return;
+        }
+
+        // Gọi API để lấy danh sách suất chiếu từ server
+        fetch('/booking/showtimes/' + cinemaName)
             .then(response => response.json())
             .then(data => {
-                let showtimeList = document.getElementById(`showtimes-${cinemaName}`);
-                showtimeList.innerHTML = '';
-
-                // Duyệt qua từng suất chiếu và hiển thị thông tin
+                // Tạo HTML cho danh sách suất chiếu
+                var showtimeListItems = '';
                 data.forEach(showtime => {
-                    let button = document.createElement('button');
-                    button.classList.add('list-group-item', 'list-group-item-action', 'mt-3');
-                    button.setAttribute('type', 'button');
-                    button.setAttribute('data-toggle', 'modal');
-                    button.setAttribute('data-target', '#chooseSeatModal');
-                    button.setAttribute('onclick', `setSelectedShowtime('${cinemaName}', '${showtime}')`);
-                    button.textContent = showtime;
-                    showtimeList.appendChild(button);
+                    showtimeListItems += `
+                        <button type="button" class="list-group-item"
+                                data-toggle="modal" data-target="#chooseSeatModal"
+                                onclick="setSelectedShowtime('${cinemaName}', '${showtime}')">
+                            ${showtime}
+                        </button>`;
                 });
+
+                // Gán danh sách suất chiếu vào div tương ứng
+                showtimesContainer.innerHTML = showtimeListItems;
             })
             .catch(error => console.error('Error:', error));
     }
@@ -409,21 +407,11 @@
             })
             .catch(error => console.error('Error:', error));
     }
-      
-        // Hardcoded showtimes data for each theater
-        // function getShowtimesForTheater(theater) {
-        //   switch (theater) {
-        //     case 'CGV Vĩnh Trung Plaza':
-        //       return ['10:00 AM', '1:00 PM', '4:00 PM'];
-        //     case 'CGV Vincom Đà Nẵng':
-        //       return ['11:00 AM', '2:00 PM', '5:00 PM'];
-        //     // Add more cases for other theaters if needed
-        //     default:
-        //       return [];
-        //   }
-        // }
 
 
+
+    //////////////seat
+    
         const seats = document.querySelectorAll('.seat');
 
         // Lặp qua từng ghế và thêm sự kiện nhấp vào

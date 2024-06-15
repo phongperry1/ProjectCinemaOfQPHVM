@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -37,8 +38,8 @@ public class Movie {
     @Column(name = "releaseDate")
     private Date releaseDate;
 
-    @Column(name = "showTime")
-    private String showTime;
+    // @Column(name = "showTime")
+    // private String showTime;
 
     @Column(name = "languages")
     private String languages;
@@ -59,6 +60,9 @@ public class Movie {
 
     @Column(name = "status_movie")
     private String statusMovie;
+
+    @OneToMany(mappedBy = "movie")
+    private List<Showtime> showtimes;
 
     // Getter và Setter cho address
     public String getAddress() {
@@ -91,7 +95,7 @@ public class Movie {
         this.director = movieDetails.getDirector();
         this.cast = movieDetails.getCast();
         this.releaseDate = movieDetails.getReleaseDate();
-        this.showTime = movieDetails.getShowTime(); 
+        // this.showTime = movieDetails.getShowTime(); 
         this.languages = movieDetails.getLanguages();
         this.ratingCount = movieDetails.getRatingCount();
         this.averageRating = movieDetails.getAverageRating();

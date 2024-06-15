@@ -19,7 +19,7 @@
                 <th>Director</th>
                 <th>Cast</th>
                 <th>Release Date</th>
-                <th>Show Time</th>
+                <!-- <th>Show Time</th> -->
                 <th>Languages</th>
                 <th>Rating Count</th>
                 <th>Average Rating</th>
@@ -37,7 +37,7 @@
                 <td th:text="${movie.director}">Director</td>
                 <td th:text="${movie.cast}">Cast</td>
                 <td th:text="${#dates.format(movie.releaseDate, 'yyyy-MM-dd')}">Release Date</td>
-                <td th:text="${movie.showTime}">Show Time</td>
+                <!-- <td th:text="${movie.showTime}">Show Time</td> -->
                 <td th:text="${movie.languages}">Languages</td>
                 <td th:text="${movie.ratingCount}">Rating Count</td>
                 <td th:text="${movie.averageRating}">Average Rating</td>
