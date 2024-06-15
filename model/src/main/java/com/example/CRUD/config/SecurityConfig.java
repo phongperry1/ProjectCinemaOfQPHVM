@@ -38,8 +38,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/login", "/register", "/saveUser", "/verify").permitAll() // Cho phép truy c?p
-                                                                                                    // vào trang
+                        .requestMatchers("/login", "/register", "/saveUser", "/verify", "/forgotPassword",
+                                "/resetPassword/**", "/resetPassword")
+                        .permitAll() // Cho phép truy c?p
+                        // vào trang
                         // ??ng nh?p và
                         // ??ng ký mà không c?n ??ng nh?p
                         .anyRequest().authenticated() // T?t c? các URL khác ??u yêu c?u xác th?c
