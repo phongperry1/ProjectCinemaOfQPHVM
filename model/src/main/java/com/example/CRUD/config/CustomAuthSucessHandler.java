@@ -22,7 +22,7 @@ public class CustomAuthSucessHandler implements AuthenticationSuccessHandler {
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
 		if (roles.contains("ROLE_ADMIN")) {
-			response.sendRedirect("/admin/admin_profile");
+			response.sendRedirect("/admin/show");
 		} else if(roles.contains("ROLE_CINEMA")) {
 			response.sendRedirect("/cinemaowner/homecinemaowner");
 		} 
