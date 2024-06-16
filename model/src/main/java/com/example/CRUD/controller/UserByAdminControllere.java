@@ -1,8 +1,11 @@
 package com.example.CRUD.controller;
 
+import com.example.CRUD.Repository.CinemaOwnerRepository;
 import com.example.CRUD.Repository.UserByAdminRepository;
+import com.example.CRUD.service.CinemaService;
 import com.example.CRUD.service.PurchaseHistoryService;
 import com.example.CRUD.service.UserByAdminService;
+import com.example.mo.CinemaOwner;
 import com.example.mo.PurchaseHistory;
 import com.example.mo.Users;
 
@@ -27,6 +30,8 @@ public class UserByAdminControllere {
     private UserByAdminService userByAdminService;
     private final UserByAdminRepository userByAdminRepository;
     private final PurchaseHistoryService historyService;
+    private final CinemaService cinemaService;
+    private final CinemaOwnerRepository cinemaOwnerRepository;
     
     // @GetMapping
     // public ResponseEntity<List<UserByAdmin>> getTicket() throws IOException,
@@ -148,5 +153,25 @@ public String getPurchaseHistory(@PathVariable("UserId") Integer userId, Model m
     // public UserByAdmin findById(@PathVariable("id") Long id) {
     //     return userByAdminService.findById("id");
     // }
+
+     @GetMapping("/cinema_owner")
+    public String getCinemaOwner(Model model){
+        List<CinemaOwner> cinemaOwners = cinemaService.getCinemaOwnerByAdmins();
+        model.addAttribute("cinemaOwners", cinemaOwners);
+        return "cinemaowner";
+    }
+
+    @GetMapping("/search_cinema_owner")
+public String searcgCinemaOwner(@RequestParam(name = "cinemaName", required = false) String cinemaName, Model model) {
+    List<CinemaOwner> cinemaOwners;
+    if (cinemaName == null || cinemaName.isEmpty()) {
+        cinemaOwners = cinemaOwnerRepository.findAll();
+    } else {
+        cinemaOwners = cinemaOwnerRepository.findByCinemaNameContainingIgnoreCase(cinemaName);
+    }
+    model.addAttribute("cinemaOwners", cinemaOwners);
+    model.addAttribute("cinemaName", cinemaName);
+    return "cinemaowner";
+}
 
 }
