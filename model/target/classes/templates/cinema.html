@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Rạp Chiếu Phim MoMo</title>  
+
+    <!-- External CSS libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Internal CSS styles -->
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+        }
+
+        .form-search {
+            max-width: 600px; /* Adjust maximum width as needed */
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            margin: 0 auto;
+            max-width: 1200px; /* Same max-width as .container */
+        }
+
+        .header .logo {
+            font-size: 24px;
+            color: #ff4081;
+            font-weight: bold;
+        }
+
+        .header nav {
+            display: flex;
+        }
+
+        .header nav a {
+            text-decoration: none;
+            color: #ff4081;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+
+        .search-section {
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .search-section .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        #search-form {
+            display: flex;
+            align-items: center;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        #location {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #location:focus {
+            border-color: #ff4081;
+        }
+
+        #cinema-filter {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 0;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #cinema-filter:focus {
+            border-color: #ff4081;
+        }
+
+        #search-form button {
+            padding: 8px 16px;
+            background-color: #ff4081;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #search-form button:hover {
+            background-color: #e91e63;
+            transition: background-color 0.3s ease;
+        }
+
+        .cinema-list-section {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cinema-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cinema-list li {
+            background-color: #f8f8f8;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .cinema-list li h2 {
+            margin: 0;
+            color: #ff4081;
+            font-size: 16px;
+        }
+
+        .cinema-list li p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+
+        .cinema-list li a {
+            text-decoration: none;
+            color: #007bff;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        #cinema-details {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #back-button {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .cinema-list {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .cinema {
+            border-radius: 20px;
+            padding: 15px; /* Padding inside each card */
+            margin-bottom: 20px; /* Bottom margin for each card */
+            height: 100%;
+        }
+
+        .cinema-name {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .cinema-description {
+            margin-top: 10px;
+        }
+
+        .rating {
+            font-weight: bold;
+            color: #007bff; /* Blue color for rating */
+        }
+
+        .number-of-cinemas {
+            font-style: italic;
+            color: #6c757d; /* Gray color for number of cinemas */
+        }
+
+        /* Adjustments for spacing between cinema cards */
+        @media (min-width: 576px) {
+            .row {
+                margin-right: -10px; /* Counteract the default gutter */
+                margin-left: -10px; /* Counteract the default gutter */
+            }
+
+            .cinema {
+                margin-right: 10px; /* Right margin for each card */
+                margin-left: 10px; /* Left margin for each card */
+            }
+        }
+
+        .carousel-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .carousel-container h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .owl-carousel .item {
+            position: relative;
+            margin: 10px; /* Add margin around carousel items */
+        }
+
+        .owl-carousel .item img {
+            width: calc(100% - 20px); /* Subtract margin to keep items centered */
+            border-radius: 10px;
+        }
+
+        .details {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .details h4 {
+            margin: 0;
+        }
+
+        .details p {
+            margin: 5px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">MoMo</div>
+            <nav>
+                <a href="#">Lịch chiếu</a>
+                <a href="#">Rạp chiếu</a>
+                <a href="#">Phim chiếu</a>
+                <a href="#">Review phim</a>
+                <a href="#">Top phim</a>
+                <a href="#">Blog phim</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="form-search">
+            <section class="search-section">
+                <div class="container">
+                    <form id="search-form" onsubmit="event.preventDefault(); findCinema();">
+                        <input type="text" id="location" placeholder="Nhập vị trí của bạn">
+                        <select id="cinema-filter" onchange="filterCinemas(this.value)">
+                            <option value="all" selected="">Tất cả</option>
+                            <option value="CGV">CGV</option>
+                            <option value="Lotte">Lotte Cinema</option>
+                            <option value="Galaxy">Galaxy Cinema</option>
+                            <option value="BHD">BHD Star</option>
+                            <option value="Beta">Beta Cinema</option>
+                        </select>
+                        <button type="submit">Tìm rạp chiếu phim</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="cinema-list-section">
+                <ul class="cinema-list" id="cinema-list">
+                    <li onclick="showCinemaDetails(1)">
+                        <h2>Beta Ung Văn Khiêm</h2>
+                        <p>Tầng 1, tòa nhà PAX SKY, 26 Ung Văn Khiêm, phường 25, Quận Bình Thạnh, Thành phố Hồ Chí Minh</p>
+                        <a href="#" target="_blank">[Bản đồ]</a>
+                    </li>
+                    <li onclick="showCinemaDetails(2)">
+                        <h2>CGV Vincom Center</h2>
+                        <p>Lầu 5, TTTM Vincom Center, 72 Lê Thánh Tôn, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh</p>
+                        <a href="#" target="_blank">[Bản đồ]</a>
+                    </li>
+                    <li onclick="showCinemaDetails(3)">
+                        <h2>Lotte Mart Quận 7</h2>
+                        <p>Tầng 5, Lotte Mart, 469 Nguyễn Hữu Thọ, Quận 7, Thành phố Hồ Chí Minh</p>
+                        <a href="#" target="_blank">[Bản đồ]</a>
+                    </li>
+                    <!-- Add more cinema listings as needed -->
+                </ul>
+            </section>
+
+            <section id="cinema-details">
+                <h2 id="cinema-name">Beta Ung Văn Khiêm</h2>
+                <p id="cinema-address">Tầng 1, tòa nhà PAX SKY, 26 Ung Văn Khiêm, phường 25, Quận Bình Thạnh, Thành phố Hồ Chí Minh</p>
+                <p id="cinema-phone">Điện thoại: 0123 456 789</p>
+                <button id="back-button" onclick="hideCinemaDetails()">Quay lại</button>
+            </section>
+        </div>
+    </section>
+    <div class="carousel-container">
+        <h1>Movie Carousel</h1>
+        <div class="owl-carousel owl-theme">
+            <div class="item">
+                <img src="https://via.placeholder.com/600x400" alt="Movie 1">
+                <div class="details">
+                    <h4>Movie Title 1</h4>
+                    <p>Some description</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://via.placeholder.com/600x400" alt="Movie 2">
+                <div class="details">
+                    <h4>Movie Title 2</h4>
+                    <p>Some description</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://via.placeholder.com/600x400" alt="Movie 3">
+                <div class="details">
+                    <h4>Movie Title 3</h4>
+                    <p>Some description</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://via.placeholder.com/600x400" alt="Movie 4">
+                <div class="details">
+                    <h4>Movie Title 4</h4>
+                    <p>Some description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- External JS libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Internal JS script -->
+    <script>
+        // Function to filter cinemas based on the selected option
+        function filterCinemas(value) {
+            let cinemas = document.querySelectorAll('.cinema-list li');
+            cinemas.forEach(cinema => {
+                cinema.style.display = 'none'; // Hide all cinemas
+
+                if (value === 'all' || cinema.textContent.includes(value)) {
+                    cinema.style.display = 'block'; // Show if all selected or matches filter
+                }
+            });
+        }
+
+        // Function to show cinema details
+        function showCinemaDetails(id) {
+            let cinemaName = document.getElementById('cinema-name');
+            let cinemaAddress = document.getElementById('cinema-address');
+            let cinemaPhone = document.getElementById('cinema-phone');
+            let backButton = document.getElementById('back-button');
+
+            // Dummy data for demonstration
+            if (id === 1) {
+                cinemaName.textContent = 'Beta Ung Văn Khiêm';
+                cinemaAddress.textContent = 'Tầng 1, tòa nhà PAX SKY, 26 Ung Văn Khiêm, phường 25, Quận Bình Thạnh, Thành phố Hồ Chí Minh';
+                cinemaPhone.textContent = 'Điện thoại: 0123 456 789';
+            } else if (id === 2) {
+                cinemaName.textContent = 'CGV Vincom Center';
+                cinemaAddress.textContent = 'Lầu 5, TTTM Vincom Center, 72 Lê Thánh Tôn, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh';
+                cinemaPhone.textContent = 'Điện thoại: 0123 456 789';
+            } else if (id === 3) {
+                cinemaName.textContent = 'Lotte Mart Quận 7';
+                cinemaAddress.textContent = 'Tầng 5, Lotte Mart, 469 Nguyễn Hữu Thọ, Quận 7, Thành phố Hồ Chí Minh';
+                cinemaPhone.textContent = 'Điện thoại: 0123 456 789';
+            }
+
+            document.getElementById('cinema-details').style.display = 'block';
+            backButton.style.display = 'block';
+        }
+
+        // Function to hide cinema details
+        function hideCinemaDetails() {
+            document.getElementById('cinema-details').style.display = 'none';
+            document.getElementById('back-button').style.display = 'none';
+        }
+
+        // Function to simulate searching for cinemas (dummy function)
+        function findCinema() {
+            alert('Searching for cinemas...'); // Replace with actual functionality
+        }
+
+        $(document).ready(function(){
+            $('.owl-carousel').owlCarousel({
+                loop:true,
+                margin:10,
+                nav:true,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        items:3
+                    },
+                    1000:{
+                        items:5
+                    }
+                }
+            });
+        }); 
+    </script>
+</body>
+</html>
