@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.CRUD.Repository.CinemaOwnerRepository;
 import com.example.CRUD.Repository.UserRepository;
 import com.example.CRUD.service.UserService;
+import com.example.mo.CinemaOwner;
 import com.example.mo.Users;
 
 @Controller
@@ -28,6 +31,8 @@ public class CinemaController {
 	private UserRepository userRepo;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CinemaOwnerRepository cinemaOwnerRepository;
 
 	public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
 
@@ -154,4 +159,5 @@ public class CinemaController {
 		}
 		return "change-passwordcinemaowner";
 	}
+
 }
