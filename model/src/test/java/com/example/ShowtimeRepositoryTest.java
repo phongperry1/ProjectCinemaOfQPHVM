@@ -31,7 +31,7 @@ public class ShowtimeRepositoryTest {
         Showtime showtime = new Showtime();
         showtime.setShowDate(Date.valueOf("2024-06-02"));  
         showtime.setShowTime(Time.valueOf("18:30:00"));
-        showtime.setMovieID(1);    
+        // showtime.setMovieID(1);    
         showtime.setScreeningRoomID(11);
         Showtime savedShowtime = repo.save(showtime);
 

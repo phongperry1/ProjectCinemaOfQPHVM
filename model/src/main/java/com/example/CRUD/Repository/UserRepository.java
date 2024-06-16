@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
 
     Users findByVerificationCode(String code);
 
+    Users findByResetPasswordToken(String token);
 }

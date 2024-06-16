@@ -164,9 +164,32 @@
         <!---slider--->
         
     </header>
+
+    <div class="container1">
+      <h2>Rate and Comment on the Movie</h2>
+      <div class="rating">
+          <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+          <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+          <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+          <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+          <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+      </div>
+      <div class="comment-box">
+          <textarea id="comment" placeholder="Write your comment..."></textarea>
+          <button onclick="submitRating()">Submit</button>
+      </div>
+  </div>
+  <h1>Ratings from other users</h1>
+  <div th:if="${listRatings != null}">
+    <ul>
+        <li th:each="rating : ${listRatings}">
+            <span th:text="${rating.comment}"></span>
+        </li>
+    </ul>
+</div>
     
 
-
+    
     <footer>
       
       <div class="logo-box">

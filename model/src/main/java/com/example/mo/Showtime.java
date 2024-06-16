@@ -38,7 +38,9 @@ public class Showtime {
     @Column(name = "showTime")
     private Time showTime;
 
-   @OneToMany(mappedBy = "showtime")
-    private List<Theater> theaters;
-   
+//    @OneToMany(mappedBy = "showtime")
+//     private List<Theater> theater;
+    @ManyToOne
+    @JoinColumn(name = "theaterID", nullable = false)
+    private Theater theater;
 }

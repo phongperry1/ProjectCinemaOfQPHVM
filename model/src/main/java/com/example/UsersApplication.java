@@ -13,8 +13,8 @@ public class UsersApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(UsersApplication.class, args);
             UserService userService = context.getBean(UserService.class);
-			
-			Users users = userService.getUsersById(2); 
+
+			Users users = userService.getUsersById(1); 
 
 			
 			if (users != null) {
@@ -28,7 +28,6 @@ public class UsersApplication {
 				System.out.println("UserRank: " + users.getUserRank());
 				System.out.println("Memberpoints: " + users.getMemberPoints());
 				System.out.println("UserType: " + users.getUserType());
-				System.out.println("image: " + users.getProfileImageURL());
 			} else {
 				System.out.println("No user found with the provided ID.");
 			}

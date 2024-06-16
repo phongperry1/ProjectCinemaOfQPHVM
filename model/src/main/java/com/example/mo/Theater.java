@@ -34,10 +34,6 @@ public class Theater {
     @Column(length = 100, nullable = false, name = "address")
     private String Address;
 
-    @ManyToOne
-    @JoinColumn(name = "showtimeID")
-    private Showtime showtime;
-
     @OneToMany(mappedBy = "theater")
     private List<Showtime> showtimes;
 

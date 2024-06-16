@@ -95,6 +95,7 @@
           <li>promotion</li>
           <li>food</li>
           <li>contact</li>  
+<<<<<<< HEAD
           <div class="dropdown">
             <button class="menu-btn">MENU</button>
             <div class="dropdown-content">
@@ -109,15 +110,25 @@
           
           </div>
           </div>
+=======
+>>>>>>> 935e17567043d50eb9abbe108d8c431fbe5c9123
           <li>
             <span><span th:text="${user.userName}"></span></span>
           </li>
           <li>
+<<<<<<< HEAD
             <a href="/profile">
               <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
           </a>
           </li>
           <li><b>sign out</b></li>
+=======
+            <a th:href="@{/user/profile}">
+              <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
+          </a>
+          </li>
+          <li><a href="/logout">Logout</a></li>
+>>>>>>> 935e17567043d50eb9abbe108d8c431fbe5c9123
         </ul>
 
 

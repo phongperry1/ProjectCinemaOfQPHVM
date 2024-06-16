@@ -1,8 +1,10 @@
 {
     "configurations": [
+<<<<<<< HEAD
         {
             "type": "java",
             "name": "Application",
+<<<<<<< HEAD
             "request": "launch",
             "mainClass": "com.example.Application",
             "projectName": "model"
@@ -10,19 +12,21 @@
         {
             "type": "java",
             "name": "UsersApplication",
+=======
+>>>>>>> 935e17567043d50eb9abbe108d8c431fbe5c9123
             "request": "launch",
-            "mainClass": "com.example.Users.UsersApplication",
-            "projectName": ""
+            "mainClass": "com.example.Application",
+            "projectName": "model"
         },
+=======
+        
+>>>>>>> db4f8e1f6c5d23307d252cfb35a08bb5059d362c
         {
             "type": "java",
-            "name": "Spring Boot-UsersApplication<Users>",
+            "name": "ProjectApplication",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.example.Users.UsersApplication",
-            "projectName": "Users",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "mainClass": "com.example.ProjectApplication",
+            "projectName": "model"
         }
     ]
 }
