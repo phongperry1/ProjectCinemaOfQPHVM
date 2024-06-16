@@ -62,16 +62,18 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String showHomePage(Model model, HttpSession session) {
-        Users user = (Users) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/";
-        }
+    public String showHomePage(Model model) {
+        // Users user = (Users) session.getAttribute("user");
+        // if (user == null) {
+        //     return "redirect:/";
+        // }
 
         List<Movie> movies = movieService.getAllMovies();
         List<Movie> simplifiedMovies = movies.stream()
                 .map(m -> {
+
                     Movie simplifiedMovie = new Movie();
+                    simplifiedMovie.setMovieID(m.getMovieID());
                     simplifiedMovie.setTitle(m.getTitle());
                     simplifiedMovie.setShowTime(m.getShowTime());
                     simplifiedMovie.setAddress(m.getAddress());
@@ -81,7 +83,7 @@ public class HomeController {
         model.addAttribute("movies", simplifiedMovies);
         List<Promotions> listPromotions = promotionsService.listAll();
         model.addAttribute("listPromotions", listPromotions);
-        model.addAttribute("user", user);
+        // model.addAttribute("user", user);
         return "home";
     }
 

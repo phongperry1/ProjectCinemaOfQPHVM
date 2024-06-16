@@ -217,7 +217,7 @@
                       <h5 class="card-title text-white" th:text="${movie.title}"></h5>
                       <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p>
                       <!-- Thêm URL động để chuyển hướng đến trang chi tiết của bộ phim -->
-                      <a th:href="@{'/movie/details/' + ${movie.movieID}}" class="shadow__btn mt-auto">Details</a>
+                      <a th:href="@{'/movie/book/' + ${movie.movieID}}" class="shadow__btn mt-auto">Details</a>
                     </div>
                   </div>
                 </div>
@@ -312,7 +312,7 @@
     }
 
     .card {
-      width: 600px;
+      width: 350px;
       height: 600px;
       border-radius: 20px;
       padding: 5px;

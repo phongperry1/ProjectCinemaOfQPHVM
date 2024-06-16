@@ -27,7 +27,7 @@ public class CustomAuthSucessHandler implements AuthenticationSuccessHandler {
 			response.sendRedirect("/cinemaowner/homecinemaowner");
 		} 
 		else {
-			response.sendRedirect("/user/home");
+			response.sendRedirect("/home");
 		}
 
 	}
