@@ -1,141 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <title>Login Form</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
     <style>
-      .sign-up .btn {
-        background-color: red;
-        color: white;
-        height: 45px;
-        border: none;
-        outline: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none; /* Remove underline */
-      }
+        /* Custom CSS */
+        html, body {
+            background-image: url(https://user-images.githubusercontent.com/33485020/108069438-5ee79d80-7089-11eb-8264-08fdda7e0d11.jpg);
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            margin: 0;
+        }
 
-      .login-form {
-        background-color: #032124;
-        width: 480px;
-        color: white;
-        border-radius: 10px;
-        padding: 30px 40px;
-      }
+        .container-header {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
 
-      .login-form h1 {
-        font-size: 36px;
-        text-align: center;
-      }
+        .btn {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
 
-      .login-form h5 {
-        font-size: 15px;
-        text-align: center;
-      }
+        .btn:hover {
+            background-color: darkred;
+        }
 
-      .login-form input {
-        width: 100%;
-        height: 100%;
-        background: transparent;
-        border: none;
-        outline: none;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 40px;
-        font-size: 16px;
-        color: white;
-        padding: 20px 45px 20px 20px;
-      }
+        .form-box {
+            position: relative;
+            width: 400px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            display: flex;
+            background-color: #032124;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-      .remenber-forgot {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 15px;
-      }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+        }
 
-      .remember-password {
-        display: flex;
-        align-items: center;
+        .card-header {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
 
-      }
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-      .remember-password input {
-        margin: 0;
-        padding: 0;
-        width: 20px; /* Adjust the size if needed */
-        height: 20px; /* Adjust the size if needed */
-      }
-      .forgot a {
-        color: white;
-        text-decoration: none;
-      }
+        label {
+            font-weight: bold;
+            color: #032124;
+        }
 
-      .forgot a:hover {
-        text-decoration: underline;
-      }
+        .form-control {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px 10px;
+            box-sizing: border-box;
+        }
 
-      .container-header {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        padding: 20px;
-      }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-      .language select {
-        height: 45px;
-        margin-right: 10px;
-        padding: 0 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-      }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .forgot {
+            text-align: right;
+            font-size: 14px;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .forgot a {
+            color: #032124;
+            text-decoration: none;
+        }
+
+        .forgot a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-bottom: 10px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="container-header">
-      <div class="language">
-        <select name="La" id="La">
-          <option value="English">English</option>
-          <option value="Vietnamese">Vietnamese</option>
-        </select>
-      </div>
-      <div class="sign-up">
-        <a href="register.html" class="btn">Sign Up</a>
-      </div>
+        <a href="#" th:href="@{/register}" class="btn">Register</a>
     </div>
-    <div class="login-form">
-      <form action="">
-        <h1>LOGIN</h1>
-        <div class="input-box">
-          <input type="text" placeholder="Username" required />
-          <i class="bx bx-user"></i>
+    <div class="form-box">
+        <div class="card">
+            <div class="card-header">Login Page</div>
+            <th:block th:if="${param.error}">
+                <p class="error-message" th:if="${session.SPRING_SECURITY_LAST_EXCEPTION != null}">
+                    <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
+                </p>
+                <p class="error-message" th:unless="${session.SPRING_SECURITY_LAST_EXCEPTION != null}">
+                    Invalid username or password.
+                </p>
+            </th:block>
+            <form action="userLogin" method="post">
+                <div class="form-group">
+                    <input type="text" id="email" name="username" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                </div>
+                
+                <div class="remember-forgot">
+                    <a href="#" th:href="@{/forgotPassword}">Forgot password?</a>
+                </div>
+                <button class="btn btn-primary col-md-12">Login</button>
+            </form>
         </div>
-        <div class="input-box">
-          <input type="password" placeholder="Password" required />
-          <i class="bx bxs-lock-alt"></i>
-        </div>
-        <button type="submit" class="btn">Login</button>
-        <h5>OR</h5>
-        <div class="login-mail">
-          <button type="submit" class="btn">Log in with Google</button>
-        </div>
-        <div class="remenber-forgot">
-          <div class="remember-password">
-            <input type="checkbox" id="remenber" name="remenber" value="remenber">
-            <label for="remenber">Remember password</label>
-          </div>
-          <a href="#" class="forgot">Forgot password?</a>
-        </div>
-      </form>
     </div>
-  </body>
+</body>
 </html>

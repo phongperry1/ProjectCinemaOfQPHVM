@@ -1,9 +1,8 @@
 package com.example;
 
-import com.example.CRUD.Repository.CinemaOwnerRepository;
+
+
 import com.example.CRUD.service.CinemaOwnerService;
-import com.example.Service.PurchaseHistoryService;
-import com.example.mo.CinemaOwner;
 import com.example.mo.PurchaseHistory;
 
 import org.springframework.boot.SpringApplication;

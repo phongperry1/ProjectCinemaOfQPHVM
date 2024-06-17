@@ -159,10 +159,10 @@
                 <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="mdo" width="32" height="32" class="rounded-circle">
               </a>
               <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                <li><a class="dropdown-item" href="/update-profile">Update profile</a></li>
-                <li><a class="dropdown-item" href="/change-password">Change Password</a></li>
-                <li><a class="dropdown-item" href="/transaction-history">Transaction history</a></li>
+                <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+                <li><a class="dropdown-item" href="/user/update-profile">Update profile</a></li>
+                <li><a class="dropdown-item" href="/user/change-password">Change Password</a></li>
+                <li><a class="dropdown-item" href="/user/transaction-history">Transaction history</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
               </ul>
@@ -172,7 +172,7 @@
     </header>
 
 
-    <form action="/update-profile/save" method="get">
+    <form action="/user/edit/update-profile/save" method="post" enctype="multipart/form-data">
         <div class="container mt-5 mb-5">
             <div class="row justify-content-center align-items-center">
                 <div class="col-md-7">

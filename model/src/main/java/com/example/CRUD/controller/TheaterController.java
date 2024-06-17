@@ -13,14 +13,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.CRUD.service.TheaterService;
 import com.example.mo.Theater;
 
-
-
-
-
 @Controller
 public class TheaterController {
-   
-    @Autowired private TheaterService service;
+
+    @Autowired
+    private TheaterService service;
 
     @GetMapping("/theater")
     public String showTheaterList(Model model) {
@@ -35,14 +32,14 @@ public class TheaterController {
         model.addAttribute("pageTitle", "Add New User");
         return "theater_form";
     }
-    
+
     @PostMapping("/theater/save")
     public String saveTheater(Theater theater, RedirectAttributes ra) {
-        
+
         service.save(theater);
         ra.addFlashAttribute("message", "The theater has been saved successfully.");
         return "redirect:/theater";
-        
+
     }
 
     @GetMapping("theater/edit/{TheaterID}")
@@ -54,27 +51,21 @@ public class TheaterController {
             return "theater_form";
         } catch (TheaterNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
-             return "redirect:/theater";
+            return "redirect:/theater";
         }
-        
-        
-    }
-    
 
-     @GetMapping("theater/delete/{TheaterID}")
+    }
+
+    @GetMapping("theater/delete/{TheaterID}")
     public String deleteTheater(@PathVariable("TheaterID") Integer TheaterID, RedirectAttributes ra) {
         try {
             service.delete(TheaterID);
-            
+
         } catch (TheaterNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
         }
         return "redirect:/theater";
-        
-        
+
     }
-    
 
-
-    
 }

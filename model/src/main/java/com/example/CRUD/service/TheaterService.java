@@ -27,7 +27,7 @@ public class TheaterService {
         Optional<Theater> result = repo.findById(theaterID);
         if (result.isPresent()) {
             return result.get();
-        }
+        }   
         throw new TheaterNotFoundException("Could not find any theater with ID " + theaterID);
     }
 

@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.CRUD.Repository.UserRepository;
 import com.example.mo.Users;
-import com.example.Repository.UserRepository;
+
 
 @Service
 public class UserService {

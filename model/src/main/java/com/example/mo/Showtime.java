@@ -18,17 +18,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Showtime {
-     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
 
    private Integer ShowtimeID;
    private Integer MovieID;
    private Integer ScreeningRoomID;
 
    @Column(name = "ShowDate")
-   private Date ShowDate;
+   private Date showDate;
    @Column(name = "ShowTime" )
-   private Time ShowTime;
+   private Time showTime;
 
 
    public Integer getShowtimeID() {
@@ -56,19 +56,19 @@ public class Showtime {
    }
 
    public Date getShowDate() {
-      return this.ShowDate;
+      return this.showDate;
    }
 
    public void setShowDate(Date ShowDate) {
-      this.ShowDate = ShowDate;
+      this.showDate = ShowDate;
    }
 
    public Time getShowTime() {
-      return this.ShowTime;
+      return this.showTime;
    }
 
    public void setShowTime(Time ShowTime) {
-      this.ShowTime = ShowTime;
+      this.showTime = ShowTime;
    }
 
 }

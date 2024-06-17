@@ -11,8 +11,6 @@ import com.example.mo.CinemaOwner;
 @Repository
 public interface CinemaOwnerRepository extends JpaRepository<CinemaOwner, Integer> {
     List<CinemaOwner> findByCinemaNameContainingIgnoreCase(String cinemaName);
-    List<CinemaOwner> findByApprovedFalse();
-    
 }
 
 

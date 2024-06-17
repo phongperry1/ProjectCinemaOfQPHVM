@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <title>Profile</title>
+    <style>
+        /* General Body Styling */
+        body {
+            background: #1f2025 !important;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #282a36;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #44475a;
+        }
+
+        header .navbar-brand {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        header .navbar-brand span {
+            color: red;
+        }
+
+        header .nav-link {
+            color: #ffffff;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        header .nav-link:hover {
+            color: red;
+        }
+
+        header .form-control {
+            background-color: #44475a;
+            border: none;
+            color: #ffffff;
+        }
+
+        header .form-control::placeholder {
+            color: #bbbbbb;
+        }
+
+        header .dropdown-toggle {
+            color: #ffffff;
+        }
+
+        header .dropdown-menu {
+            background-color: #282a36;
+            border: none;
+        }
+
+        header .dropdown-item {
+            color: #ffffff;
+        }
+
+        header .dropdown-item:hover {
+            background-color: #44475a;
+            color: red;
+        }
+
+        header .rounded-circle {
+            border: 2px solid white;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #555555;
+            padding: 40px 0;
+            border-top: 2px solid #44475a;
+        }
+
+        footer h5 {
+            color: red;
+            margin-bottom: 20px;
+        }
+
+        footer .text-muted {
+            color: #bbbbbb !important;
+        }
+
+        footer .col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        footer .col ul li {
+            margin-bottom: 10px;
+        }
+
+        /* Style cho nút "Thay đổi avatar" */
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Style cho nút "Upload" */
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Style cho nút "Cập nhật thông tin" */
+        .update-profile-button {
+            margin-top: 20px;
+        }
+
+        /* Style cho card */
+        .card {
+            background-color: #292a2f;
+            color: #eeeeee;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card1 {
+            background-color: #3f4148;
+            color: #eeeeee;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style cho card-body */
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Style cho user-info */
+        .user-info ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        /* Style cho user-info li */
+        .user-info ul li {
+            margin-bottom: 10px;
+        }
+
+        .avatarPreview img {
+            max-width: 200px !important;
+            max-height: 200px !important;
+            border-radius: 50% !important;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .brozen-rank {
+            background-color: #cd7f32;
+            color: #ffffff;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .silver-rank {
+            background-color: #c0c0c0;
+            color: #000000;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .gold-rank {
+            background-color: #ffd700;
+            color: #000000;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        footer .social-box {
+            display: flex;
+            gap: 10px;
+            justify-content: end;
+        }
+
+        footer .social-box .fa {
+            border: 2px solid #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        footer .social-box .fa:hover {
+            background: #fff;
+            color: #DB0000;
+        }
+    </style>
+</head>
+<body>
+    <header class="p-3 mb-3 border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a class="navbar-brand logo" href="/cinemaowner/homecinemaowner">Movie<span>Tic</span></a>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/cinemaowner/homecinemaowner" class="nav-link px-2 link-light">Home</a></li>
+                    <li><a href="#" class="nav-link px-2 link-secondary">Showtime</a></li>
+                    <li><a href="#" class="nav-link px-2 link-secondary">News</a></li>
+                    <li><a href="#" class="nav-link px-2 link-secondary">Contact</a></li>
+                </ul>
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                </form>
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img th:src="@{/uploads/{imageName}(imageName=${cinemaowner.profileImageURL})}" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                        <li><a class="dropdown-item" href="/cinemaowner/profilecinemaowner">Profile</a></li>
+                        <li><a class="dropdown-item" href="/cinemaowner/update-profilecinemaowner">Update profile</a></li>
+                        <li><a class="dropdown-item" href="/cinemaowner/change-passwordcinemaowner">Change Password</a></li>
+                        <li><a class="dropdown-item" href="/cinemaowner/transaction-historycinemaowner">Transaction history</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="generalInfo">
+                        <div class="card">
+                            <div class="card-body">
+                                <h1 class="text-center mb-5">General Information</h1>
+                                <div class="row">
+                                    <div class="col-md-4 text-center">
+                                        <div class="card1">
+                                            <div class="card-body">
+                                                <form id="avatarForm" enctype="multipart/form-data" action="/cinemaowner/upload-avatar" method="post">
+                                                    <label for="fileInput" class="btn btn-secondary">Change Avatar</label>
+                                                    <button type="submit" class="btn btn-secondary">Upload</button>
+                                                    <input type="file" name="file" id="fileInput" accept="image/*" style="display: none;" onchange="validateFileSize()">
+                                                    <div class="avatarPreview mb-3" id="avatarPreview">
+                                                        <img th:src="@{/uploads/{imageName}(imageName=${cinemaowner.profileImageURL})}" alt="Avatar">
+                                                    </div>
+                                                </form> 
+                                                <span><strong><h2><span th:text="${cinemaowner.userName}"></span></h2></strong></span>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="container">
+                                            <div class="user-info">
+                                                <ul>
+                                                    <li>
+                                                        <i class="fas fa-envelope"></i>
+                                                        <strong>Email: </strong>
+                                                        <span th:text="${cinemaowner.email}"></span>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-phone"></i>
+                                                        <strong>Phone Number: </strong>
+                                                        <span th:text="${cinemaowner.phone}"></span>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                        <strong>Address: </strong>
+                                                        <span th:text="${cinemaowner.location}"></span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card mt-5" style="background-color: #51535c; color: #eeeeee;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Membership</h5>
+                                                <div class="row justify-content-center">
+                                                    <div class="col text-center border-right">
+                                                        <strong>User Rank</strong><br>
+                                                        <span th:text="${cinemaowner.userRank}" th:class="${cinemaowner.userRank == 'Brozen' ? 'brozen-rank' : (cinemaowner.userRank == 'Silver' ? 'silver-rank' : 'gold-rank')}"></span>
+                                                    </div>
+                                                    <div class="col text-center border-right">
+                                                        <strong>Member Points</strong><br>
+                                                        <span th:text="${cinemaowner.memberPoints}"></span>
+                                                    </div>
+                                                    <div class="col text-center">
+                                                        <strong>User Type</strong><br>
+                                                        <span th:text="${cinemaowner.userType}"></span>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                    </div>                                              
+                                    <div class="text-center mt-4">
+                                        <a href="/cinemaowner/update-profilecinemaowner" class="btn btn-secondary">Update Information</a>
+                                    </div>                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-lg-start text-white" style="background-color: #282a36">
+        <!-- Section: Links -->
+        <section class="container">
+            <!--Grid row-->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">MovieTic</h6>
+                    <p>....</p>
+                </div>
+                <!-- Grid column -->
+
+                <hr class="w-100 clearfix d-md-none" />
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold link-light">Buy Movie Ticket</h6>
+                    <p><a href="#" class="text-white link-secondary">Home</a></p>
+                    <p><a href="#" class="text-white link-secondary">Showtime</a></p>
+                    <p><a href="#" class="text-white link-secondary">Theater</a></p>
+                    <p><a href="#" class="text-white link-secondary">Top movie</a></p>
+                </div>
+                <!-- Grid column -->
+
+                <hr class="w-100 clearfix d-md-none" />
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold link-light">Contact</h6>
+                    <p><i class="fas fa-home mr-3 link-secondary"></i> Address: </p>
+                    <p><i class="fas fa-envelope mr-3 link-secondary"></i> Email: </p>
+                    <p><i class="fas fa-phone mr-3 link-secondary"></i> Phone: +84...</p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">Follow us</h6>
+                    <div class="social-box">
+                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-google"></i>
+                        <i class="fab fa-github"></i>
+                    </div>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!--Grid row-->
+        </section>
+        <!-- Section: Links -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2020 Copyright:
+            <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('avatarPreview');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Xóa nội dung trước đó
+                    preview.innerHTML = '';
+                    // Tạo thẻ img mới và đặt src là dữ liệu của hình ảnh
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = '';
+            }
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('currentAvatar');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Xóa nội dung trước đó
+                    preview.innerHTML = '';
+                    // Tạo thẻ img mới và đặt src là dữ liệu của hình ảnh
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = '';
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

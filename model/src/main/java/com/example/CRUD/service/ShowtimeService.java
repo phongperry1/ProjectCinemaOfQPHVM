@@ -1,5 +1,7 @@
 package com.example.CRUD.service;
 
+import java.sql.Date;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +19,10 @@ public class ShowtimeService {
 
     @Autowired
     private ShowtimeRepository repo;
+
+    public List<Showtime> getShowtimesByDate(Date ShowDate) {
+        return repo.findByShowDate(ShowDate);
+    }
 
     public List<Showtime> listAll() {
         return (List<Showtime>) repo.findAll();
