@@ -208,11 +208,11 @@
           <div class="row justify-content-center">
             <!-- Thymeleaf syntax for iterating over movies -->
             <div class="movie-list d-flex flex-wrap justify-content-center">
-              <div class="movie-item col-lg-3 col-md-4 col-sm-6 mb-4" th:each="movie : ${movies}">
+              <div class="movie-item col-lg-3 col-md-4 col-sm-6 mb-2 px-1" th:each="movie : ${movies}">
                 <div class="card">
                   <div class="card__content">
                     <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
-                      style="height: 500px; width: 100%;  border-top-left-radius: 17px; border-top-right-radius: 17px;">
+                      style="height: 500px; width: 100%; border-top-left-radius: 17px; border-top-right-radius: 17px;">
                     <div class="card-body d-flex flex-column p-2">
                       <h5 class="card-title text-white" th:text="${movie.title}"></h5>
                       <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p>
@@ -226,6 +226,8 @@
           </div>
         </div>
       </div>
+      
+      
 
 
       <div class="movie-list-section">
@@ -312,13 +314,14 @@
     }
 
     .card {
-      width: 350px;
-      height: 600px;
-      border-radius: 20px;
-      padding: 5px;
-      box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-      background-image: linear-gradient(144deg, #fdfdfd, #5706f0 50%, #fd0101);
-    }
+  width: 350px;
+  height: 600px;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  background-image: linear-gradient(144deg, #fdfdfd, #5706f0 50%, #fd0101);
+  margin: 0;
+}
 
     .card__content {
       background: rgb(5, 6, 45);
@@ -395,9 +398,10 @@
       flex: 0 0 auto;
       width: 33.33%;
       /* Hiển thị ba phim mỗi hàng */
-      padding: 10px;
+      padding: 0 5px;
       /* Khoảng cách giữa các phim */
       box-sizing: border-box;
+      margin-bottom: 0;
     }
 
     @media (max-width: 767px) {

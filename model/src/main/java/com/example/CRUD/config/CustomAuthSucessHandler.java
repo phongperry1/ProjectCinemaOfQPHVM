@@ -23,7 +23,7 @@ public class CustomAuthSucessHandler implements AuthenticationSuccessHandler {
 
 		if (roles.contains("ROLE_ADMIN")) {
 			response.sendRedirect("/show");
-		} else if(roles.contains("ROLE_CINEMA")) {
+		} else if(roles.contains("ROLE_CINEMA_OWNER")) {
 			response.sendRedirect("/cinemaowner/homecinemaowner");
 		} 
 		else {
