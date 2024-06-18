@@ -26,7 +26,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
             if (roles.contains("ROLE_ADMIN")) {
                 response.sendRedirect("/admin/admin_profile");
-            } else if (roles.contains("ROLE_CINEMA_OWNER")) {
+            } else if (roles.contains("ROLE_CINEMA")) {
                 response.sendRedirect("/cinemaowner/homecinemaowner");
             } else if (roles.contains("ROLE_USER")) {
                 response.sendRedirect("/user/home");

@@ -1,5 +1,6 @@
 package com.example.mo;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import jakarta.persistence.Entity;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseHistory {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int PurchaseID;
     @ManyToOne
@@ -25,5 +26,6 @@ public class PurchaseHistory {
     private Users user;
     private int TicketId;
     private Date PurchaseDate;
+    private BigDecimal totalAmount;
 
 }

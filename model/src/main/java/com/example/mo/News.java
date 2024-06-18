@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,13 +19,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class News {
-   
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer NewsID;
+
+    @Column(name = "authorID")
     private Integer AuthorID;
-    private Integer MovieID;
-    private Integer CinemaOwnerID;
+
+    @ManyToOne
+    @JoinColumn(name = "movieID")
+    private Movie MovieID;
+
+    @ManyToOne
+    @JoinColumn(name = "cinemaOwnerID") // Tên cột khóa ngoại trong bảng Food
+    private CinemaOwner cinemaOwner;
 
     @Column(length = 50, nullable = false, name = "Title")
     private String Title;
@@ -52,35 +62,18 @@ public class News {
 
     @Transient
     public String getPhotosImagePath() {
-        if (PhotoNews == null) return null;
+        if (PhotoNews == null)
+            return null;
 
         return "/news-photo/" + NewsID + "/" + PhotoNews;
     }
 
-
     public String getPhotoNews() {
         return this.PhotoNews;
     }
-    
 
     public void setPhotoNews(String PhotoNews) {
         this.PhotoNews = PhotoNews;
-    }
-
-    public Integer getMovieID() {
-        return this.MovieID;
-    }
-
-    public void setMovieID(Integer MovieID) {
-        this.MovieID = MovieID;
-    }
-
-    public Integer getCinemaOwnerID() {
-        return this.CinemaOwnerID;
-    }
-
-    public void setCinemaOwnerID(Integer CinemaOwnerID) {
-        this.CinemaOwnerID = CinemaOwnerID;
     }
 
     public String getTitle() {
@@ -105,20 +98,6 @@ public class News {
 
     public void setPublishDate(Date PublishDate) {
         this.PublishDate = PublishDate;
-    }
-
-
-    @Override
-    public String toString() {
-        return "{" +
-            " NewsID='" + getNewsID() + "'" +
-            ", AuthorID='" + getAuthorID() + "'" +
-            ", MovieID='" + getMovieID() + "'" +
-            ", CinemaOwnerID='" + getCinemaOwnerID() + "'" +
-            ", Title='" + getTitle() + "'" +
-            ", Content='" + getContent() + "'" +
-            ", PublishDate='" + getPublishDate() + "'" +
-            "}";
     }
 
 }

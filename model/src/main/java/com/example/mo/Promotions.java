@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,8 +22,13 @@ public class Promotions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer PromotionID;
-    private Integer CinemaOwnerID;
-    private Integer MovieID;
+    @ManyToOne
+    @JoinColumn(name = "movieID")
+    private Movie MovieID;
+
+    @ManyToOne
+    @JoinColumn(name = "cinemaOwnerID") // Tên cột khóa ngoại trong bảng Food
+    private CinemaOwner cinemaOwner;
 
     @Column(length = 50, nullable = false, name = "PromotionName")
     private String PromotionName;
@@ -36,7 +43,6 @@ public class Promotions {
     @Column(nullable = true, length = 64, name = "PhotosImagePath")
     private String PhotoPromotions;
 
-
     public Integer getPromotionID() {
         return this.PromotionID;
     }
@@ -45,13 +51,13 @@ public class Promotions {
         this.PromotionID = PromotionID;
     }
 
-     @Transient
+    @Transient
     public String getPhotosImagePath() {
-        if (PhotoPromotions == null) return null;
+        if (PhotoPromotions == null)
+            return null;
 
         return "/promotions-photo/" + PromotionID + "/" + PhotoPromotions;
     }
-
 
     public String getPhotoPromotions() {
         return this.PhotoPromotions;
@@ -59,25 +65,6 @@ public class Promotions {
 
     public void setPhotoPromotions(String PhotoPromotions) {
         this.PhotoPromotions = PhotoPromotions;
-    }
-
-
-
-
-    public Integer getCinemaOwnerID() {
-        return this.CinemaOwnerID;
-    }
-
-    public void setCinemaOwnerID(Integer CinemaOwnerID) {
-        this.CinemaOwnerID = CinemaOwnerID;
-    }
-
-    public Integer getMovieID() {
-        return this.MovieID;
-    }
-
-    public void setMovieID(Integer MovieID) {
-        this.MovieID = MovieID;
     }
 
     public String getPromotionName() {
@@ -119,23 +106,5 @@ public class Promotions {
     public void setEndDate(Date EndDate) {
         this.EndDate = EndDate;
     }
-
-
-    @Override
-    public String toString() {
-        return "{" +
-            " PromotionID='" + getPromotionID() + "'" +
-            ", CinemaOwnerID='" + getCinemaOwnerID() + "'" +
-            ", MovieID='" + getMovieID() + "'" +
-            ", PromotionName='" + getPromotionName() + "'" +
-            ", Description='" + getDescription() + "'" +
-            ", DiscountRate='" + getDiscountRate() + "'" +
-            ", StartDate='" + getStartDate() + "'" +
-            ", EndDate='" + getEndDate() + "'" +
-            "}";
-    }
-
-
-
 
 }

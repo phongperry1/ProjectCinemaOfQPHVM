@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,17 +19,15 @@ public class ScreeningRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   
+
     private Integer ScreeningRoomID;
 
-    @Column(name = "TheaterID", nullable = false)
-    private Integer TheaterID;
+    @ManyToOne
+    @JoinColumn(name = "theaterID", nullable = false)
+    private Theater theater;
 
-   
-    @Column(length = 45 ,nullable = false, name = "roomname")
+    @Column(length = 45, nullable = false, name = "roomname")
     private String Roomname;
-
-
 
     public Integer getScreeningRoomID() {
         return this.ScreeningRoomID;
@@ -37,14 +37,6 @@ public class ScreeningRoom {
         this.ScreeningRoomID = ScreeningRoomID;
     }
 
-    public Integer getTheaterID() {
-        return this.TheaterID;
-    }
-
-    public void setTheaterID(Integer TheaterID) {
-        this.TheaterID = TheaterID;
-    }
-
     public String getRoomname() {
         return this.Roomname;
     }
@@ -52,12 +44,5 @@ public class ScreeningRoom {
     public void setRoomname(String Roomname) {
         this.Roomname = Roomname;
     }
-
-
-    
-
-
-   
-
 
 }

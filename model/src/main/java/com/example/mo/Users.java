@@ -39,5 +39,7 @@ public class Users {
     private String userType;
     private String profileImageURL;
     private String resetPasswordToken;
+    @OneToOne(mappedBy = "users")
+    private CinemaOwner cinemaOwner;
 
 }

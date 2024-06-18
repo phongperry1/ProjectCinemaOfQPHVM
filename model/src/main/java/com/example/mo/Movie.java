@@ -45,7 +45,7 @@ public class Movie {
 
     @Column(name = "ratingCount")
     private Integer ratingCount = 0;
-    
+
     @Column(name = "averageRating")
     private Double averageRating = 0.0;
     @Column(name = "description")
@@ -55,10 +55,13 @@ public class Movie {
     private String trailerURL;
 
     @Column(name = "address")
-    private String address;  
+    private String address;
 
     @Column(name = "status_movie")
     private String statusMovie;
+    @ManyToOne
+    @JoinColumn(name = "cinemaOwnerID")
+    private CinemaOwner cinemaOwner;
 
     // Getter và Setter cho address
     public String getAddress() {
@@ -72,18 +75,18 @@ public class Movie {
     public enum StatusMovie {
         NOW_SHOWING("Đang Chiếu"),
         COMING_SOON("Sắp Chiếu");
-    
+
         private final String status;
-    
+
         StatusMovie(String status) {
             this.status = status;
         }
-    
+
         public String getStatus() {
             return status;
         }
     }
-    
+
     public void updateDetails(Movie movieDetails) {
         this.title = movieDetails.getTitle();
         this.genre = movieDetails.getGenre();
@@ -91,12 +94,12 @@ public class Movie {
         this.director = movieDetails.getDirector();
         this.cast = movieDetails.getCast();
         this.releaseDate = movieDetails.getReleaseDate();
-        this.showTime = movieDetails.getShowTime(); 
+        this.showTime = movieDetails.getShowTime();
         this.languages = movieDetails.getLanguages();
         this.ratingCount = movieDetails.getRatingCount();
         this.averageRating = movieDetails.getAverageRating();
         this.description = movieDetails.getDescription();
         this.trailerURL = movieDetails.getTrailerURL();
-        this.address = movieDetails.getAddress();  // Cập nhật thuộc tính này
+        this.address = movieDetails.getAddress(); // Cập nhật thuộc tính này
     }
 }

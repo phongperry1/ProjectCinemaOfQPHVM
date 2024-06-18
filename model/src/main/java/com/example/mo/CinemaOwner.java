@@ -14,17 +14,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CinemaOwner  {
+public class CinemaOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cinemaOwnerID;
+
     @OneToOne
-    @JoinColumn(name = "UserId")
+    @JoinColumn(name = "userID")
     private Users users;
 
     private String cinemaName;
-    private String AddressCinema;   
-    private String Hotline;
-    private String Email;
-    private int EmployeeID;
+    private String addressCinema;
+    private String hotline;
+    private String email;
+    private int employeeID;
 }
