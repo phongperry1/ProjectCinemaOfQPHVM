@@ -75,7 +75,7 @@ public class HomeController {
                     Movie simplifiedMovie = new Movie();
                     simplifiedMovie.setMovieID(m.getMovieID());
                     simplifiedMovie.setTitle(m.getTitle());
-                    simplifiedMovie.setShowTime(m.getShowTime());
+                    simplifiedMovie.setGenre(m.getGenre());
                     simplifiedMovie.setAddress(m.getAddress());
                     return simplifiedMovie;
                 })
