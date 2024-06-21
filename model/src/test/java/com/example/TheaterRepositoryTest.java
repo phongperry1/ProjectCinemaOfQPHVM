@@ -23,7 +23,7 @@ public class TheaterRepositoryTest {
     @Test
     public void testAddNew() {
         Theater theater = new Theater();
-        theater.setAddress("Da Nang");
+        theater.setMap("Da Nang");
         theater.setTheaterName("MOMOMOMO");
         theater.setCinemaOwnerID(100);
         Theater savedTheater = repo.save(theater);
@@ -48,11 +48,11 @@ public class TheaterRepositoryTest {
         Integer theaterrId = 1;
         Optional<Theater> optionalTheater = repo.findById(theaterrId);
         Theater theater = optionalTheater.get();
-        theater.setAddress("Vung Tau");
+        theater.setMap("Vung Tau");
         repo.save(theater);
 
         Theater updatedTheater = repo.findById(theaterrId).get();
-        Assertions.assertThat(updatedTheater.getAddress()).isEqualTo("Vung Tau");
+        Assertions.assertThat(updatedTheater.getMap()).isEqualTo("Vung Tau");
     }
 
     @Test

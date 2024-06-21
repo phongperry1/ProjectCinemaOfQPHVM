@@ -1,7 +1,5 @@
 package com.example.CRUD.config;
 
-
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +8,6 @@ import java.nio.file.Paths;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadUtil {
-
     public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
 
@@ -18,9 +15,9 @@ public class FileUploadUtil {
             Files.createDirectories(uploadPath);
         }
 
-        try {
+        try (var inputStream = multipartFile.getInputStream()) {
             Path filePath = uploadPath.resolve(fileName);
-            Files.copy(multipartFile.getInputStream(), filePath);
+            Files.copy(inputStream, filePath);
         } catch (IOException e) {
             throw new IOException("Could not save file: " + fileName, e);
         }

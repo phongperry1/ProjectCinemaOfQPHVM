@@ -74,41 +74,41 @@
   <body>
     <header>
       <nav>
-        <p class="logo">
-          Movie<span>Ticket<span>
-        </p>
-
-        <i class="fa fa-bars" id="menu"></i>
-
-        <ul id="menu-box">
-          <div class="marker"></div>
-          <li>main</li>
-          <div class="dropdown">
-              <button class="menu-btn">MOVIE</button>
-              <div class="dropdown-content">
-                  <li><a class="manage" href="">Movies are showing</a></li>
-                  <li><a class="manage" href=""></a></li>
+          <p class="logo">
+              Movie<span>Ticket<span>
+          </p>
+  
+          <i class="fa fa-bars" id="menu"></i>
+  
+          <ul id="menu-box">
+              <div class="marker"></div>
+              <li><a href="/">main</a></li>
+              <div class="dropdown">
+                  <button class="menu-btn">MOVIE</button>
+                  <div class="dropdown-content">
+                      <li><a class="manage" href="">Movies are showing</a></li>
+                      <li><a class="manage" href=""></a></li>
+                  </div>
               </div>
-          </div>
-          <li>theater</li>
-          <li>news</li>
-          <li>promotion</li>
-          <li>food</li>
-          <li>contact</li>  
-          <li>
-            <span><span th:text="${user.userName}"></span></span>
-          </li>
-          <li>
-            <a th:href="@{/user/profile}">
-              <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
-          </a>
-          </li>
-          <li><a href="/logout">Logout</a></li>
-        </ul>
-
-
+              <li><a href="/nearby_theaters">theater</a></li>
+              <li><a href="/createOrder">Payment</a></li>
+              <li><a href="#">news</a></li>
+              <li><a href="#">promotion</a></li>
+              <li><a href="#">food</a></li>
+              <li><a href="#">contact</a></li>
+              <li>
+                  <span><span th:text="${user.userName}"></span></span>
+              </li>
+              <li>
+                  <a th:href="@{/user/profile}">
+                      <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
+                  </a>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+          </ul>
       </nav>
-    </header>
+  </header>
+  
 
     <section>
       <div class="movie-list-section">

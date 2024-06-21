@@ -1,40 +1,33 @@
 package com.example.CRUD.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.CRUD.Repository.TheaterRepository;
-import com.example.mo.Theater;
 import com.example.CRUD.controller.TheaterNotFoundException;
+import com.example.mo.Theater;
 
 @Service
 public class TheaterService {
+
     @Autowired
     private TheaterRepository repo;
 
     public List<Theater> listAll() {
-        return (List<Theater>) repo.findAll();
+        return repo.findAll();
     }
 
-    public void save(Theater theater) {
-        repo.save(theater);
+    public Theater save(Theater theater) {
+        return repo.save(theater);
     }
 
-    public Theater get(Integer theaterID) throws TheaterNotFoundException {
-        Optional<Theater> result = repo.findById(theaterID);
-        if (result.isPresent()) {
-            return result.get();
-        }   
-        throw new TheaterNotFoundException("Could not find any theater with ID " + theaterID);
+    public Theater get(Integer id) throws TheaterNotFoundException {
+        return repo.findById(id).orElseThrow(() -> new TheaterNotFoundException("Could not find any theaters with ID " + id));
     }
 
-    public void delete(Integer TheaterID) throws TheaterNotFoundException {
-        if (!repo.existsById(TheaterID)) {
-            throw new TheaterNotFoundException("Could not find any theater with ID " + TheaterID);
-        }
-        repo.deleteById(TheaterID);
-    } 
+    public void delete(Integer id) {
+        repo.deleteById(id);
+    }
 }

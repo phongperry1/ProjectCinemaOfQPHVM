@@ -1,10 +1,9 @@
 package com.example.CRUD.controller;
+
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,12 +15,11 @@ public class FileUploadUtil {
             Files.createDirectories(uploadPath);
         }
 
-        try (InputStream inputStream = multipartFile.getInputStream()) {
+        try (var inputStream = multipartFile.getInputStream()) {
             Path filePath = uploadPath.resolve(fileName);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(inputStream, filePath);
         } catch (IOException e) {
-            // Handle the IOException
-            throw new IOException("Could not save image file: " + fileName, e);
+            throw new IOException("Could not save file: " + fileName, e);
         }
     }
 }

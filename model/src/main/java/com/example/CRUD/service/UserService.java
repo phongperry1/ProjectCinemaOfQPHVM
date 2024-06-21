@@ -183,4 +183,10 @@ public class UserService {
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
+
+    public Users getUserById(Integer userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+
+    
 }
