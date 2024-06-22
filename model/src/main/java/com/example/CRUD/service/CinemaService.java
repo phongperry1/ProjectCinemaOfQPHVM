@@ -1,5 +1,6 @@
 package com.example.CRUD.service;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,8 @@ public class CinemaService {
             return cinemaOwnerRepository.findByCinemaNameContainingIgnoreCase(cinemaName);
         }
     }
+=======
+public interface CinemaService {
+    
+>>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
 }

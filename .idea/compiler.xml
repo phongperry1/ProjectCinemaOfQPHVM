@@ -2,19 +2,28 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+<<<<<<< HEAD
       <profile default="true" name="Default" enabled="true" />
+=======
+>>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="model" />
+<<<<<<< HEAD
         <module name="10_Register_Login_Security_App" />
+=======
+>>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+<<<<<<< HEAD
       <module name="10_Register_Login_Security_App" options="-parameters" />
+=======
+>>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
       <module name="model" options="-parameters" />
     </option>
   </component>

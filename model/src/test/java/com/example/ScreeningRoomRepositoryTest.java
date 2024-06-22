@@ -62,6 +62,10 @@ public class ScreeningRoomRepositoryTest {
         Assertions.assertThat(updatedScreeningRoom.getRoomname()).isEqualTo("VIP");
     }
     
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
     @Test
     public void testGet() {
         Integer screeningRoomId = 3;

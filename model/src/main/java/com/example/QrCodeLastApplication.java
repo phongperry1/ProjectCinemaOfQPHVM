@@ -2,7 +2,11 @@ package com.example;
 
 
 
+<<<<<<< HEAD
 import com.example.CRUD.service.PurchaseHistoryService;
+=======
+import com.example.Service.PurchaseHistoryService;
+>>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
 import com.example.mo.PurchaseHistory;
 
 import org.springframework.boot.SpringApplication;
