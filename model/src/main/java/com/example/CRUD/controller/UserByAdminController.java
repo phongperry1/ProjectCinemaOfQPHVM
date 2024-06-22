@@ -24,7 +24,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 // @RequestMapping("/user")
-public class UserByAdminControllere {
+public class UserByAdminController {
 
     @Autowired
     private UserByAdminService userByAdminService;

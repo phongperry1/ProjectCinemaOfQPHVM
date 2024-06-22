@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.CRUD.service.PromotionsService;
 import com.example.mo.Promotions;
 
-<<<<<<< HEAD
 
 @Controller
 public class PromotionsController {
@@ -28,15 +27,6 @@ public class PromotionsController {
 
     @GetMapping("/promotions")
     public String showPromotionsList(Model model) {
-=======
-@Controller
-public class PromotionsController {
-    @Autowired private PromotionsService service;
-
-
-     @GetMapping("/promotions")
-    public String showNewsList(Model model) {
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
         List<Promotions> listPromotions = service.listAll();
         model.addAttribute("listPromotions", listPromotions);
         return "promotions"; 
@@ -50,13 +40,9 @@ public class PromotionsController {
     }
 
     @PostMapping("/promotions/save")
-<<<<<<< HEAD
     public String savePromotions(@ModelAttribute("promotions") Promotions promotions,
                                  @RequestParam("image") MultipartFile multipartFile,
                                  RedirectAttributes ra) {
-=======
-    public String savePromotions(@ModelAttribute("promotions") Promotions promotions, @RequestParam("image") MultipartFile multipartFile, RedirectAttributes ra) {
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
         try {
             // Sanitize the file name
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -79,28 +65,16 @@ public class PromotionsController {
             // Handle any IO exceptions that may occur
             e.printStackTrace();
             ra.addFlashAttribute("error", "Failed to save the promotions due to an error: " + e.getMessage());
-<<<<<<< HEAD
         }
         // Redirect to the promotions page
         return "redirect:/promotions";
     }
 
     @GetMapping("/promotions/edit/{PromotionID}")
-=======
-        }       
-        // Redirect to the promotions page
-        return "redirect:/promotions";
-    }
-    
-
-
-    @GetMapping("promotions/edit/{PromotionID}")
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
     public String showEditForm(@PathVariable("PromotionID") Integer PromotionID, Model model, RedirectAttributes ra) {
         try {
             Promotions promotions = service.get(PromotionID);
             model.addAttribute("promotions", promotions);
-<<<<<<< HEAD
             model.addAttribute("pageTitle", "Edit Promotions (ID: " + PromotionID + ")");
             return "promotions_form";
         } catch (PromotionsNotFoundException e) {
@@ -114,39 +88,9 @@ public class PromotionsController {
         try {
             service.delete(PromotionID);
             ra.addFlashAttribute("message", "The promotion has been deleted.");
-=======
-            model.addAttribute("pageTitle", "Edit User (ID: " + PromotionID + ")");
-            return "promotions_form";
-        } catch (PromotionsNotFoundException e) {
-            ra.addFlashAttribute("message", e.getMessage());
-             return "redirect:/promotions";
-        }
-        
-        
-    }
-
-
-    @GetMapping("promotions/delete/{PromotionID}")
-    public String deletePromotions(@PathVariable("PromotionID") Integer PromotionID, RedirectAttributes ra) {
-        try {
-            service.delete(PromotionID);
-            
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
         } catch (PromotionsNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
         }
         return "redirect:/promotions";
-<<<<<<< HEAD
     }
 }
-=======
-        
-        
-    }
-
-
-
-
-
-}
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36

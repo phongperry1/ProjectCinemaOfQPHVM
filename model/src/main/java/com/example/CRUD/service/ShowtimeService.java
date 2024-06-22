@@ -1,10 +1,7 @@
 package com.example.CRUD.service;
 
-<<<<<<< HEAD
 import java.sql.Date;
 
-=======
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +20,6 @@ public class ShowtimeService {
     @Autowired
     private ShowtimeRepository repo;
 
-<<<<<<< HEAD
     public List<Object[]> getShowtimesByMovieIDAndTheaterID(Integer movieID, Integer theaterID) {
         return repo.findByMovieIDAndTheaterID(movieID, theaterID);
     }
@@ -32,8 +28,6 @@ public class ShowtimeService {
         return repo.findByShowDate(ShowDate);
     }
 
-=======
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
     public List<Showtime> listAll() {
         return (List<Showtime>) repo.findAll();
     }

@@ -82,17 +82,4 @@ public class FoodController {
         
         
     }
-<<<<<<< HEAD
 }
-=======
-
-
-
-
-
-
-
-
-
-}
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36

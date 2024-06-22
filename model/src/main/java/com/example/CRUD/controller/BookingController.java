@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.CRUD.Repository.SeatRepository;
+// import com.example.CRUD.Repository.SeatRepository;
 import com.example.CRUD.service.FoodService;
 import com.example.CRUD.service.MovieService;
-import com.example.CRUD.service.SeatService;
+// import com.example.CRUD.service.SeatService;
 import com.example.CRUD.service.ShowtimeService;
 import com.example.CRUD.service.TheaterService;
 import com.example.mo.Food;
@@ -37,8 +37,8 @@ public class BookingController {
     private TheaterService theaterSer;
     @Autowired
     private ShowtimeService showtimeSer;
-    @Autowired
-    private SeatService seatSer;
+    // @Autowired
+    // private SeatService seatSer;
 
     @Autowired
     private FoodService foodSer;

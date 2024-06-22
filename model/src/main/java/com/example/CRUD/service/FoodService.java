@@ -16,10 +16,6 @@ public class FoodService {
    @Autowired
     private FoodRepository repo;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
      public List<Food> listAll() {
         return (List<Food>) repo.findAll();
     }

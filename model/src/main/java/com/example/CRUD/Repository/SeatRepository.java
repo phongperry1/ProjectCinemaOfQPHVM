@@ -1,8 +1,8 @@
-package com.example.CRUD.Repository;
+// package com.example.CRUD.Repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.mo.Seat;
+// import com.example.mo.Seat;
 
-public interface SeatRepository extends JpaRepository<Seat, Integer> {
-}
+// public interface SeatRepository extends JpaRepository<Seat, Integer> {
+// }
