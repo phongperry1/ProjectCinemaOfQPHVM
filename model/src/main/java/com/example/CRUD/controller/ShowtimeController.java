@@ -84,6 +84,7 @@ public class ShowtimeController {
     public String deleteShowtime(@PathVariable("ShowtimeID") Integer ShowtimeID, RedirectAttributes ra) {
         try {
             service.delete(ShowtimeID);
+
         } catch (ShowtimeNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
         }

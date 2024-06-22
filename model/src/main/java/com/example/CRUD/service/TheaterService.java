@@ -18,10 +18,6 @@ public class TheaterService {
     public List<Theater> listAll() {
         return (List<Theater>) repo.findAll();
     }
-    
-    public Theater findByTheaterName(String theaterName) {
-        return repo.findByTheaterName(theaterName);
-    }
 
     public void save(Theater theater) {
         repo.save(theater);

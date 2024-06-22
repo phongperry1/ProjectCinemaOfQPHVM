@@ -6,9 +6,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
     <title>Ticket Booking</title>
     <style>
@@ -99,34 +100,34 @@
             margin-top: 20px;
         }
 
-
-        /* .btn {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .btn.active {
-            background-color: #0056b3;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        } */
-
-        .showtimes li {
-        flex: 0 0 33.33%; /* Hiển thị 3 lựa chọn mỗi hàng */
-        padding: 5px;
-        box-sizing: border-box;
-        }
+        .show-date-button, .show-time-button {
+        display: inline-block;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px; /* Tạo hình dạng oval */
+        background-color: #007bff; /* Màu nền */
+        color: white; /* Màu chữ */
+        font-size: 16px;
+        margin: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
 
         .screen {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            border-top: 3px solid #fd6565;
+            margin-top: 11px;
+            border-radius: 20%;
+            overflow: hidden;
+            box-shadow: inset 0px 10px 20px var(--color);
             text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
+            padding-top: 15px;
+            color: #000000;
+            letter-spacing: 5px;
+            font-size: 12px;
+
         }
 
 
@@ -142,21 +143,100 @@
             margin: 0 5px;
         }
 
-        .seat {
+         .right .screen::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            border-radius: 50%;
+            box-shadow: 0px 0px 20px rgb(184, 184, 184, .5);
+            top: -20px;
+            left: 0;
+        }
+
+        .right .chair {
+            width: 95%;
+
+            margin: auto;
+
+        }
+        .right .chair .row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .right .chair .row button {
+            position: relative;
+            width: 30px;
+            height: 20px;
+            background: rgb(184, 184, 184, .3);
             list-style: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: .3s linear;
+            font-size: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-weight: 600;
+        }
+
+        .right .chair .row button::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        background: rgb(184, 184, 184, .1);
+        bottom: -8px;
+        border-radius: 10px;
+    }
+
+        .right .chair .row button:hover {
+            background: rgb(255, 96, 133);
+            color: #000;
+        }
+        .right .chair .row button:nth-child(6) {
+            margin-right: 20px;
+        }
+        .right .chair .row button:nth-last-child(6) {
+            margin-left: 20px;
+        }
+        .right .chair .row span {
+            color: #fff;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .chair .row:nth-child(1) button,
+        .chair .row:nth-child(2) button,
+        .chair .row:nth-child(3) button,
+        .chair .row:nth-child(9) button,
+        .chair .row:nth-child(10) button {
             width: 30px;
             height: 30px;
-            margin: 0 5px;
-            background-color: #ccc;
-            border: 1px solid #999;
-            text-align: center;
-            line-height: 30px;
+            border: 1px solid #f70202;
+            background-color: #fa3238;
+            color: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .right .chair .row:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(9)):not(:nth-child(10)) button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ff0cf3;
+            background-color: #891bf7; 
+            color: #ffffff; 
+            font-size: 14px;
             cursor: pointer;
         }
 
         .seat.selected {
-            background-color: #6fa8dc;
-            border-color: #6fa8dc;
+            background-color: #2f0000 !important;
+            border-color: #e65a5a;
             color: #fff;
         }
 
@@ -167,12 +247,6 @@
             cursor: not-allowed;
         }
 
-        .seat:hover {
-            background-color: #6fa8dc;
-            border-color: #6fa8dc;
-            color: #fff;
-        }
-
         .selected-seats {
             display: none;
             margin-top: 10px;
@@ -186,8 +260,8 @@
             display: none;
             margin-top: 10px;
             padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
+            border: 1px solid #cd0000;
+            background-color: #da000033;
             flex-grow: 1;
         }
         .selected-seats-container {
@@ -203,7 +277,30 @@
         #removeAllButton {
             cursor: pointer;
         }
-                
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .legend-square {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+            margin-right: 5px;
+        }
+
+        .legend-item span {
+            font-size: 14px;
+        }
+                        
     </style>
 </head>
 <body>
@@ -216,18 +313,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="movie-info">
-                            <h2>Lịch chiếu Garfield - Mèo Béo Siêu Quậy</h2>
-
-                            <div class="schedule-container mb-3">
-                                <button class="day-button btn" onclick="loadShowtimes('2024-06-15')">15</button>
-                                <button class="day-button btn" onclick="loadShowtimes('2024-06-16')">16</button>
-                                <button class="day-button btn" onclick="loadShowtimes('2024-06-17')">17</button>
-                            </div>
+                            <h2>Lịch chiếu <span th:text="${movie.title}"></span></h2>
                             <div class="schedule-container mb-3" id="schedule-container">
                                 <div th:each="theater : ${theaters}">
                                     <button type="button" class="list-group-item list-group-item-action mt-3"
-                                            th:attr="data-theater-name=${theater.theaterName}"
-                                            onclick="showShowtimes(this.getAttribute('data-theater-name'))">
+                                            th:attr="data-theater-id=${theater.theaterID}"
+                                            onclick="showShowtimes(this.getAttribute('data-theater-id'))">
                                         <div class="cinema-item">
                                             <img src="https://i.imgur.com/D5O0h8H.png" alt="CGV">
                                             <div>
@@ -236,7 +327,12 @@
                                             </div>
                                         </div>
                                     </button>
-                                    <div class="showtimes mt-3 mb-3" th:id="'showtimes-' + ${theater.theaterName}"></div>
+                                    <div class="dates-container mt-3">
+                                        <!-- Showtimes for this theater will be displayed here -->
+                                    </div>                     
+                                    <div class="showtimes-container">
+                                        <!-- Container for showtimes will be dynamically filled by JavaScript -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -246,229 +342,683 @@
         </div>        
     </div>
 
-<!-- Modal -->
+<!-- Seat Modal -->
     <div class="modal fade" id="chooseSeatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Choose Seat</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="screen" id="screen">
-                Screen
-            </div>
-            <div class="modal-body">
-                <div class="chair" id="chair">
-                    <div class="row">
-                        <button class="seat">A1</button>
-                        <button class="seat">A2</button>
-                        <button class="seat">A3</button>
-                        <button class="seat">A4</button>
-                        <button class="seat">A5</button>
-                        <button class="seat">A6</button>
-                        <button class="seat">A7</button>
-                        <button class="seat">A8</button>
-                        <button class="seat">A9</button>
-                        <button class="seat">A10</button>
-                    </div> 
-                    <div class="row">
-                        <button class="seat">B1</button>
-                        <button class="seat">B2</button>
-                        <button class="seat">B3</button>
-                        <button class="seat">B4</button>
-                        <button class="seat">B5</button>
-                        <button class="seat">B6</button>
-                        <button class="seat">B7</button>
-                        <button class="seat">B8</button>
-                        <button class="seat">B9</button>
-                        <button class="seat">B10</button>
-                    </div> 
-                    <div class="row">
-                        <button class="seat">C1</button>
-                        <button class="seat">C2</button>
-                        <button class="seat">C3</button>
-                        <button class="seat">C4</button>
-                        <button class="seat">C5</button>
-                        <button class="seat">C6</button>
-                        <button class="seat">C7</button>
-                        <button class="seat">C8</button>
-                        <button class="seat">C9</button>
-                        <button class="seat">C10</button>
-                    </div> 
-                    <div class="row">
-                        <button class="seat">D1</button>
-                        <button class="seat">D2</button>
-                        <button class="seat">D3</button>
-                        <button class="seat">D4</button>
-                        <button class="seat">D5</button>
-                        <button class="seat">D6</button>
-                        <button class="seat">D7</button>
-                        <button class="seat">D8</button>
-                        <button class="seat">D9</button>
-                        <button class="seat">D10</button>
-                    </div> 
-                    <div class="row">
-                        <button class="seat">E1</button>
-                        <button class="seat">E2</button>
-                        <button class="seat">E3</button>
-                        <button class="seat">E4</button>
-                        <button class="seat">E5</button>
-                        <button class="seat">E6</button>
-                        <button class="seat">E7</button>
-                        <button class="seat">E8</button>
-                        <button class="seat">E9</button>
-                        <button class="seat">E10</button>
-                    </div> 
-                    <div class="row">
-                        <button class="seat">F1</button>
-                        <button class="seat">F2</button>
-                        <button class="seat">F3</button>
-                        <button class="seat">F4</button>
-                        <button class="seat">F5</button>
-                        <button class="seat">F6</button>
-                        <button class="seat">F7</button>
-                        <button class="seat">F8</button>
-                        <button class="seat">F9</button>
-                        <button class="seat">F10</button>
+        <div class="modal-dialog" style="max-width: 1000px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose Seat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="screen" id="screen">
+                    Screen
+                </div>
+                <div class="right">
+                    <div class="chair" id="chair">
+                        <div class="row">
+                            <button class="seat" data-type="regular" data-price="100000">A1</button>
+                            <button class="seat" data-type="regular" data-price="100000">A2</button>
+                            <button class="seat" data-type="regular" data-price="100000">A3</button>
+                            <button class="seat" data-type="regular" data-price="100000">A4</button>
+                            <button class="seat" data-type="regular" data-price="100000">A5</button>
+                            <button class="seat" data-type="regular" data-price="100000">A6</button>
+                            <button class="seat" data-type="regular" data-price="100000">A7</button>
+                            <button class="seat" data-type="regular" data-price="100000">A8</button>
+                            <button class="seat" data-type="regular" data-price="100000">A9</button>
+                            <button class="seat" data-type="regular" data-price="100000">A10</button>
+                            <button class="seat" data-type="regular" data-price="100000">A11</button>
+                            <button class="seat" data-type="regular" data-price="100000">A12</button>
+                            <button class="seat" data-type="regular" data-price="100000">A13</button>
+                            <button class="seat" data-type="regular" data-price="100000">A14</button>
+                            <button class="seat" data-type="regular" data-price="100000">A15</button>
+                            <button class="seat" data-type="regular" data-price="100000">A16</button>
+                            <button class="seat" data-type="regular" data-price="100000">A17</button>
+                            <button class="seat" data-type="regular" data-price="100000">A18</button>
+                            <button class="seat" data-type="regular" data-price="100000">A19</button>
+                            <button class="seat" data-type="regular" data-price="100000">A20</button>
+                        </div>
+                        <div class="row">
+                            <button class="seat" data-type="regular" data-price="100000">B1</button>
+                            <button class="seat" data-type="regular" data-price="100000">B2</button>
+                            <button class="seat" data-type="regular" data-price="100000">B3</button>
+                            <button class="seat" data-type="regular" data-price="100000">B4</button>
+                            <button class="seat" data-type="regular" data-price="100000">B5</button>
+                            <button class="seat" data-type="regular" data-price="100000">B6</button>
+                            <button class="seat" data-type="regular" data-price="100000">B7</button>
+                            <button class="seat" data-type="regular" data-price="100000">B8</button>
+                            <button class="seat" data-type="regular" data-price="100000">B9</button>
+                            <button class="seat" data-type="regular" data-price="100000">B10</button>
+                            <button class="seat" data-type="regular" data-price="100000">B11</button>
+                            <button class="seat" data-type="regular" data-price="100000">B12</button>
+                            <button class="seat" data-type="regular" data-price="100000">B13</button>
+                            <button class="seat" data-type="regular" data-price="100000">B14</button>
+                            <button class="seat" data-type="regular" data-price="100000">B15</button>
+                            <button class="seat" data-type="regular" data-price="100000">B16</button>
+                            <button class="seat" data-type="regular" data-price="100000">B17</button>
+                            <button class="seat" data-type="regular" data-price="100000">B18</button>
+                            <button class="seat" data-type="regular" data-price="100000">B19</button>
+                            <button class="seat" data-type="regular" data-price="100000">B20</button>
+                        </div>
+                        <div class="row">
+                            <button class="seat" data-type="regular" data-price="100000">C1</button>
+                            <button class="seat" data-type="regular" data-price="100000">C2</button>
+                            <button class="seat" data-type="regular" data-price="100000">C3</button>
+                            <button class="seat" data-type="regular" data-price="100000">C4</button>
+                            <button class="seat" data-type="regular" data-price="100000">C5</button>
+                            <button class="seat" data-type="regular" data-price="100000">C6</button>
+                            <button class="seat" data-type="regular" data-price="100000">C7</button>
+                            <button class="seat" data-type="regular" data-price="100000">C8</button>
+                            <button class="seat" data-type="regular" data-price="100000">C9</button>
+                            <button class="seat" data-type="regular" data-price="100000">C10</button>
+                            <button class="seat" data-type="regular" data-price="100000">C11</button>
+                            <button class="seat" data-type="regular" data-price="100000">C12</button>
+                            <button class="seat" data-type="regular" data-price="100000">C13</button>
+                            <button class="seat" data-type="regular" data-price="100000">C14</button>
+                            <button class="seat" data-type="regular" data-price="100000">C15</button>
+                            <button class="seat" data-type="regular" data-price="100000">C16</button>
+                            <button class="seat" data-type="regular" data-price="100000">C17</button>
+                            <button class="seat" data-type="regular" data-price="100000">C18</button>
+                            <button class="seat" data-type="regular" data-price="100000">C19</button>
+                            <button class="seat" data-type="regular" data-price="100000">C20</button>
+                        </div>
+                        <div class="row">
+                            <button class="seat" data-type="vip" data-price="105000">D1 </button>
+                            <button class="seat" data-type="vip" data-price="105000">D2</button>
+                            <button class="seat" data-type="vip" data-price="105000">D3</button>
+                            <button class="seat" data-type="vip" data-price="105000">D4</button>
+                            <button class="seat" data-type="vip" data-price="105000">D5</button>
+                            <button class="seat" data-type="vip" data-price="105000">D6</button>
+                            <button class="seat" data-type="vip" data-price="105000">D7</button>
+                            <button class="seat" data-type="vip" data-price="105000">D8</button>
+                            <button class="seat" data-type="vip" data-price="105000">D9</button>
+                            <button class="seat" data-type="vip" data-price="105000">D10</button>
+                            <button class="seat" data-type="vip" data-price="105000">D11</button>
+                            <button class="seat" data-type="vip" data-price="105000">D12</button>
+                            <button class="seat" data-type="vip" data-price="105000">D13</button>
+                            <button class="seat" data-type="vip" data-price="105000">D14</button>
+                            <button class="seat" data-type="vip" data-price="105000">D15</button>
+                            <button class="seat" data-type="vip" data-price="105000">D16</button>
+                            <button class="seat" data-type="vip" data-price="105000">D17</button>
+                            <button class="seat" data-type="vip" data-price="105000">D18</button>
+                            <button class="seat" data-type="vip" data-price="105000">D19</button>
+                            <button class="seat" data-type="vip" data-price="105000">D20</button>
+
+                        </div>
+                        <div class="row">
+                            <button class="seat" data-type="vip" data-price="105000"> E1</button>
+                            <button class="seat" data-type="vip" data-price="105000">E2</button>
+                            <button class="seat" data-type="vip" data-price="105000">E3</button>
+                            <button class="seat" data-type="vip" data-price="105000">E4</button>
+                            <button class="seat" data-type="vip" data-price="105000">E5</button>
+                            <button class="seat" data-type="vip" data-price="105000">E6</button>
+                            <button class="seat" data-type="vip" data-price="105000">E7</button>
+                            <button class="seat" data-type="vip" data-price="105000">E8</button>
+                            <button class="seat" data-type="vip" data-price="105000">E9</button>
+                            <button class="seat" data-type="vip" data-price="105000">E10</button>
+                            <button class="seat" data-type="vip" data-price="105000">E11</button>
+                            <button class="seat" data-type="vip" data-price="105000">E12</button>
+                            <button class="seat" data-type="vip" data-price="105000">E13</button>
+                            <button class="seat" data-type="vip" data-price="105000">E14</button>
+                            <button class="seat" data-type="vip" data-price="105000">E15</button>
+                            <button class="seat" data-type="vip" data-price="105000">E16</button>
+                            <button class="seat" data-type="vip" data-price="105000">E17</button>
+                            <button class="seat" data-type="vip" data-price="105000">E18</button>
+                            <button class="seat" data-type="vip" data-price="105000">E19</button>
+                            <button class="seat" data-type="vip" data-price="105000">E20</button>
+                        </div>
+                        <div class="row">
+                            <button class="seat" data-type="vip" data-price="105000">F1</button>
+                            <button class="seat" data-type="vip" data-price="105000">F2</button>
+                            <button class="seat" data-type="vip" data-price="105000">F3</button>
+                            <button class="seat" data-type="vip" data-price="105000">F4</button>
+                            <button class="seat" data-type="vip" data-price="105000">F5</button>
+                            <button class="seat" data-type="vip" data-price="105000">F6</button>
+                            <button class="seat" data-type="vip" data-price="105000">F7</button>
+                            <button class="seat" data-type="vip" data-price="105000">F8</button>
+                            <button class="seat" data-type="vip" data-price="105000">F9</button>
+                            <button class="seat" data-type="vip" data-price="105000">F10</button>
+                            <button class="seat" data-type="vip" data-price="105000">F11</button>
+                            <button class="seat" data-type="vip" data-price="105000">F12</button>
+                            <button class="seat" data-type="vip" data-price="105000">F13</button>
+                            <button class="seat" data-type="vip" data-price="105000">F14</button>
+                            <button class="seat" data-type="vip" data-price="105000">F15</button>
+                            <button class="seat" data-type="vip" data-price="105000">F16</button>
+                            <button class="seat" data-type="vip" data-price="105000">F17</button>
+                            <button class="seat" data-type="vip" data-price="105000">F18</button>
+                            <button class="seat" data-type="vip" data-price="105000">F19</button>
+                            <button class="seat" data-type="vip" data-price="105000">F20</button>
+                        </div>
+                        <div class="row">
+                            <button class="seat" data-type="vip" data-price="105000">G1</button>
+                            <button class="seat" data-type="vip" data-price="105000">G2</button>
+                            <button class="seat" data-type="vip" data-price="105000">G3</button>
+                            <button class="seat" data-type="vip" data-price="105000">G4</button>
+                            <button class="seat" data-type="vip" data-price="105000">G5</button>
+                            <button class="seat" data-type="vip" data-price="105000">G6</button>
+                            <button class="seat" data-type="vip" data-price="105000">G7</button>
+                            <button class="seat" data-type="vip" data-price="105000">G8</button>
+                            <button class="seat" data-type="vip" data-price="105000">G9</button>
+                            <button class="seat" data-type="vip" data-price="105000">G10</button>
+                            <button class="seat" data-type="vip" data-price="105000">G11</button>
+                            <button class="seat" data-type="vip" data-price="105000">G12</button>
+                            <button class="seat" data-type="vip" data-price="105000">G13</button>
+                            <button class="seat" data-type="vip" data-price="105000">G14</button>
+                            <button class="seat" data-type="vip" data-price="105000">G15</button>
+                            <button class="seat" data-type="vip" data-price="105000">G16</button>
+                            <button class="seat" data-type="vip" data-price="105000">G17</button>
+                            <button class="seat" data-type="vip" data-price="105000">G18</button>
+                            <button class="seat" data-type="vip" data-price="105000">G19</button>
+                            <button class="seat" data-type="vip" data-price="105000">G20</button>
+                        </div>
+                        <div class="row">
+                            <button class="seat" data-type="vip" data-price="105000">H1</button>
+                            <button class="seat" data-type="vip" data-price="105000">H2</button>
+                            <button class="seat" data-type="vip" data-price="105000">H3</button>
+                            <button class="seat" data-type="vip" data-price="105000">H4</button>
+                            <button class="seat" data-type="vip" data-price="105000">H5</button>
+                            <button class="seat" data-type="vip" data-price="105000">H6</button>
+                            <button class="seat" data-type="vip" data-price="105000">H7</button>
+                            <button class="seat" data-type="vip" data-price="105000">H8</button>
+                            <button class="seat" data-type="vip" data-price="105000">H9</button>
+                            <button class="seat" data-type="vip" data-price="105000">H10</button>
+                            <button class="seat" data-type="vip" data-price="105000">H11</button>
+                            <button class="seat" data-type="vip" data-price="105000">H12</button>
+                            <button class="seat" data-type="vip" data-price="105000">H13</button>
+                            <button class="seat" data-type="vip" data-price="105000">H14</button>
+                            <button class="seat" data-type="vip" data-price="105000">H15</button>
+                            <button class="seat" data-type="vip" data-price="105000">H16</button>
+                            <button class="seat" data-type="vip" data-price="105000">H17</button>
+                            <button class="seat" data-type="vip" data-price="105000">H18</button>
+                            <button class="seat" data-type="vip" data-price="105000">H19</button>
+                            <button class="seat" data-type="vip" data-price="105000">H20</button>
+                        </div>
+                        <div class="row">
+                            <button class="seat" data-type="regular" data-price="100000">I1</button>
+                            <button class="seat" data-type="regular" data-price="100000">I2</button>
+                            <button class="seat" data-type="regular" data-price="100000">I3</button>
+                            <button class="seat" data-type="regular" data-price="100000">I4</button>
+                            <button class="seat" data-type="regular" data-price="100000">I5</button>
+                            <button class="seat" data-type="regular" data-price="100000">I6</button>
+                            <button class="seat" data-type="regular" data-price="100000">I7</button>
+                            <button class="seat" data-type="regular" data-price="100000">I8</button>
+                            <button class="seat" data-type="regular" data-price="100000">I9</button>
+                            <button class="seat" data-type="regular" data-price="100000">I10</button>
+                            <button class="seat" data-type="regular" data-price="100000">I11</button>
+                            <button class="seat" data-type="regular" data-price="100000">I12</button>
+                            <button class="seat" data-type="regular" data-price="100000">I13</button>
+                            <button class="seat" data-type="regular" data-price="100000">I14</button>
+                            <button class="seat" data-type="regular" data-price="100000">I15</button>
+                            <button class="seat" data-type="regular" data-price="100000">I16</button>
+                            <button class="seat" data-type="regular" data-price="100000">I17</button>
+                            <button class="seat" data-type="regular" data-price="100000">I18</button>
+                            <button class="seat" data-type="regular" data-price="100000">I19</button>
+                            <button class="seat" data-type="regular" data-price="100000">I20</button>
+                        </div>
+                        <div class="row">
+                            <button class="seat" data-type="regular" data-price="100000">J1</button>
+                            <button class="seat" data-type="regular" data-price="100000">J2</button>
+                            <button class="seat" data-type="regular" data-price="100000">J3</button>
+                            <button class="seat" data-type="regular" data-price="100000">J4</button>
+                            <button class="seat" data-type="regular" data-price="100000">J5</button>
+                            <button class="seat" data-type="regular" data-price="100000">J6</button>
+                            <button class="seat" data-type="regular" data-price="100000">J7</button>
+                            <button class="seat" data-type="regular" data-price="100000">J8</button>
+                            <button class="seat" data-type="regular" data-price="100000">J9</button>
+                            <button class="seat" data-type="regular" data-price="100000">J10</button>
+                            <button class="seat" data-type="regular" data-price="100000">J11</button>
+                            <button class="seat" data-type="regular" data-price="100000">J12</button>
+                            <button class="seat" data-type="regular" data-price="100000">J13</button>
+                            <button class="seat" data-type="regular" data-price="100000">J14</button>
+                            <button class="seat" data-type="regular" data-price="100000">J15</button>
+                            <button class="seat" data-type="regular" data-price="100000">J16</button>
+                            <button class="seat" data-type="regular" data-price="100000">J17</button>
+                            <button class="seat" data-type="regular" data-price="100000">J18</button>
+                            <button class="seat" data-type="regular" data-price="100000">J19</button>
+                            <button class="seat" data-type="regular" data-price="100000">J20</button>
+                        </div>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-square" style="background-color: #fa3238;"></div>
+                            <span>Ghế thường</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-square" style="background-color: #891bf7;"></div>
+                            <span>Ghế VIP</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-square" style="background-color: #2f0000;"></div>
+                            <span>Ghế đã chọn</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-square" style="background-color: #d9d9d9;"></div>
+                            <span>Ghế đã đặt</span>
+                        </div>
+                    </div>
+                            
+                    <div class="showtimes-container" id="movieInfo">
+                        <p id="movieTitle">Tên phim: </p>
+                        <p id="showtime">Suất chiếu: </p>
+                        <p id="date">Ngày: </p>
+                    </div>
+                    <div id="selectedSeatsContainer" class="selected-seats-container">
+                        <span id="selectedSeatsList" class="selected-seats">Selected Seats: </span>
+                        <i id="removeAllButton" class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="total-price-container">
+                        Tạm tính: <span id="totalPriceSeat">0</span> 
                     </div>
                 </div>
-                <div class="showtimes-container" id="movieInfo">
-                    <p id="movieTitle">Tên phim: Avengers: Endgame</p>
-                    <p id="showtime">Suất chiếu: 10:00 AM</p>
-                    <p id="date">Ngày: 2024-06-15</p>
+                <button type="button" class="btn btn-primary" id="continue">
+                    Tiếp tục
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Food Modal -->
+
+    <div class="modal fade" id="FoodModal" tabindex="-1" role="dialog" aria-labelledby="comboModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="comboModalLabel">Chọn combo bắp nước</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div id="selectedSeatsContainer" class="selected-seats-container">
-                    <span id="selectedSeatsList" class="selected-seats">Selected Seats: </span>
-                    <i id="removeAllButton" class="fas fa-times-circle"></i>
+                <div class="modal-body">
+                    <div id="foodList">
+                        <div th:each="food : ${foods}">
+                            <div class="food-item">
+                                <img th:src="${food.photoFood}" alt="Food Image" style="max-width: 100%; height: auto;">
+                                <h5 th:text="${food.foodName}"></h5>
+                                <p th:text="${food.price} + ' đ'"></p>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-sm btn-secondary decrease-quantity" th:attr="data-food-id=${food.foodID}">-</button>
+                                        <input type="text" class="form-control food-quantity" value="0" readonly th:attr="data-food-id=${food.foodID}">
+                                        <button type="button" class="btn btn-sm btn-secondary increase-quantity" th:attr="data-food-id=${food.foodID}">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="total-price-container">
+                        Tổng giá<h5><span id="totalPriceFood">0 </span></h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="back">Quay lại</button>
+                    <button type="button" class="btn btn-primary" id="confirmPurchaseButton">Xác nhận mua</button>
                 </div>
             </div>
-          </div>
+        </div>
+    </div>
+
+    <!-- Ticket Detail -->
+
+    <div class="modal fade" id="ticketdetailModal" tabindex="-1" role="dialog" aria-labelledby="ticketdetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ticketdetailModalLabel">Chi tiết vé</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="ticketDetailContent">
+                        <p id="ticketMovieTitle"></p>
+                        <p id="ticketShowtime"></p>
+                        <p id="ticketDate"></p>
+                        <p id="selectedSeats"></p>
+                        <p id="selectedFood"></p>
+                        <p id="totalPrice3"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" >Tiến hành thanh toán</button>
+                </div>
+            </div>
         </div>
     </div>
 
 
-    <script>
-        function showShowtimes(cinemaName) {
-        // Lấy ra div chứa danh sách suất chiếu của rạp được chọn
-        var showtimesContainer = document.getElementById('showtimes-' + cinemaName);
+    <script th:inline="javascript">
+        const movieID = /*[[${movieID}]]*/ 1; 
+        let currentShowtimes = {}; 
+        let selectedDate = null; 
+        function showShowtimes(theaterID) {
+    fetch(`/showtimes/getShowtimes?movieID=${movieID}&theaterID=${theaterID}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Lỗi HTTP! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
 
-        // Kiểm tra nếu div này đã có dữ liệu thì không gọi API nữa
-        if (showtimesContainer.innerHTML.trim() !== '') {
-            return;
+            currentShowtimes[theaterID] = data; // Lưu dữ liệu suất chiếu của rạp mới
+
+            displayDatesForTheater(theaterID);
+        })
+        .catch(error => {
+            console.error('Lỗi khi lấy suất chiếu:', error);
+            alert("Đã xảy ra lỗi khi lấy suất chiếu. Vui lòng thử lại sau.");
+        });
+}
+
+        function displayDatesForTheater(theaterID) {
+            const datesContainer = document.querySelector('.dates-container');
+            datesContainer.innerHTML = ''; 
+            const showtimeContainer = document.querySelector('.showtimes-container');
+            showtimeContainer.innerHTML = '';
+
+            const uniqueDates = new Set();
+            currentShowtimes[theaterID].forEach(showtime => {
+                const showDate = new Date(showtime.showDate).toLocaleDateString();
+                uniqueDates.add(showDate);
+            });
+
+            uniqueDates.forEach(showDate => {
+                const dateButton = document.createElement('button');
+                dateButton.textContent = showDate;
+                dateButton.classList.add('show-date-button');
+                dateButton.addEventListener('click', () => {
+                    selectedDate = showDate; // Lưu ngày được chọn
+                    showSelectedDate(); // Hiển thị ngày được chọn
+                    displayShowtimesForDate(theaterID, showDate); // Hiển thị suất chiếu tương ứng
+                });
+                datesContainer.appendChild(dateButton);
+            });
         }
 
-        // Gọi API để lấy danh sách suất chiếu từ server
-        fetch('/booking/showtimes/' + cinemaName)
-            .then(response => response.json())
-            .then(data => {
-                // Tạo HTML cho danh sách suất chiếu
-                var showtimeListItems = '';
-                data.forEach(showtime => {
-                    showtimeListItems += `
-                        <button type="button" class="list-group-item"
-                                data-toggle="modal" data-target="#chooseSeatModal"
-                                onclick="setSelectedShowtime('${cinemaName}', '${showtime}')">
-                            ${showtime}
-                        </button>`;
+        function displayShowtimesForDate(theaterID, showDate) {
+            const showtimesContainer = document.querySelector('.showtimes-container');
+            showtimesContainer.innerHTML = ''; // Xóa nội dung cũ của container suất chiếu
+
+            // Lọc và hiển thị các suất chiếu cho ngày được chọn và rạp tương ứng
+            const showtimes = currentShowtimes[theaterID].filter(showtime => {
+                const formattedDate = new Date(showtime.showDate).toLocaleDateString();
+                return formattedDate === showDate;
+            });
+
+            showtimes.forEach(showtime => {
+                const showTimeButton = document.createElement('button');
+                showTimeButton.textContent = showtime.showTime;
+                showTimeButton.classList.add('show-time-button');
+                showTimeButton.addEventListener('click', () => selectShowtime(showtime.showDate, showtime.showTime));
+                showtimesContainer.appendChild(showTimeButton);
+            });
+        }
+
+        function selectShowtime(showDate, showTime) {
+            console.log(`Đã chọn suất chiếu vào ngày ${showDate} lúc ${showTime}`);
+
+
+            const movieTitle = /*[[${movie.title}]]*/ 0;
+            // Cập nhật thông tin suất chiếu trong modal
+            document.getElementById('movieTitle').textContent = 'Tên phim: ' + movieTitle;
+            document.getElementById('showtime').textContent = 'Suất chiếu: ' + showTime;
+            document.getElementById('date').textContent = 'Ngày: ' + showDate;
+            
+
+            // Hiển thị modal chọn ghế
+            $('#chooseSeatModal').modal('show');
+            
+        }
+
+        function showSelectedDate() {
+            // Hiển thị ngày được chọn
+            const selectedDateElement = document.querySelector('.selected-date');
+            if (selectedDateElement) {
+                selectedDateElement.textContent = selectedDate;
+            } else {
+                console.error('Không tìm thấy phần tử selected-date');
+            }
+        }
+        /////modal
+
+        // function updateModalShowtimeInfo(showtime) {
+        //     const movieTitleElement = document.getElementById('movieTitle');
+        //     const showtimeElement = document.getElementById('showtime');
+        //     const dateElement = document.getElementById('date');
+
+        //     if (movieTitleElement && showtimeElement && dateElement) {
+        //         movieTitleElement.textContent = `Tên phim: ${showtime.movieTitle}`;
+        //         showtimeElement.textContent = `Suất chiếu: ${showtime.showTime}`;
+        //         dateElement.textContent = `Ngày: ${new Date(showtime.showDate).toLocaleDateString()}`;
+        //     }
+        // }
+
+        //////////////seat
+        
+            const seats = document.querySelectorAll('.seat');
+
+            // Lặp qua từng ghế và thêm sự kiện nhấp vào
+            document.querySelectorAll('.seat').forEach(seat => {
+                seat.addEventListener('click', () => {
+                    const selectedSeats = document.querySelectorAll('.seat.selected');
+                    if (seat.classList.contains('selected')) {
+                        seat.classList.remove('selected');
+                    } else if (selectedSeats.length < 6) {
+                        seat.classList.add('selected');
+                    }
+                    updateSelectedSeatsList();
                 });
+            });
 
-                // Gán danh sách suất chiếu vào div tương ứng
-                showtimesContainer.innerHTML = showtimeListItems;
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    function loadShowtimes(date) {
-        fetch(`/booking/theaters/${date}`)
-            .then(response => response.json())
-            .then(data => {
-                let theaterList = document.getElementById('theater-list');
-                theaterList.innerHTML = '';
-
-                // Duyệt qua từng rạp và hiển thị thông tin
-                data.forEach(theater => {
-                    let button = document.createElement('button');
-                    button.classList.add('list-group-item', 'list-group-item-action', 'mt-3');
-                    button.setAttribute('type', 'button');
-                    button.setAttribute('onclick', `showShowtimes('${theater.name}')`);
-                    button.innerHTML = `
-                        <div class="cinema-item">
-                            <img src="https://i.imgur.com/D5O0h8H.png" alt="${theater.name}">
-                            <div>
-                                <p>${theater.name}</p>
-                                <p>${theater.address}</p>
-                            </div>
-                        </div>
-                    `;
-                    theaterList.appendChild(button);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-
-
-    //////////////seat
-    
-        const seats = document.querySelectorAll('.seat');
-
-        // Lặp qua từng ghế và thêm sự kiện nhấp vào
-        document.querySelectorAll('.seat').forEach(seat => {
-            seat.addEventListener('click', () => {
+            const removeAllButton = document.getElementById('removeAllButton');
+            // Thêm sự kiện click cho nút "Remove All"
+            removeAllButton.addEventListener('click', () => {
+                // Lấy danh sách tất cả các ghế đã chọn
                 const selectedSeats = document.querySelectorAll('.seat.selected');
-                if (seat.classList.contains('selected')) {
+                
+                // Lặp qua từng ghế đã chọn và xóa lớp 'selected'
+                selectedSeats.forEach(seat => {
                     seat.classList.remove('selected');
-                } else if (selectedSeats.length < 6) {
-                    seat.classList.add('selected');
-                }
+                });
+
+                // Cập nhật danh sách ghế đã chọn
                 updateSelectedSeatsList();
             });
-        });
-
-        const removeAllButton = document.getElementById('removeAllButton');
-        // Thêm sự kiện click cho nút "Remove All"
-        removeAllButton.addEventListener('click', () => {
-            // Lấy danh sách tất cả các ghế đã chọn
-            const selectedSeats = document.querySelectorAll('.seat.selected');
             
-            // Lặp qua từng ghế đã chọn và xóa lớp 'selected'
-            selectedSeats.forEach(seat => {
-                seat.classList.remove('selected');
+
+            // Hàm cập nhật danh sách các ghế đã chọn
+            function updateSelectedSeatsList() {
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+            const selectedSeatsList = document.getElementById('selectedSeatsList');
+            let seatsText = 'Selected Seats: ';
+
+            // Tạo danh sách các ghế đã chọn
+            selectedSeats.forEach((seat, index) => {
+                seatsText += seat.textContent;
+
+                // Thêm dấu phẩy nếu không phải là ghế cuối cùng
+                if (index !== selectedSeats.length - 1) {
+                    seatsText += ', ';
+                }
             });
 
-            // Cập nhật danh sách ghế đã chọn
-            updateSelectedSeatsList();
+            // Hiển thị danh sách các ghế đã chọn
+            selectedSeatsList.textContent = seatsText;
+
+            // Hiển thị phần tử danh sách các ghế đã chọn
+            selectedSeatsList.style.display = 'block';
+        }
+
+        $(document).ready(function() {
+            var selectedSeats = [];
+            var totalPriceSeat = 0;
+            var maxSeats = 6;
+
+            function updateTotalPrice() {
+                $('#totalPriceSeat').text(totalPriceSeat.toLocaleString() + ' VND');
+            }
+
+            function updateSeatState() {
+                $('#chair .seat').each(function() {
+                    var seatID = $(this).text();
+                    var seatPrice = parseFloat($(this).data('price'));
+                    var seatType = $(this).data('type');
+
+                    if (selectedSeats.includes(seatID)) {
+                        this.style.backgroundColor = '#2f0000'; // Màu đã chọn
+                    } else {
+                        if (seatType === 'regular') {
+                            this.style.backgroundColor = '#fa3238'; // Màu ghế thường
+                        } else if (seatType === 'vip') {
+                            this.style.backgroundColor = '#891bf7'; // Màu ghế VIP
+                        }
+                    }
+                });
+            }
+
+            $('#chair .seat').click(function() {
+                var seatID = $(this).text();
+                var seatPrice = parseFloat($(this).data('price'));
+                var seatType = $(this).data('type');
+
+                if (selectedSeats.length >= maxSeats && !selectedSeats.includes(seatID)) {
+                    return;
+                }
+
+                if (selectedSeats.includes(seatID)) {
+                    selectedSeats = selectedSeats.filter(id => id !== seatID);
+                    totalPriceSeat -= seatPrice;
+                } else {
+                    selectedSeats.push(seatID);
+                    totalPriceSeat += seatPrice;
+                }
+
+                updateSeatState();
+                updateTotalPrice();
+            });
+
+            $('#removeAllButton').click(function() {
+                selectedSeats.forEach(function(seatID) {
+                    // Tìm các ghế đã chọn và xóa lớp selected
+                    $('#chair .seat:contains(' + seatID + ')').removeClass('selected');
+                });
+                selectedSeats = [];
+                totalPriceSeat= 0;
+                $('#selectedSeatsList').text('Selected Seats: ');
+                $('#totalPriceSeat').text('0 VND');
+                
+                // Reset màu nền cho từng loại ghế
+                $('#chair .seat').each(function() {
+                    var seatType = $(this).data('type');
+                    if (seatType === 'regular') {
+                        this.style.backgroundColor = '#fa3238';
+                    } else if (seatType === 'vip') {
+                        this.style.backgroundColor = '#891bf7';
+                    }
+                });
+            });
+
+            updateSeatState();
         });
+
+        $('#continue').click(function() {
+            $('#FoodModal').modal('show');
+
+        });
+
+        $('#back').click(function() {
+            $('#FoodModal').modal('hide'); 
+            $('#chooseSeatModal').modal('show'); 
+        });
+
         
+        $(document).ready(function () {
+            // Xử lý khi nút tăng số lượng được click
+            $('.increase-quantity').click(function () {
+                var foodId = $(this).data('food-id');
+                var quantityInput = $('input[data-food-id="' + foodId + '"]');
+                var currentQuantity = parseInt(quantityInput.val());
+                quantityInput.val(currentQuantity + 1);
+                updateTotalPrice2(); // Cập nhật tổng giá khi số lượng thay đổi
+            });
 
-        // Hàm cập nhật danh sách các ghế đã chọn
-        function updateSelectedSeatsList() {
-        const selectedSeats = document.querySelectorAll('.seat.selected');
-        const selectedSeatsList = document.getElementById('selectedSeatsList');
-        let seatsText = 'Selected Seats: ';
+            // Xử lý khi nút giảm số lượng được click
+            $('.decrease-quantity').click(function () {
+                var foodId = $(this).data('food-id');
+                var quantityInput = $('input[data-food-id="' + foodId + '"]');
+                var currentQuantity = parseInt(quantityInput.val());
+                if (currentQuantity > 0) {
+                    quantityInput.val(currentQuantity - 1);
+                    updateTotalPrice2(); // Cập nhật tổng giá khi số lượng thay đổi
+                }
+            });
 
-        // Tạo danh sách các ghế đã chọn
-        selectedSeats.forEach((seat, index) => {
-            seatsText += seat.textContent;
+                        // Xử lý khi số lượng combo bắp nước thay đổi
+            $('.food-quantity').change(function () {
+                updateTotalPrice2(); // Cập nhật tổng giá khi số lượng thay đổi
+            });
 
-            // Thêm dấu phẩy nếu không phải là ghế cuối cùng
-            if (index !== selectedSeats.length - 1) {
-                seatsText += ', ';
+            // Hàm cập nhật tổng giá
+            function updateTotalPrice2() {
+                var totalPriceFood = 0;
+                var selectedFood = []; // Mảng để lưu trữ thông tin combo bắp nước đã chọn
+                $('.food-item').each(function () {
+                    var foodId = $(this).find('.food-quantity').data('food-id');
+                    var quantity = parseInt($(this).find('.food-quantity').val());
+                    var price = parseFloat($(this).find('p').text().replace(' đ', ''));
+                    totalPriceFood += quantity * price;
+
+                    // Thêm vào mảng selectedFood nếu có số lượng lớn hơn 0
+                    if (quantity > 0) {
+                        selectedFood.push($(this).find('#foodName').text() + ': ' + quantity + ' x ' + price.toFixed(2) + ' đ');
+                    }
+                });
+
+                // Cập nhật tổng giá và combo bắp nước đã chọn vào modal ticketDetail
+                $('#selectedFood').text('Combo bắp nước: ' + selectedFood.join('\n'));
+                $('#totalPriceFood').text(totalPriceFood.toLocaleString() + 'VND');
+
             }
         });
 
-        // Hiển thị danh sách các ghế đã chọn
-        selectedSeatsList.textContent = seatsText;
 
-        // Hiển thị phần tử danh sách các ghế đã chọn
-        selectedSeatsList.style.display = 'block';
-    }
 
+        $(document).ready(function () {
+            $('#confirmPurchaseButton').click(function () {
+                var movieTitle = $('#movieTitle').text();
+                var showtime = $('#showtime').text();
+                var date = $('#date').text();
+                var totalPriceSeat = parseFloat($('#totalPriceSeat').text().replace(' đ', ''));
+                var totalPriceFood = parseFloat($('#totalPriceFood').text().replace(' đ', ''));
+                var totalPrice3 = totalPriceSeat + totalPriceFood;
+
+                console.log('movieTitle:', movieTitle);
+                console.log('showtime:', showtime);
+                console.log('date:', date);
+                console.log(totalPriceSeat);
+                console.log(totalPriceFood);
+                console.log(totalPrice3);
+
+                // Hiển thị thông tin đã chọn trong modal ticketDetail
+
+                document.getElementById('ticketMovieTitle').textContent = movieTitle;
+                document.getElementById('ticketShowtime').textContent = showtime;
+                document.getElementById('ticketDate').textContent = date;
+                $('#selectedSeats').text( $('#selectedSeatsList').text());
+                $('#selectedFood').text( $('#selectedFood').text());
+                $('#totalPrice3').text('Tổng giá: ' + totalPrice3 + ' đ');
+
+                // Hiển thị modal ticketDetail
+                $('#ticketdetailModal').modal('show');
+            });
+        });
+
+         
     
-      </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
-
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>

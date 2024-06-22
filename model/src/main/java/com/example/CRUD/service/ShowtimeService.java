@@ -20,6 +20,10 @@ public class ShowtimeService {
     @Autowired
     private ShowtimeRepository repo;
 
+    public List<Object[]> getShowtimesByMovieIDAndTheaterID(Integer movieID, Integer theaterID) {
+        return repo.findByMovieIDAndTheaterID(movieID, theaterID);
+    }
+
     public List<Showtime> getShowtimesByDate(Date ShowDate) {
         return repo.findByShowDate(ShowDate);
     }

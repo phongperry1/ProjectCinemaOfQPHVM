@@ -34,8 +34,9 @@ public class Theater {
     @Column(length = 100, nullable = false, name = "address")
     private String Address;
 
-    @OneToMany(mappedBy = "theater")
-    private List<Showtime> showtimes;
+    @ManyToOne
+    @JoinColumn(name = "showtimeID")
+    private Showtime showtime;
 
 
     public Integer getTheaterID() {

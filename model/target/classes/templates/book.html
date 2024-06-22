@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -17,7 +18,7 @@
             </div>
             <div class="cont">
                 <h5 class="card-title text-white" th:text="${movie.title}"></h5>
-                            <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p>
+                            <!-- <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p> -->
                             <p class="card-text text-white">Description: <span th:text="${movie.description}"></span></p>
                             <p class="card-text text-white">Genre:<span th:text="${movie.genre}"></span></p>
                             <p class="card-text text-white">Duration:<span th:text="${movie.duration}"></span></p>
@@ -29,7 +30,7 @@
 
            
 
-            <div class="head_time">
+            <!-- <div class="head_time">
                 <h1 id="title" class="card-title text-white" th:text="${movie.title}"></h1>
                 <div class="time">
                     <h6><i class="bi bi-clock"></i> <span th:text="${movie.duration}"></span></h6>
@@ -148,13 +149,13 @@
                         </li>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="screen" id="screen">
+            <!-- <div class="screen" id="screen">
                 Screen
             </div>
 
-            <!-- chairs  -->
+            chairs 
             <div class="chair" id="chair">
                 <div class="row">
                     <span>A</span>
@@ -381,11 +382,11 @@
                     <span>G</span>
                 </div> 
                 
-            </div>
+            </div> -->
 
             <!-- Ticket  -->
 
-            <div class="ticket" id="ticket">
+            <!-- <div class="ticket" id="ticket"> -->
                 <!-- <div class="tic">
                     <div class="barcode">
                         <div class="card">
@@ -424,26 +425,31 @@
                         </div>
                     </div>
                 </div> -->
-            </div>
+            <!-- </div> -->
 
 
             <!-- Details  -->
-            <div class="details" id="det">
+            <!-- <div class="details" id="det">
                 <div class="details_chair">
                     <li>Avalable</li>
                     <li>Booked</li>
                     <li>Selected</li>
                 </div>
-            </div>
+            </div> -->
+
+            <!-- Trailer -->
+            <h1 class="text-white">Trailer</h1>
             <button class="book_tic" id="book_ticket">
                 <i class="bi bi-arrow-right-short"></i>
             </button>
             <button class="book_tic" id="back_ticket">
                 <i class="bi bi-arrow-left-short"></i>
             </button>
-            <iframe width="560" height="315"  th:src="@{'https://www.youtube.com/embed/' + ${movie.trailerURL}}" frameborder="0" allowfullscreen></iframe>
+            <iframe width="560" height="315"  th:src="@{'https://www.youtube.com/embed/' + ${movie.trailerURL}}" frameborder="0" allowfullscreen></iframe>         
         </div>
+        <a th:href="@{'/booking/' + ${movie.movieID}}" type="button" class="btn btn-outline-dark">Book Ticket</a>
     </div>
+    
 
     <script src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.js" integrity="sha512-wkHtSbhQMx77jh9oKL0AlLBd15fOMoJUowEpAzmSG5q5Pg9oF+XoMLCitFmi7AOhIVhR6T6BsaHJr6ChuXaM/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -1066,4 +1072,3 @@ nav a span {
 }
 </style>
 </html>
-

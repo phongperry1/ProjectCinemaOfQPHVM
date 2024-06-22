@@ -134,19 +134,12 @@
         <div class="card">
             <div class="card-header">Login Page</div>
             <th:block th:if="${param.error}">
-<<<<<<< HEAD
-                <p class="error-message">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
-            </th:block>
-            <th:block th:if="${param.logout}">
-                <p class="success-message">Logout Successfully</p>
-=======
                 <p class="error-message" th:if="${session.SPRING_SECURITY_LAST_EXCEPTION != null}">
                     <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
                 </p>
                 <p class="error-message" th:unless="${session.SPRING_SECURITY_LAST_EXCEPTION != null}">
                     Invalid username or password.
                 </p>
->>>>>>> 935e17567043d50eb9abbe108d8c431fbe5c9123
             </th:block>
             <form action="userLogin" method="post">
                 <div class="form-group">
@@ -155,13 +148,10 @@
                 <div class="form-group">
                     <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                 </div>
-<<<<<<< HEAD
-=======
                 
                 <div class="remember-forgot">
                     <a href="#" th:href="@{/forgotPassword}">Forgot password?</a>
                 </div>
->>>>>>> 935e17567043d50eb9abbe108d8c431fbe5c9123
                 <button class="btn btn-primary col-md-12">Login</button>
             </form>
         </div>

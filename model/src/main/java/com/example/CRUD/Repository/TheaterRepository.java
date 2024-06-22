@@ -11,10 +11,5 @@ import com.example.mo.Theater;
 
 @Repository
 public interface TheaterRepository extends JpaRepository <Theater ,Integer>{
-    
-    Theater findByTheaterName(String theaterName);
 
-    
-
-    
 }
