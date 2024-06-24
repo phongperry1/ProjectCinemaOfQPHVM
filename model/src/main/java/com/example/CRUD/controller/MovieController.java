@@ -36,11 +36,12 @@ public class MovieController {
     private ShowtimeService showtimeService;
 
     @GetMapping
-    public String getAllMovies(Model model) {
-        List<Movie> movies = movieService.getAllMovies();
-        model.addAttribute("movies", movies);
-        return "movie";
-    }
+public String getAllMovies(Model model) {
+    List<Movie> movies = movieService.getAllMovies();
+    model.addAttribute("movies", movies);
+    return "movie";
+}
+
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {

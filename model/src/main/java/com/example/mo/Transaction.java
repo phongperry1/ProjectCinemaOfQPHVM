@@ -155,7 +155,4 @@ public class Transaction {
     public void setResponseCode(String responseCode) {
         this.responseCode = responseCode;
     }
-    
-
-    // Other getters and setters...
 }

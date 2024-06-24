@@ -37,9 +37,13 @@
                     <td th:text="${transaction.bankTranNo}">Bank Transaction No</td>
                     <td th:text="${transaction.responseCode}">Response Code</td>
                 </tr>
+                <!-- Nếu không có giao dịch nào -->
+                <tr th:if="${transactions.size() == 0}">
+                    <td colspan="10" class="text-center">No transactions found</td>
+                </tr>
             </tbody>
         </table>
-        <a href="/" class="btn btn-primary">Về trang chủ</a>
+        <a href="/createOrder" class="btn btn-primary">Về trang chủ</a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

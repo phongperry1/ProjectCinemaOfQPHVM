@@ -14,7 +14,7 @@ import com.example.CRUD.service.TransactionService;
 import com.example.CRUD.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +48,7 @@ public class PaymentController {
     }
 
     @GetMapping("/vnpay-payment-return")
-    public String paymentCompleted(HttpServletRequest request, Model model, HttpSession session) {
+    public String paymentCompleted(HttpServletRequest request, Model model, Principal principal) {
         boolean paymentStatus = vnPayService.validatePayment(request, model);
 
         String orderInfo = request.getParameter("vnp_OrderInfo");
@@ -63,17 +63,22 @@ public class PaymentController {
         String bankTranNo = request.getParameter("vnp_BankTranNo");
         String responseCode = request.getParameter("vnp_ResponseCode");
 
-        // Lấy userId từ session
-        Integer userId = (Integer) session.getAttribute("userId");
-
-        if (paymentStatus && userId != null) {
-            Users user = usersService.getUserById(userId); // Fetch the user entity
-            Transaction transaction = new Transaction(
+        if (paymentStatus && principal != null) {
+            String email = principal.getName();
+            Users user = usersService.getUsersByEmail(email);
+            if (user != null) {
+                Transaction transaction = new Transaction(
                     user, bankCode, paymentTime, transactionId, tmnCode,
                     orderInfo, txnRef, Integer.parseInt(totalPrice) / 100, cardType,
                     transactionStatus, bankTranNo, responseCode
-            );
-            transactionService.addTransaction(transaction);
+                );
+                transactionService.addTransaction(transaction);
+                logger.info("Transaction added: " + transaction.toString());
+            } else {
+                logger.error("User not found with email: " + email);
+            }
+        } else {
+            logger.error("Payment failed or principal is null. Payment status: " + paymentStatus);
         }
 
         model.addAttribute("orderId", orderInfo);
@@ -85,12 +90,17 @@ public class PaymentController {
     }
 
     @GetMapping("/transactionHistory")
-    public String transactionHistory(HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId != null) {
-            List<Transaction> transactions = transactionService.getTransactionsByUserId(userId);
-            logger.info("User ID: " + userId + " has " + transactions.size() + " transactions.");
-            model.addAttribute("transactions", transactions);
+    public String transactionHistory(Principal principal, Model model) {
+        if (principal != null) {
+            String email = principal.getName();
+            Users user = usersService.getUsersByEmail(email);
+            if (user != null) {
+                List<Transaction> transactions = transactionService.getTransactionsByUserId(user.getUserId());
+                logger.info("User ID: " + user.getUserId() + " has " + transactions.size() + " transactions.");
+                model.addAttribute("transactions", transactions);
+            } else {
+                logger.error("User not found with email: " + email);
+            }
         } else {
             List<Transaction> transactions = transactionService.getAllTransactions();
             logger.info("Showing all transactions, total: " + transactions.size());

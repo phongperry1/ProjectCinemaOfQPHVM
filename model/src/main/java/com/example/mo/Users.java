@@ -1,6 +1,7 @@
 package com.example.mo;
 
 import java.sql.Date;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -8,7 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,6 @@ import lombok.NoArgsConstructor;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private int userId;
 
     private String userName;
@@ -40,7 +40,10 @@ public class Users {
     private String profileImageURL;
     private String resetPasswordToken;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Transaction> transactions;
 
+    // Getters and setters
 
     public int getUserId() {
         return this.userId;
@@ -182,5 +185,11 @@ public class Users {
         this.resetPasswordToken = resetPasswordToken;
     }
 
+    public Set<Transaction> getTransactions() {
+        return this.transactions;
+    }
 
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
+    }
 }
