@@ -45,6 +45,8 @@ public class CinemaController {
 		}
 	}
 
+	
+
 	@GetMapping("/homecinemaowner")
 	public String homeCinemaOwner() {
 		return "homecinemaowner";

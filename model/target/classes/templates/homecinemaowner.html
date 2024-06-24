@@ -1,1490 +1,277 @@
 <!DOCTYPE html>
-
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="home.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    .dropdown {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Owner Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all .2s;
+            font-family: 'Roboto', sans-serif;
+        }
+        html, body {
+            height: 100%;
+        }
+        body {
+            background-color: #1c1c1c;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: #000;
+            padding: 10px 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        .logo span {
+            color: #DB0000;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li {
             position: relative;
+            cursor: pointer;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            transition: background 0.3s, color 0.3s;
+        }
+        nav ul li a:hover {
+            background: #DB0000;
+            color: #fff;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header-right img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .header-right span {
+            font-size: 1em;
+        }
+        .header-right a {
+            color: #DB0000;
+            text-decoration: none;
+            padding: 10px;
+            transition: color 0.3s;
+        }
+        .header-right a:hover {
+            color: #fff;
+        }
+        .container {
+            flex: 1;
+            padding: 20px 100px;
+        }
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #DB0000;
             display: inline-block;
         }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+        .stats, .quick-actions, .upcoming-events {
+            margin-bottom: 30px;
         }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
+        .stats-grid, .actions-grid, .events-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
         }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
+        .card {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
         }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .card i {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #DB0000;
         }
-
-        .dropdown:hover .dropbtn {
-            background-color: #3e8e41;
+        .card-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
         }
-        .menu-btn {
-  background-color: #09000000; /* Màu nền */
-  border: none; /* Không có viền */
-  color: white; /* Màu chữ */
-  padding: 10px 20px; /* Kích thước nút */
-  text-align: center; /* Căn giữa văn bản */
-  text-decoration: none; /* Không có gạch chân */
-  display: inline-block; /* Hiển thị là khối nút */
-  font-size: 16px; /* Cỡ chữ */
-  margin: 4px 2px; /* Khoảng cách giữa nút */
-  cursor: pointer; /* Con trỏ khi hover */
-  border-radius: 4px; /* Bo tròn cạnh */
-}
-.menu-btn:hover {
-  background-color: #00000000; /* Màu nền khi hover */
-}
-  </style>
-
+        .card-value {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        footer {
+            background: #000;
+            color: #888;
+            padding: 20px 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        footer .logo-box {
+            font-size: 0.85em;
+            flex: 1 1 200px;
+        }
+        footer .logo-box .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        footer .logo-box .logo span {
+            color: #DB0000;
+        }
+        footer .contact-info {
+            flex: 1 1 200px;
+            font-size: 0.85em;
+            color: #aaa;
+            margin: 10px 0;
+        }
+        footer .contact-info p {
+            margin: 5px 0;
+        }
+        footer .social-box {
+            flex: 1 1 100px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        footer .social-box .fa {
+            border: 2px solid #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        footer .social-box .fa:hover {
+            background: #fff;
+            color: #DB0000;
+        }
+    </style>
 </head>
-
 <body>
-  </head>
-
-  <body>
-
     <header>
-      <nav>
-          <p class="logo">
-              Movie<span>Ticket</span>
-          </p>
-          <i class="fa fa-bars" id="menu"></i>
-          <ul id="menu-box">
-              <div class="marker"></div>
-              <li>Main</li>
-              <div class="dropdown">
-                  <button class="menu-btn">MOVIE</button>
-                  <div class="dropdown-content">
-                      <li><a class="manage" href="">Movies are showing</a></li>
-                      <li><a class="manage" href=""></a></li>
-                  </div>
-              </div>
-              <li>Theater</li>
-              <li>News</li>
-              <li>Promotion</li>
-              <li>Food</li>
-              <li>Contact</li>
-              <div class="dropdown">
-                <button class="menu-btn">MENU</button>
-                <div class="dropdown-content">
-              <li><a class="manage" th:href="@{/movie}">movie</a></li>
-              <li><a class="manage" th:href="@{/showtime}">Showtime</a></li>
-              <li><a class="manage" th:href="@{/screeningroom}">ScreeningRoom</a></li>
-              <li><a class="manage" th:href="@{/paypal}">Paypal</a></li>
-              <li><a class="manage" th:href="@{/theater}">Theater</a></li>
-              <li><a class="manage" th:href="@{/news}">News</a></li>
-              <li><a class="manage" th:href="@{/promotions}">Promotions</a></li>
-              <li><a class="manage" th:href="@{/food}">Food</a></li>
-              </div>
-              </div>
-              </div>
-              <li>
-                  <span><span th:text="${cinemaowner.userName}"></span></span>
-              </li>
-              <li>
-                  <a th:href="@{/cinemaowner/profilecinemaowner}">
-                      <img th:src="@{/uploads/{imageName}(imageName=${cinemaowner.profileImageURL})}" alt="Avatar">
-                  </a>
-              </li>
-              <li><a href="/logout">Logout</a></li>
-          </ul>
-      </nav>
-  </header>
-
-
-    <section>
-      <div class="movie-list-section">
-        <div>
-          <h1>Welcome</h1>
-          <div class="carousel-container">
-            <button class="button prev-btn">
-              <div class="button-box">
-                <span class="button-elem">
-                  <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
-                    </path>
-                  </svg>
-                </span>
-                <span class="button-elem">
-                  <svg viewBox="0 0 46 40">
-                    <path
-                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
-                    </path>
-                  </svg>
-                </span>
-              </div>
-            </button>
-            <div class="carousel">
-              <div class="movie-card" th:each="movie : ${movies}">
-                <figure class="card2">
-                  <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
-                    style="height: 400px; width: 400px; border-top-left-radius: 17px; border-top-right-radius: 17px;">
-                </figure>
-              </div>
-            </div>
-            <button class="button next-btn">
-              <div class="button-box">
-                <span class="button-elem">
-                  <svg class="rotated-arrow" viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
-                    </path>
-                  </svg>
-                </span>
-                <span class="button-elem">
-                  <svg class="rotated-arrow" viewBox="0 0 46 40">
-                    <path
-                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
-                    </path>
-                  </svg>
-                </span>
-              </div>
-            </button>
-          </div>
+        <div class="logo">
+            Movie<span>Ticket</span>
         </div>
-      </div>
-
-
-
-
-      <!---movie-ticket-book-->
-
-
-      <div class="filter-search-box">
-
-        <div class="filters-box">
-
-          <div class="all-filters filters">
-            All formats <i class="fa fa-angle-down"></i>
-          </div>
-
-          <div class="date-filters filters">
-            By Date <i class="fa fa-angle-down"></i>
-          </div>
-
-          <div class="category-filters filters">
-            By category <i class="fa fa-angle-down"></i>
-          </div>
-
-          <div class="category-filters filters">
-            Coming soon
-          </div>
-
+        <nav>
+            <ul>
+                <li><a class="manage" th:href="@{/movie}">Manage Movie</a></li>
+                <li><a class="manage" th:href="@{/showtime}">Manage Showtime</a></li>
+                <li><a class="manage" th:href="@{/screeningroom}">Manage ScreeningRoom</a></li>
+                <li><a class="manage" th:href="@{/theater}">Manage Theater</a></li>
+                <li><a class="manage" th:href="@{/news}">Manage News</a></li>
+                <li><a class="manage" th:href="@{/promotions}">Manage Promotions</a></li>
+                <li><a class="manage" th:href="@{/food}">Manage Food</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <span th:text="${cinemaowner.userName}"></span>
+            <a th:href="@{/cinemaowner/profilecinemaowner}">
+                <img th:src="@{/uploads/{imageName}(imageName=${cinemaowner.profileImageURL})}" alt="Avatar">
+            </a>
+            <a href="/logout">Logout</a>
         </div>
-
-        <div class="search-filters">
-          <input type="text" placeholder="Search by name...">
-          <i class="fa fa-search"></i>
-        </div>
-
-        <div class="search-bar">
-          <div class="bar"></div>
-        </div>
-
-      </div>
-      <!----filter-search-box---->
-
-      <div class="movie-list-section">
-        <div class="container">
-          <div class="row justify-content-center">
-            <!-- Thymeleaf syntax for iterating over movies -->
-            <div class="movie-list d-flex flex-wrap justify-content-center">
-              <div class="movie-item col-lg-3 col-md-4 col-sm-6 mb-4" th:each="movie : ${movies}">
+    </header>
+    <div class="container">
+        <section class="stats">
+            <div class="section-title">Statistics</div>
+            <div class="stats-grid">
                 <div class="card">
-                  <div class="card__content">
-                    <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
-                      style="height: 500px; width: 100%;  border-top-left-radius: 17px; border-top-right-radius: 17px;">
-                    <div class="card-body d-flex flex-column p-2">
-                      <h5 class="card-title text-white" th:text="${movie.title}"></h5>
-                      <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p>
-                      <!-- Thêm URL động để chuyển hướng đến trang chi tiết của bộ phim -->
-                      <a th:href="@{'/movie/details/' + ${movie.movieID}}" class="shadow__btn mt-auto">Details</a>
-                    </div>
-                  </div>
+                    <i class="fa fa-film"></i>
+                    <div class="card-title">Total Movies</div>
+                    <div class="card-value" th:text="${totalMovies}">100</div>
                 </div>
-              </div>
+                <div class="card">
+                    <i class="fa fa-ticket"></i>
+                    <div class="card-title">Tickets Sold</div>
+                    <div class="card-value" th:text="${ticketsSold}">5000</div>
+                </div>
+                <div class="card">
+                    <i class="fa fa-users"></i>
+                    <div class="card-title">Visitors</div>
+                    <div class="card-value" th:text="${visitors}">12000</div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="movie-list-section">
-        <div class="filter-search-box">
-          <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <div class="shine">PROMOTIONS</div>
-          <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-
-        <div class="promotions-container">
-          <div th:each="promotion : ${listPromotions}" class="promotion">
-            <div class="promotion-item">
-              <img th:src="${promotion.photosImagePath}" alt="Promotion Image" />
-              <div class="promotion-details">
-                <p><strong>Description:</strong> <span th:text="${promotion.description}"></span></p>
-                <p><strong>Start Date:</strong> <span th:text="${promotion.startDate}"></span></p>
-                <p><strong>End Date:</strong> <span th:text="${promotion.endDate}"></span></p>
-              </div>
+        </section>
+        <section class="quick-actions">
+            <div class="section-title">Quick Actions</div>
+            <div class="actions-grid">
+                <div class="card">
+                    <i class="fa fa-plus-circle"></i>
+                    <div class="card-title">Add New Movie</div>
+                </div>
+                <div class="card">
+                    <i class="fa fa-calendar-plus-o"></i>
+                    <div class="card-title">Schedule Showtime</div>
+                </div>
+                <div class="card">
+                    <i class="fa fa-cutlery"></i>
+                    <div class="card-title">Manage Food Menu</div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!---movie-card--->
-
-      <div class="show">
-        <div class="show-bar">
-          <div class="bar"></div>
-        </div>
-        <button>Show more</button>
-      </div>
-      <!---bar--->
-
-
-    </section>
-
+        </section>
+        <section class="upcoming-events">
+            <div class="section-title">Upcoming Events</div>
+            <div class="events-grid">
+                <div class="card">
+                    <div class="card-title">Movie Marathon</div>
+                    <div class="card-value">Date: July 1, 2024</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Summer Special Discount</div>
+                    <div class="card-value">Date: July 15, 2024</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Director's Meet and Greet</div>
+                    <div class="card-value">Date: August 5, 2024</div>
+                </div>
+            </div>
+        </section>
+    </div>
     <footer>
-
-      <div class="logo-box">
-        <p class="logo">
-          multi<span>flex</span>
-        </p>
-        <p><i class="fa fa-copyright"></i> 2001-2017, SIA Multiflex</p>
-      </div>
-
-      <ul>
-        <li>main</li>
-        <li>schedlues</li>
-        <li>tickets</li>
-        <li>news</li>
-        <li>contact</li>
-      </ul>
-
-      <div class="socail-box">
-        <i class="fa fa-facebook-f"></i>
-        <i class="fa fa-twitter"></i>
-        <i class="fa fa-instagram"></i>
-
-      </div>
+        <div class="logo-box">
+            <p class="logo">Movie<span>Tic</span></p>
+            <p><i class="fa fa-copyright"></i> 2024, SIA MovieTic</p>
+        </div>
+        <div class="contact-info">
+            <p>Contact Us</p>
+            <p>Email: support@movietic.com</p>
+            <p>Phone: +1 234 567 890</p>
+            <p>Address: 123 Movie St, Film City, CA 12345</p>
+        </div>
+        <div class="social-box">
+            <i class="fa fa-facebook-f"></i>
+            <i class="fa fa-twitter"></i>
+            <i class="fa fa-instagram"></i>
+        </div>
     </footer>
-
-
-  </body>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      transition: all .2s;
-    }
-
-    .card {
-      width: 600px;
-      height: 600px;
-      border-radius: 20px;
-      padding: 5px;
-      box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-      background-image: linear-gradient(144deg, #fdfdfd, #5706f0 50%, #fd0101);
-    }
-
-    .card__content {
-      background: rgb(5, 6, 45);
-      border-radius: 17px;
-      width: 100%;
-      height: 100%;
-    }
-
-    .card-img-top {
-      border-top-left-radius: 100%;
-      border-top-right-radius: 100%;
-    }
-
-    .card-body {
-      padding: 5px;
-      text-align: center;
-    }
-
-    .card-title,
-    .card-text {
-      color: #ffffff;
-    }
-
-    .shadow__btn {
-      padding: 10px 20px;
-      border: none;
-      font-size: 17px;
-      color: #ffffff;
-      border-radius: 7px;
-      letter-spacing: 4px;
-      font-weight: 700;
-      text-transform: uppercase;
-      transition: 0.5s;
-      transition-property: box-shadow;
-      background: rgb(255, 0, 13);
-      box-shadow: 0 0 25px rgb(255, 0, 0);
-      display: inline-block;
-      text-align: center;
-      text-decoration: none;
-    }
-
-    .shadow__btn:hover {
-      box-shadow: 0 0 5px rgb(255, 0, 0),
-        0 0 25px rgb(255, 0, 0),
-        0 0 50px rgb(255, 0, 0),
-        0 0 100px rgb(255, 0, 0);
-    }
-
-
-    body {
-      font-family: 'Roboto', sans-serif;
-      overflow: hidden;
-      overflow-y: scroll;
-    }
-
-    .movie-item .card-img-top {
-      width: 200px;
-      /* Đổi thành kích thước mong muốn */
-      height: auto;
-      /* Đảm bảo tỷ lệ hình ảnh không bị biến đổi */
-    }
-
-    .movie-list {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .movie-list-section {
-      background-color: #020000;
-      /* Thay #f0f0f0 bằng mã màu bạn muốn sử dụng */
-    }
-
-    .movie-item {
-      flex: 0 0 auto;
-      width: 33.33%;
-      /* Hiển thị ba phim mỗi hàng */
-      padding: 10px;
-      /* Khoảng cách giữa các phim */
-      box-sizing: border-box;
-    }
-
-    @media (max-width: 767px) {
-      .movie-item {
-        width: 50%;
-        /* Hiển thị hai phim mỗi hàng trên các thiết bị nhỏ hơn */
-      }
-    }
-
-    header {
-
-      background-position: center;
-      width: 100%;
-      height: 56px;
-
-    }
-
-    header:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 6%;
-      background: rgba(0, 0, 0, .75);
-      box-shadow: inset 0 0 80px #000;
-    }
-
-
-    header nav {
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 100px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 99;
-      width: 100%;
-
-    }
-
-
-    header nav .fa {
-      cursor: pointer;
-      display: none;
-    }
-
-
-    header nav .fa:hover {
-      color: #DB0000;
-    }
-
-    .nav {
-      background: #fff;
-      color: #000;
-      transition: background .5s;
-
-    }
-
-    .navBlack {
-      background: #000;
-      color: #fff;
-      transition: background .5s;
-
-    }
-
-    header nav .logo {
-      font-weight: 700;
-      font-size: 1.5em;
-    }
-
-    header nav .logo span {
-      color: #DB0000;
-    }
-
-    header nav ul .marker {
-      background: #DB0000;
-      width: 40px;
-      height: 2px;
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      border-radius: 20px;
-    }
-
-
-    header nav ul {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      text-transform: uppercase;
-      list-style: none;
-      position: relative;
-    }
-
-
-    header nav ul li {
-      cursor: pointer;
-    }
-
-
-    header nav ul li span {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    header nav ul li img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-
-    header .popular-movie-slider {
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: start;
-      gap: 35px;
-      padding: 10px 100px;
-      position: relative;
-    }
-
-    header .popular-movie-slider .poster {
-      width: 300px;
-      height: 400px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-
-
-    header .popular-movie-slider .popular-movie-slider-content {
-      line-height: 25px;
-    }
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-name {
-      font-size: 1.8em;
-    }
-
-
-    header .popular-movie-slider .popular-movie-slider-content .category {
-      display: flex;
-      gap: 30px;
-      text-transform: capitalize;
-      margin: 10px 0;
-    }
-
-    header .popular-movie-slider .popular-movie-slider-content .desc {
-      font-size: .90em;
-    }
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-info {
-      display: flex;
-      gap: 30px;
-      margin: 25px 0;
-    }
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-info .fa-circle {
-      color: #DB0000;
-      font-size: .85em;
-    }
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-info .fa span {
-      font-family: 'Roboto', sans-serif;
-      color: #fff;
-      font-size: 15px;
-    }
-
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-btns {
-      display: flex;
-      gap: 10px;
-    }
-
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-btns button {
-      width: 200px;
-      border: none;
-      outline: none;
-      padding: 15px 0;
-      border-radius: 100px;
-      font-size: 1em;
-      background: #DB0000;
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 2px;
-    }
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-btns button .fa {
-      font-size: .65em;
-      color: #fff;
-    }
-
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-btns .read-more {
-      background: none;
-    }
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-btns .read-more:hover {
-      background: #000;
-    }
-
-    header .popular-movie-slider .popular-movie-slider-content .movie-btns button:hover {
-      background: #000;
-    }
-
-
-    section .movie-ticket-book {
-      background: #222;
-      color: #fff;
-      display: grid;
-      grid-template-columns: auto auto auto;
-      justify-content: space-between;
-      align-items: center;
-      padding: 30px 100px;
-    }
-
-
-    section .movie-ticket-book .choose-date,
-    section .movie-ticket-book .choose-time {
-      position: relative
-    }
-
-    section .movie-ticket-book .choose-date .heading,
-    section .movie-ticket-book .choose-time .heading {
-      text-transform: uppercase;
-      font-weight: 400;
-    }
-
-    section .movie-ticket-book .choose-date .wrapper,
-    section .movie-ticket-book .choose-time .wrapper {
-      width: 300px;
-    }
-
-    section .movie-ticket-book .choose-date .carousel,
-    section .movie-ticket-book .choose-time .carousel {
-      margin-top: 15px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 0;
-    }
-
-    section .movie-ticket-book .choose-date .carousel .owl-nav,
-    section .movie-ticket-book .choose-time .carousel .owl-nav {
-      color: #DB0000;
-      position: absolute;
-      width: 99%;
-      top: 50%;
-      left: -15px;
-      transform: translate(0, -50%);
-      font-size: 1.5em;
-      display: flex;
-      justify-content: space-between;
-    }
-
-
-    section .movie-ticket-book .choose-date .carousel .card p:nth-child(1),
-    section .movie-ticket-book .choose-time .carousel .card p:nth-child(1) {
-      color: #888;
-      font-size: .75em;
-    }
-
-
-    section .movie-ticket-book .choose-date .carousel .card p:nth-child(2),
-    section .movie-ticket-book .choose-time .carousel .card p:nth-child(2) {
-      color: #fff;
-      font-size: 1.2em;
-      text-transform: uppercase;
-    }
-
-
-    section .movie-ticket-book .choose-date .wrapper .marker,
-    section .movie-ticket-book .choose-time .wrapper .marker {
-      width: 60px;
-      height: 2px;
-      background: #DB0000;
-      position: absolute;
-      left: 45%;
-      transform: translate(-50%, 0);
-    }
-
-
-
-    section .movie-ticket-book button {
-      border: none;
-      outline: none;
-      height: 50px;
-      background: #DB0000;
-      color: #fff;
-      border-radius: 50px;
-      padding: 10px 50px;
-      cursor: pointer;
-    }
-
-    section .movie-ticket-book button:hover {
-      background: #000;
-    }
-
-
-
-
-    section .filter-search-box {
-      background: #111;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 100px;
-      padding-top: 50px;
-      position: relative;
-    }
-
-
-    section .filter-search-box .filters-box {
-      display: flex;
-      gap: 50px;
-      color: #fff;
-    }
-
-
-
-    section .filter-search-box .filters-box .filters {
-      cursor: pointer;
-    }
-
-
-    section .filter-search-box .search-bar {
-      position: absolute;
-      bottom: 0;
-      left: 100px;
-      width: 83%;
-      height: 2px;
-      background: #fff;
-      border-radius: 50px;
-      overflow: hidden;
-    }
-
-    section .filter-search-box .search-bar .bar {
-      width: 10%;
-      height: inherit;
-      background: #DB0000;
-    }
-
-
-    section .filter-search-box .search-filters {
-      color: #fff;
-    }
-
-    section .filter-search-box .search-filters input {
-      border: none;
-      outline: none;
-      width: 200px;
-      padding: 5px 10px;
-      background: none;
-      color: #fff;
-      font-family: 'Roboto', sans-serif;
-      font-size: 1em;
-
-    }
-
-
-
-
-    section .movie-card-section {
-      background: #111;
-      padding: 20px 100px;
-      width: 100%;
-      display: grid;
-      grid-template-columns: auto auto auto auto;
-      gap: 18px;
-      padding-top: 50px;
-    }
-
-
-    section .movie-card-section .card {
-      margin-bottom: 20px;
-      color: #fff;
-      text-transform: uppercase;
-    }
-
-    section .movie-card-section .card img {
-      width: 100%;
-      height: 350px;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 0 30px #000;
-    }
-
-
-    section .movie-card-section .card .card-content .movie-name {
-      font-weight: 700;
-      margin-top: 10px;
-    }
-
-    section .movie-card-section .card .card-content .movie-info {
-      font-size: .95em;
-      margin-top: 10px;
-    }
-
-
-    section .movie-card-section .card .card-content .movie-info span {
-      color: #666;
-    }
-
-    section .movie-card-section .card .card-content .movie-info .d3 {
-      background: #DB0000;
-      border-radius: 50%;
-      font-size: .50em;
-      color: #fff;
-      padding: 3px;
-      margin-left: 3px;
-    }
-
-
-    section .show {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      width: 100%;
-      background: #111111;
-      padding: 10px 100px;
-      padding-bottom: 40px;
-    }
-
-
-    section .show .show-bar {
-      background: #fff;
-      width: 100%;
-      height: 3px;
-      border-radius: 50px;
-      overflow: hidden;
-    }
-
-    section .show .show-bar .bar {
-      width: 10%;
-      height: inherit;
-      background: #DB0000;
-      border-radius: 50px;
-    }
-
-
-    section .show button {
-      border: none;
-      outline: none;
-      width: 250px;
-      padding: 15px 0;
-      font-size: 1em;
-      border-radius: 50px;
-      background: #DB0000;
-      color: #fff;
-      cursor: pointer;
-    }
-
-
-    section .show button:hover {
-      background: #000;
-    }
-
-    /*---footer------*/
-    footer {
-      background: #222;
-      color: #fff;
-      padding: 40px 100px;
-      display: grid;
-      grid-template-columns: auto auto auto;
-      align-items: center;
-    }
-
-
-    footer .logo-box {
-      font-size: .85em;
-    }
-
-
-    footer .logo-box .logo {
-      font-size: 1.8em;
-      font-weight: 700;
-    }
-
-    footer .logo-box .logo span {
-      color: #DB0000;
-    }
-
-
-
-    footer ul {
-      text-transform: uppercase;
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-
-
-    footer ul li {
-      cursor: pointer;
-      color: #888;
-    }
-
-
-    footer ul li:nth-child(1) {
-      color: #fff;
-    }
-
-    footer ul li:hover {
-      color: #fff;
-    }
-
-
-    footer .socail-box {
-      display: flex;
-      gap: 10px;
-      justify-content: end;
-    }
-
-    footer .socail-box .fa {
-      border: 2px solid #fff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    footer .socail-box .fa:hover {
-      background: #fff;
-      color: #DB0000;
-    }
-
-    @media (min-width: 1024px) and (max-width: 1080px) {
-
-      section .movie-card-section {
-        grid-template-columns: auto auto auto;
-        gap: 15px;
-      }
-    }
-
-    @media (min-width: 720px) and (max-width: 1023px) {
-
-      header nav ul {
-        display: none;
-        position: absolute;
-        right: 0;
-        top: 40px;
-        color: #fff;
-        background: #000;
-        width: 100%;
-        height: 100vh;
-        padding: 20px 30px;
-      }
-
-      header nav .fa {
-        cursor: pointer;
-        display: block;
-      }
-
-      header .popular-movie-slider {
-        padding: 10px 50px;
-      }
-
-      header .popular-movie-slider .poster {
-        width: 250px;
-        height: 300px;
-      }
-
-      section .movie-ticket-book {
-        grid-template-columns: auto;
-        justify-content: center;
-        align-items: center;
-        padding: 30px 50px;
-      }
-
-      section .movie-ticket-book .choose-date .wrapper,
-      section .movie-ticket-book .choose-time .wrapper {
-        width: 30%;
-        position: relative;
-        left: 50%;
-        transform: translate(-50%, 0);
-      }
-
-      section .movie-ticket-book .choose-date .carousel,
-      section .movie-ticket-book .choose-time .carousel {
-        margin-top: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px 0;
-      }
-
-      section .movie-ticket-book .choose-date .carousel .owl-nav,
-      section .movie-ticket-book .choose-time .carousel .owl-nav {
-        color: #DB0000;
-        position: absolute;
-        width: 110%;
-        top: 50%;
-        left: -50%;
-        transform: translate(0%, -50%);
-        font-size: 1.5em;
-        display: flex;
-        justify-content: space-between;
-      }
-
-
-
-      section .movie-ticket-book .choose-date .wrapper .marker,
-      section .movie-ticket-book .choose-time .wrapper .marker {
-        width: 60px;
-        height: 2px;
-        background: #DB0000;
-        position: absolute;
-        left: 45%;
-        transform: translate(-50%, 0);
-      }
-
-      section .movie-ticket-book button {
-        width: 20%;
-        margin-top: 20px;
-        position: relative;
-        left: 50%;
-        transform: translate(-50%, 0);
-      }
-
-
-      section .filter-search-box {
-        padding: 20px 50px;
-      }
-
-      section .filter-search-box .filters-box {
-        gap: 10px;
-      }
-
-      section .filter-search-box .search-bar {
-        left: 50px;
-        width: 85%;
-      }
-
-      section .movie-card-section {
-        padding: 20px 50px;
-        grid-template-columns: auto auto auto;
-      }
-
-
-      section .movie-card-section .card img {
-        width: 100%;
-        height: 300px;
-      }
-
-      section .show {
-        padding: 10px 50px;
-        padding-bottom: 40px;
-      }
-
-
-
-      footer {
-        padding: 40px 50px;
-        grid-template-columns: auto;
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
-      }
-
-
-    }
-
-    @media (min-width: 0px) and (max-width: 719px) {
-
-
-      header {
-        height: auto;
-        padding-bottom: 30px;
-      }
-
-      header nav {
-        padding: 10px 20px;
-      }
-
-
-      header nav ul {
-        display: none;
-        position: absolute;
-        right: 0;
-        top: 40px;
-        color: #fff;
-        background: #000;
-        width: 100%;
-        height: 100vh;
-        padding: 20px 30px;
-      }
-
-      header nav .fa {
-        cursor: pointer;
-        display: block;
-      }
-
-
-      header .popular-movie-slider {
-        padding: 10px 20px;
-        display: block;
-      }
-
-      header .popular-movie-slider .poster {
-        width: 100%;
-        height: 300px;
-        margin-bottom: 20px;
-      }
-
-      section .movie-ticket-book {
-        grid-template-columns: auto;
-        justify-content: center;
-        align-items: center;
-        padding: 30px 20px;
-      }
-
-      section .filter-search-box {
-        padding: 20px 20px;
-      }
-
-
-      section .filter-search-box .filters-box {
-        gap: 10px;
-      }
-
-      section .filter-search-box .search-bar {
-        left: 20px;
-        width: 90%;
-      }
-
-
-      section .movie-card-section {
-        padding: 20px 20px;
-        grid-template-columns: auto auto;
-      }
-
-      section .movie-card-section .card img {
-        width: 100%;
-        height: 300px;
-      }
-
-      section .show {
-        padding: 10px 20px;
-        padding-bottom: 40px;
-      }
-
-      footer {
-        padding: 40px 20px;
-        grid-template-columns: auto;
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
-        font-size: .85em;
-      }
-
-
-      section .filter-search-box {
-        gap: 20px;
-        overflow-x: scroll;
-      }
-
-
-      section .filter-search-box::-webkit-scrollbar {
-        display: none;
-      }
-
-
-      section .filter-search-box .search-filters input {
-        width: 50px;
-        padding: 5px 10px;
-      }
-
-
-      section .movie-ticket-book {
-        padding: 30px 0px;
-      }
-
-      section .movie-ticket-book button {
-        margin-top: 10px;
-      }
-
-
-
-      .background-black {
-        background-color: black;
-      }
-
-
-    }
-
-    .new-text {
-      font-size: 24px;
-      /* Tùy chỉnh kích thước chữ "New" theo ý muốn */
-      color: #f0eeef
-    }
-
-    .carousel-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .carousel {
-      display: flex;
-      overflow-x: hidden;
-      /* Hide the scrollbar */
-      scroll-behavior: smooth;
-      width: calc(100% - 80px);
-      /* Adjust width to account for buttons */
-    }
-
-    .movie-card {
-      flex: 0 0 auto;
-      margin: 0 10px;
-    }
-
-    .prev-btn,
-    .next-btn {
-      background-color: rgba(0, 0, 0, 0.5);
-      border: none;
-      color: white;
-      font-size: 2em;
-      cursor: pointer;
-      z-index: 1;
-    }
-
-    .prev-btn {
-      position: absolute;
-      left: 0;
-    }
-
-    .next-btn {
-      position: absolute;
-      right: 0;
-    }
-
-    .button {
-      display: block;
-      position: relative;
-      width: 56px;
-      height: 56px;
-      margin: 0;
-      overflow: hidden;
-      outline: none;
-      background-color: transparent;
-      cursor: pointer;
-      border: 0;
-    }
-
-    .button:before,
-    .button:after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      inset: 7px;
-    }
-
-    .button:before {
-      border: 4px solid #f0eeef;
-      transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
-        transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
-    }
-
-    .button:after {
-      border: 4px solid #96daf0;
-      transform: scale(1.3);
-      transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
-        transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      opacity: 0;
-    }
-
-    .button:hover:before,
-    .button:focus:before {
-      opacity: 0;
-      transform: scale(0.7);
-      transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
-        transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .button:hover:after,
-    .button:focus:after {
-      opacity: 1;
-      transform: scale(1);
-      transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
-        transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
-    }
-
-    .button-box {
-      display: flex;
-      position: absolute;
-      top: 10px;
-      left: 0;
-    }
-
-    .button-elem {
-      display: block;
-      width: 20px;
-      height: 20px;
-      margin: 17px 18px 0 18px;
-      transform: rotate(180deg);
-      fill: #f0eeef;
-    }
-
-    .button:hover .button-box,
-    .button:focus .button-box {
-      transition: 0.4s;
-      transform: translateX(-56px);
-    }
-
-    .rotated-arrow {
-      transform: rotate(180deg);
-    }
-
-    .promotions-container {
-      display: flex;
-      flex-wrap: wrap;
-      /* Cho phép các phần tử con xuống dòng khi không đủ không gian */
-    }
-
-    .promotion {
-      flex: 0 0 auto;
-      /* Không co dãn hoặc co giãn các phần tử */
-      margin-right: 50px;
-      margin-left: 50px;
-    }
-
-    .promotion-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      flex-direction: row;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      /* Khoảng cách giữa các cặp hình ảnh và chi tiết */
-    }
-
-    .promotion-item img {
-      width: 100px;
-      height: auto;
-      margin-right: 20px;
-    }
-
-    .promotion-details {
-      flex-grow: 1;
-      color: #f0eeef;
-    }
-
-    .spinner {
-      width: 70.4px;
-      height: 70.4px;
-      --clr: rgb(247, 197, 159);
-      --clr-alpha: rgb(247, 197, 159, .1);
-      animation: spinner 1.6s infinite ease;
-      transform-style: preserve-3d;
-    }
-
-    .spinner>div {
-      background-color: var(--clr-alpha);
-      height: 100%;
-      position: absolute;
-      width: 100%;
-      border: 3.5px solid var(--clr);
-    }
-
-    .spinner div:nth-of-type(1) {
-      transform: translateZ(-35.2px) rotateY(180deg);
-    }
-
-    .spinner div:nth-of-type(2) {
-      transform: rotateY(-270deg) translateX(50%);
-      transform-origin: top right;
-    }
-
-    .spinner div:nth-of-type(3) {
-      transform: rotateY(270deg) translateX(-50%);
-      transform-origin: center left;
-    }
-
-    .spinner div:nth-of-type(4) {
-      transform: rotateX(90deg) translateY(-50%);
-      transform-origin: top center;
-    }
-
-    .spinner div:nth-of-type(5) {
-      transform: rotateX(-90deg) translateY(50%);
-      transform-origin: bottom center;
-    }
-
-    .spinner div:nth-of-type(6) {
-      transform: translateZ(35.2px);
-    }
-
-    @keyframes spinner {
-      0% {
-        transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
-      }
-
-      50% {
-        transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
-      }
-
-      100% {
-        transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
-      }
-    }
-
-    .shine {
-      font-size: 2em;
-      font-weight: 900;
-      color: rgba(255, 255, 255, 0.3);
-      background: #222 -webkit-gradient(linear,
-          left top,
-          right top,
-          from(#222),
-          to(#222),
-          color-stop(0.5, #fff)) 0 0 no-repeat;
-      background-image: -webkit-linear-gradient(-40deg,
-          transparent 0%,
-          transparent 40%,
-          #fff 50%,
-          transparent 60%,
-          transparent 100%);
-      -webkit-background-clip: text;
-      -webkit-background-size: 50px;
-      -webkit-animation: zezzz;
-      -webkit-animation-duration: 5s;
-      -webkit-animation-iteration-count: infinite;
-    }
-
-    @-webkit-keyframes zezzz {
-
-      0%,
-      10% {
-        background-position: -200px;
-      }
-
-      20% {
-        background-position: top left;
-      }
-
-      100% {
-        background-position: 200px;
-      }
-    }
-  </style>
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const carousel = document.getElementById('carousel');
-    const prevButton = document.getElementById('prevButton');
-    const nextButton = document.getElementById('nextButton');
-
-    prevButton.addEventListener('click', () => {
-      carousel.scrollBy({
-        left: -carousel.clientWidth,
-        behavior: 'smooth'
-      });
-    });
-
-    nextButton.addEventListener('click', () => {
-      carousel.scrollBy({
-        left: carousel.clientWidth,
-        behavior: 'smooth'
-      });
-    });
-  });
-</script>
 </body>
-
 </html>

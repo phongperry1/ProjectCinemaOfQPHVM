@@ -1,64 +1,77 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[[${pageTitle}]]</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title th:text="${showtime.showtimeID == null} ? 'Add Showtime' : 'Edit Showtime'">Showtime Form</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #343a40;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+    </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
-        <form th:action="@{/showtime/save}" method="post" th:object="${showtime}" style="max-width: 500px; margin: 0 auto;">
-            <input type="hidden" th:field="*{showtimeID}">
-            <div class="border border-secondary rounded p-3">
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">MovieID:</label>
-                    <div class="col-sm-8">
-                        <input type="number" th:field="*{movieID}" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">ScreeningRoomID</label>
-                    <div class="col-sm-8">
-                        <input type="number" th:field="*{screeningRoomID}" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">ShowDate</label>
-                    <div class="col-sm-8">
-                        <input type="date" th:field="*{showDate}" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">ShowTime</label>
-                    <div class="col-sm-8">
-                        <input type="text" th:field="*{showTime}" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Status</label>
-                    <div class="col-sm-8">
-                        <input type="text" th:field="*{status}" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary m-2">Save</button>
-                    <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Cancel</button>
-                </div>
+    <div class="container mt-5">
+        <h1 class="mb-4" th:text="${showtime.showtimeID == null} ? 'Add New Showtime' : 'Edit Showtime'">Showtime Form</h1>
+        <form th:action="@{${showtime.showtimeID == null} ? '/showtime/create' : '/showtime/update/' + ${showtime.showtimeID}}"
+              th:object="${showtime}" method="post">
+            <div class="form-group">
+                <label for="movieID">Movie ID:</label>
+                <input type="number" class="form-control" id="movieID" th:field="*{movieID}" required />
+            </div>
+            <div class="form-group">
+                <label for="screeningRoomID">Screening Room ID:</label>
+                <input type="number" class="form-control" id="screeningRoomID" th:field="*{screeningRoomID}" required />
+            </div>
+            <div class="form-group">
+                <label for="showDate">Show Date:</label>
+                <input type="date" class="form-control" id="showDate" th:field="*{showDate}" required />
+            </div>
+            <div class="form-group">
+                <label for="showTime">Show Time:</label>
+                <input type="time" class="form-control" id="showTime" th:field="*{showTime}" required />
+            </div>
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <input type="text" class="form-control" id="status" th:field="*{status}" required />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/showtime" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
-    
-    <script type="text/javascript">
-        function cancelForm() {
-            window.location.href = "/showtime";
-        }
-    </script>
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>

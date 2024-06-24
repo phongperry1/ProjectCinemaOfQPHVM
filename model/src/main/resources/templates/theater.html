@@ -1,178 +1,152 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="theater.css">
     <meta charset="UTF-8">
-    <title>Manager Theaters</title>
+    <title>Manage Theaters</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        /* theater.css */
         body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            height: 100%;
-        }
-
-        .d-flex {
             display: flex;
         }
-
-        .navbar {
+        .sidebar {
+            width: 220px;
+            background-color: #343a40;
+            height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            height: 100%;
-            min-width: 200px;
-            background-color: #343a40;
-            color: white;
             display: flex;
             flex-direction: column;
-        }
-
-        .nav-link {
-            color: #ffffff !important;
-            font-size: 1.1rem;
-        }
-
-        .nav-link:hover {
-            color: #ddd !important;
-        }
-
-        .content {
-            margin-left: 220px; /* Adjust margin to account for sidebar width */
             padding: 20px;
-            flex-grow: 1;
-            overflow-y: auto;
-            height: 100vh;
         }
-
+        .sidebar a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 10px 0;
+            transition: color 0.3s ease;
+        }
+        .sidebar a:hover {
+            color: #ddd;
+        }
+        .content {
+            margin-left: 240px;
+            padding: 20px;
+            width: 100%;
+        }
         h2 {
-            margin-bottom: 20px;
-            color: #333;
+            text-align: center;
+            color: #007bff;
         }
-
-        .table {
-            margin-top: 20px;
-        }
-
-        .table th, .table td {
-            vertical-align: middle;
-        }
-
-        .table th {
-            text-transform: uppercase;
-        }
-
         .btn {
-            margin: 0 5px;
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
         }
-
-        .alert {
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #fff;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.875em;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
             margin: 20px 0;
         }
-
-        /* Resizable sidebar styles */
-        .sidebar-resizer {
-            width: 5px;
-            cursor: ew-resize;
-            background-color: #aaa;
-            height: 100vh;
+        .table th, .table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .table th {
+            background-color: #343a40;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
         }
     </style>
 </head>
 <body>
-    <div class="d-flex">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark flex-column align-items-start p-3" id="sidebar">
-            <a class="navbar-brand" href="#">Cinema Owner Panel</a>
-            <ul class="navbar-nav flex-column mt-3">
-                <li class="nav-item mb-2">
-                    <a class="nav-link" th:href="@{/theater}">Manage Theaters</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link" th:href="@{/screeningroom}">Manage ScreeningRoom</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link" th:href="@{/showtime}">Manage ShowTime</a>
-                </li>
-            </ul>
-        </nav>
-        <div class="sidebar-resizer" id="sidebar-resizer"></div>
-        <div class="content">
-            <div class="text-center mb-4"><h2>Manage Theaters</h2></div>
-            <div class="text-end mb-4">
-                <a class="btn btn-primary" th:href="@{/theater/new}">Add New Theater</a>
-            </div>
-
-            <div th:if="${message}" class="alert alert-success text-center">
-                [[${message}]]
-            </div>
-            <div>
-                <table class="table table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Theater ID</th>
-                            <th>Cinema Owner ID</th>
-                            <th>Theater Name</th>
-                            <th>Map</th>
-                            <th>Address</th>
-                            <th>Description</th>
-                            <th>PhotoTheater</th>
-                            <th>Rating</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <th:block th:each="theater : ${listTheater}">
-                            <tr>
-                                <td>[[${theater.theaterID}]]</td>
-                                <td>[[${theater.cinemaOwnerID}]]</td>
-                                <td>[[${theater.theaterName}]]</td>
-                                <td>
-                                    <iframe th:src="'https://www.google.com/maps/embed?pb=' + ${theater.map}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                                </td>
-                                <td>[[${theater.address}]]</td>
-                                <td>[[${theater.description}]]</td>
-                                <td><img th:src="@{${theater.photoTheater}}" class="img-round" alt="No pic" width="100" height="60" ></td>
-                                <td>[[${theater.rating}]]</td>
-                                <td>
-                                    <a class="btn btn-warning btn-sm me-2" th:href="@{'/theater/edit/' + ${theater.theaterID}}">Edit</a>
-                                    <a class="btn btn-danger btn-sm" th:href="@{'/theater/delete/' + ${theater.theaterID}}">Delete</a>
-                                </td>
-                            </tr>
-                        </th:block>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="sidebar">
+        <a href="/homecinemaowner">Back to Home</a>
+        <a class="manage" th:href="@{/movie}">Manage Movie</a>
+        <a class="manage" th:href="@{/showtime}">Manage Showtime</a>
+        <a class="manage" th:href="@{/screeningroom}">Manage ScreeningRoom</a>
+        <a class="manage" th:href="@{/theater}">Manage Theater</a>
+        <a class="manage" th:href="@{/news}">Manage News</a>
+        <a class="manage" th:href="@{/promotions}">Manage Promotions</a>
+        <a class="manage" th:href="@{/food}">Manage Food</a>
     </div>
-
+    <div class="content">
+        <h2>Manage Theaters</h2>
+        <div class="text-start mb-4">
+            <a class="btn" th:href="@{/theater/new}">Add New Theater</a>
+        </div>
+        <div th:if="${message}" class="alert alert-success text-center">
+            [[${message}]]
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Theater ID</th>
+                    <th>Cinema Owner ID</th>
+                    <th>Theater Name</th>
+                    <th>Map</th>
+                    <th>Address</th>
+                    <th>Description</th>
+                    <th>PhotoTheater</th>
+                    <th>Rating</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="theater : ${listTheater}">
+                    <td th:text="${theater.theaterID}">Theater ID</td>
+                    <td th:text="${theater.cinemaOwnerID}">Cinema Owner ID</td>
+                    <td th:text="${theater.theaterName}">Theater Name</td>
+                    <td>
+                        <iframe th:src="'https://www.google.com/maps/embed?pb=' + ${theater.map}" width="200" height="150" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </td>
+                    <td th:text="${theater.address}">Address</td>
+                    <td th:text="${theater.description}">Description</td>
+                    <td><img th:src="@{${theater.photoTheater}}" class="img-round" alt="No pic" width="100" height="60" /></td>
+                    <td th:text="${theater.rating}">Rating</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm me-2" th:href="@{'/theater/edit/' + ${theater.theaterID}}">Edit</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{'/theater/delete/' + ${theater.theaterID}}" th:onclick="return confirm('Are you sure you want to delete this theater?');">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Include Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const resizer = document.getElementById('sidebar-resizer');
-        const container = document.querySelector('.content');
-
-        resizer.addEventListener('mousedown', function(e) {
-            e.preventDefault();
-            document.addEventListener('mousemove', resize);
-            document.addEventListener('mouseup', stopResize);
-        });
-
-        function resize(e) {
-            const newWidth = e.clientX;
-            if (newWidth > 100 && newWidth < 500) { // Set minimum and maximum width
-                sidebar.style.width = newWidth + 'px';
-                container.style.marginLeft = newWidth + 'px';
-            }
-        }
-
-        function stopResize() {
-            document.removeEventListener('mousemove', resize);
-            document.removeEventListener('mouseup', stopResize);
-        }
-    </script>
 </body>
 </html>
