@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,22 +25,19 @@ public class Theater {
     @Column(length = 45, nullable = false)
     private String theaterName;
 
-    @Column(length = 2000, nullable = false)
-    private String map;
-
     @Column(length = 1000, nullable = false)
     private String address;
 
     @Column(length = 2000, nullable = false)
     private String description;
 
-    @Column(nullable = true, length = 64)
+    @Column(nullable = true, length = 64, name = "photoTheater")
     private String photoTheater;
 
     @Column(nullable = false)
     private Double rating;
 
-    // Getters and Setters
+    // Getter and setter for theaterID
     public Integer getTheaterID() {
         return theaterID;
     }
@@ -48,6 +46,7 @@ public class Theater {
         this.theaterID = theaterID;
     }
 
+    // Getter and setter for cinemaOwnerID
     public Integer getCinemaOwnerID() {
         return cinemaOwnerID;
     }
@@ -56,6 +55,7 @@ public class Theater {
         this.cinemaOwnerID = cinemaOwnerID;
     }
 
+    // Getter and setter for theaterName
     public String getTheaterName() {
         return theaterName;
     }
@@ -64,14 +64,7 @@ public class Theater {
         this.theaterName = theaterName;
     }
 
-    public String getMap() {
-        return map;
-    }
-
-    public void setMap(String map) {
-        this.map = map;
-    }
-
+    // Getter and setter for address
     public String getAddress() {
         return address;
     }
@@ -80,6 +73,7 @@ public class Theater {
         this.address = address;
     }
 
+    // Getter and setter for description
     public String getDescription() {
         return description;
     }
@@ -88,6 +82,15 @@ public class Theater {
         this.description = description;
     }
 
+    // Transient method to construct photo path
+    @Transient
+    public String getPhotosImagePath() {
+        if (photoTheater == null) return null;
+
+        return "/theater-photo/" + theaterID + "/" + photoTheater;
+    }
+
+    // Getter and setter for photoTheater
     public String getPhotoTheater() {
         return photoTheater;
     }
@@ -96,6 +99,7 @@ public class Theater {
         this.photoTheater = photoTheater;
     }
 
+    // Getter and setter for rating
     public Double getRating() {
         return rating;
     }

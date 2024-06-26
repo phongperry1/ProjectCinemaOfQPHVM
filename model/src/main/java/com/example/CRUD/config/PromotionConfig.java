@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class PromotionConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        exposeDirectory("food-photo", registry);
+        exposeDirectory("promotions-photo", registry);
     }
 
     private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
