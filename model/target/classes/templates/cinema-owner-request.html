@@ -78,16 +78,7 @@
         </ul>
       </div>
       <div class="col-md-10">
-        <nav class="navbar navbar-light bg-light">
-          <form class="form-inline" th:action="@{/search_cinema_owner}" method="get">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="cinemaName"
-              th:value="${cinemaName}">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-          <a th:href="@{/show-cinema-owner-request}">
-            <button class="btn btn-outline-success my-2 my-sm-0" style="
-            margin-left: 500px;">View Cinema Owner Requests</button>
-          </a>
+        <nav class="navbar navbar-light bg-light">  
           <div class="ml-auto">
             <span class="navbar-text mr-3">Admin</span>
             <!-- <img class="rounded-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLNYkCP3u7J2yb8IJcHqt154e9MIOPsQEgNQ&s" alt="Profile" style="width: 40px; height: 40px;">
@@ -100,22 +91,33 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Cinema Owner ID</th>
+                    <th>ID</th>
                     <th>Cinema Name</th>
                     <th>Address</th>
                     <th>Hotline</th>
                     <th>Email</th>
                     <th>Employee ID</th>
+                    <th>User</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="owner : ${cinemaOwners}">
-                    <td th:text="${owner.cinemaOwnerID}"></td>
-                    <td th:text="${owner.cinemaName}"></td>
-                    <td th:text="${owner.addressCinema}"></td>
-                    <td th:text="${owner.hotline}"></td>
-                    <td th:text="${owner.email}"></td>
-                    <td th:text="${owner.employeeID}"></td>
+                <tr th:each="request : ${cinemaOwnerRequests}">
+                    <td th:text="${request.cinemaOwnerRequestId}"></td>
+                    <td th:text="${request.cinemaName}"></td>
+                    <td th:text="${request.addressCinema}"></td>
+                    <td th:text="${request.hotline}"></td>
+                    <td th:text="${request.email}"></td>
+                    <td th:text="${request.employeeID}"></td>
+                    <td th:text="${request.users.userName}"></td>
+                    <td>
+                        <form th:action="@{/{id}/approve(id=${request.cinemaOwnerRequestId})}" method="post">
+                            <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                        <form th:action="@{/{id}/reject(id=${request.cinemaOwnerRequestId})}" method="post">
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -125,4 +127,4 @@
   </div>
 </body>
 
-</html>
+</html> 
