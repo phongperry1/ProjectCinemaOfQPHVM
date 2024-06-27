@@ -90,6 +90,9 @@
         .table-hover tbody tr:hover {
             background-color: #f1f1f1;
         }
+        .img-round {
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -108,36 +111,37 @@
         <div class="text-start mb-4">
             <a class="btn" th:href="@{/news/new}">Add New News</a>
         </div>
-        <div th:if="${message}" class="alert alert-success text-center">
+        <!-- Display success message if any -->
+        <div th:if="${message}" class="alert alert-success text-center" role="alert">
             [[${message}]]
         </div>
+        <!-- Table to display list of news -->
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>NewsID</th>
-                    <th>AuthorID</th>
-                    <th>MovieID</th>
-                    <th>CinemaOwnerID</th>
+                    <th>News ID</th>
+                    <th>Cinema Owner ID</th>
                     <th>Title</th>
                     <th>Content</th>
-                    <th>PublishDate</th>
-                    <th>PhotoNews</th>
+                    <th>Photo</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- Iterate over the list of news -->
                 <tr th:each="news : ${listNews}">
-                    <td th:text="${news.NewsID}">NewsID</td>
-                    <td th:text="${news.AuthorID}">AuthorID</td>
-                    <td th:text="${news.MovieID}">MovieID</td>
-                    <td th:text="${news.CinemaOwnerID}">CinemaOwnerID</td>
-                    <td th:text="${news.Title}">Title</td>
-                    <td th:text="${news.Content}">Content</td>
-                    <td th:text="${news.PublishDate}">PublishDate</td>
-                    <td><img th:src="@{${news.PhotosImagePath}}" class="img-round" alt="No pic" width="100" height="60" /></td>
+                    <td th:text="${news.newsID}">News ID</td>
+                    <td th:text="${news.cinemaOwnerID}">Cinema Owner ID</td>
+                    <td th:text="${news.title}">Title</td>
+                    <td th:text="${news.content}">Content</td>
                     <td>
-                        <a class="btn btn-warning btn-sm me-2" th:href="@{'/news/edit/' + ${news.NewsID}}">Edit</a>
-                        <a class="btn btn-danger btn-sm" th:href="@{'/news/delete/' + ${news.NewsID}}" th:onclick="return confirm('Are you sure you want to delete this news?');">Delete</a>
+                        <!-- Display news photo if available -->
+                        <img th:src="@{'/news-photo/' + ${news.newsID} + '/' + ${news.photoNews}}" class="img-round" alt="No photo" width="100" height="60" />
+                    </td>
+                    <td>
+                        <!-- Edit and Delete buttons -->
+                        <a class="btn btn-warning btn-sm me-2" th:href="@{'/news/edit/' + ${news.newsID}}">Edit</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{'/news/delete/' + ${news.newsID}}" th:onclick="return confirm('Are you sure you want to delete this news?');">Delete</a>
                     </td>
                 </tr>
             </tbody>

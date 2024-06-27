@@ -10,7 +10,5 @@ import java.util.List;
 @Repository
 public interface ShowtimeRepository extends JpaRepository<Showtime, Integer> {
     List<Showtime> findByMovieID(Integer movieID);
-       
-    
-    List<Showtime> findByShowDate(Date showDate); // Add this line if not already present
+    List<Showtime> findByShowDate(Date showDate);
 }

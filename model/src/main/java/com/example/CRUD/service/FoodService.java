@@ -10,21 +10,24 @@ import com.example.CRUD.Repository.FoodRepository;
 import com.example.CRUD.controller.FoodNotFoundException;
 import com.example.mo.Food;
 
-
 @Service
 public class FoodService {
-   @Autowired
+    @Autowired
     private FoodRepository repo;
 
-     public List<Food> listAll() {
-        return (List<Food>) repo.findAll();
+    public List<Food> listAllByCinemaOwnerID(Integer cinemaOwnerID) {
+        return repo.findByCinemaOwnerID(cinemaOwnerID);
     }
 
-     public Food save(Food food) {
+    public List<Food> listAll() {
+        return repo.findAll();
+    }
+
+    public Food save(Food food) {
         return repo.save(food);
     }
 
-     public Food get(Integer foodID) throws FoodNotFoundException {
+    public Food get(Integer foodID) throws FoodNotFoundException {
         Optional<Food> result = repo.findById(foodID);
         if (result.isPresent()) {
             return result.get();
@@ -32,12 +35,10 @@ public class FoodService {
         throw new FoodNotFoundException("Could not find any food with ID " + foodID);
     }
 
-    public void delete(Integer FoodID) throws FoodNotFoundException {
-        if (!repo.existsById(FoodID)) {
-            throw new FoodNotFoundException("Could not find any food with ID " + FoodID);
+    public void delete(Integer foodID) throws FoodNotFoundException {
+        if (!repo.existsById(foodID)) {
+            throw new FoodNotFoundException("Could not find any food with ID " + foodID);
         }
-        repo.deleteById(FoodID);
-    } 
-
-
+        repo.deleteById(foodID);
+    }
 }

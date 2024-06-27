@@ -48,10 +48,6 @@
         <form th:action="@{/theater/save}" method="post" th:object="${theater}" enctype="multipart/form-data">
             <input type="hidden" th:field="*{theaterID}">
             <div class="form-group mb-3">
-                <label for="cinemaOwnerID">Cinema Owner ID</label>
-                <input type="number" th:field="*{cinemaOwnerID}" class="form-control" id="cinemaOwnerID" />
-            </div>
-            <div class="form-group mb-3">
                 <label for="theaterName">Theater Name</label>
                 <input type="text" th:field="*{theaterName}" class="form-control" id="theaterName" required minlength="2" maxlength="45"/>
             </div>

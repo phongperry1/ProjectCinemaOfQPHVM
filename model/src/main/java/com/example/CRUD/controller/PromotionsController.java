@@ -1,6 +1,7 @@
 package com.example.CRUD.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.CRUD.service.PromotionsService;
+import com.example.CRUD.service.UserService;
 import com.example.mo.Promotions;
+import com.example.mo.Users;
 
 @Controller
 public class PromotionsController {
@@ -24,9 +27,13 @@ public class PromotionsController {
     @Autowired
     private PromotionsService service;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/promotions")
-    public String showPromotionsList(Model model) {
-        List<Promotions> listPromotions = service.listAll();
+    public String showPromotionsList(Model model, Principal principal) {
+        Integer cinemaOwnerID = getCinemaOwnerIDFromPrincipal(principal);
+        List<Promotions> listPromotions = service.listAllByCinemaOwnerID(cinemaOwnerID);
         model.addAttribute("listPromotions", listPromotions);
         return "promotions"; 
     }
@@ -41,38 +48,26 @@ public class PromotionsController {
     @PostMapping("/promotions/save")
     public String savePromotions(@ModelAttribute("promotions") Promotions promotions,
                                  @RequestParam(value = "image", required = false) MultipartFile multipartFile,
-                                 RedirectAttributes ra) {
+                                 RedirectAttributes ra, Principal principal) {
         try {
-            // Check if file is not empty before processing
+            promotions.setCinemaOwnerID(getCinemaOwnerIDFromPrincipal(principal));
+
             if (multipartFile != null && !multipartFile.isEmpty()) {
-                // Sanitize the file name
                 String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-
-                // Set the file name to the promotions object
                 promotions.setPhotoPromotions(fileName);
-
-                // Save the promotions object first to get its ID
                 Promotions savedPromotions = service.save(promotions);
-
-                // Define the upload directory
                 String uploadDir = "promotions-photo/" + savedPromotions.getPromotionID();
-
-                // Save the file to the upload directory
                 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             } else {
-                // Save promotions without file
                 service.save(promotions);
             }
 
-            // Add a success message
-            ra.addFlashAttribute("message", "The promotions has been saved successfully.");
+            ra.addFlashAttribute("message", "The promotions have been saved successfully.");
         } catch (IOException e) {
-            // Handle any IO exceptions that may occur
             e.printStackTrace();
             ra.addFlashAttribute("error", "Failed to save the promotions due to an error: " + e.getMessage());
         }
 
-        // Redirect to the promotions page
         return "redirect:/promotions";
     }
 
@@ -98,5 +93,13 @@ public class PromotionsController {
             ra.addFlashAttribute("message", e.getMessage());
         }
         return "redirect:/promotions";
+    }
+
+    private Integer getCinemaOwnerIDFromPrincipal(Principal principal) {
+        Users user = userService.getUsersByEmail(principal.getName());
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        return user.getUserId();
     }
 }

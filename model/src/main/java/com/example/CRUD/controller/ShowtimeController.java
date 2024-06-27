@@ -34,6 +34,7 @@ public class ShowtimeController {
         }
         model.addAttribute("listShowtime", listShowtime);
         model.addAttribute("movieID", movieID);
+        model.addAttribute("pageTitle", "Manage Showtimes");
         return "showtime";
     }
 
@@ -52,8 +53,6 @@ public class ShowtimeController {
 
         try {
             service.save(showtime);
-
-            // Add success message and redirect
             ra.addFlashAttribute("message", "The showtime has been saved successfully.");
             return "redirect:/showtime?movieID=" + showtime.getMovieID();
         } catch (IllegalArgumentException e) {

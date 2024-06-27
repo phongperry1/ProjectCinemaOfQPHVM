@@ -1,7 +1,6 @@
 package com.example.mo;
 
 import java.sql.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,105 +19,34 @@ public class News {
    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer NewsID;
-    private Integer AuthorID;
-    private Integer MovieID;
-    private Integer CinemaOwnerID;
+    private Integer newsID;
 
-    @Column(length = 50, nullable = false, name = "Title")
-    private String Title;
-    @Column(length = 100, nullable = false, name = "Content")
-    private String Content;
-    @Column(name = "PublishDate")
-    private Date PublishDate;
-    @Column(nullable = true, length = 64, name = "PhotosImagePath")
-    private String PhotoNews;
+    @Column(nullable = false)
+    private Integer authorID;
 
-    public Integer getNewsID() {
-        return this.NewsID;
-    }
+    @Column(nullable = false)
+    private Integer movieID;
 
-    public void setNewsID(Integer NewsID) {
-        this.NewsID = NewsID;
-    }
+    @Column(nullable = false)
+    private Integer cinemaOwnerID;
 
-    public Integer getAuthorID() {
-        return this.AuthorID;
-    }
+    @Column(length = 50, nullable = false)
+    private String title;
 
-    public void setAuthorID(Integer AuthorID) {
-        this.AuthorID = AuthorID;
-    }
+    @Column(length = 100, nullable = false)
+    private String content;
+
+    @Column
+    private Date publishDate;
+
+    @Column(nullable = true, length = 64)
+    private String photoNews;
+
+    // Getters and setters
 
     @Transient
     public String getPhotosImagePath() {
-        if (PhotoNews == null) return null;
-
-        return "/news-photo/" + NewsID + "/" + PhotoNews;
+        if (photoNews == null) return null;
+        return "/news-photo/" + newsID + "/" + photoNews;
     }
-
-
-    public String getPhotoNews() {
-        return this.PhotoNews;
-    }
-    
-
-    public void setPhotoNews(String PhotoNews) {
-        this.PhotoNews = PhotoNews;
-    }
-
-    public Integer getMovieID() {
-        return this.MovieID;
-    }
-
-    public void setMovieID(Integer MovieID) {
-        this.MovieID = MovieID;
-    }
-
-    public Integer getCinemaOwnerID() {
-        return this.CinemaOwnerID;
-    }
-
-    public void setCinemaOwnerID(Integer CinemaOwnerID) {
-        this.CinemaOwnerID = CinemaOwnerID;
-    }
-
-    public String getTitle() {
-        return this.Title;
-    }
-
-    public void setTitle(String Title) {
-        this.Title = Title;
-    }
-
-    public String getContent() {
-        return this.Content;
-    }
-
-    public void setContent(String Content) {
-        this.Content = Content;
-    }
-
-    public Date getPublishDate() {
-        return this.PublishDate;
-    }
-
-    public void setPublishDate(Date PublishDate) {
-        this.PublishDate = PublishDate;
-    }
-
-
-    @Override
-    public String toString() {
-        return "{" +
-            " NewsID='" + getNewsID() + "'" +
-            ", AuthorID='" + getAuthorID() + "'" +
-            ", MovieID='" + getMovieID() + "'" +
-            ", CinemaOwnerID='" + getCinemaOwnerID() + "'" +
-            ", Title='" + getTitle() + "'" +
-            ", Content='" + getContent() + "'" +
-            ", PublishDate='" + getPublishDate() + "'" +
-            "}";
-    }
-
 }

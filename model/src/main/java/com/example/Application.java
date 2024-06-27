@@ -21,9 +21,7 @@ public class Application {
         PromotionsService promotionsService = context.getBean(PromotionsService.class);
 
         // Use the services provided by the beans
-        List<Promotions> promotions = promotionsService.listAll();
-        for (Promotions promotions2 : promotions) {
-            System.out.println(promotions2);
-        }
+       
+        
     }
 }

@@ -39,6 +39,7 @@ public class Users {
     private String userType;
     private String profileImageURL;
     private String resetPasswordToken;
+    private Integer cinemaOwnerID; // Add cinemaOwnerID field
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Transaction> transactions;
@@ -183,6 +184,14 @@ public class Users {
 
     public void setResetPasswordToken(String resetPasswordToken) {
         this.resetPasswordToken = resetPasswordToken;
+    }
+
+    public Integer getCinemaOwnerID() {
+        return this.cinemaOwnerID;
+    }
+
+    public void setCinemaOwnerID(Integer cinemaOwnerID) {
+        this.cinemaOwnerID = cinemaOwnerID;
     }
 
     public Set<Transaction> getTransactions() {

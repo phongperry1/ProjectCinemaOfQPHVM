@@ -62,16 +62,11 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String showHomePage(Model model) {
-        // Users user = (Users) session.getAttribute("user");
-        // if (user == null) {
-        //     return "redirect:/";
-        // }
-
+    public String showHomePage(Model model, Principal principal) {
+        Integer cinemaOwnerID = getCinemaOwnerIDFromPrincipal(principal);
         List<Movie> movies = movieService.getAllMovies();
         List<Movie> simplifiedMovies = movies.stream()
                 .map(m -> {
-
                     Movie simplifiedMovie = new Movie();
                     simplifiedMovie.setMovieID(m.getMovieID());
                     simplifiedMovie.setTitle(m.getTitle());
@@ -81,9 +76,8 @@ public class HomeController {
                 })
                 .collect(Collectors.toList());
         model.addAttribute("movies", simplifiedMovies);
-        List<Promotions> listPromotions = promotionsService.listAll();
+        List<Promotions> listPromotions = promotionsService.listAllByCinemaOwnerID(cinemaOwnerID);
         model.addAttribute("listPromotions", listPromotions);
-        // model.addAttribute("user", user);
         return "home";
     }
 
@@ -98,11 +92,11 @@ public class HomeController {
     }
 
     @ModelAttribute
-    public void commonUser(Principal p, Model m) {
-        if (p != null) {
-            String email = p.getName();
+    public void commonUser(Principal principal, Model model) {
+        if (principal != null) {
+            String email = principal.getName();
             Users user = userRepo.findByEmail(email);
-            m.addAttribute("user", user);
+            model.addAttribute("user", user);
         }
     }
 
@@ -117,11 +111,10 @@ public class HomeController {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute Users user, HttpSession session, Model m, HttpServletRequest request) {
-        String url = request.getRequestURL().toString();
-        url = url.replace(request.getServletPath(), "");
-        Users u = userService.saveUser(user, url);
-        if (u != null) {
+    public String saveUser(@ModelAttribute Users user, HttpSession session, Model model, HttpServletRequest request) {
+        String url = Utility.getSiteURL(request);
+        Users savedUser = userService.saveUser(user, url);
+        if (savedUser != null) {
             session.setAttribute("msg", "Register successfully");
         } else {
             session.setAttribute("msg", "Something wrong server");
@@ -130,15 +123,13 @@ public class HomeController {
     }
 
     @GetMapping("/verify")
-    public String verifyAccount(@Param("code") String code, Model m) {
-        boolean f = userService.verifyAccount(code);
-
-        if (f) {
-            m.addAttribute("msg", "Sucessfully your account is verified");
+    public String verifyAccount(@Param("code") String code, Model model) {
+        boolean verified = userService.verifyAccount(code);
+        if (verified) {
+            model.addAttribute("msg", "Successfully your account is verified");
         } else {
-            m.addAttribute("msg", "may be your vefication code is incorrect or already veified ");
+            model.addAttribute("msg", "Maybe your verification code is incorrect or already verified");
         }
-
         return "message";
     }
 
@@ -187,7 +178,6 @@ public class HomeController {
                 + "or you have not made the request.</p>";
 
         helper.setSubject(subject);
-
         helper.setText(content, true);
 
         mailSender.send(message);
@@ -200,7 +190,7 @@ public class HomeController {
 
         if (user == null) {
             model.addAttribute("message", "Invalid Token");
-            return "message"; // Assuming you have a message.html template
+            return "message";
         }
 
         return "resetPassword";
@@ -208,28 +198,34 @@ public class HomeController {
 
     @PostMapping("/resetPassword")
     public String processResetPassword(@RequestParam(value = "token") String token,
-            @RequestParam(value = "password") String password,
-            Model model) {
+                                       @RequestParam(value = "password") String password,
+                                       Model model) {
         Users user = userService.getByResetPasswordToken(token);
         model.addAttribute("title", "Reset your password");
 
         if (user == null) {
             model.addAttribute("message", "Invalid Token");
-            return "message"; // Assuming you have a message.html template
+            return "message";
         } else {
             userService.updatePassword(user, password);
-
             model.addAttribute("message", "You have successfully changed your password.");
         }
 
-        return "login"; // Assuming you have a message.html template
+        return "login";
     }
 
-    public class Utility {
+    private Integer getCinemaOwnerIDFromPrincipal(Principal principal) {
+        Users user = userService.getUsersByEmail(principal.getName());
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        return user.getUserId();
+    }
+
+    public static class Utility {
         public static String getSiteURL(HttpServletRequest request) {
             String siteURL = request.getRequestURL().toString();
             return siteURL.replace(request.getServletPath(), "");
         }
     }
-
 }
