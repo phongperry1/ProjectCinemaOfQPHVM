@@ -19,8 +19,8 @@ public class TheaterService {
         return (List<Theater>) repo.findAll();
     }
 
-    public void save(Theater theater) {
-        repo.save(theater);
+    public Theater save(Theater theater) {
+        return repo.save(theater);
     }
 
     public Theater get(Integer theaterID) throws TheaterNotFoundException {

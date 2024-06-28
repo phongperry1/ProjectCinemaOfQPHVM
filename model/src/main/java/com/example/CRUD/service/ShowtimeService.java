@@ -20,6 +20,16 @@ public class ShowtimeService {
     @Autowired
     private ShowtimeRepository repo;
 
+    // public List<Showtime> getShowtimesByMovieID(Integer movieID) {
+    //     return repo.findByMovie_MovieID(movieID);
+    // }
+    
+    public List<Showtime> getShowtimesByMovieID(Integer movieID) {
+        List<Showtime> showtimes = repo.findByMovie_MovieID(movieID);
+        System.out.println("Fetched showtimes for movie ID " + movieID + ": " + showtimes);
+        return showtimes;
+    }
+
     public List<Object[]> getShowtimesByMovieIDAndTheaterID(Integer movieID, Integer theaterID) {
         return repo.findByMovieIDAndTheaterID(movieID, theaterID);
     }

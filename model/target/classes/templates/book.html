@@ -447,7 +447,7 @@
             </button>
             <iframe width="560" height="315"  th:src="@{'https://www.youtube.com/embed/' + ${movie.trailerURL}}" frameborder="0" allowfullscreen></iframe>         
         </div>
-        <a th:href="@{'/booking/' + ${movie.movieID}}" type="button" class="btn btn-outline-dark">Book Ticket</a>
+        <a th:href="@{'/booking/' + ${user.userId} + '/' + ${movie.movieID}}" type="button" class="btn btn-outline-dark">Book Ticket</a>
     </div>
     
 

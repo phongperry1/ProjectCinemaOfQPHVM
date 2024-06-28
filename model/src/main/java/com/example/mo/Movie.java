@@ -63,6 +63,9 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie")
     private List<Showtime> showtimes;
+    
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Ticket> tickets; 
 
     // Getter và Setter cho address
     public String getAddress() {

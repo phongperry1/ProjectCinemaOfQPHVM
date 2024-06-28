@@ -1,10 +1,10 @@
 package com.example.CRUD.controller;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,53 +22,64 @@ import com.example.CRUD.service.UserService;
 import com.example.mo.PurchaseHistory;
 import com.example.mo.Users;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserControllerEditProfile {
 
     @Autowired
-    private UserService ser;
+    private UserService userService;
+    @Autowired
     private PurchaseHistoryService historyService;
-    
+
     public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
-    @GetMapping("/profile")
-    public String getUserProfile(Model model, HttpSession session) {
-        Users user = (Users) session.getAttribute("user");
-        // Users user = ser.getUsersById(2);
-        model.addAttribute("user", user);    
+
+    @GetMapping("/edit/profile")
+    public String getUserProfile(Model model, Principal principal) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        model.addAttribute("user", user);
         return "profile";
     }
 
-    @PostMapping("/profile/upload-avatar")
-    public String changeAvatar(Model model, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException{
-        Users user = (Users) session.getAttribute("user");
+    @PostMapping("/edit/upload-avatar")
+    public String changeAvatar(Model model, @RequestParam("file") MultipartFile file, Principal principal)
+            throws IOException {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
         String originalFilename = file.getOriginalFilename();
         Path fileNameAndPath = Paths.get(uploadDirectory, originalFilename);
         Files.write(fileNameAndPath, file.getBytes());
         user.setProfileImageURL(originalFilename);
-        ser.updateUser(user);
-        model.addAttribute("user", user);  
-        return "redirect:/profile";
+        userService.updateUser(user);
+        model.addAttribute("user", user);
+        return "redirect:/user/edit/profile";
     }
-    
-    
 
-    @GetMapping("/update-profile")
-    public String showUpdateProfile(@ModelAttribute Users user, Model model, HttpSession session) {
-        Users users = (Users) session.getAttribute("user");
-        model.addAttribute("user", users);
+    @GetMapping("/edit/update-profile")
+    public String showUpdateProfile(Model model, Principal principal) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        model.addAttribute("user", user);
         return "update-profile";
     }
 
-    @GetMapping("/update-profile/save")
-    public String updateProfile(@ModelAttribute Users user, Model model, HttpSession session) {
-        Users updateUser = (Users) session.getAttribute("user");
-        
+    @PostMapping("/edit/update-profile/save")
+    public String updateProfile(@ModelAttribute Users user, Model model, Principal principal,
+            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+        String email = principal.getName();
+        Users updateUser = userService.getUsersByEmail(email);
+
         boolean isUpdated = false;
+        if (file != null && !file.isEmpty()) {
+            String originalFilename = file.getOriginalFilename();
+            Path fileNameAndPath = Paths.get(uploadDirectory, originalFilename);
+            Files.write(fileNameAndPath, file.getBytes());
+            updateUser.setProfileImageURL(originalFilename);
+            isUpdated = true;
+        }
         if (user.getUserName() != null) {
             updateUser.setUserName(user.getUserName());
             isUpdated = true;
@@ -94,7 +106,7 @@ public class UserControllerEditProfile {
         }
 
         if (isUpdated) {
-            ser.updateUser(updateUser);
+            userService.updateUser(updateUser);
             model.addAttribute("message", "Update successfully!");
         } else {
             model.addAttribute("error", "No information has been updated.");
@@ -104,29 +116,28 @@ public class UserControllerEditProfile {
         return "update-profile";
     }
 
-    @GetMapping("/change-password")
-    public String showChangePasswordForm(@ModelAttribute Users user, Model model, HttpSession session) {
-        Users users = (Users) session.getAttribute("user");
-        model.addAttribute("user", users);   
+    @GetMapping("/edit/change-password")
+    public String showChangePasswordForm(Model model, Principal principal) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        model.addAttribute("user", user);
         return "change-password";
     }
 
-
-    @GetMapping("/change-password/save")
+    @PostMapping("/edit/change-password/save")
     public String changePassword(@RequestParam("newPassword") String newPassword,
-                                 @RequestParam("curPassword") String curPassword,
-                                 @RequestParam("confirmPassword") String confirmPassword,
-                                 @ModelAttribute Users user, Model model, HttpSession session) {
-        Users users = (Users) session.getAttribute("user");
-        model.addAttribute("user", users);
-            if (!newPassword.equals(confirmPassword)) {
-                model.addAttribute("error", "New password and confirm password do not match!");
-                return "change-password";
-            }
-        // Thực hiện cập nhật mật khẩu từ dữ liệu gửi từ form
-        boolean passwordChanged = ser.updatePassword(1, curPassword, newPassword);
-    
-        // Xử lý kết quả và chuyển hướng đến trang tương ứng
+            @RequestParam("curPassword") String curPassword,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model, Principal principal) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        model.addAttribute("user", user);
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "New password and confirm password do not match!");
+            return "change-password";
+        }
+        boolean passwordChanged = userService.updatePassword(user.getUserId(), curPassword, newPassword);
+
         if (passwordChanged) {
             model.addAttribute("message", "Password changed successfully!");
         } else {
@@ -135,13 +146,12 @@ public class UserControllerEditProfile {
         return "change-password";
     }
 
-@GetMapping("/history")
-public String getPurchaseHistory(Model model){
-    List<PurchaseHistory> purchaseHistories = historyService.getPurchaseHistoryById(1);
-    model.addAttribute("purchaseHistories", purchaseHistories);
-    return "hieu";
-}
-
-
-    
+    @GetMapping("/edit/history")
+    public String getPurchaseHistory(Model model, Principal principal) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        List<PurchaseHistory> purchaseHistories = historyService.getPurchaseHistoryById(user.getUserId());
+        model.addAttribute("purchaseHistories", purchaseHistories);
+        return "history";
+    }
 }

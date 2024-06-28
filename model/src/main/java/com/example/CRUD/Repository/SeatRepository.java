@@ -1,8 +1,11 @@
-// package com.example.CRUD.Repository;
+package com.example.CRUD.Repository;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-// import com.example.mo.Seat;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-// public interface SeatRepository extends JpaRepository<Seat, Integer> {
-// }
+import com.example.mo.Seat;
+
+public interface SeatRepository extends JpaRepository<Seat, String> {
+    List<Seat> findByStatusSeat(boolean statusSeat);
+}

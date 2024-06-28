@@ -240,12 +240,7 @@
             color: #fff;
         }
 
-        .seat.disabled {
-            background-color: #ddd;
-            border-color: #ddd;
-            color: #777;
-            cursor: not-allowed;
-        }
+
 
         .selected-seats {
             display: none;
@@ -255,6 +250,11 @@
             background-color: #f9f9f9;
         }
 
+        .seat.booked {
+            border: #dfdfdf !important;
+            background-color: #d9d9d9 !important;
+            cursor: not-allowed;
+        }
 
         .selected-seats {
             display: none;
@@ -317,10 +317,10 @@
                             <div class="schedule-container mb-3" id="schedule-container">
                                 <div th:each="theater : ${theaters}">
                                     <button type="button" class="list-group-item list-group-item-action mt-3"
-                                            th:attr="data-theater-id=${theater.theaterID}"
-                                            onclick="showShowtimes(this.getAttribute('data-theater-id'))">
+                                            th:attr="data-theater-id=${theater.theaterID}, data-theater-name=${theater.theaterName}"
+                                            onclick="showShowtimes(this.getAttribute('data-theater-id'),this.getAttribute('data-theater-name'))">
                                         <div class="cinema-item">
-                                            <img src="https://i.imgur.com/D5O0h8H.png" alt="CGV">
+                                            <img th:src="@{'/theater-photo/' + ${theater.theaterID} + '/' + ${theater.photoTheater}}" class="img-round" alt="No photo" width="100" height="60" />
                                             <div>
                                                 <p th:text="${theater.theaterName}"></p>
                                                 <p th:text="${theater.address}"></p>
@@ -355,7 +355,7 @@
                 <div class="screen" id="screen">
                     Screen
                 </div>
-                <div class="right">
+                <div class="right" id="seatContainer">
                     <div class="chair" id="chair">
                         <div class="row">
                             <button class="seat" data-type="regular" data-price="100000">A1</button>
@@ -672,6 +672,9 @@
                 <div class="modal-body">
                     <div id="ticketDetailContent">
                         <p id="ticketMovieTitle"></p>
+                        <p id="selectedShowtimeId"></p>
+                        <p id="selectedTheater"></p>
+                        <p id="selectedTheaterID"></p>
                         <p id="ticketShowtime"></p>
                         <p id="ticketDate"></p>
                         <p id="selectedSeats"></p>
@@ -680,7 +683,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" >Tiến hành thanh toán</button>
+                    <button type="button" class="btn btn-secondary" id="purchase" >Tiến hành thanh toán</button>
                 </div>
             </div>
         </div>
@@ -691,7 +694,14 @@
         const movieID = /*[[${movieID}]]*/ 1; 
         let currentShowtimes = {}; 
         let selectedDate = null; 
-        function showShowtimes(theaterID) {
+        function showShowtimes(theaterID, theaterName) {
+        console.log('Theater ID:', theaterID);
+        console.log('Theater Name:', theaterName);
+
+        document.getElementById('selectedTheater').textContent = theaterName;
+        document.getElementById('selectedTheaterID').textContent = theaterID;
+        
+
     fetch(`/showtimes/getShowtimes?movieID=${movieID}&theaterID=${theaterID}`)
         .then(response => {
             if (!response.ok) {
@@ -729,8 +739,7 @@
                 dateButton.classList.add('show-date-button');
                 dateButton.addEventListener('click', () => {
                     selectedDate = showDate; // Lưu ngày được chọn
-                    showSelectedDate(); // Hiển thị ngày được chọn
-                    displayShowtimesForDate(theaterID, showDate); // Hiển thị suất chiếu tương ứng
+                    displayShowtimesForDate(theaterID, showDate);
                 });
                 datesContainer.appendChild(dateButton);
             });
@@ -750,20 +759,21 @@
                 const showTimeButton = document.createElement('button');
                 showTimeButton.textContent = showtime.showTime;
                 showTimeButton.classList.add('show-time-button');
-                showTimeButton.addEventListener('click', () => selectShowtime(showtime.showDate, showtime.showTime));
+                showTimeButton.addEventListener('click', () => selectShowtime(showtime.showDate, showtime.showTime, showtime.showtimeId));
                 showtimesContainer.appendChild(showTimeButton);
             });
         }
 
-        function selectShowtime(showDate, showTime) {
-            console.log(`Đã chọn suất chiếu vào ngày ${showDate} lúc ${showTime}`);
+        function selectShowtime(showDate, showTime, showtimeId) {
 
+            console.log(`Đã chọn suất chiếu vào ngày ${showDate} lúc ${showTime} id:${showtimeId}`);
+            document.getElementById('selectedShowtimeId').textContent = showtimeId;
 
             const movieTitle = /*[[${movie.title}]]*/ 0;
             // Cập nhật thông tin suất chiếu trong modal
             document.getElementById('movieTitle').textContent = 'Tên phim: ' + movieTitle;
             document.getElementById('showtime').textContent = 'Suất chiếu: ' + showTime;
-            document.getElementById('date').textContent = 'Ngày: ' + showDate;
+            document.getElementById('date').textContent = showDate;
             
 
             // Hiển thị modal chọn ghế
@@ -780,22 +790,7 @@
                 console.error('Không tìm thấy phần tử selected-date');
             }
         }
-        /////modal
 
-        // function updateModalShowtimeInfo(showtime) {
-        //     const movieTitleElement = document.getElementById('movieTitle');
-        //     const showtimeElement = document.getElementById('showtime');
-        //     const dateElement = document.getElementById('date');
-
-        //     if (movieTitleElement && showtimeElement && dateElement) {
-        //         movieTitleElement.textContent = `Tên phim: ${showtime.movieTitle}`;
-        //         showtimeElement.textContent = `Suất chiếu: ${showtime.showTime}`;
-        //         dateElement.textContent = `Ngày: ${new Date(showtime.showDate).toLocaleDateString()}`;
-        //     }
-        // }
-
-        //////////////seat
-        
             const seats = document.querySelectorAll('.seat');
 
             // Lặp qua từng ghế và thêm sự kiện nhấp vào
@@ -826,16 +821,40 @@
                 updateSelectedSeatsList();
             });
             
+            document.addEventListener('DOMContentLoaded', function() {
+            fetch('/seats/booked')
+                .then(response => response.json())
+                .then(data => {
+                    const bookedSeats = data;
+                    const seatContainer = document.getElementById('seatContainer');
+                    const seats = seatContainer.querySelectorAll('.seat');
+
+                    seats.forEach(seat => {
+                        if (bookedSeats.includes(seat.textContent)) {
+                            seat.classList.add('booked');
+                            seat.disabled = true; // Ngăn không cho chọn ghế đã được đặt
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching booked seats:', error));
+            });
 
             // Hàm cập nhật danh sách các ghế đã chọn
             function updateSelectedSeatsList() {
             const selectedSeats = document.querySelectorAll('.seat.selected');
             const selectedSeatsList = document.getElementById('selectedSeatsList');
-            let seatsText = 'Selected Seats: ';
+            let seatsText = '';
+            let selectedSeatsArray = [];
+
 
             // Tạo danh sách các ghế đã chọn
             selectedSeats.forEach((seat, index) => {
                 seatsText += seat.textContent;
+                selectedSeatsArray.push({
+                seatId: seat.textContent,
+                seatType: seat.dataset.type,
+                statusSeat: true
+            });
 
                 // Thêm dấu phẩy nếu không phải là ghế cuối cùng
                 if (index !== selectedSeats.length - 1) {
@@ -843,12 +862,14 @@
                 }
             });
 
-            // Hiển thị danh sách các ghế đã chọn
-            selectedSeatsList.textContent = seatsText;
 
-            // Hiển thị phần tử danh sách các ghế đã chọn
+            selectedSeatsList.textContent = seatsText;
             selectedSeatsList.style.display = 'block';
+            
+            window.selectedSeatsArray = selectedSeatsArray;
         }
+
+
 
         $(document).ready(function() {
             var selectedSeats = [];
@@ -905,7 +926,7 @@
                 });
                 selectedSeats = [];
                 totalPriceSeat= 0;
-                $('#selectedSeatsList').text('Selected Seats: ');
+                $('#selectedSeatsList').text();
                 $('#totalPriceSeat').text('0 VND');
                 
                 // Reset màu nền cho từng loại ghế
@@ -962,23 +983,25 @@
             // Hàm cập nhật tổng giá
             function updateTotalPrice2() {
                 var totalPriceFood = 0;
-                var selectedFood = []; // Mảng để lưu trữ thông tin combo bắp nước đã chọn
+                var selectedFood = [];
                 $('.food-item').each(function () {
                     var foodId = $(this).find('.food-quantity').data('food-id');
+                    var foodName = $(this).find('h5').text();
                     var quantity = parseInt($(this).find('.food-quantity').val());
                     var price = parseFloat($(this).find('p').text().replace(' đ', ''));
                     totalPriceFood += quantity * price;
 
                     // Thêm vào mảng selectedFood nếu có số lượng lớn hơn 0
                     if (quantity > 0) {
-                        selectedFood.push($(this).find('#foodName').text() + ': ' + quantity + ' x ' + price.toFixed(2) + ' đ');
+                        selectedFood.push($(this).find('#foodName').text() + quantity + ' x ' + foodName + ' id' + foodId);
                     }
                 });
 
                 // Cập nhật tổng giá và combo bắp nước đã chọn vào modal ticketDetail
-                $('#selectedFood').text('Combo bắp nước: ' + selectedFood.join('\n'));
+                $('#selectedFood').html('Combo bắp nước: ' + selectedFood.join('\n'));
                 $('#totalPriceFood').text(totalPriceFood.toLocaleString() + 'VND');
 
+                window.selectedFoodArray = selectedFood;
             }
         });
 
@@ -1014,7 +1037,46 @@
             });
         });
 
-         
+        document.getElementById('purchase').addEventListener('click', function() {
+            const movieId = /*[[${movieID}]]*/ '';
+            const userId = /*[[${user.userId}]]*/ '';
+            var showtime = $('#ticketShowtime').text();
+            var showdate = $('#ticketDate').text();
+            var selectedFood = window.selectedFoodArray;
+            // var selectedFood = $('#selectedFood').text();
+            var totalPrice3 = parseFloat($('#totalPrice3').text().replace('Tổng giá: ', '').replace(' đ', ''));
+            var theaterId = $('#selectedTheaterID').text();
+            var showtimeId = $('#selectedShowtimeId').text();
+
+            var ticketData = {
+                userId: userId,
+                movieId: movieId,
+                theaterId: theaterId,
+                showtimeId: showtimeId,
+                selectedSeats: selectedSeatsArray,
+                selectedFood: selectedFood,
+                showdate: showdate,
+                totalPrice3: totalPrice3
+
+            };
+            console.log(ticketData);
+
+            
+            fetch(`/tickets/create`,  {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(ticketData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Ticket created successfully:', data);
+            })
+            .catch((error) => {
+                console.error('Error creating ticket:', error);
+            });
+        });
     
     </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

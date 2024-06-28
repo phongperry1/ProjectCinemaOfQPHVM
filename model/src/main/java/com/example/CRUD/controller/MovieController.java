@@ -2,8 +2,11 @@
 package com.example.CRUD.controller;
 
 import com.example.CRUD.service.MovieService;
+import com.example.CRUD.service.UserService;
 import com.example.mo.Movie;
+import com.example.mo.Users;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +18,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/movie")
 public class MovieController {
+
+    @Autowired
+    private UserService usersService;
 
     private final MovieService movieService;
 
@@ -139,9 +146,14 @@ public class MovieController {
         return "home";
     }
     @GetMapping("/book/{id}")
-public String showMovieDetails(@PathVariable("id") Integer id, Model model) {
+public String showMovieDetails(@PathVariable("id") Integer id, Model model, Principal principal) {
     Movie movie = movieService.getMovieById(id);
-    if (movie != null) {
+
+    if (movie != null && principal != null) {
+        String email = principal.getName();
+        Users user = usersService.getUsersByEmail(email);
+        
+        model.addAttribute("user", user);
         model.addAttribute("movie", movie);
         return "book"; // Tên của trang HTML cho chi tiết phim
     }

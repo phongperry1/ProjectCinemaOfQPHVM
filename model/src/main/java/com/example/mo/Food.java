@@ -1,10 +1,13 @@
 package com.example.mo;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +29,9 @@ public class Food {
 
     @Column(nullable = true, length = 64, name = "PhotosImagePath")
     private String PhotoFood;
+
+    @ManyToMany(mappedBy = "foods")
+    private List<Ticket> tickets;
 
 
     public int getFoodID() {

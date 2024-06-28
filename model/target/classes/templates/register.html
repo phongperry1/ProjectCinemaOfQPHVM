@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -34,7 +33,7 @@
         .register-form {
             position: relative;
             width: 400px;
-            height: 650px; /* Increase height to accommodate captcha */
+            height: 750px; /* Increase height to accommodate captcha */
             border: 2px solid rgba(255, 255, 255, 0.5);
             border-radius: 20px;
             display: flex;
@@ -71,23 +70,24 @@
             font-size: 16px;
             padding: 10px 0;
         }
-		.container .container-header{
-            position: absolute;
-            top: 20px;
-            right: 20px;
-		}
 
-			.container .container-header	.btn {
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
+        .captcha {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
         }
-		
+
+        .captcha .preview {
+            display: flex;
+            margin-right: 10px;
+        }
+
+        .captcha span {
+            display: inline-block;
+            margin: 2px;
+            font-size: 20px;
+        }
+
         .register-button {
             width: 310px;
             display: flex;
@@ -104,6 +104,8 @@
             color: black;
             font-weight: 600;
             margin-top: 20px;
+            pointer-events: none; /* Initially disable the button */
+            opacity: 0.5; /* Make the button look disabled */
         }
 
         .register-button button {
@@ -120,11 +122,28 @@
         .register-button button:hover {
             background: #ddd;
         }
+
+        .container-header {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .container-header .btn {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
     </style>
 </head>
 <body>
 <div class="container">
-	<div class="container-header">
+    <div class="container-header">
         <a href="#" th:href="@{/login}" class="btn">Back</a>
     </div>
     <div class="register-form">
@@ -132,234 +151,116 @@
         <div class="card">
             <div style="color: white;" class="card-header text-center fs-4">Register Page</div>
 
-			<div style="color: green;">
-				<th:block th:if="${session.msg}">
-                <p class="text-center text-success fs-4">[[${session.msg}]]</p>
-                <th:block th:text="${@userServiceImpl.removeSessionMessage()}"></th:block>
-
-            	</th:block>
-			</div>
+            <div style="color: green;">
+                <th:block th:if="${session.msg}">
+                    <p class="text-center text-success fs-4">[[${session.msg}]]</p>
+                    <th:block th:text="${@userServiceImpl.removeSessionMessage()}"></th:block>
+                </th:block>
+            </div>
             
-            <form action="saveUser" method="post" class="px-4">
+            <form id="registration-form" action="saveUser" method="post" class="px-4">
                 <div class="register-input">
                     <label>Enter Full Name</label> 
-                    <input type="text" name="userName"
-                                            class="form-control">
-                                         </div>
+                    <input type="text" name="userName" class="form-control" required>
+                </div>
     
                 <div class="register-input">
                     <label>Enter Email</label> 
-                    <input type="text" name="email"
-                    class="form-control">
-                       </div>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
     
                 <div class="register-input">
-                    <label>Enter Password</label> <input type="text"
-                    name="userPassword" class="form-control"> 
+                    <label>Enter Password</label> 
+                    <input type="password" name="userPassword" class="form-control" required>
+                </div>
+
+                <div class="register-input">
+                    <label>Enter Mobile Number</label> 
+                    <input type="number" name="phone" class="form-control" required>
+                </div>
+                
+                <div class="captcha">
+                    <div class="preview"></div>
+                    <button type="button" class="captcha-refresh"><i class="fa fa-refresh"></i> Refresh</button>
                 </div>
                 <div class="register-input">
-                    <label>Enter Mobile Number</label> <input type="number"
-                    name="phone" class="form-control">
+                    <label>Enter Captcha</label>
+                    <input type="text" id="captcha-input" class="form-control" required>
                 </div>
+
                 <div class="register-button">
-                    <button class="btn">Register</button>
+                    <button type="submit" id="register-btn" disabled>Register</button>
                 </div>
             </form>
         </div>
-        
     </div>
 </div>
-</body>
-=======
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="style.css" />
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <style>
-      body {
-        background-position: center;
-        background-size: cover;
-        min-height: 100vh;
-        width: 100%;
-        background-color: #032124;
-      }
 
-      .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-      }
-
-      .form-box {
-        position: relative;
-        width: 400px;
-        height: 650px; /* Increase height to accommodate captcha */
-        border: 2px solid rgba(255, 255, 255, 0.5);
-        border-radius: 20px;
-        display: flex;
-        background-color: #032124;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      }
-
-      .form-box h2 {
-        color: white;
-        text-align: center;
-        font-size: 32px;
-      }
-
-      .form-box .input-box {
-        position: relative;
-        margin: 15px 0;
-        width: 310px;
-        border-bottom: 2px solid white;
-      }
-
-      .form-box .input-box input {
-        width: 100%;
-        border: none;
-        outline: none;
-        background: transparent;
-        color: white;
-        font-size: 16px;
-        padding: 10px 0;
-      }
-
-      .captcha-box {
-        display: flex;
-        width: 310px;
-        margin: 20px 0;
-        margin: center;
-      }
-
-      .captcha-box .preview {
-        display: flex;
-        justify-content: space-around;
-        margin-bottom: 10px;
-        border: 1px solid white;
-        padding: 10px;
-        border-radius: 5px;
-        background: white;
-        color: black;
-      }
-
-      .captcha-box input {
-        width: 100%;
-        height: 40px;
-        border: 2px solid white;
-        background: transparent;
-        border-radius: 5px;
-        color: white;
-        text-align: center;
-        margin-bottom: 10px;
-      }
-
-      .captcha-box i {
-        cursor: pointer;
-        display: block;
-        text-align: center;
-        font-size: 24px;
-        color: white;
-      }
-
-      .button {
-        width: 310px;
-        height: 40px;
-        border: none;
-        outline: none;
-        background: white;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: 0.3s;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-decoration: none; /* Remove underline */
-        color: black; /* Text color */
-      }
-
-      .button:hover {
-        background: #ddd;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="form-box">
-        <form action="your-action-url" method="post" name="Formfill" class="login-form">
-          <h2>Register</h2>
-          <div class="input-box">
-            <input type="text" name="Username" placeholder="Username" required />
-          </div>
-          <div class="input-box">
-            <input type="email" name="Email" placeholder="Email" required />
-          </div>
-          <div class="input-box">
-            <input type="password" name="Password" placeholder="Password" required />
-          </div>
-          <div class="input-box">
-            <input type="password" name="cPassword" placeholder="Confirm Password" required />
-          </div>
-          <div class="captcha-box">
-            <div class="preview"></div>
-            <input type="text" id="captcha-input" class="captcha-input" placeholder="Enter Captcha" required />
-            <i class='bx bx-refresh' onclick="refreshCaptcha()"></i>
-          </div>
-          <button type="submit" class="button">Sign Up</button>
-        </form>
-      </div>
-    </div>
-
-    <script>
-      (function(){
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    (function(){
         const fonts = ["cursive", "sans-serif", "serif", "monospace"];
         let captchaValue = "";
 
-        function generateCaptcha(){
-          let value = btoa(Math.random() * 1000000000);
-          value = value.substr(0, 5 + Math.random() * 5);
-          captchaValue = value;
+        function generateCaptcha() {
+            let value = btoa(Math.random() * 1000000000).substr(0, 5 + Math.random() * 5);
+            captchaValue = value;
+            setCaptcha();
         }
 
-        function setCaptcha(){
-          const html = captchaValue.split("").map((char) => {
-            const rotate = -20 + Math.trunc(Math.random() * 40);
-            const font = Math.trunc(Math.random() * fonts.length);
-            return `<span style="transform:rotate(${rotate}deg); font-family:${fonts[font]};">${char}</span>`;
-          }).join("");
-          document.querySelector(".captcha-box .preview").innerHTML = html;
+        function setCaptcha() {
+            const html = captchaValue.split("").map((char) => {
+                const rotate = -20 + Math.trunc(Math.random() * 30);
+                const font = Math.trunc(Math.random() * fonts.length);
+                return `<span style="transform:rotate(${rotate}deg); font-family:${fonts[font]};">${char}</span>`;
+            }).join("");
+            document.querySelector(".captcha .preview").innerHTML = html;
         }
 
-        function refreshCaptcha(){
-          generateCaptcha();
-          setCaptcha();
+        function initCaptcha() {
+            document.querySelector(".captcha-refresh").addEventListener("click", function() {
+                generateCaptcha();
+            });
+            generateCaptcha();
         }
 
-        function initCaptcha(){
-          document.querySelector(".captcha-box .bx-refresh").addEventListener("click", function(){
-            refreshCaptcha();
-          });
-          generateCaptcha();
-          setCaptcha();
+        function validateForm() {
+            const form = document.getElementById('registration-form');
+            const inputs = form.querySelectorAll('input');
+            let allFilled = true;
+            inputs.forEach(input => {
+                if (!input.value) {
+                    allFilled = false;
+                }
+            });
+            const inputCaptchaValue = document.getElementById('captcha-input').value;
+            const registerButton = document.getElementById('register-btn');
+            if (allFilled && inputCaptchaValue === captchaValue) {
+                registerButton.disabled = false;
+                registerButton.parentElement.style.pointerEvents = 'auto';
+                registerButton.parentElement.style.opacity = '1';
+            } else {
+                registerButton.disabled = true;
+                registerButton.parentElement.style.pointerEvents = 'none';
+                registerButton.parentElement.style.opacity = '0.5';
+            }
         }
-
-        document.querySelector(".login-form").addEventListener("submit", function(event){
-          event.preventDefault();
-          let inputCaptchaValue = document.querySelector(".captcha-box .captcha-input").value;
-          if(inputCaptchaValue === captchaValue){
-            alert("Registration Successful!");
-            // Perform form submission or further processing
-          } else {
-            alert("Invalid captcha");
-          }
-        });
 
         initCaptcha();
-      })();
-    </script>
-  </body>
->>>>>>> 6c7489f4898546a3617d29820026795e5c34ba36
+
+        document.querySelector("#captcha-input").addEventListener("input", validateForm);
+        document.querySelectorAll('#registration-form input').forEach(input => {
+            input.addEventListener("input", validateForm);
+        });
+
+        document.getElementById('registration-form').addEventListener('submit', function(event) {
+            const inputCaptchaValue = document.getElementById('captcha-input').value;
+            if (inputCaptchaValue !== captchaValue) {
+                event.preventDefault();
+                Swal.fire("Invalid captcha");
+            }
+        });
+    })();
+</script>
+</body>
 </html>

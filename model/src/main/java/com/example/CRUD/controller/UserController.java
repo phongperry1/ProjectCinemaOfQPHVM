@@ -1,4 +1,3 @@
-
 package com.example.CRUD.controller;
 
 import java.io.IOException;
@@ -20,10 +19,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.CRUD.service.UserService;
 import com.example.mo.Users;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 @RequestMapping("/user")
-
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService ser;
