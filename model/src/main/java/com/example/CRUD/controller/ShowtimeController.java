@@ -1,5 +1,6 @@
 package com.example.CRUD.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.CRUD.service.ShowtimeService;
+import com.example.CRUD.service.UserService;
 import com.example.mo.Showtime;
+import com.example.mo.Users;
 
 @Controller
 @RequestMapping("/showtime")
@@ -24,13 +27,17 @@ public class ShowtimeController {
     @Autowired
     private ShowtimeService service;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
-    public String showTheaterList(@RequestParam(name = "movieID", required = false) Integer movieID, Model model) {
+    public String showShowtimeList(@RequestParam(name = "movieID", required = false) Integer movieID, Model model, Principal principal) {
+        Integer cinemaOwnerID = getCinemaOwnerIDFromPrincipal(principal);
         List<Showtime> listShowtime;
         if (movieID != null) {
-            listShowtime = service.getShowtimesByMovieID(movieID);
+            listShowtime = service.getShowtimesByMovieIDAndCinemaOwnerID(movieID, cinemaOwnerID);
         } else {
-            listShowtime = service.listAll();
+            listShowtime = service.listAllByCinemaOwnerID(cinemaOwnerID);
         }
         model.addAttribute("listShowtime", listShowtime);
         model.addAttribute("movieID", movieID);
@@ -46,12 +53,14 @@ public class ShowtimeController {
     }
 
     @PostMapping("/save")
-    public String saveShowtime(@ModelAttribute Showtime showtime, RedirectAttributes ra, BindingResult result) {
+    public String saveShowtime(@ModelAttribute Showtime showtime, RedirectAttributes ra, BindingResult result, Principal principal) {
         if (result.hasErrors()) {
             return "showtime_form";
         }
 
         try {
+            // Set cinemaOwnerID from Principal
+            showtime.setCinemaOwnerID(getCinemaOwnerIDFromPrincipal(principal));
             service.save(showtime);
             ra.addFlashAttribute("message", "The showtime has been saved successfully.");
             return "redirect:/showtime?movieID=" + showtime.getMovieID();
@@ -86,11 +95,11 @@ public class ShowtimeController {
         }
     }
 
-    @GetMapping("/book/{movieID}")
-    public String showMovieDetail(@PathVariable("movieID") Integer movieID, Model model) {
-        List<Showtime> listShowtime = service.getShowtimesByMovieID(movieID);
-        model.addAttribute("listShowtime", listShowtime);
-        model.addAttribute("movieID", movieID);
-        return "book";
+    private Integer getCinemaOwnerIDFromPrincipal(Principal principal) {
+        Users user = userService.getUsersByEmail(principal.getName());
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        return user.getUserId(); // Ensure this returns the correct ID for cinema owner
     }
 }

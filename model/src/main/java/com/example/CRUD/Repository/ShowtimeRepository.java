@@ -11,4 +11,6 @@ import java.util.List;
 public interface ShowtimeRepository extends JpaRepository<Showtime, Integer> {
     List<Showtime> findByMovieID(Integer movieID);
     List<Showtime> findByShowDate(Date showDate);
+    List<Showtime> findByCinemaOwnerID(Integer cinemaOwnerID);
+    List<Showtime> findByMovieIDAndCinemaOwnerID(Integer movieID, Integer cinemaOwnerID);
 }

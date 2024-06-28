@@ -21,12 +21,20 @@ public class ShowtimeService {
         return repo.findByMovieID(movieID);
     }
 
+    public List<Showtime> getShowtimesByMovieIDAndCinemaOwnerID(Integer movieID, Integer cinemaOwnerID) {
+        return repo.findByMovieIDAndCinemaOwnerID(movieID, cinemaOwnerID);
+    }
+
     public List<Showtime> getShowtimesByDate(Date showDate) {
         return repo.findByShowDate(showDate);
     }
 
     public List<Showtime> listAll() {
         return repo.findAll();
+    }
+
+    public List<Showtime> listAllByCinemaOwnerID(Integer cinemaOwnerID) {
+        return repo.findByCinemaOwnerID(cinemaOwnerID);
     }
 
     public void save(Showtime showtime) {

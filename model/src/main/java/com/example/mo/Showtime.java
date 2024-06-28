@@ -24,6 +24,9 @@ public class Showtime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer showtimeID;
 
+    @Column(nullable = false)
+    private Integer cinemaOwnerID;
+
     @Column(name = "movieid")
     private Integer movieID;
 
@@ -56,12 +59,21 @@ public class Showtime {
         this.updatedAt = LocalDateTime.now();
     }
 
+    // Getters and setters
     public Integer getShowtimeID() {
         return showtimeID;
     }
 
     public void setShowtimeID(Integer showtimeID) {
         this.showtimeID = showtimeID;
+    }
+
+    public Integer getCinemaOwnerID() {
+        return cinemaOwnerID;
+    }
+
+    public void setCinemaOwnerID(Integer cinemaOwnerID) {
+        this.cinemaOwnerID = cinemaOwnerID;
     }
 
     public Integer getMovieID() {
@@ -97,12 +109,12 @@ public class Showtime {
     }
 
     public String getStatus() {
-      return status;
-  }
+        return status;
+    }
 
-  public void setStatus(String status) {
-      this.status = status;
-  }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
