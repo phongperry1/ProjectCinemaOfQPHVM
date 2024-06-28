@@ -18,6 +18,9 @@ public class SecurityConfig {
     private CustomAuthSucessHandler successHandler;
 
     @Autowired
+    private CustomAccessDeniedHandler accessDeniedHandler;
+
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Bean
@@ -34,28 +37,30 @@ public class SecurityConfig {
     }
 
     @SuppressWarnings("deprecation")
-    @Bean
+@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/login", "/register", "/saveUser", "/verify", "/forgotPassword",
                                 "/resetPassword/**", "/resetPassword")
-                        .permitAll() // Cho phép truy c?p
-                        // vào trang
-                        // ??ng nh?p và
-                        // ??ng ký mà không c?n ??ng nh?p
-                        .anyRequest().authenticated() // T?t c? các URL khác ??u yêu c?u xác th?c
+                        .permitAll() // Permit all users to access these endpoints
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/cinemaowner/**").hasRole("CINEMA_OWNER")
+                        .requestMatchers("/user/**").hasRole("USER")
+                        .anyRequest().authenticated() // All other URLs require authentication
                 )
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login") // Ch? ??nh trang ??ng nh?p c?a b?n
-                        .loginProcessingUrl("/userLogin") // Xác th?c form s? ???c g?i ??n ?âu
-                        .successHandler(successHandler) // X? lý ??ng nh?p thành công
+                        .loginPage("/login") // Custom login page
+                        .loginProcessingUrl("/userLogin") // Login form action URL
+                        .successHandler(successHandler) // Custom success handler
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID"));
+                        .deleteCookies("JSESSIONID"))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedHandler(accessDeniedHandler)); // Custom access denied handler
 
         return http.build();
     }

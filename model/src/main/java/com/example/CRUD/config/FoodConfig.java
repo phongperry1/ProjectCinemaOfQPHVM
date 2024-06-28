@@ -1,3 +1,4 @@
+
 package com.example.CRUD.config;
 
 import java.nio.file.Path;
@@ -11,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class FoodConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        exposeDirectory("promotions-photo", registry);
+        exposeDirectory("food-photo", registry);
     }
 
     private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {

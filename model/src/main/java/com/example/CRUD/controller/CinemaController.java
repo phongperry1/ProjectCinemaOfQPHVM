@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.CRUD.Repository.CinemaOwnerRepository;
 import com.example.CRUD.Repository.UserRepository;
 import com.example.CRUD.service.UserService;
-import com.example.mo.CinemaOwner;
+
 import com.example.mo.Users;
 
 @Controller
@@ -44,6 +44,8 @@ public class CinemaController {
 			m.addAttribute("cinemaowner", user);
 		}
 	}
+
+	
 
 	@GetMapping("/homecinemaowner")
 	public String homeCinemaOwner() {

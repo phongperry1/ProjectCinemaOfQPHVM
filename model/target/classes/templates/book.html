@@ -37,119 +37,35 @@
                 </div>
             </div>
 
+            
             <div class="date_type">
                 <div class="left_card">
                     <h6 class="title">Release Date</h6>
                     <div class="card_month crd">
-                        <li>
-                            <h6>Mon</h6>
-                            <h6 class="date_point">20</h6>
-                        </li>
-                        <li>
-                            <h6>Tue</h6>
-                            <h6 class="date_point">21</h6>
-                        </li>
-                        <li>
-                            <h6>Wed</h6>
-                            <h6 class="date_point">22</h6>
-                        </li>
-                        <li>
-                            <h6>Thu</h6>
-                            <h6 class="date_point">23</h6>
-                        </li>
-                        <li>
-                            <h6>Fri</h6>
-                            <h6 class="date_point">24</h6>
-                        </li>
-                        <li>
-                            <h6>Sat</h6>
-                            <h6 class="date_point">25</h6>
-                        </li>
-                        <li>
-                            <h6>Sun</h6>
-                            <h6 class="date_point"   >26</h6>
-                        </li>
-                        <li>
-                            <h6>Mon</h6>
-                            <h6 class="date_point">27</h6>
-                        </li>
-                        <li>
-                            <h6>Tue</h6>
-                            <h6 class="date_point">28</h6>
-                        </li>
-                        <li>
-                            <h6>Wed</h6>
-                            <h6 class="date_point">29</h6>
-                        </li>
-                        <li>
-                            <h6>Thu</h6>
-                            <h6 class="date_point">30</h6>
-                        </li>
-                        <li>
-                            <h6>Fri</h6>
-                            <h6 class="date_point">1</h6>
-                        </li>
-                        <li>
-                            <h6>Sat</h6>
-                            <h6 class="date_point">2</h6>
-                        </li>
-                        <li>
-                            <h6>Sun</h6>
-                            <h6 class="date_point">3</h6>
-                        </li>
+                        <ul class="date-list">
+                            <li th:each="showtime : ${listShowtime}" class="showtime-item">
+                                <h6 class="day-of-week"></h6>
+                                <h6 class="show-date" th:text="${showtime.showDate}"></h6>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="right_card">
                     <h6 class="title">Show Time</h6>
                     <div class="card_month crd">
-                        <li>
-                            <h6>2D</h6>
-                            <h6>10:00</h6>
-                        </li>
-                        <li>
-                            <h6>2D</h6>
-                            <h6>12:30</h6>
-                        </li>
-                        <li>
-                            <h6>2D</h6>
-                            <h6>14:00</h6>
-                        </li>
-                        <li>
-                            <h6>2D</h6>
-                            <h6>17:00</h6>
-                        </li>
-                        <li>
-                            <h6>2D</h6>
-                            <h6>18:00</h6>
-                        </li>
-                        <li>
-                            <h6>3D</h6>
-                            <h6>20:00</h6>
-                        </li>
-                        <li>
-                            <h6>3D</h6>
-                            <h6>10:00</h6>
-                        </li>
-                        <li>
-                            <h6>4DX</h6>
-                            <h6>21:00</h6>
-                        </li>
-                        <li>
-                            <h6>4DX</h6>
-                            <h6>22:30</h6>
-                        </li>
-                        <li>
-                            <h6>4DX</h6>
-                            <h6 class="h6_active">12:00</h6>
-                        </li>
-                        <li>
-                            <h6>4DX</h6>
-                            <h6>12:30</h6>
-                        </li>
+                        <ul class="showtime-list">
+                            <li th:each="showtime : ${listShowtime}">
+                                <h6>2D</h6>
+                                <h6 th:text="${showtime.showTime}">Show Time</h6>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-
+            
+            
+            
+            
             <div class="screen" id="screen">
                 Screen
             </div>
@@ -449,6 +365,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.js" integrity="sha512-wkHtSbhQMx77jh9oKL0AlLBd15fOMoJUowEpAzmSG5q5Pg9oF+XoMLCitFmi7AOhIVhR6T6BsaHJr6ChuXaM/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    document.querySelectorAll('.left_card .card_month ul li').forEach(li => {
+        const dateElement = li.querySelector('.show-date');
+        const dateText = dateElement.innerText;
+        const date = new Date(dateText);
+        const dayOfWeek = daysOfWeek[date.getDay()];
+        const dayOfWeekElement = li.querySelector('.day-of-week');
+        dayOfWeekElement.innerText = dayOfWeek;
+    });
+});
+
+
+
         JsBarcode("#barcode", "J18800792023");
 
         let play_btn = document.getElementById('play');
@@ -486,6 +418,51 @@ play_btn.addEventListener('click', () => {
 :root {
     --color: linear-gradient(0deg , transparent , rgb(184,184,184,.2))
 }
+
+.date_type {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px 0;
+}
+
+.left_card, .right_card {
+    width: 45%; /* Adjust based on your layout preference */
+}
+
+.card_month ul {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.showtime-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+    text-align: center;
+}
+
+.showtime-item h6 {
+    margin: 5px 0;
+}
+
+.day-of-week {
+    font-weight: bold;
+    font-size: 14px;
+    color: #fff;
+}
+
+.show-date {
+    font-size: 12px;
+    color: #ddd;
+}
+
+
 
 body {
     width: 100vw;

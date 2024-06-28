@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +22,10 @@ public class Promotions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer PromotionID;
-    private Integer CinemaOwnerID;
+
+    @ManyToOne
+    @JoinColumn(name = "CinemaOwnerID")
+    private CinemaOwner cinemaOwner;
     private Integer MovieID;
 
     @Column(length = 50, nullable = false, name = "PromotionName")
@@ -64,14 +69,7 @@ public class Promotions {
 
 
 
-    public Integer getCinemaOwnerID() {
-        return this.CinemaOwnerID;
-    }
-
-    public void setCinemaOwnerID(Integer CinemaOwnerID) {
-        this.CinemaOwnerID = CinemaOwnerID;
-    }
-
+    
     public Integer getMovieID() {
         return this.MovieID;
     }
@@ -120,20 +118,6 @@ public class Promotions {
         this.EndDate = EndDate;
     }
 
-
-    @Override
-    public String toString() {
-        return "{" +
-            " PromotionID='" + getPromotionID() + "'" +
-            ", CinemaOwnerID='" + getCinemaOwnerID() + "'" +
-            ", MovieID='" + getMovieID() + "'" +
-            ", PromotionName='" + getPromotionName() + "'" +
-            ", Description='" + getDescription() + "'" +
-            ", DiscountRate='" + getDiscountRate() + "'" +
-            ", StartDate='" + getStartDate() + "'" +
-            ", EndDate='" + getEndDate() + "'" +
-            "}";
-    }
 
 
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Transaction History</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Transaction History</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Order Info</th>
+                    <th>Amount</th>
+                    <th>Payment Time</th>
+                    <th>Transaction ID</th>
+                    <th>Bank Code</th>
+                    <th>Card Type</th>
+                    <th>Transaction Status</th>
+                    <th>Bank Transaction No</th>
+                    <th>Response Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="transaction : ${transactions}">
+                    <td th:text="${transaction.user.userId}">User ID</td>
+                    <td th:text="${transaction.orderInfo}">Order Info</td>
+                    <td th:text="${transaction.amount}">Amount</td>
+                    <td th:text="${transaction.payDate}">Payment Time</td>
+                    <td th:text="${transaction.transactionNo}">Transaction ID</td>
+                    <td th:text="${transaction.bankCode}">Bank Code</td>
+                    <td th:text="${transaction.cardType}">Card Type</td>
+                    <td th:text="${transaction.transactionStatus}">Transaction Status</td>
+                    <td th:text="${transaction.bankTranNo}">Bank Transaction No</td>
+                    <td th:text="${transaction.responseCode}">Response Code</td>
+                </tr>
+                <!-- Nếu không có giao dịch nào -->
+                <tr th:if="${transactions.size() == 0}">
+                    <td colspan="10" class="text-center">No transactions found</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/createOrder" class="btn btn-primary">Về trang chủ</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.example.mo;
 
 import java.sql.Date;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -8,7 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,8 @@ import lombok.NoArgsConstructor;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;  // Changed from `UserId` to `userId` for consistency with field naming conventions
+
+    private int userId;
 
     private String userName;
     private String email;
@@ -38,4 +40,5 @@ public class Users {
     private String profileImageURL;
     private boolean status;
     private String resetPasswordToken;
+
 }

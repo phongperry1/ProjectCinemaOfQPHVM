@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Rạp Chiếu Phim MoMo</title>
+
+    <!-- External CSS libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Internal CSS styles -->
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+        }
+    
+        .form-search {
+            max-width: 600px; /* Adjust maximum width as needed */
+            margin: 0 auto;
+            padding: 20px;
+        }
+    
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            z-index: 1000;
+        }
+    
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            margin: 0 auto;
+            max-width: 1200px; /* Same max-width as .container */
+        }
+    
+        .header .logo {
+            font-size: 24px;
+            color: #ff4081;
+            font-weight: bold;
+        }
+    
+        .header nav {
+            display: flex;
+        }
+    
+        .header nav a {
+            text-decoration: none;
+            color: #ff4081;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+    
+        .search-section {
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+    
+        .search-section .container {
+            display: flex;
+            justify-content: center;
+        }
+    
+        #search-form {
+            display: flex;
+            align-items: center;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+    
+        #location {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 14px;
+            outline: none;
+        }
+    
+        #location:focus {
+            border-color: #ff4081;
+        }
+    
+        #cinema-filter {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 0;
+            font-size: 14px;
+            outline: none;
+        }
+    
+        #cinema-filter:focus {
+            border-color: #ff4081;
+        }
+    
+        #search-form button {
+            padding: 8px 16px;
+            background-color: #ff4081;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            font-size: 14px;
+            outline: none;
+        }
+    
+        #search-form button:hover {
+            background-color: #e91e63;
+            transition: background-color 0.3s ease;
+        }
+    
+        .cinema-list-section {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    
+        .cinema-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .cinema-list li {
+            background-color: #f8f8f8;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+    
+        .cinema-list li h2 {
+            margin: 0;
+            color: #ff4081;
+            font-size: 16px;
+        }
+    
+        .cinema-list li p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+    
+        .cinema-list li a {
+            text-decoration: none;
+            color: #007bff;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+    
+        #cinema-details {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    
+        #back-button {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+        }
+    
+        .cinema-list {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+    
+        .cinema {
+            border-radius: 20px;
+            padding: 15px; /* Padding inside each card */
+            margin-bottom: 20px; /* Bottom margin for each card */
+            height: 100%;
+        }
+    
+        .cinema-name {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    
+        .cinema-description {
+            margin-top: 10px;
+        }
+    
+        .rating {
+            font-weight: bold;
+            color: #007bff; /* Blue color for rating */
+        }
+    
+        .number-of-cinemas {
+            font-style: italic;
+            color: #6c757d; /* Gray color for number of cinemas */
+        }
+    
+        /* Adjustments for spacing between cinema cards */
+        @media (min-width: 576px) {
+            .row {
+                margin-right: -10px; /* Counteract the default gutter */
+                margin-left: -10px; /* Counteract the default gutter */
+            }
+    
+            .cinema {
+                margin-right: 10px; /* Right margin for each card */
+                margin-left: 10px; /* Left margin for each card */
+            }
+        }
+    
+        .carousel-container {
+            text-align: center;
+            padding: 20px;
+        }
+    
+        .carousel-container h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+    
+        .owl-carousel .item {
+            position: relative;
+            margin: 10px; /* Add margin around carousel items */
+        }
+    
+        .owl-carousel .item img {
+            width: calc(100% - 20px); /* Subtract margin to keep items centered */
+            border-radius: 10px;
+        }
+    
+        .owl-carousel .item .details {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            width: calc(100% - 20px); /* Subtract margin to keep items centered */
+        }
+    
+        .owl-carousel .item .details h4 {
+            margin: 0;
+        }
+    
+        .owl-carousel .item .details p {
+            margin: 5px 0 0;
+        }
+    </style>
+    
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">MoMo</div>
+            <nav>
+                <a href="#">Lịch chiếu</a>
+                <a href="#">Rạp chiếu</a>
+                <a href="#">Phim chiếu</a>
+                <a href="#">Review phim</a>
+                <a href="#">Top phim</a>
+                <a href="#">Blog phim</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="form-search">
+            <section class="search-section">
+                <div class="container">
+                    <form id="search-form" onsubmit="event.preventDefault(); findCinema();">
+                        <input type="text" id="location" placeholder="Nhập vị trí của bạn">
+                        <select id="cinema-filter" onchange="filterCinemas(this.value)">
+                            <option value="all" selected="">Tất cả</option>
+                            <option value="CGV">CGV</option>
+                            <option value="Lotte Cinema">Lotte Cinema</option>
+                            <option value="Galaxy Cinema">Galaxy Cinema</option>
+                            <option value="BHD Star">BHD Star</option>
+                            <option value="CineStar">CineStar</option>
+                        </select>
+                        <button type="submit">Tìm</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="cinema-list-section">
+                <ul id="cinema-list" class="cinema-list"></ul>
+            </section>
+        </div>
+    </section>
+
+    <div id="cinema-details"></div>
+    <button id="back-button" onclick="showCinemaList()">Quay lại</button>
+
+    <!-- Carousel Section -->
+    <div class="carousel-container">
+        <h1>Movie Carousel</h1>
+        <div class="owl-carousel owl-theme">
+            <div class="item">
+                <img src="https://via.placeholder.com/600x400" alt="Movie 1">
+                <div class="details">
+                    <h4>Movie Title 1</h4>
+                    <p>Some description</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://via.placeholder.com/600x400" alt="Movie 2">
+                <div class="details">
+                    <h4>Movie Title 2</h4>
+                    <p>Some description</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://via.placeholder.com/600x400" alt="Movie 3">
+                <div class="details">
+                    <h4>Movie Title 3</h4>
+                    <p>Some description</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://via.placeholder.com/600x400" alt="Movie 4">
+                <div class="details">
+                    <h4>Movie Title 4</h4>
+                    <p>Some description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- External JavaScript libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <!-- Internal JavaScript for initializing carousel -->
+    <script>
+        $(document).ready(function() {
+            $(".owl-carousel").owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 4
+                    }
+                }
+            });
+        });
+
+        const cinemas = [
+            { name: "CGV", rating: 5, numberOfCinemas: 4 },
+            { name: "Lotte Cinema", rating: 4, numberOfCinemas: 3 },
+            { name: "Galaxy Cinema", rating: 3, numberOfCinemas: 5 },
+            { name: "BHD Star", rating: 5, numberOfCinemas: 1 },
+            { name: "CineStar", rating: 2, numberOfCinemas: 2 },
+        ];
+
+        function filterCinemas(cinemaName) {
+            const filteredCinemas = cinemaName === "all" ? cinemas : cinemas.filter(cinema => cinema.name === cinemaName);
+
+            const cinemaList = document.getElementById("cinema-list");
+            cinemaList.innerHTML = "";
+
+            filteredCinemas.forEach(cinema => {
+                const cinemaItem = document.createElement("li");
+                cinemaItem.className = "cinema";
+                cinemaItem.innerHTML = `
+                    <h2 class="cinema-name">${cinema.name}</h2>
+                    <p class="cinema-description">Rating: <span class="rating">${cinema.rating}</span></p>
+                    <p class="cinema-description">Number of cinemas: <span class="number-of-cinemas">${cinema.numberOfCinemas}</span></p>
+                `;
+                cinemaItem.onclick = () => showCinemaDetails(cinema);
+
+                cinemaList.appendChild(cinemaItem);
+            });
+        }
+
+        function showCinemaDetails(cinema) {
+            const cinemaDetails = document.getElementById("cinema-details");
+            cinemaDetails.innerHTML = `
+                <h2>${cinema.name}</h2>
+                <p>Rating: ${cinema.rating}</p>
+                <p>Number of cinemas: ${cinema.numberOfCinemas}</p>
+            `;
+            cinemaDetails.style.display = "block";
+
+            document.getElementById("back-button").style.display = "block";
+            document.querySelector(".cinema-list-section").style.display = "none";
+        }
+
+        function showCinemaList() {
+            document.getElementById("cinema-details").style.display = "none";
+            document.getElementById("back-button").style.display = "none";
+            document.querySelector(".cinema-list-section").style.display = "block";
+        }
+
+        function findCinema() {
+            const location = document.getElementById("location").value;
+            if (location) {
+                filterCinemas("all");
+            }
+        }
+
+        filterCinemas("all");
+    </script>
+</body>
+</html>

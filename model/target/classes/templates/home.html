@@ -74,41 +74,42 @@
   <body>
     <header>
       <nav>
-        <p class="logo">
-          Movie<span>Ticket<span>
-        </p>
-
-        <i class="fa fa-bars" id="menu"></i>
-
-        <ul id="menu-box">
-          <div class="marker"></div>
-          <li>main</li>
-          <div class="dropdown">
-              <button class="menu-btn">MOVIE</button>
-              <div class="dropdown-content">
-                  <li><a class="manage" href="">Movies are showing</a></li>
-                  <li><a class="manage" href=""></a></li>
+          <p class="logo">
+              Movie<span>Ticket<span>
+          </p>
+  
+          <i class="fa fa-bars" id="menu"></i>
+  
+          <ul id="menu-box">
+              <div class="marker"></div>
+              <li><a href="/">main</a></li>
+              <div class="dropdown">
+                  <button class="menu-btn">MOVIE</button>
+                  <div class="dropdown-content">
+                      <li><a class="manage" href="">Movies are showing</a></li>
+                      <li><a class="manage" href=""></a></li>
+                  </div>
               </div>
-          </div>
-          <li>theater</li>
-          <li>news</li>
-          <li>promotion</li>
-          <li>food</li>
-          <li>contact</li>  
-          <li>
-            <span><span th:text="${user.userName}"></span></span>
-          </li>
-          <li>
-            <a th:href="@{/user/profile}">
-              <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
-          </a>
-          </li>
-          <li><a href="/logout">Logout</a></li>
-        </ul>
-
-
+              <li><a href="/nearby_theaters">theater</a></li>
+              <li><a href="/createOrder">Payment</a></li>
+              <li><a href="#">news</a></li>
+              <li><a href="#">promotion</a></li>
+              <li><a href="#">food</a></li>
+              <li><a href="#">contact</a></li>
+              <li><a href="/register-cinemaowner">Register Cinema</a></li>
+              <li>
+                  <span><span th:text="${user.userName}"></span></span>
+              </li>
+              <li>
+                  <a th:href="@{/user/profile}">
+                      <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
+                  </a>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+          </ul>
       </nav>
-    </header>
+  </header>
+  
 
     <section>
       <div class="movie-list-section">
@@ -202,22 +203,21 @@
 
       </div>
       <!----filter-search-box---->
-
       <div class="movie-list-section">
         <div class="container">
           <div class="row justify-content-center">
             <!-- Thymeleaf syntax for iterating over movies -->
             <div class="movie-list d-flex flex-wrap justify-content-center">
-              <div class="movie-item col-lg-3 col-md-4 col-sm-6 mb-4" th:each="movie : ${movies}">
+              <div class="movie-item col-lg-2 col-md-3 col-sm-4 mb-4 px-2" th:each="movie : ${movies}">
                 <div class="card">
                   <div class="card__content">
                     <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
-                      style="height: 500px; width: 100%;  border-top-left-radius: 17px; border-top-right-radius: 17px;">
+                      style="height: 500px; width: 100%; border-top-left-radius: 17px; border-top-right-radius: 17px;">
                     <div class="card-body d-flex flex-column p-2">
                       <h5 class="card-title text-white" th:text="${movie.title}"></h5>
-                      <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p>
+                      <p class="card-text text-white"> <span th:text="${movie.genre}"></span></p>
                       <!-- Thêm URL động để chuyển hướng đến trang chi tiết của bộ phim -->
-                      <a th:href="@{'/movie/details/' + ${movie.movieID}}" class="shadow__btn mt-auto">Details</a>
+                      <a th:href="@{'/movie/book/' + ${movie.movieID}}" class="shadow__btn mt-auto">Details</a>
                     </div>
                   </div>
                 </div>
@@ -226,6 +226,8 @@
           </div>
         </div>
       </div>
+      
+      
 
 
       <div class="movie-list-section">
@@ -304,101 +306,98 @@
 
   </body>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      transition: all .2s;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all .2s;
+}
 
-    .card {
-      width: 600px;
-      height: 600px;
-      border-radius: 20px;
-      padding: 5px;
-      box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-      background-image: linear-gradient(144deg, #fdfdfd, #5706f0 50%, #fd0101);
-    }
+body {
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  overflow-y: scroll;
+}
 
-    .card__content {
-      background: rgb(5, 6, 45);
-      border-radius: 17px;
-      width: 100%;
-      height: 100%;
-    }
+.movie-list-section {
+  background-color: #020000;
+  padding: 20px 0;
+}
 
-    .card-img-top {
-      border-top-left-radius: 100%;
-      border-top-right-radius: 100%;
-    }
+.movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-    .card-body {
-      padding: 5px;
-      text-align: center;
-    }
+.movie-item {
+  flex: 0 0 auto;
+  width: 18%;
+  /* Adjusted to fit more cards per row */
+  padding: 0 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
 
-    .card-title,
-    .card-text {
-      color: #ffffff;
-    }
+.card {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  background-image: linear-gradient(144deg, #fdfdfd, #5706f0 50%, #fd0101);
+}
 
-    .shadow__btn {
-      padding: 10px 20px;
-      border: none;
-      font-size: 17px;
-      color: #ffffff;
-      border-radius: 7px;
-      letter-spacing: 4px;
-      font-weight: 700;
-      text-transform: uppercase;
-      transition: 0.5s;
-      transition-property: box-shadow;
-      background: rgb(255, 0, 13);
-      box-shadow: 0 0 25px rgb(255, 0, 0);
-      display: inline-block;
-      text-align: center;
-      text-decoration: none;
-    }
+.card__content {
+  background: rgb(5, 6, 45);
+  border-radius: 17px;
+  width: 100%;
+  height: 100%;
+}
 
-    .shadow__btn:hover {
-      box-shadow: 0 0 5px rgb(255, 0, 0),
-        0 0 25px rgb(255, 0, 0),
-        0 0 50px rgb(255, 0, 0),
-        0 0 100px rgb(255, 0, 0);
-    }
+.card-img-top {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 17px;
+  border-top-right-radius: 17px;
+  object-fit: cover;
+}
 
+.card-body {
+  padding: 10px;
+  text-align: center;
+}
 
-    body {
-      font-family: 'Roboto', sans-serif;
-      overflow: hidden;
-      overflow-y: scroll;
-    }
+.card-title,
+.card-text {
+  color: #ffffff;
+}
 
-    .movie-item .card-img-top {
-      width: 200px;
-      /* Đổi thành kích thước mong muốn */
-      height: auto;
-      /* Đảm bảo tỷ lệ hình ảnh không bị biến đổi */
-    }
+.shadow__btn {
+  padding: 10px 20px;
+  border: none;
+  font-size: 17px;
+  color: #ffffff;
+  border-radius: 7px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: 0.5s;
+  transition-property: box-shadow;
+  background: rgb(255, 0, 13);
+  box-shadow: 0 0 25px rgb(255, 0, 0);
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  margin-top: auto;
+}
 
-    .movie-list {
-      display: flex;
-      flex-wrap: wrap;
-    }
+.shadow__btn:hover {
+  box-shadow: 0 0 5px rgb(255, 0, 0),
+    0 0 25px rgb(255, 0, 0),
+    0 0 50px rgb(255, 0, 0),
+    0 0 100px rgb(255, 0, 0);
+}
 
-    .movie-list-section {
-      background-color: #020000;
-      /* Thay #f0f0f0 bằng mã màu bạn muốn sử dụng */
-    }
-
-    .movie-item {
-      flex: 0 0 auto;
-      width: 33.33%;
-      /* Hiển thị ba phim mỗi hàng */
-      padding: 10px;
-      /* Khoảng cách giữa các phim */
-      box-sizing: border-box;
-    }
 
     @media (max-width: 767px) {
       .movie-item {

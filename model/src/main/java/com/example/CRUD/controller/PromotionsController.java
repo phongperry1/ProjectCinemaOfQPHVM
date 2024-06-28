@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.CRUD.service.PromotionsService;
 import com.example.mo.Promotions;
 
-
 @Controller
 public class PromotionsController {
 
@@ -34,6 +33,7 @@ public class PromotionsController {
 
     @GetMapping("/promotions/new")
     public String showNewForm(Model model) {
+        
         model.addAttribute("promotions", new Promotions());
         model.addAttribute("pageTitle", "Add New Promotions");
         return "promotions_form";
@@ -41,24 +41,31 @@ public class PromotionsController {
 
     @PostMapping("/promotions/save")
     public String savePromotions(@ModelAttribute("promotions") Promotions promotions,
-                                 @RequestParam("image") MultipartFile multipartFile,
+                                 @RequestParam(value = "image", required = false) MultipartFile multipartFile,
                                  RedirectAttributes ra) {
+        
         try {
-            // Sanitize the file name
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            
-            // Set the file name to the promotions object
-            promotions.setPhotoPromotions(fileName);
-            
-            // Save the promotions object first to get its ID
-            Promotions savedPromotions = service.save(promotions);
-            
-            // Define the upload directory
-            String uploadDir = "promotions-photo/" + savedPromotions.getPromotionID();
-            
-            // Save the file to the upload directory
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-            
+            // Check if file is not empty before processing
+            if (multipartFile != null && !multipartFile.isEmpty()) {
+                // Sanitize the file name
+                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+                // Set the file name to the promotions object
+                promotions.setPhotoPromotions(fileName);
+
+                // Save the promotions object first to get its ID
+                Promotions savedPromotions = service.save(promotions);
+
+                // Define the upload directory
+                String uploadDir = "promotions-photo/" + savedPromotions.getPromotionID();
+
+                // Save the file to the upload directory
+                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            } else {
+                // Save promotions without file
+                service.save(promotions);
+            }
+
             // Add a success message
             ra.addFlashAttribute("message", "The promotions has been saved successfully.");
         } catch (IOException e) {
@@ -66,6 +73,7 @@ public class PromotionsController {
             e.printStackTrace();
             ra.addFlashAttribute("error", "Failed to save the promotions due to an error: " + e.getMessage());
         }
+
         // Redirect to the promotions page
         return "redirect:/promotions";
     }
