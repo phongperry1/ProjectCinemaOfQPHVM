@@ -55,9 +55,7 @@ public class ScreeningRoomController {
         } catch (ScreeningRoomNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
              return "redirect:/screeningroom";
-        }
-        
-        
+        }  
     }
 
 

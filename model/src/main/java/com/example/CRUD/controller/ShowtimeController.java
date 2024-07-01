@@ -3,6 +3,7 @@ package com.example.CRUD.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -93,5 +94,15 @@ public class ShowtimeController {
         model.addAttribute("listShowtime", listShowtime);
         model.addAttribute("movieID", movieID);
         return "book";
+    }
+
+        @GetMapping("/api/showtime/getTheaterId")
+    public ResponseEntity<Integer> getTheaterIdByScreeningRoomId(@RequestParam Integer screeningRoomId) {
+        Integer theaterId = service.getTheaterIdByScreeningRoomId(screeningRoomId);
+        if (theaterId != null) {
+            return ResponseEntity.ok(theaterId);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

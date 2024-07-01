@@ -15,6 +15,7 @@ public class TheaterService {
     @Autowired
     private TheaterRepository repo;
 
+
     public List<Theater> listAll() {
         return (List<Theater>) repo.findAll();
     }

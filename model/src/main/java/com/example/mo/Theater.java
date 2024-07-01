@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 public class Theater {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "theater_id")
     private Integer TheaterID;
 
     private Integer CinemaOwnerID;

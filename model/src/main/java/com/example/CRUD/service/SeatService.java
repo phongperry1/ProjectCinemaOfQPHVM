@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.CRUD.Repository.SeatRepository;
 import com.example.mo.Seat;
+import com.example.mo.SeatDTO;
 
 @Service
 public class SeatService {
@@ -18,4 +19,7 @@ public class SeatService {
         return seatRepository.findAll();
     }
 
+    public List<Object[]> getBookedSeats(Integer screeningRoomId, Integer showtimeId) {
+        return seatRepository.findBookedSeats(screeningRoomId, showtimeId);
+    }
 }

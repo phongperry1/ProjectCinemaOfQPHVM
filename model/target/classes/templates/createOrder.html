@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Tạo đơn hàng</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <img th:src="@{/vnpay-logo.png}" style="width: 200px">
+                    <h2 class="card-title">Tạo Đơn Hàng</h2>
+                    <form th:action="@{/submitOrder}" method="post">
+                        <div class="form-group">
+                            <label for="amount">Số tiền:</label>
+                            <input type="number" class="form-control" id="amount" name="amount" th:text="${totalPrice3}">
+                        </div>
+                        <div class="form-group">
+                            <label for="orderInfo">Thông tin đơn hàng:</label>
+                            <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="Thanh toan don hang 2923">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Thanh toán</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        // Gửi yêu cầu POST và nhận dữ liệu từ endpoint
+        $.ajax({
+            url: '/createOrder/' + totalPrice3, // Thay đổi totalPrice3 nếu cần thiết
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(ticketData),
+            success: function(data) {
+                // Xử lý dữ liệu nhận được (ví dụ: log ra console)
+                console.log('Ticket data:', data);
+
+                // Hiển thị dữ liệu lên trang createOrder.html (ví dụ: thông qua jQuery)
+                $('#amount').text(data.amount);
+                $('#movieId').text(data.movieId);
+                $('#theaterId').text(data.theaterId);
+                // Các thông tin khác của ticketData
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error creating ticket:', errorThrown);
+                alert('Error creating ticket. Please try again.');
+            }
+        });
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

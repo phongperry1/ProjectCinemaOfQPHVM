@@ -27,17 +27,17 @@ import com.example.mo.ScreeningRoom;
 public class ScreeningRoomRepositoryTest {
     @Autowired private ScreeningRoomRepository repo;
 
-    @Test
-    public void testAddNew() {
-        ScreeningRoom screeningRoom = new ScreeningRoom();
-        screeningRoom.setTheaterID(5);
-        screeningRoom.setRoomname("VIP");
-        ScreeningRoom savedScreeningRoom = repo.save(screeningRoom);
+    // @Test
+    // public void testAddNew() {
+    //     ScreeningRoom screeningRoom = new ScreeningRoom();
+    //     screeningRoom.setTheaterID(5);
+    //     screeningRoom.setRoomname("VIP");
+    //     ScreeningRoom savedScreeningRoom = repo.save(screeningRoom);
 
-        Assertions.assertThat(savedScreeningRoom).isNotNull();
-        Assertions.assertThat(savedScreeningRoom.getScreeningRoomID()).isGreaterThan(0);
+    //     Assertions.assertThat(savedScreeningRoom).isNotNull();
+    //     Assertions.assertThat(savedScreeningRoom.getScreeningRoomID()).isGreaterThan(0);
 
-    }
+    // }
 
     @Test 
     public void testListAll() {

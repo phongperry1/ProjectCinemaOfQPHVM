@@ -9,13 +9,13 @@ public class TicketDTO {
     private String userId;
     private String movieId;
     private String showtimeId;
-
+    private String theaterId;
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date showdate;
     private List<Seat> selectedSeats;
     private List<String> selectedFood;
     private double totalPrice3;
-    private String theaterId;
+
 
     public String getUserId() {
         return userId;

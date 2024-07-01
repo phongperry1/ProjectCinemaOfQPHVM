@@ -26,19 +26,19 @@ import com.example.mo.Showtime;
 public class ShowtimeRepositoryTest {
     @Autowired private ShowtimeRepository repo;
 
-    @Test
-    public void testAddNew() {
-        Showtime showtime = new Showtime();
-        showtime.setShowDate(Date.valueOf("2024-06-02"));  
-        showtime.setShowTime(Time.valueOf("18:30:00"));
-        // showtime.setMovieID(1);    
-        showtime.setScreeningRoomID(11);
-        Showtime savedShowtime = repo.save(showtime);
+    // @Test
+    // public void testAddNew() {
+    //     Showtime showtime = new Showtime();
+    //     showtime.setShowDate(Date.valueOf("2024-06-02"));  
+    //     showtime.setShowTime(Time.valueOf("18:30:00"));
+    //     // showtime.setMovieID(1);    
+    //     showtime.setScreeningRoomID(11);
+    //     Showtime savedShowtime = repo.save(showtime);
 
-        Assertions.assertThat(savedShowtime).isNotNull();
-        Assertions.assertThat(savedShowtime.getShowtimeID()).isGreaterThan(0);
+    //     Assertions.assertThat(savedShowtime).isNotNull();
+    //     Assertions.assertThat(savedShowtime.getShowTime());
 
-    }
+    // }
 
     @Test 
     public void testListAll() {

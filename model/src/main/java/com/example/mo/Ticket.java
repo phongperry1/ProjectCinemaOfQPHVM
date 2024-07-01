@@ -32,14 +32,13 @@ public class Ticket {
     @Column(name = "ticket_id")
     private int ticketId;
 
-    @Column(name = "showtime_id")
-    private int showtimeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "showtime_id")
+    private Showtime showtime;
 
-    @Column(name = "show_date")
-    private Date showDate;
-
-    @Column(name = "theater_id")
-    private int theaterId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theater_id")
+    private Theater theater;
 
     @Column(name = "price")
     private double price;
@@ -52,10 +51,13 @@ public class Ticket {
     @JoinColumn(name = "movie_id")
     private Movie movie; 
 
-    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Seat> seats;
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Seat> seats;   
+
+    // @Column(name = "status")
+    // private String status;
     
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
     @JoinTable(
         name = "ticket_food",
         joinColumns = @JoinColumn(name = "ticket_id"),

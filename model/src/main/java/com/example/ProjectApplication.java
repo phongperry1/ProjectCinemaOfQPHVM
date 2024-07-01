@@ -25,11 +25,4 @@ public class ProjectApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		
 	}
-
-	
-
-	
-
-
-
 }

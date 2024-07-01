@@ -35,7 +35,7 @@ public class Users {
     private String location;
     private String gender;
     private String userRank;
-    private Integer memberPoints = 0; // Default value to avoid null
+    private Integer memberPoints = 0; 
     private String paymentMethod;
     private String userType;
     private String profileImageURL;

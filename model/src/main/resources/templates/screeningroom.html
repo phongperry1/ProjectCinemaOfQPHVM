@@ -76,7 +76,7 @@
                     <tbody>
                         <tr th:each="screeningroom : ${listScreeningRoom}">
                             <td th:text="${screeningroom.ScreeningRoomID}"></td>
-                            <td th:text="${screeningroom.TheaterID}"></td>
+                            <td th:text="${screeningroom.theater.TheaterID}"></td>
                             <td th:text="${screeningroom.Roomname}"></td>
                             <td>
                                 <a class="h4 mr-3" th:href="@{'/screeningroom/edit/' + ${screeningroom.ScreeningRoomID}}">Edit</a>

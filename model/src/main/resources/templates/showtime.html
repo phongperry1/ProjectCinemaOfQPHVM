@@ -70,7 +70,7 @@
                         <tr>
                             <th>ShowtimeID</th>
                             <th>MovieID</th>
-                            <th>ScreeningRoomID</th>
+                            <th>Room Name</th>
                             <th>ShowDate</th>
                             <th>ShowTime</th>
                             <th></th>
@@ -80,14 +80,14 @@
                     <tbody>
                         <th:block th:each="showtime : ${listShowtime}">
                             <tr>
-                                <td>[[${showtime.ShowtimeID}]]</td>
+                                <td>[[${showtime.showtimeId}]]</td>
                                 <td>[[${showtime.movie.MovieID}]]</td>
-                                <td>[[${showtime.ScreeningRoomID}]]</td>
+                                <td>[[${showtime.screeningRoom.Roomname}]]</td>
                                 <td>[[${showtime.ShowDate}]]</td>
                                 <td>[[${showtime.ShowTime}]]</td>
                                 <td>
-                                    <a class="h4 mr-3" th:href="@{'/showtime/edit/' + ${showtime.ShowtimeID}}">Edit</a>
-                                    <a class="h4" th:href="@{'/showtime/delete/' + ${showtime.ShowtimeID}}">Delete</a>
+                                    <a class="h4 mr-3" th:href="@{'/showtime/edit/' + ${showtime.showtimeId}}">Edit</a>
+                                    <a class="h4" th:href="@{'/showtime/delete/' + ${showtime.showtimeId}}">Delete</a>
                                 </td>
                             </tr>
                         </th:block>
