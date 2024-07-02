@@ -1,14 +1,12 @@
 package com.example;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import com.example.mo.Promotions;
-import com.example.CRUD.Repository.PromotionsRepository;
-import com.example.CRUD.service.PromotionsService;
+import com.example.CRUD.service.TicketService;
 
 @SpringBootApplication
 public class Application {
@@ -17,11 +15,12 @@ public class Application {
         ApplicationContext context = SpringApplication.run(Application.class, args);
 
         // Retrieve beans after the application context has been initialized
-        PromotionsRepository promotionsRepository = context.getBean(PromotionsRepository.class);
-        PromotionsService promotionsService = context.getBean(PromotionsService.class);
+        TicketService ticketService = context.getBean(TicketService.class);
 
         // Use the services provided by the beans
-       
-        
+        Map<String, Double> revenueByMovie = ticketService.calculateRevenueByMovie();
+        revenueByMovie.forEach((movieTitle, revenue) -> {
+            System.out.println("Movie: " + movieTitle + ", Revenue: " + revenue);
+        });
     }
 }

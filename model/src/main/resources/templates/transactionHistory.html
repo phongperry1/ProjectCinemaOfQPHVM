@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>Transaction History</title>
+    <style>
+        .credit { color: green; }
+        .debit { color: red; }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -28,7 +32,8 @@
                 <tr th:each="transaction : ${transactions}">
                     <td th:text="${transaction.user.userId}">User ID</td>
                     <td th:text="${transaction.orderInfo}">Order Info</td>
-                    <td th:text="${transaction.amount}">Amount</td>
+                    <td th:classappend="${transaction.transactionType == 'Credit' ? 'credit' : 'debit'}"
+                        th:text="${transaction.transactionType == 'Credit' ? '+' : '-'} + ${#numbers.formatDecimal(transaction.amount, 1, 'COMMA', 2, 'POINT')}">Amount</td>
                     <td th:text="${transaction.payDate}">Payment Time</td>
                     <td th:text="${transaction.transactionNo}">Transaction ID</td>
                     <td th:text="${transaction.bankCode}">Bank Code</td>
@@ -37,13 +42,13 @@
                     <td th:text="${transaction.bankTranNo}">Bank Transaction No</td>
                     <td th:text="${transaction.responseCode}">Response Code</td>
                 </tr>
-                <!-- Nếu không có giao dịch nào -->
+                <!-- If no transactions are found -->
                 <tr th:if="${transactions.size() == 0}">
                     <td colspan="10" class="text-center">No transactions found</td>
                 </tr>
             </tbody>
         </table>
-        <a href="/createOrder" class="btn btn-primary">Về trang chủ</a>
+        <a href="/home" class="btn btn-primary">Back to Home</a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

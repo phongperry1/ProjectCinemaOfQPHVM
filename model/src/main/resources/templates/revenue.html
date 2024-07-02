@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Revenue By Movie</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Revenue By Movie</h2>
+        <canvas id="myChart"></canvas>
+    </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var revenueByMovie = /*[[${revenueByMovie}]]*/ '{}';
+        console.log("Revenue By Movie JSON:", revenueByMovie);  // Log the JSON string
+        revenueByMovie = JSON.parse(revenueByMovie);
+        console.log("Parsed Revenue By Movie:", revenueByMovie);  // Log the parsed object
+
+        var xValues = Object.keys(revenueByMovie);
+        var yValues = Object.values(revenueByMovie);
+        console.log("X Values (Movies):", xValues);  // Log the x values (movie titles)
+        console.log("Y Values (Revenue):", yValues);  // Log the y values (revenue)
+
+        var barColors = ["red", "green", "blue", "orange", "purple", "cyan", "magenta"];
+
+        new Chart("myChart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: xValues.map((_, index) => barColors[index % barColors.length]),
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Revenue By Movie"
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 50000,
+                            max: 1000000
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false
+                        }
+                    }]
+                }
+            }
+        });
+        /*]]>*/
+    </script>
+</body>
+</html>

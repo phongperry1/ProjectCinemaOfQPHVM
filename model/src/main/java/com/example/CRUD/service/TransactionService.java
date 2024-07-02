@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -32,5 +33,15 @@ public class TransactionService {
         List<Transaction> transactions = transactionRepository.findByUserUserId(userId);
         logger.info("Retrieved transactions for user ID " + userId + ": " + transactions.size());
         return transactions;
+    }
+
+    public Optional<Transaction> getTransactionByTransactionNo(String transactionNo) {
+        Optional<Transaction> transaction = transactionRepository.findByTransactionNo(transactionNo);
+        if (transaction.isPresent()) {
+            logger.info("Retrieved transaction with transactionNo: " + transactionNo);
+        } else {
+            logger.error("Transaction not found with transactionNo: " + transactionNo);
+        }
+        return transaction;
     }
 }

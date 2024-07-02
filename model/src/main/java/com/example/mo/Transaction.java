@@ -23,19 +23,20 @@ public class Transaction {
     private String tmnCode;
     private String orderInfo;
     private String txnRef;
-    private int amount;
+    private double amount;
     private String cardType;
     private String transactionStatus;
     private String bankTranNo;
     private String responseCode;
+    private String transactionType; // New field to indicate "Credit" or "Debit"
 
     // Default constructor
     public Transaction() {}
 
     // Constructor with all fields
     public Transaction(Users user, String bankCode, String payDate, String transactionNo, String tmnCode,
-                       String orderInfo, String txnRef, int amount, String cardType,
-                       String transactionStatus, String bankTranNo, String responseCode) {
+                       String orderInfo, String txnRef, double amount, String cardType,
+                       String transactionStatus, String bankTranNo, String responseCode, String transactionType) {
         this.user = user;
         this.bankCode = bankCode;
         this.payDate = payDate;
@@ -48,6 +49,7 @@ public class Transaction {
         this.transactionStatus = transactionStatus;
         this.bankTranNo = bankTranNo;
         this.responseCode = responseCode;
+        this.transactionType = transactionType;
     }
 
     // Getters and setters
@@ -116,11 +118,11 @@ public class Transaction {
         this.txnRef = txnRef;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return this.amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -154,5 +156,13 @@ public class Transaction {
 
     public void setResponseCode(String responseCode) {
         this.responseCode = responseCode;
+    }
+
+    public String getTransactionType() {
+        return this.transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 }

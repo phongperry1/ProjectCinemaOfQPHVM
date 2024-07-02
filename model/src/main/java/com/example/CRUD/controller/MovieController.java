@@ -2,8 +2,10 @@ package com.example.CRUD.controller;
 
 import com.example.CRUD.service.MovieService;
 import com.example.CRUD.service.ShowtimeService;
+import com.example.CRUD.service.UserService;
 import com.example.mo.Movie;
 import com.example.mo.Showtime;
+import com.example.mo.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,9 +32,13 @@ public class MovieController {
     @Autowired
     private ShowtimeService showtimeService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
-    public String getAllMovies(Model model) {
-        List<Movie> movies = movieService.getAllMovies();
+    public String getAllMovies(Model model, Principal principal) {
+        Integer cinemaOwnerID = getCinemaOwnerIDFromPrincipal(principal);
+        List<Movie> movies = movieService.getAllMoviesByCinemaOwnerID(cinemaOwnerID);
         model.addAttribute("movies", movies);
         return "movie";
     }
@@ -44,9 +51,13 @@ public class MovieController {
 
     @PostMapping("/create")
     public String createMovie(@ModelAttribute Movie movie, @RequestParam("imageFile") MultipartFile imageFile,
-                              RedirectAttributes redirectAttributes) {
+                              RedirectAttributes redirectAttributes, Principal principal) {
         movie.setRatingCount(0);
         movie.setAverageRating(0.0);
+
+        // Set cinemaOwnerID from Principal
+        movie.setCinemaOwnerID(getCinemaOwnerIDFromPrincipal(principal));
+
         if (!imageFile.isEmpty()) {
             try {
                 // Save uploaded file to local directory
@@ -152,5 +163,13 @@ public class MovieController {
             return "book"; // Ensure "book.html" exists in templates
         }
         return "redirect:/movie";
+    }
+
+    private Integer getCinemaOwnerIDFromPrincipal(Principal principal) {
+        Users user = userService.getUsersByEmail(principal.getName());
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        return user.getUserId(); // Ensure this returns the correct ID for cinema owner
     }
 }

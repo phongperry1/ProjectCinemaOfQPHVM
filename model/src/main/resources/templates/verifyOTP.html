@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .error-message {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">OTP Verification</h2>
+        <form id="otpForm" action="/api/payments/confirmOTP" method="post" class="mt-4">
+            <div class="form-group">
+                <label for="otp">Enter OTP:</label>
+                <input type="text" class="form-control" id="otp" name="otp" required>
+            </div>
+            <div class="error-message" id="error-message">Invalid OTP. Please try again.</div>
+            <input type="hidden" id="amount" name="amount" th:value="${amount}">
+            <button type="submit" class="btn btn-primary">Verify OTP</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('otpForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission to handle via JavaScript
+            const otpInput = document.getElementById('otp').value;
+            const amountInput = document.getElementById('amount').value;
+
+            // Simulate an OTP validation check
+            const correctOtp = '123456'; // This should be dynamically checked with server-side data
+
+            if (otpInput !== correctOtp) {
+                document.getElementById('error-message').style.display = 'block';
+            } else {
+                this.submit(); // If OTP is correct, submit the form
+            }
+        });
+    </script>
+</body>
+</html>

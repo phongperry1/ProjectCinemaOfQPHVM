@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.mo.Users;
 import com.example.CRUD.Repository.UserRepository;
+import com.example.CRUD.controller.InsufficientBalanceException;
 
 import jakarta.mail.internet.MimeMessage;
 
@@ -164,6 +165,31 @@ public class UserService {
             return user;
         } else {
             return null;
+        }
+    }
+
+    // Methods to deposit and withdraw money
+    public void deposit(int userId, Double amount) {
+        Users user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (amount > 0) {
+            user.deposit(amount);
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Deposit amount must be greater than zero.");
+        }
+    }
+
+    public void withdraw(int userId, Double amount) {
+        Users user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (amount > 0 && user.getVirtualWallet() >= amount) {
+            user.withdraw(amount);
+            userRepository.save(user);
+        } else {
+            throw new InsufficientBalanceException("Insufficient balance or invalid amount.");
         }
     }
 }

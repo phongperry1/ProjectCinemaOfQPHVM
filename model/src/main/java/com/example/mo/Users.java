@@ -1,15 +1,8 @@
 package com.example.mo;
 
+import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.Set;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,9 +33,13 @@ public class Users {
     private String profileImageURL;
     private String resetPasswordToken;
     private Integer cinemaOwnerID; // Add cinemaOwnerID field
+    private Double virtualWallet = 0.0; // Virtual wallet field
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Transaction> transactions;
+
+    @OneToOne(mappedBy = "users")
+    private CinemaOwner cinemaOwner;
 
     // Getters and setters
 
@@ -200,5 +197,55 @@ public class Users {
 
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public CinemaOwner getCinemaOwner() {
+        return cinemaOwner;
+    }
+
+    public void setCinemaOwner(CinemaOwner cinemaOwner) {
+        this.cinemaOwner = cinemaOwner;
+    }
+
+    // Methods to deposit and withdraw money
+    public void deposit(Double amount) {
+        if (amount > 0) {
+            this.virtualWallet += amount;
+        } else {
+            throw new IllegalArgumentException("Deposit amount must be greater than zero.");
+        }
+    }
+
+    public void withdraw(Double amount) {
+        if (amount > 0 && this.virtualWallet >= amount) {
+            this.virtualWallet -= amount;
+        } else {
+            throw new IllegalArgumentException("Insufficient balance or invalid amount.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", role='" + role + '\'' +
+                ", status=" + status +
+                ", verificationCode='" + verificationCode + '\'' +
+                ", birthdate=" + birthdate +
+                ", location='" + location + '\'' +
+                ", gender='" + gender + '\'' +
+                ", userRank='" + userRank + '\'' +
+                ", memberPoints=" + memberPoints +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", userType='" + userType + '\'' +
+                ", profileImageURL='" + profileImageURL + '\'' +
+                ", resetPasswordToken='" + resetPasswordToken + '\'' +
+                ", cinemaOwnerID=" + cinemaOwnerID +
+                ", virtualWallet=" + virtualWallet +
+                '}';
     }
 }
