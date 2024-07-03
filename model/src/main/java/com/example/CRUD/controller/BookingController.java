@@ -166,8 +166,9 @@ public class BookingController {
             for (String foodDetail : ticketDTO.getSelectedFood()) {
                 String[] details = foodDetail.split(" id");
                 if (details.length > 1) {
-                    int foodId = Integer.parseInt(details[details.length - 1]);
-                    Food food = foodRepository.findById(foodId).orElseThrow(() -> new RuntimeException("Food not found"));
+                    int foodId = Integer.parseInt(details[1].trim());
+                    Food food = foodRepository.findById(foodId)
+                            .orElseThrow(() -> new RuntimeException("Food not found with id: " + foodId));
                     selectedFoods.add(food);
                 }
             }
@@ -222,11 +223,6 @@ public class BookingController {
         return foods;
     }
 
-    // @GetMapping("/foods")
-    // @ResponseBody
-    // public List<Food> getAllFoods() {
-    //     return foodSer.listAll();
-    // }
 
     @DeleteMapping("tickets/delete/{ticketId}")
     public String deleteTicket(@PathVariable int ticketId) {

@@ -155,7 +155,7 @@ public String showMovieDetails(@PathVariable("id") Integer id, Model model, Prin
         
         model.addAttribute("user", user);
         model.addAttribute("movie", movie);
-        return "book"; // Tên của trang HTML cho chi tiết phim
+        return "book"; 
     }
     return "redirect:/movie";
 }
