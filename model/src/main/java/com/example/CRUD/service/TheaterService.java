@@ -38,4 +38,8 @@ public class TheaterService {
         }
         repo.deleteById(TheaterID);
     } 
+
+    public Integer findCinemaOwnerIdByTheaterId(Integer theaterId) {
+        return repo.findCinemaOwnerIdByTheaterId(theaterId);
+    }
 }

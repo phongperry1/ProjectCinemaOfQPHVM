@@ -38,9 +38,6 @@ public class Movie {
     @Column(name = "releaseDate")
     private Date releaseDate;
 
-    // @Column(name = "showTime")
-    // private String showTime;
-
     @Column(name = "languages")
     private String languages;
 
@@ -67,7 +64,6 @@ public class Movie {
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Ticket> tickets; 
 
-    // Getter và Setter cho address
     public String getAddress() {
         return address;
     }
@@ -98,7 +94,6 @@ public class Movie {
         this.director = movieDetails.getDirector();
         this.cast = movieDetails.getCast();
         this.releaseDate = movieDetails.getReleaseDate();
-        // this.showTime = movieDetails.getShowTime(); 
         this.languages = movieDetails.getLanguages();
         this.ratingCount = movieDetails.getRatingCount();
         this.averageRating = movieDetails.getAverageRating();

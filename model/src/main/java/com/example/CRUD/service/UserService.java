@@ -15,6 +15,7 @@ import com.example.mo.Users;
 import jakarta.mail.internet.MimeMessage;
 
 import com.example.CRUD.Repository.UserRepository;
+import com.example.CRUD.controller.InsufficientBalanceException;
 
 @Service("userServiceImpl")
 public class UserService {
@@ -166,5 +167,38 @@ public class UserService {
         } else {
             return null;
         }
+    }
+
+    public void deposit(int userId, Double amount) {
+        Users user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (amount > 0) {
+            user.deposit(amount);
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Deposit amount must be greater than zero.");
+        }
+    }
+
+    public void withdraw(int userId, Double amount) {
+        Users user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (amount > 0 && user.getVirtualWallet() >= amount) {
+            user.withdraw(amount);
+            userRepository.save(user);
+        } else {
+            throw new InsufficientBalanceException("Insufficient balance or invalid amount.");
+        }
+    }
+
+    // Method to add member points
+    public void addMemberPoints(int userId, int points) {
+        Users user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        user.addMemberPoints(points);
+        userRepository.save(user);
     }
 }

@@ -125,15 +125,6 @@ public class BookingController {
         List<ScreeningRoom> screeningroom = screeningRoomRepository.findScreeningRoomsByTheaterIdAndMovieIdAndShowTimeAndShowDate(theaterID, movieID, showTime, showDate);               
         return screeningroom;
     }
-
-    // @PostMapping("/saveTicketDataToSession")
-    // public ResponseEntity<Map<String, String>> saveTicketDataToSession(@RequestBody TicketDTO ticketDTO, HttpSession session) {
-    //     session.setAttribute("ticketData", ticketDTO);
-    //     Map<String, String> response = new HashMap<>();
-    //     response.put("status", "success");
-    //     response.put("message", "Ticket data saved to session.");
-    //     return ResponseEntity.ok(response);
-    // }   
     
     @PostMapping("/tickets/save")
     @ResponseBody
@@ -223,11 +214,19 @@ public class BookingController {
         return bookedSeats;
     }
 
-    @GetMapping("/foods")
+    @GetMapping("/getFoodByTheaterId/{theaterID}")
     @ResponseBody
-    public List<Food> getAllFoods() {
-        return foodSer.listAll();
+    public List<Food> getFoodByCinemaOwnerId(@PathVariable int theaterID) {
+        Integer cinemaOwnerId = theaterSer.findCinemaOwnerIdByTheaterId(theaterID);
+        List<Food> foods = foodSer.getFoodByCinemaOwnerId(cinemaOwnerId);
+        return foods;
     }
+
+    // @GetMapping("/foods")
+    // @ResponseBody
+    // public List<Food> getAllFoods() {
+    //     return foodSer.listAll();
+    // }
 
     @DeleteMapping("tickets/delete/{ticketId}")
     public String deleteTicket(@PathVariable int ticketId) {

@@ -31,7 +31,7 @@ public class Food {
     @Column(nullable = true, length = 64, name = "PhotosImagePath")
     private String PhotoFood;
 
-    @ManyToMany(mappedBy = "foods", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "foods")
     private List<Ticket> tickets;
 
 

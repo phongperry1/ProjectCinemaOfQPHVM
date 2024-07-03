@@ -35,13 +35,5 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(dateConverter);
     }
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 
-    @Bean
-    public WebClient.Builder webClientBuilder() {
-        return WebClient.builder();
-    }
 }

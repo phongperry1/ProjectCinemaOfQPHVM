@@ -24,4 +24,12 @@ public class CinemaService {
             return cinemaOwnerRepository.findByCinemaNameContainingIgnoreCase(cinemaName);
         }
     }
+
+    public CinemaOwner getCinemaOwnerById(int cinemaOwnerId) {
+        return cinemaOwnerRepository.findById(cinemaOwnerId).orElse(null);
+    }
+
+    public void saveCinemaOwner(CinemaOwner cinemaOwner) {
+        cinemaOwnerRepository.save(cinemaOwner);
+    }
 }

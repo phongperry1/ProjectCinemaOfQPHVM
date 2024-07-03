@@ -26,6 +26,13 @@ public class TicketService {
 
     @Transactional
     public void deleteTicketById(int ticketId) {
-        ticketRepository.deleteById(ticketId);
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid ticket ID"));
+
+        // Xóa hết các liên kết food của ticket
+        ticket.getFoods().clear(); 
+
+        // Xóa ticket chính thức
+        ticketRepository.delete(ticket);
     }
 }

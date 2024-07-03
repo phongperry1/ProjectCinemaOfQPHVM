@@ -38,17 +38,6 @@
             gap: 10px;
         }
 
-        .day-button {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .day-button.active {
-            background-color: #f0f0f0;
-        }
 
         .cinema-list {
             display: flex;
@@ -94,26 +83,88 @@
         border-radius: 10px;
         }
 
-        /* Sắp xếp lựa chọn suất chiếu theo hàng ngang */
+        .dates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px; 
+            margin-top: 20px;
+        }
         .showtimes {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px; /* Khoảng cách giữa các nút */
+            gap: 30px; /* Khoảng cách giữa các nút */
             margin-top: 20px;
         }
 
         .show-date-button, .show-time-button {
-        display: inline-block;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 25px; /* Tạo hình dạng oval */
-        background-color: #007bff; /* Màu nền */
-        color: white; /* Màu chữ */
-        font-size: 16px;
-        margin: 5px;
-        cursor: pointer;
-        text-align: center;
-    }
+            width: 150px;
+            margin-right: 15px;
+            align-items: center;
+            appearance: none;
+            background-color: #EEF2FF;
+            border-radius: 8px;
+            border-width: 2px;
+            border-color: #fe5353;
+            box-shadow: rgba(254, 83, 83, 0.2) 0 2px 4px, rgba(254, 83, 83, 0.15) 0 7px 13px -3px, #e7d6d6 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #000316;
+            cursor: pointer;
+            display: inline-flex;
+            height: 56px;
+            justify-content: center;
+            line-height: 1;
+            list-style: none;
+            overflow: hidden;
+            padding-left: 24px;
+            padding-right: 24px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            transition: box-shadow 0.15s, transform 0.15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            will-change: box-shadow, transform;
+            font-size: 20px;
+        }
+        .custom{
+
+            margin-right: 15px;
+            align-items: center;
+            appearance: none;
+            background-color: #EEF2FF;
+            border-radius: 8px;
+            border-width: 2px;
+            border-color: #fe5353;
+            box-shadow: rgba(254, 83, 83, 0.2) 0 2px 4px, rgba(254, 83, 83, 0.15) 0 7px 13px -3px, #e7d6d6 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #000316;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            line-height: 1;
+            list-style: none;
+            overflow: hidden;
+            padding-left: 24px;
+            padding-right: 24px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            transition: box-shadow 0.15s, transform 0.15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            will-change: box-shadow, transform;
+
+            border-radius: 10% !important;
+        }
+
+        .custom:hover, .show-date-button:hover, .show-time-button:hover {
+            box-shadow: rgba(254, 83, 83, 0.2) 0 2px 4px, rgba(254, 83, 83, 0.15) 0 7px 13px -3px, #e7d6d6 0 -3px 0 inset;
+            transform: translateY(-2px);
+        }
 
         .screen {
             position: relative;
@@ -302,6 +353,16 @@
         .legend-item span {
             font-size: 14px;
         }
+
+        .selected-cinema {
+            background-color: #de0000b4 !important;
+            border-color: #052e1b !important;
+            color: #000000 !important;
+        }
+
+        .no-border {
+            border: none !important;
+        }
                         
     </style>
 </head>
@@ -310,38 +371,49 @@
 
     </div>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col">
+        <div class="row justify-content-center col-md-12">
+            <div class="row">
                 <div class="card">
                     <div class="card-body">
                         <div class="movie-info">
                             <h2>Lịch chiếu <span th:text="${movie.title}"></span></h2>
                             <div class="schedule-container mb-3" id="schedule-container">
                                 <div th:each="theater : ${theaters}">
-                                    <button type="button" class="list-group-item list-group-item-action mt-3"
+                                    <button type="button" class="list-group-item list-group-item-action mt-3 custom"
                                             th:attr="data-theater-id=${theater.theaterID}, data-theater-name=${theater.theaterName}"
-                                            onclick="showShowtimes(this.getAttribute('data-theater-id'),this.getAttribute('data-theater-name'))">
+                                            onclick="showShowtimes(this, this.getAttribute('data-theater-id'),this.getAttribute('data-theater-name'))">
                                         <div class="cinema-item">
                                             <img th:src="@{'/theater-photo/' + ${theater.theaterID} + '/' + ${theater.photoTheater}}" class="img-round" alt="No photo" width="100" height="60" />
-                                            <div>
-                                                <p th:text="${theater.theaterName}"></p>
-                                                <p th:text="${theater.address}"></p>
-                                            </div>
+                                        </div>
+                                        <div>
+                                            <p th:text="${theater.theaterName}"></p>
+                                            <p th:text="${theater.address}"></p>
                                         </div>
                                     </button>
-                                    <div class="dates-container mt-3">
-                                        <!-- Showtimes for this theater will be displayed here -->
-                                    </div>                     
-                                    <div class="showtimes-container">
-                                        <!-- Container for showtimes will be dynamically filled by JavaScript -->
-                                    </div>
                                 </div>
                             </div>
                         </div>
+    
+                        <div class="card no-border ">
+                            <div class="card-body"> 
+                                <div class="dates-container mt-3">
+                                    <!-- Showtimes for this theater will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="card no-border ">
+                            <div class="card-body">
+                                <div class="showtimes-container mt-3">
+                                    <!-- Container for showtimes will be dynamically filled by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+    
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
 
 <!-- Seat Modal -->
@@ -351,7 +423,7 @@
                 <div class="modal-header">
                         <span>
                             <h5 class="modal-title" id="exampleModalLabel">Choose Seat</h5>
-                            <p id="roomName">Phòng chiếu: </p>
+                            <p id="roomName">Screening Room: </p>
                         </span>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -588,19 +660,19 @@
                         <div class="legend">
                             <div class="legend-item">
                                 <div class="legend-square" style="background-color: #fa3238;"></div>
-                                <span>Ghế thường</span>
+                                <span>Regular</span>
                             </div>
                             <div class="legend-item">
                                 <div class="legend-square" style="background-color: #891bf7;"></div>
-                                <span>Ghế VIP</span>
+                                <span>VIP</span>
                             </div>
                             <div class="legend-item">
                                 <div class="legend-square" style="background-color: #2f0000;"></div>
-                                <span>Ghế đã chọn</span>
+                                <span>Selected</span>
                             </div>
                             <div class="legend-item">
                                 <div class="legend-square" style="background-color: #d9d9d9;"></div>
-                                <span>Ghế đã đặt</span>
+                                <span>Booked</span>
                             </div>
                         </div>
                                 
@@ -615,12 +687,12 @@
                             <i id="removeAllButton" class="fas fa-times-circle"></i>
                         </div>
                         <div class="total-price-container">
-                            Tạm tính: <span id="totalPriceSeat">0</span> 
+                            Price: <span id="totalPriceSeat">0</span> 
                         </div>
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary" id="continue">
-                    Tiếp tục
+                    Continue
                 </button>
             </div>
         </div>
@@ -632,14 +704,14 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="comboModalLabel">Chọn combo bắp nước</h5>
+                    <h5 class="modal-title" id="comboModalLabel">Choose Foods/Drinks</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div id="foodList">
-                        <div th:each="food : ${foods}">
+                        <!-- <div th:each="food : ${foods}">
                             <div class="food-item">
                                 <img th:src="${food.photoFood}" alt="Food Image" style="max-width: 100%; height: auto;">
                                 <h5 th:text="${food.foodName}"></h5>
@@ -652,7 +724,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="total-price-container">
                         Tổng giá<h5><span id="totalPriceFood">0 </span></h5>
@@ -706,13 +778,19 @@
         const movieID = /*[[${movieID}]]*/ 1; 
         let currentShowtimes = {}; 
         let selectedDate = null; 
-        function showShowtimes(theaterID, theaterName) {
+        function showShowtimes(button, theaterID, theaterName) {
         console.log('Theater ID:', theaterID);
         console.log('Theater Name:', theaterName);
 
         document.getElementById('selectedTheater').textContent = theaterName;
-        document.getElementById('selectedTheaterID').textContent = theaterID;
+        document.getElementById('selectedTheaterID').textContent = theaterID
         
+        var cinemas = document.querySelectorAll('.list-group-item');
+        cinemas.forEach(function(cinema) {
+            cinema.classList.remove('selected-cinema');
+        });
+
+        button.classList.add('selected-cinema');
 
     fetch(`/showtimes/getShowtimes?movieID=${movieID}&theaterID=${theaterID}`)
         .then(response => {
@@ -731,7 +809,7 @@
             console.error('Lỗi khi lấy suất chiếu:', error);
             alert("Đã xảy ra lỗi khi lấy suất chiếu. Vui lòng thử lại sau.");
         });
-}
+    }
 
         function displayDatesForTheater(theaterID) {
             const datesContainer = document.querySelector('.dates-container');
@@ -746,6 +824,10 @@
             });
 
             uniqueDates.forEach(showDate => {
+                const dateDiv = document.createElement('div');
+                dateDiv.classList.add('date-item');
+                const dateString = document.createElement('span');
+                dateString.textContent = 'Ngày chiếu: ';
                 const dateButton = document.createElement('button');
                 dateButton.textContent = showDate;
                 dateButton.classList.add('show-date-button');
@@ -801,10 +883,11 @@
 
                                 const movieTitle = /*[[${movie.title}]]*/ 0;
                                 // Update modal content
-                                document.getElementById('movieTitle').textContent = 'Tên phim: ' + movieTitle;
-                                document.getElementById('showtime').textContent = 'Suất chiếu: ' + showTime;
-                                document.getElementById('date').textContent = showDate;
-                                document.getElementById('roomName').textContent = 'Phòng chiếu: ' + roomName;
+
+                                document.getElementById('movieTitle').textContent = 'Movie: ' + movieTitle;
+                                document.getElementById('showtime').textContent = 'Showtime: ' + showTime;
+                                document.getElementById('date').textContent = 'Date: ' + showDate;
+                                document.getElementById('roomName').textContent = 'Screening Room: ' + roomName;
                                 updateSelectedSeatsList(screeningRoomId, showtimeId);
                                 // Show the modal
                                 $('#chooseSeatModal').modal('show');
@@ -1002,10 +1085,56 @@
             updateSeatState();
         });
 
-        $('#continue').click(function() {
-            $('#FoodModal').modal('show');
+        
+        function showFood(theaterID) {
+            fetch(`/getFoodByTheaterId/${theaterID}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(foods => {
+                    updateFoodModal(foods);
+                    $('#FoodModal').modal('show');
+                })
+                .catch(error => {
+                    console.error('Error fetching food data:', error);
+                    alert('Error fetching food data.');
+                });
+        }
 
+        document.getElementById('continue').addEventListener('click', function() {
+            var theaterID = $('#selectedTheaterID').text();
+            showFood(theaterID);
         });
+
+        function updateFoodModal(foods) {
+            var foodListContainer = document.getElementById('foodList');
+            foodListContainer.innerHTML = '';
+
+            foods.forEach(food => {
+                var foodItemHtml = `
+                    <div class="food-item">
+                        <img src="${food.photoFood}" alt="Food Image" style="max-width: 100%; height: auto;">
+                        <h5>${food.foodName}</h5>
+                        <p>${food.price} đ</p>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <button type="button" class="btn btn-sm btn-secondary decrease-quantity" data-food-id="${food.foodID}">-</button>
+                                <input type="text" class="form-control food-quantity" value="0" readonly data-food-id="${food.foodID}">
+                                <button type="button" class="btn btn-sm btn-secondary increase-quantity" data-food-id="${food.foodID}">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                foodListContainer.insertAdjacentHTML('beforeend', foodItemHtml);
+            });
+        }
+        // $('#continue').click(function() {
+
+        //     $('#FoodModal').modal('show');
+        // });
 
         $('#back').click(function() {
             $('#FoodModal').modal('hide'); 
@@ -1103,29 +1232,6 @@
             window.location.href = '/user/mytickets'; 
         });
 
-        // document.getElementById('purchase').addEventListener('click', function() {
-        //     const movieId = /*[[${movieID}]]*/ '';
-        //     const userId = /*[[${user.userId}]]*/ '';
-        //     var showtime = $('#ticketShowtime').text();
-        //     var showdate = $('#ticketDate').text();
-        //     var selectedFood = window.selectedFoodArray;
-        //     var totalPrice3 = parseFloat$('#totalPrice3').text();
-        //     var theaterId = $('#selectedTheaterID').text();
-        //     var showtimeId = $('#selectedShowtimeId').text();
-
-        //     var ticketData = {
-        //         userId: userId,
-        //         movieId: movieId,
-        //         theaterId: theaterId,
-        //         showtimeId: showtimeId,
-        //         selectedSeats: selectedSeatsArray,
-        //         selectedFood: selectedFood,
-        //         showdate: showdate,
-        //         totalPrice3: totalPrice3
-
-        //     };
-        //     console.log(ticketData);
-        // });
 
         document.getElementById('purchase').addEventListener('click', function() {
 
