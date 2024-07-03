@@ -69,7 +69,7 @@ public class MovieController {
                 String fileName = imageFile.getOriginalFilename();
                 Path filePath = Paths.get(uploadDir + fileName);
                 Files.write(filePath, imageFile.getBytes());
-                movie.setAddress("/uploads/" + fileName); // Save image path to address attribute
+                movie.setAddress("/uploads/"+ fileName); // Save image path to address attribute
             } catch (IOException e) {
                 e.printStackTrace();
                 redirectAttributes.addFlashAttribute("message", "Cannot upload image file.");
@@ -153,17 +153,19 @@ public class MovieController {
     }
 
     @GetMapping("/book/{id}")
-    public String showMovieDetails(@PathVariable("id") Integer id, Model model) {
-        Movie movie = movieService.getMovieById(id);
-        if (movie != null) {
-            List<Showtime> showtimes = showtimeService.getShowtimesByMovieID(id);
-            System.out.println("Showtimes for movie ID " + id + ": " + showtimes);
-            model.addAttribute("movie", movie);
-            model.addAttribute("listShowtime", showtimes);
-            return "book"; // Ensure "book.html" exists in templates
-        }
-        return "redirect:/movie";
+public String showMovieDetails(@PathVariable("id") Integer id, Model model, Principal principal) {
+    Movie movie = movieService.getMovieById(id);
+
+    if (movie != null && principal != null) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        
+        model.addAttribute("user", user);
+        model.addAttribute("movie", movie);
+        return "book"; // Tên của trang HTML cho chi tiết phim
     }
+    return "redirect:/movie";
+}
 
     private Integer getCinemaOwnerIDFromPrincipal(Principal principal) {
         Users user = userService.getUsersByEmail(principal.getName());

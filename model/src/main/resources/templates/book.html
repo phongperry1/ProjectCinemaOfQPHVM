@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -17,7 +18,7 @@
             </div>
             <div class="cont">
                 <h5 class="card-title text-white" th:text="${movie.title}"></h5>
-                            <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p>
+                            <!-- <p class="card-text text-white">Showtime: <span th:text="${movie.showTime}"></span></p> -->
                             <p class="card-text text-white">Description: <span th:text="${movie.description}"></span></p>
                             <p class="card-text text-white">Genre:<span th:text="${movie.genre}"></span></p>
                             <p class="card-text text-white">Duration:<span th:text="${movie.duration}"></span></p>
@@ -29,358 +30,24 @@
 
            
 
-            <div class="head_time">
-                <h1 id="title" class="card-title text-white" th:text="${movie.title}"></h1>
-                <div class="time">
-                    <h6><i class="bi bi-clock"></i> <span th:text="${movie.duration}"></span></h6>
-                    <button>PG-13</button>
-                </div>
-            </div>
-
-            
-            <div class="date_type">
-                <div class="left_card">
-                    <h6 class="title">Release Date</h6>
-                    <div class="card_month crd">
-                        <ul class="date-list">
-                            <li th:each="showtime : ${listShowtime}" class="showtime-item">
-                                <h6 class="day-of-week"></h6>
-                                <h6 class="show-date" th:text="${showtime.showDate}"></h6>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="right_card">
-                    <h6 class="title">Show Time</h6>
-                    <div class="card_month crd">
-                        <ul class="showtime-list">
-                            <li th:each="showtime : ${listShowtime}">
-                                <h6>2D</h6>
-                                <h6 th:text="${showtime.showTime}">Show Time</h6>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            
-            
-            
-            <div class="screen" id="screen">
-                Screen
-            </div>
-
-            <!-- chairs  -->
-            <div class="chair" id="chair">
-                <div class="row">
-                    <span>A</span>
-                    <li class="seat">1</li>
-                    <li class="seat">2</li>
-                    <li class="seat">3</li>
-                    <li class="seat">4</li>
-                    <li class="seat">5</li>
-                    <li class="seat">6</li>
-                    <li class="seat">7</li>
-                    <li class="seat">8</li>
-                    <li class="seat">9</li>
-                    <li class="seat">10</li>
-                    <li class="seat">11</li>
-                    <li class="seat">12</li>
-                    <li class="seat">13</li>
-                    <li class="seat">14</li>
-                    <li class="seat">15</li>
-                    <li class="seat">16</li>
-                    <li class="seat">17</li>
-                    <li class="seat">18</li>
-                    <li class="seat">19</li>
-                    <li class="seat">20</li>
-                    <li class="seat">21</li>
-                    <li class="seat">22</li>
-                    <li class="seat">23</li>
-                    <li class="seat">24</li>
-                    <span>A</span>
-                </div> 
-                <div class="row">
-                    <span>B</span>
-                    <li class="seat">1</li>
-                    <li class="seat">2</li>
-                    <li class="seat">3</li>
-                    <li class="seat">4</li>
-                    <li class="seat">5</li>
-                    <li class="seat">6</li>
-                    <li class="seat">7</li>
-                    <li class="seat">8</li>
-                    <li class="seat">9</li>
-                    <li class="seat">10</li>
-                    <li class="seat">11</li>
-                    <li class="seat">12</li>
-                    <li class="seat">13</li>
-                    <li class="seat">14</li>
-                    <li class="seat">15</li>
-                    <li class="seat">16</li>
-                    <li class="seat">17</li>
-                    <li class="seat">18</li>
-                    <li class="seat">19</li>
-                    <li class="seat">20</li>
-                    <li class="seat">21</li>
-                    <li class="seat">22</li>
-                    <li class="seat">23</li>
-                    <li class="seat">24</li>
-                    <span>B</span>
-                </div> 
-                <div class="row">
-                    <span>C</span>
-                    <li class="seat">1</li>
-                    <li class="seat">2</li>
-                    <li class="seat">3</li>
-                    <li class="seat">4</li>
-                    <li class="seat">5</li>
-                    <li class="seat">6</li>
-                    <li class="seat">7</li>
-                    <li class="seat">8</li>
-                    <li class="seat">9</li>
-                    <li class="seat">10</li>
-                    <li class="seat">11</li>
-                    <li class="seat">12</li>
-                    <li class="seat">13</li>
-                    <li class="seat">14</li>
-                    <li class="seat">15</li>
-                    <li class="seat">16</li>
-                    <li class="seat">17</li>
-                    <li class="seat">18</li>
-                    <li class="seat">19</li>
-                    <li class="seat">20</li>
-                    <li class="seat">21</li>
-                    <li class="seat">22</li>
-                    <li class="seat">23</li>
-                    <li class="seat">24</li>
-                    <span>C</span>
-                </div> 
-                <div class="row">
-                    <span>D</span>
-                    <li class="seat">1</li>
-                    <li class="seat">2</li>
-                    <li class="seat">3</li>
-                    <li class="seat">4</li>
-                    <li class="seat">5</li>
-                    <li class="seat">6</li>
-                    <li class="seat">7</li>
-                    <li class="seat">8</li>
-                    <li class="seat">9</li>
-                    <li class="seat">10</li>
-                    <li class="seat">11</li>
-                    <li class="seat">12</li>
-                    <li class="seat">13</li>
-                    <li class="seat">14</li>
-                    <li class="seat">15</li>
-                    <li class="seat">16</li>
-                    <li class="seat">17</li>
-                    <li class="seat">18</li>
-                    <li class="seat">19</li>
-                    <li class="seat">20</li>
-                    <li class="seat">21</li>
-                    <li class="seat">22</li>
-                    <li class="seat">23</li>
-                    <li class="seat">24</li>
-                    <span>D</span>
-                </div> 
-                <div class="row">
-                    <span>D</span>
-                    <li class="seat">1</li>
-                    <li class="seat">2</li>
-                    <li class="seat">3</li>
-                    <li class="seat">4</li>
-                    <li class="seat">5</li>
-                    <li class="seat">6</li>
-                    <li class="seat">7</li>
-                    <li class="seat">8</li>
-                    <li class="seat">9</li>
-                    <li class="seat">10</li>
-                    <li class="seat">11</li>
-                    <li class="seat">12</li>
-                    <li class="seat">13</li>
-                    <li class="seat">14</li>
-                    <li class="seat">15</li>
-                    <li class="seat">16</li>
-                    <li class="seat">17</li>
-                    <li class="seat">18</li>
-                    <li class="seat">19</li>
-                    <li class="seat">20</li>
-                    <li class="seat">21</li>
-                    <li class="seat">22</li>
-                    <li class="seat">23</li>
-                    <li class="seat">24</li>
-                    <span>D</span>
-                </div> 
-                <div class="row">
-                    <span>E</span>
-                    <li class="seat">1</li>
-                    <li class="seat">2</li>
-                    <li class="seat">3</li>
-                    <li class="seat">4</li>
-                    <li class="seat">5</li>
-                    <li class="seat">6</li>
-                    <li class="seat">7</li>
-                    <li class="seat">8</li>
-                    <li class="seat">9</li>
-                    <li class="seat">10</li>
-                    <li class="seat">11</li>
-                    <li class="seat">12</li>
-                    <li class="seat">13</li>
-                    <li class="seat">14</li>
-                    <li class="seat">15</li>
-                    <li class="seat">16</li>
-                    <li class="seat">17</li>
-                    <li class="seat">18</li>
-                    <li class="seat">19</li>
-                    <li class="seat">20</li>
-                    <li class="seat">21</li>
-                    <li class="seat">22</li>
-                    <li class="seat">23</li>
-                    <li class="seat">24</li>
-                    <span>E</span>
-                </div> 
-                <div class="row">
-                    <span>F</span>
-                    <li class="seat">1</li>
-                    <li class="seat">2</li>
-                    <li class="seat">3</li>
-                    <li class="seat">4</li>
-                    <li class="seat">5</li>
-                    <li class="seat">6</li>
-                    <li class="seat">7</li>
-                    <li class="seat">8</li>
-                    <li class="seat">9</li>
-                    <li class="seat">10</li>
-                    <li class="seat">11</li>
-                    <li class="seat">12</li>
-                    <li class="seat">13</li>
-                    <li class="seat">14</li>
-                    <li class="seat">15</li>
-                    <li class="seat">16</li>
-                    <li class="seat">17</li>
-                    <li class="seat">18</li>
-                    <li class="seat">19</li>
-                    <li class="seat">20</li>
-                    <li class="seat">21</li>
-                    <li class="seat">22</li>
-                    <li class="seat">23</li>
-                    <li class="seat">24</li>
-                    <span>F</span>
-                </div> 
-                <div class="row">
-                    <span>G</span>
-                    <li class="seat">1</li>
-                    <li class="seat">2</li>
-                    <li class="seat">3</li>
-                    <li class="seat">4</li>
-                    <li class="seat">5</li>
-                    <li class="seat">6</li>
-                    <li class="seat">7</li>
-                    <li class="seat">8</li>
-                    <li class="seat">9</li>
-                    <li class="seat">10</li>
-                    <li class="seat">11</li>
-                    <li class="seat">12</li>
-                    <li class="seat">13</li>
-                    <li class="seat">14</li>
-                    <li class="seat">15</li>
-                    <li class="seat">16</li>
-                    <li class="seat">17</li>
-                    <li class="seat">18</li>
-                    <li class="seat">19</li>
-                    <li class="seat">20</li>
-                    <li class="seat">21</li>
-                    <li class="seat">22</li>
-                    <li class="seat">23</li>
-                    <li class="seat">24</li>
-                    <span>G</span>
-                </div> 
-                
-            </div>
-
-            <!-- Ticket  -->
-
-            <div class="ticket" id="ticket">
-                <!-- <div class="tic">
-                    <div class="barcode">
-                        <div class="card">
-                            <h6>ROW J</h6>
-                            <h6>7 September 2023</h6>
-                        </div>
-                        <div class="card">
-                            <h6>Seat 18</h6>
-                            <h6>23:00</h6>
-                        </div>
-
-                        <svg id="barcode"></svg>
-                        <h5>VEGUS CINEMA</h5>
-                    </div>
-                    <div class="tic_details">
-                        <div class="type">4DX</div>
-                        <h5 class="pvr"><span>Vegus</span> Cinema</h5>
-                        <h1>Jawan</h1>
-                        <div class="seat_det">
-                            <div class="seat_cr">
-                                <h6>ROW</h6>
-                                <h6>J</h6>
-                            </div>
-                            <div class="seat_cr">
-                                <h6>SEAT</h6>
-                                <h6>18</h6>
-                            </div>
-                            <div class="seat_cr">
-                                <h6>DATE</h6>
-                                <h6>7 <sub>sep</sub></h6>
-                            </div>
-                            <div class="seat_cr">
-                                <h6>TIME</h6>
-                                <h6>11:30 <sub>pm</sub></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-
-
-            <!-- Details  -->
-            <div class="details" id="det">
-                <div class="details_chair">
-                    <li>Avalable</li>
-                    <li>Booked</li>
-                    <li>Selected</li>
-                </div>
-            </div>
+   
+            <h1 class="text-white">Trailer</h1>
             <button class="book_tic" id="book_ticket">
                 <i class="bi bi-arrow-right-short"></i>
             </button>
             <button class="book_tic" id="back_ticket">
                 <i class="bi bi-arrow-left-short"></i>
             </button>
-            <iframe width="560" height="315"  th:src="@{'https://www.youtube.com/embed/' + ${movie.trailerURL}}" frameborder="0" allowfullscreen></iframe>
+            <iframe width="560" height="315"  th:src="@{'https://www.youtube.com/embed/' + ${movie.trailerURL}}" frameborder="0" allowfullscreen></iframe>         
         </div>
+        <a th:href="@{'/booking/' + ${user.userId} + '/' + ${movie.movieID}}" type="button" class="btn btn-outline-dark">Book Ticket</a>
     </div>
+    
 
     <script src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.js" integrity="sha512-wkHtSbhQMx77jh9oKL0AlLBd15fOMoJUowEpAzmSG5q5Pg9oF+XoMLCitFmi7AOhIVhR6T6BsaHJr6ChuXaM/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-
-document.addEventListener('DOMContentLoaded', () => {
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-    document.querySelectorAll('.left_card .card_month ul li').forEach(li => {
-        const dateElement = li.querySelector('.show-date');
-        const dateText = dateElement.innerText;
-        const date = new Date(dateText);
-        const dayOfWeek = daysOfWeek[date.getDay()];
-        const dayOfWeekElement = li.querySelector('.day-of-week');
-        dayOfWeekElement.innerText = dayOfWeek;
-    });
-});
-
-
-
         JsBarcode("#barcode", "J18800792023");
 
         let play_btn = document.getElementById('play');
@@ -418,51 +85,6 @@ play_btn.addEventListener('click', () => {
 :root {
     --color: linear-gradient(0deg , transparent , rgb(184,184,184,.2))
 }
-
-.date_type {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 20px 0;
-}
-
-.left_card, .right_card {
-    width: 45%; /* Adjust based on your layout preference */
-}
-
-.card_month ul {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 0;
-    list-style: none;
-    margin: 0;
-}
-
-.showtime-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 10px;
-    text-align: center;
-}
-
-.showtime-item h6 {
-    margin: 5px 0;
-}
-
-.day-of-week {
-    font-weight: bold;
-    font-size: 14px;
-    color: #fff;
-}
-
-.show-date {
-    font-size: 12px;
-    color: #ddd;
-}
-
-
 
 body {
     width: 100vw;
@@ -1043,4 +665,3 @@ nav a span {
 }
 </style>
 </html>
-

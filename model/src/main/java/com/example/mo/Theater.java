@@ -1,10 +1,14 @@
 package com.example.mo;
 
+import java.util.List;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,12 +19,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Theater {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "theater_id")
     private Integer theaterID;
 
     @Column(nullable = false)
     private Integer cinemaOwnerID;
+
+    @Column(name = "movie_id", nullable = false)
+    private Integer movieID;
 
     @Column(length = 45, nullable = false)
     private String theaterName;
@@ -36,6 +45,9 @@ public class Theater {
 
     @Column(nullable = false)
     private Double rating;
+
+    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Showtime> showtimes;
 
     // Getter and setter for theaterID
     public Integer getTheaterID() {
@@ -53,6 +65,15 @@ public class Theater {
 
     public void setCinemaOwnerID(Integer cinemaOwnerID) {
         this.cinemaOwnerID = cinemaOwnerID;
+    }
+
+    // Getter and setter for movieID
+    public Integer getMovieID() {
+        return movieID;
+    }
+
+    public void setMovieID(Integer movieID) {
+        this.movieID = movieID;
     }
 
     // Getter and setter for theaterName
@@ -105,5 +126,14 @@ public class Theater {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    // Getter and setter for showtimes
+    public List<Showtime> getShowtimes() {
+        return showtimes;
+    }
+
+    public void setShowtimes(List<Showtime> showtimes) {
+        this.showtimes = showtimes;
     }
 }

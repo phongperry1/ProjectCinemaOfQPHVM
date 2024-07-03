@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+    <title>Ticket Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .poster {
+            width: 250px;
+        }
+
+        .movie-info {
+            width: 700px;
+        }
+
+        .schedule-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+
+        .cinema-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .cinema-item img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 5px;
+        }
+
+        .location-select {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .location-select select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .location-select .location-button {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .showtimes {
+        display: none;
+        }
+        .showtimes.active {
+        display: block;
+        }
+
+        .list-group-item {
+        border-radius: 10px;
+        }
+
+        .dates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px; 
+            margin-top: 20px;
+        }
+        .showtimes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px; /* Khoảng cách giữa các nút */
+            margin-top: 20px;
+        }
+
+        .show-date-button, .show-time-button {
+            width: 150px;
+            margin-right: 15px;
+            align-items: center;
+            appearance: none;
+            background-color: #EEF2FF;
+            border-radius: 8px;
+            border-width: 2px;
+            border-color: #fe5353;
+            box-shadow: rgba(254, 83, 83, 0.2) 0 2px 4px, rgba(254, 83, 83, 0.15) 0 7px 13px -3px, #e7d6d6 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #000316;
+            cursor: pointer;
+            display: inline-flex;
+            height: 56px;
+            justify-content: center;
+            line-height: 1;
+            list-style: none;
+            overflow: hidden;
+            padding-left: 24px;
+            padding-right: 24px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            transition: box-shadow 0.15s, transform 0.15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            will-change: box-shadow, transform;
+            font-size: 20px;
+        }
+        .custom{
+
+            margin-right: 15px;
+            align-items: center;
+            appearance: none;
+            background-color: #EEF2FF;
+            border-radius: 8px;
+            border-width: 2px;
+            border-color: #fe5353;
+            box-shadow: rgba(254, 83, 83, 0.2) 0 2px 4px, rgba(254, 83, 83, 0.15) 0 7px 13px -3px, #e7d6d6 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #000316;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            line-height: 1;
+            list-style: none;
+            overflow: hidden;
+            padding-left: 24px;
+            padding-right: 24px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            transition: box-shadow 0.15s, transform 0.15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            will-change: box-shadow, transform;
+
+            border-radius: 10% !important;
+        }
+
+        .custom:hover, .show-date-button:hover, .show-time-button:hover {
+            box-shadow: rgba(254, 83, 83, 0.2) 0 2px 4px, rgba(254, 83, 83, 0.15) 0 7px 13px -3px, #e7d6d6 0 -3px 0 inset;
+            transform: translateY(-2px);
+        }
+
+        .screen {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            border-top: 3px solid #fd6565;
+            margin-top: 11px;
+            border-radius: 20%;
+            overflow: hidden;
+            box-shadow: inset 0px 10px 20px var(--color);
+            text-align: center;
+            padding-top: 15px;
+            color: #000000;
+            letter-spacing: 5px;
+            font-size: 12px;
+
+        }
+
+
+
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .row span {
+            margin: 0 5px;
+        }
+
+         .right .screen::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            border-radius: 50%;
+            box-shadow: 0px 0px 20px rgb(184, 184, 184, .5);
+            top: -20px;
+            left: 0;
+        }
+
+        .right .chair {
+            width: 95%;
+
+            margin: auto;
+
+        }
+        .right .chair .row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .right .chair .row button {
+            position: relative;
+            width: 30px;
+            height: 20px;
+            background: rgb(184, 184, 184, .3);
+            list-style: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: .3s linear;
+            font-size: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-weight: 600;
+        }
+
+        .right .chair .row button::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        background: rgb(184, 184, 184, .1);
+        bottom: -8px;
+        border-radius: 10px;
+    }
+
+        .right .chair .row button:hover {
+            background: rgb(255, 96, 133);
+            color: #000;
+        }
+        .right .chair .row button:nth-child(6) {
+            margin-right: 20px;
+        }
+        .right .chair .row button:nth-last-child(6) {
+            margin-left: 20px;
+        }
+        .right .chair .row span {
+            color: #fff;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .chair .row:nth-child(1) button,
+        .chair .row:nth-child(2) button,
+        .chair .row:nth-child(3) button,
+        .chair .row:nth-child(9) button,
+        .chair .row:nth-child(10) button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #f70202;
+            background-color: #fa3238;
+            color: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .right .chair .row:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(9)):not(:nth-child(10)) button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ff0cf3;
+            background-color: #891bf7; 
+            color: #ffffff; 
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .seat.selected {
+            background-color: #2f0000 !important;
+            border-color: #e65a5a;
+            color: #fff;
+        }
+
+
+
+        .selected-seats {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        .seat.booked {
+            border: #dfdfdf !important;
+            background-color: #d9d9d9 !important;
+            cursor: not-allowed;
+        }
+
+        .selected-seats {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #cd0000;
+            background-color: #da000033;
+            flex-grow: 1;
+        }
+        .selected-seats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        #removeAllButton {
+            cursor: pointer;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .legend-square {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+            margin-right: 5px;
+        }
+
+        .legend-item span {
+            font-size: 14px;
+        }
+
+        .selected-cinema {
+            background-color: #de0000b4 !important;
+            border-color: #052e1b !important;
+            color: #000000 !important;
+        }
+
+        .no-border {
+            border: none !important;
+        }
+                        
+    </style>
+</head>
+<body>
+    <div class="poster">
+
+    </div>
+    <div class="container">
+        <div class="row justify-content-center col-md-12">
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="movie-info">
+                            <h2>Lịch chiếu <span th:text="${movie.title}"></span></h2>
+                            <div class="schedule-container mb-3" id="schedule-container">
+                                <div th:each="theater : ${theaters}">
+                                    <button type="button" class="list-group-item list-group-item-action mt-3 custom"
+                                            th:attr="data-theater-id=${theater.theaterID}, data-theater-name=${theater.theaterName}"
+                                            onclick="showShowtimes(this, this.getAttribute('data-theater-id'),this.getAttribute('data-theater-name'))">
+                                        <div class="cinema-item">
+                                            <img th:src="@{'/theater-photo/' + ${theater.theaterID} + '/' + ${theater.photoTheater}}" class="img-round" alt="No photo" width="100" height="60" />
+                                        </div>
+                                        <div>
+                                            <p th:text="${theater.theaterName}"></p>
+                                            <p th:text="${theater.address}"></p>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="card no-border ">
+                            <div class="card-body"> 
+                                <div class="dates-container mt-3">
+                                    <!-- Showtimes for this theater will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="card no-border ">
+                            <div class="card-body">
+                                <div class="showtimes-container mt-3">
+                                    <!-- Container for showtimes will be dynamically filled by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Seat Modal -->
+    <div class="modal fade" id="chooseSeatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 1000px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                        <span>
+                            <h5 class="modal-title" id="exampleModalLabel">Choose Seat</h5>
+                            <p id="roomName">Screening Room: </p>
+                        </span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="screen" id="screen">
+                        Screen
+                    </div>
+                    <div class="right" id="seatContainer">
+                        <div class="chair" id="chair">
+                            <div class="row">
+                                <button class="seat" data-type="regular" data-price="100000">A1</button>
+                                <button class="seat" data-type="regular" data-price="100000">A2</button>
+                                <button class="seat" data-type="regular" data-price="100000">A3</button>
+                                <button class="seat" data-type="regular" data-price="100000">A4</button>
+                                <button class="seat" data-type="regular" data-price="100000">A5</button>
+                                <button class="seat" data-type="regular" data-price="100000">A6</button>
+                                <button class="seat" data-type="regular" data-price="100000">A7</button>
+                                <button class="seat" data-type="regular" data-price="100000">A8</button>
+                                <button class="seat" data-type="regular" data-price="100000">A9</button>
+                                <button class="seat" data-type="regular" data-price="100000">A10</button>
+                                <button class="seat" data-type="regular" data-price="100000">A11</button>
+                                <button class="seat" data-type="regular" data-price="100000">A12</button>
+                                <button class="seat" data-type="regular" data-price="100000">A13</button>
+                                <button class="seat" data-type="regular" data-price="100000">A14</button>
+                                <button class="seat" data-type="regular" data-price="100000">A15</button>
+                                <button class="seat" data-type="regular" data-price="100000">A16</button>
+                                <button class="seat" data-type="regular" data-price="100000">A17</button>
+                                <button class="seat" data-type="regular" data-price="100000">A18</button>
+                                <button class="seat" data-type="regular" data-price="100000">A19</button>
+                                <button class="seat" data-type="regular" data-price="100000">A20</button>
+                            </div>
+                            <div class="row">
+                                <button class="seat" data-type="regular" data-price="100000">B1</button>
+                                <button class="seat" data-type="regular" data-price="100000">B2</button>
+                                <button class="seat" data-type="regular" data-price="100000">B3</button>
+                                <button class="seat" data-type="regular" data-price="100000">B4</button>
+                                <button class="seat" data-type="regular" data-price="100000">B5</button>
+                                <button class="seat" data-type="regular" data-price="100000">B6</button>
+                                <button class="seat" data-type="regular" data-price="100000">B7</button>
+                                <button class="seat" data-type="regular" data-price="100000">B8</button>
+                                <button class="seat" data-type="regular" data-price="100000">B9</button>
+                                <button class="seat" data-type="regular" data-price="100000">B10</button>
+                                <button class="seat" data-type="regular" data-price="100000">B11</button>
+                                <button class="seat" data-type="regular" data-price="100000">B12</button>
+                                <button class="seat" data-type="regular" data-price="100000">B13</button>
+                                <button class="seat" data-type="regular" data-price="100000">B14</button>
+                                <button class="seat" data-type="regular" data-price="100000">B15</button>
+                                <button class="seat" data-type="regular" data-price="100000">B16</button>
+                                <button class="seat" data-type="regular" data-price="100000">B17</button>
+                                <button class="seat" data-type="regular" data-price="100000">B18</button>
+                                <button class="seat" data-type="regular" data-price="100000">B19</button>
+                                <button class="seat" data-type="regular" data-price="100000">B20</button>
+                            </div>
+                            <div class="row">
+                                <button class="seat" data-type="regular" data-price="100000">C1</button>
+                                <button class="seat" data-type="regular" data-price="100000">C2</button>
+                                <button class="seat" data-type="regular" data-price="100000">C3</button>
+                                <button class="seat" data-type="regular" data-price="100000">C4</button>
+                                <button class="seat" data-type="regular" data-price="100000">C5</button>
+                                <button class="seat" data-type="regular" data-price="100000">C6</button>
+                                <button class="seat" data-type="regular" data-price="100000">C7</button>
+                                <button class="seat" data-type="regular" data-price="100000">C8</button>
+                                <button class="seat" data-type="regular" data-price="100000">C9</button>
+                                <button class="seat" data-type="regular" data-price="100000">C10</button>
+                                <button class="seat" data-type="regular" data-price="100000">C11</button>
+                                <button class="seat" data-type="regular" data-price="100000">C12</button>
+                                <button class="seat" data-type="regular" data-price="100000">C13</button>
+                                <button class="seat" data-type="regular" data-price="100000">C14</button>
+                                <button class="seat" data-type="regular" data-price="100000">C15</button>
+                                <button class="seat" data-type="regular" data-price="100000">C16</button>
+                                <button class="seat" data-type="regular" data-price="100000">C17</button>
+                                <button class="seat" data-type="regular" data-price="100000">C18</button>
+                                <button class="seat" data-type="regular" data-price="100000">C19</button>
+                                <button class="seat" data-type="regular" data-price="100000">C20</button>
+                            </div>
+                            <div class="row">
+                                <button class="seat" data-type="vip" data-price="105000">D1 </button>
+                                <button class="seat" data-type="vip" data-price="105000">D2</button>
+                                <button class="seat" data-type="vip" data-price="105000">D3</button>
+                                <button class="seat" data-type="vip" data-price="105000">D4</button>
+                                <button class="seat" data-type="vip" data-price="105000">D5</button>
+                                <button class="seat" data-type="vip" data-price="105000">D6</button>
+                                <button class="seat" data-type="vip" data-price="105000">D7</button>
+                                <button class="seat" data-type="vip" data-price="105000">D8</button>
+                                <button class="seat" data-type="vip" data-price="105000">D9</button>
+                                <button class="seat" data-type="vip" data-price="105000">D10</button>
+                                <button class="seat" data-type="vip" data-price="105000">D11</button>
+                                <button class="seat" data-type="vip" data-price="105000">D12</button>
+                                <button class="seat" data-type="vip" data-price="105000">D13</button>
+                                <button class="seat" data-type="vip" data-price="105000">D14</button>
+                                <button class="seat" data-type="vip" data-price="105000">D15</button>
+                                <button class="seat" data-type="vip" data-price="105000">D16</button>
+                                <button class="seat" data-type="vip" data-price="105000">D17</button>
+                                <button class="seat" data-type="vip" data-price="105000">D18</button>
+                                <button class="seat" data-type="vip" data-price="105000">D19</button>
+                                <button class="seat" data-type="vip" data-price="105000">D20</button>
+
+                            </div>
+                            <div class="row">
+                                <button class="seat" data-type="vip" data-price="105000"> E1</button>
+                                <button class="seat" data-type="vip" data-price="105000">E2</button>
+                                <button class="seat" data-type="vip" data-price="105000">E3</button>
+                                <button class="seat" data-type="vip" data-price="105000">E4</button>
+                                <button class="seat" data-type="vip" data-price="105000">E5</button>
+                                <button class="seat" data-type="vip" data-price="105000">E6</button>
+                                <button class="seat" data-type="vip" data-price="105000">E7</button>
+                                <button class="seat" data-type="vip" data-price="105000">E8</button>
+                                <button class="seat" data-type="vip" data-price="105000">E9</button>
+                                <button class="seat" data-type="vip" data-price="105000">E10</button>
+                                <button class="seat" data-type="vip" data-price="105000">E11</button>
+                                <button class="seat" data-type="vip" data-price="105000">E12</button>
+                                <button class="seat" data-type="vip" data-price="105000">E13</button>
+                                <button class="seat" data-type="vip" data-price="105000">E14</button>
+                                <button class="seat" data-type="vip" data-price="105000">E15</button>
+                                <button class="seat" data-type="vip" data-price="105000">E16</button>
+                                <button class="seat" data-type="vip" data-price="105000">E17</button>
+                                <button class="seat" data-type="vip" data-price="105000">E18</button>
+                                <button class="seat" data-type="vip" data-price="105000">E19</button>
+                                <button class="seat" data-type="vip" data-price="105000">E20</button>
+                            </div>
+                            <div class="row">
+                                <button class="seat" data-type="vip" data-price="105000">F1</button>
+                                <button class="seat" data-type="vip" data-price="105000">F2</button>
+                                <button class="seat" data-type="vip" data-price="105000">F3</button>
+                                <button class="seat" data-type="vip" data-price="105000">F4</button>
+                                <button class="seat" data-type="vip" data-price="105000">F5</button>
+                                <button class="seat" data-type="vip" data-price="105000">F6</button>
+                                <button class="seat" data-type="vip" data-price="105000">F7</button>
+                                <button class="seat" data-type="vip" data-price="105000">F8</button>
+                                <button class="seat" data-type="vip" data-price="105000">F9</button>
+                                <button class="seat" data-type="vip" data-price="105000">F10</button>
+                                <button class="seat" data-type="vip" data-price="105000">F11</button>
+                                <button class="seat" data-type="vip" data-price="105000">F12</button>
+                                <button class="seat" data-type="vip" data-price="105000">F13</button>
+                                <button class="seat" data-type="vip" data-price="105000">F14</button>
+                                <button class="seat" data-type="vip" data-price="105000">F15</button>
+                                <button class="seat" data-type="vip" data-price="105000">F16</button>
+                                <button class="seat" data-type="vip" data-price="105000">F17</button>
+                                <button class="seat" data-type="vip" data-price="105000">F18</button>
+                                <button class="seat" data-type="vip" data-price="105000">F19</button>
+                                <button class="seat" data-type="vip" data-price="105000">F20</button>
+                            </div>
+                            <div class="row">
+                                <button class="seat" data-type="vip" data-price="105000">G1</button>
+                                <button class="seat" data-type="vip" data-price="105000">G2</button>
+                                <button class="seat" data-type="vip" data-price="105000">G3</button>
+                                <button class="seat" data-type="vip" data-price="105000">G4</button>
+                                <button class="seat" data-type="vip" data-price="105000">G5</button>
+                                <button class="seat" data-type="vip" data-price="105000">G6</button>
+                                <button class="seat" data-type="vip" data-price="105000">G7</button>
+                                <button class="seat" data-type="vip" data-price="105000">G8</button>
+                                <button class="seat" data-type="vip" data-price="105000">G9</button>
+                                <button class="seat" data-type="vip" data-price="105000">G10</button>
+                                <button class="seat" data-type="vip" data-price="105000">G11</button>
+                                <button class="seat" data-type="vip" data-price="105000">G12</button>
+                                <button class="seat" data-type="vip" data-price="105000">G13</button>
+                                <button class="seat" data-type="vip" data-price="105000">G14</button>
+                                <button class="seat" data-type="vip" data-price="105000">G15</button>
+                                <button class="seat" data-type="vip" data-price="105000">G16</button>
+                                <button class="seat" data-type="vip" data-price="105000">G17</button>
+                                <button class="seat" data-type="vip" data-price="105000">G18</button>
+                                <button class="seat" data-type="vip" data-price="105000">G19</button>
+                                <button class="seat" data-type="vip" data-price="105000">G20</button>
+                            </div>
+                            <div class="row">
+                                <button class="seat" data-type="vip" data-price="105000">H1</button>
+                                <button class="seat" data-type="vip" data-price="105000">H2</button>
+                                <button class="seat" data-type="vip" data-price="105000">H3</button>
+                                <button class="seat" data-type="vip" data-price="105000">H4</button>
+                                <button class="seat" data-type="vip" data-price="105000">H5</button>
+                                <button class="seat" data-type="vip" data-price="105000">H6</button>
+                                <button class="seat" data-type="vip" data-price="105000">H7</button>
+                                <button class="seat" data-type="vip" data-price="105000">H8</button>
+                                <button class="seat" data-type="vip" data-price="105000">H9</button>
+                                <button class="seat" data-type="vip" data-price="105000">H10</button>
+                                <button class="seat" data-type="vip" data-price="105000">H11</button>
+                                <button class="seat" data-type="vip" data-price="105000">H12</button>
+                                <button class="seat" data-type="vip" data-price="105000">H13</button>
+                                <button class="seat" data-type="vip" data-price="105000">H14</button>
+                                <button class="seat" data-type="vip" data-price="105000">H15</button>
+                                <button class="seat" data-type="vip" data-price="105000">H16</button>
+                                <button class="seat" data-type="vip" data-price="105000">H17</button>
+                                <button class="seat" data-type="vip" data-price="105000">H18</button>
+                                <button class="seat" data-type="vip" data-price="105000">H19</button>
+                                <button class="seat" data-type="vip" data-price="105000">H20</button>
+                            </div>
+                            <div class="row">
+                                <button class="seat" data-type="regular" data-price="100000">I1</button>
+                                <button class="seat" data-type="regular" data-price="100000">I2</button>
+                                <button class="seat" data-type="regular" data-price="100000">I3</button>
+                                <button class="seat" data-type="regular" data-price="100000">I4</button>
+                                <button class="seat" data-type="regular" data-price="100000">I5</button>
+                                <button class="seat" data-type="regular" data-price="100000">I6</button>
+                                <button class="seat" data-type="regular" data-price="100000">I7</button>
+                                <button class="seat" data-type="regular" data-price="100000">I8</button>
+                                <button class="seat" data-type="regular" data-price="100000">I9</button>
+                                <button class="seat" data-type="regular" data-price="100000">I10</button>
+                                <button class="seat" data-type="regular" data-price="100000">I11</button>
+                                <button class="seat" data-type="regular" data-price="100000">I12</button>
+                                <button class="seat" data-type="regular" data-price="100000">I13</button>
+                                <button class="seat" data-type="regular" data-price="100000">I14</button>
+                                <button class="seat" data-type="regular" data-price="100000">I15</button>
+                                <button class="seat" data-type="regular" data-price="100000">I16</button>
+                                <button class="seat" data-type="regular" data-price="100000">I17</button>
+                                <button class="seat" data-type="regular" data-price="100000">I18</button>
+                                <button class="seat" data-type="regular" data-price="100000">I19</button>
+                                <button class="seat" data-type="regular" data-price="100000">I20</button>
+                            </div>
+                            <div class="row">
+                                <button class="seat" data-type="regular" data-price="100000">J1</button>
+                                <button class="seat" data-type="regular" data-price="100000">J2</button>
+                                <button class="seat" data-type="regular" data-price="100000">J3</button>
+                                <button class="seat" data-type="regular" data-price="100000">J4</button>
+                                <button class="seat" data-type="regular" data-price="100000">J5</button>
+                                <button class="seat" data-type="regular" data-price="100000">J6</button>
+                                <button class="seat" data-type="regular" data-price="100000">J7</button>
+                                <button class="seat" data-type="regular" data-price="100000">J8</button>
+                                <button class="seat" data-type="regular" data-price="100000">J9</button>
+                                <button class="seat" data-type="regular" data-price="100000">J10</button>
+                                <button class="seat" data-type="regular" data-price="100000">J11</button>
+                                <button class="seat" data-type="regular" data-price="100000">J12</button>
+                                <button class="seat" data-type="regular" data-price="100000">J13</button>
+                                <button class="seat" data-type="regular" data-price="100000">J14</button>
+                                <button class="seat" data-type="regular" data-price="100000">J15</button>
+                                <button class="seat" data-type="regular" data-price="100000">J16</button>
+                                <button class="seat" data-type="regular" data-price="100000">J17</button>
+                                <button class="seat" data-type="regular" data-price="100000">J18</button>
+                                <button class="seat" data-type="regular" data-price="100000">J19</button>
+                                <button class="seat" data-type="regular" data-price="100000">J20</button>
+                            </div>
+                        </div>
+                        <div class="legend">
+                            <div class="legend-item">
+                                <div class="legend-square" style="background-color: #fa3238;"></div>
+                                <span>Regular</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-square" style="background-color: #891bf7;"></div>
+                                <span>VIP</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-square" style="background-color: #2f0000;"></div>
+                                <span>Selected</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-square" style="background-color: #d9d9d9;"></div>
+                                <span>Booked</span>
+                            </div>
+                        </div>
+                                
+                        <div class="showtimes-container" id="movieInfo">
+                            <p id="movieTitle">Tên phim: </p>
+                            <p id="showtime">Suất chiếu: </p>
+                            <p id="date">Ngày: </p>
+
+                        </div>
+                        <div id="selectedSeatsContainer" class="selected-seats-container">
+                            <span id="selectedSeatsList" class="selected-seats">Selected Seats: </span>
+                            <i id="removeAllButton" class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="total-price-container">
+                            Price: <span id="totalPriceSeat">0</span> 
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="continue">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Food Modal -->
+
+    <div class="modal fade" id="FoodModal" tabindex="-1" role="dialog" aria-labelledby="comboModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="comboModalLabel">Choose Foods/Drinks</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="foodList">
+                        <!-- <div th:each="food : ${foods}">
+                            <div class="food-item">
+                                <img th:src="${food.photoFood}" alt="Food Image" style="max-width: 100%; height: auto;">
+                                <h5 th:text="${food.foodName}"></h5>
+                                <p th:text="${food.price} + ' đ'"></p>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-sm btn-secondary decrease-quantity" th:attr="data-food-id=${food.foodID}">-</button>
+                                        <input type="text" class="form-control food-quantity" value="0" readonly th:attr="data-food-id=${food.foodID}">
+                                        <button type="button" class="btn btn-sm btn-secondary increase-quantity" th:attr="data-food-id=${food.foodID}">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="total-price-container">
+                        Tổng giá<h5><span id="totalPriceFood">0 </span></h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="back">Quay lại</button>
+                    <button type="button" class="btn btn-primary" id="confirmPurchaseButton">Xác nhận mua</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket Detail -->
+
+    <div class="modal fade" id="ticketdetailModal" tabindex="-1" role="dialog" aria-labelledby="ticketdetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ticketdetailModalLabel">Chi tiết vé</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="ticketDetailContent">
+                        <p id="ticketMovieTitle"></p>
+                        <p id="selectedShowtimeId"></p>
+                        <p id="selectedTheater"></p>
+                        <p id="selectedTheaterID"></p>
+                        <p id="ticketShowtime"></p>
+                        <p id="ticketDate"></p>
+                        <p id="ticketRoomName"></p>
+                        <p id="selectedSeats"></p>
+                        <p id="selectedFood"></p>
+                        <p id="totalPrice3"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="purchase" >Tiến hành thanh toán</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="view" >Xem vé</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+
+    <script th:inline="javascript">
+        const movieID = /*[[${movieID}]]*/ 1; 
+        let currentShowtimes = {}; 
+        let selectedDate = null; 
+        function showShowtimes(button, theaterID, theaterName) {
+        console.log('Theater ID:', theaterID);
+        console.log('Theater Name:', theaterName);
+
+        document.getElementById('selectedTheater').textContent = theaterName;
+        document.getElementById('selectedTheaterID').textContent = theaterID
+        
+        var cinemas = document.querySelectorAll('.list-group-item');
+        cinemas.forEach(function(cinema) {
+            cinema.classList.remove('selected-cinema');
+        });
+
+        button.classList.add('selected-cinema');
+
+    fetch(`/showtimes/getShowtimes?movieID=${movieID}&theaterID=${theaterID}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Lỗi HTTP! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            currentShowtimes[theaterID] = data; 
+
+            displayDatesForTheater(theaterID);
+        })
+        .catch(error => {
+            console.error('Lỗi khi lấy suất chiếu:', error);
+            alert("Đã xảy ra lỗi khi lấy suất chiếu. Vui lòng thử lại sau.");
+        });
+    }
+
+        function displayDatesForTheater(theaterID) {
+            const datesContainer = document.querySelector('.dates-container');
+            datesContainer.innerHTML = ''; 
+            const showtimeContainer = document.querySelector('.showtimes-container');
+            showtimeContainer.innerHTML = '';
+
+            const uniqueDates = new Set();
+            currentShowtimes[theaterID].forEach(showtime => {
+                const showDate = new Date(showtime.showDate).toLocaleDateString();
+                uniqueDates.add(showDate);
+            });
+
+            uniqueDates.forEach(showDate => {
+                const dateDiv = document.createElement('div');
+                dateDiv.classList.add('date-item');
+                const dateString = document.createElement('span');
+                dateString.textContent = 'Ngày chiếu: ';
+                const dateButton = document.createElement('button');
+                dateButton.textContent = showDate;
+                dateButton.classList.add('show-date-button');
+                dateButton.addEventListener('click', () => {
+                    selectedDate = showDate; 
+                    displayShowtimesForDate(theaterID, showDate);
+                });
+                datesContainer.appendChild(dateButton);
+            });
+        }
+
+        function displayShowtimesForDate(theaterID, showDate) {
+            const showtimesContainer = document.querySelector('.showtimes-container');
+            showtimesContainer.innerHTML = ''; 
+
+            // Lọc và hiển thị các suất chiếu cho ngày được chọn và rạp tương ứng
+            const showtimes = currentShowtimes[theaterID].filter(showtime => {
+                const formattedDate = new Date(showtime.showDate).toLocaleDateString();
+                return formattedDate === showDate;
+            });
+
+            showtimes.forEach(showtime => {
+                const showTimeButton = document.createElement('button');
+                showTimeButton.textContent = showtime.showTime;
+                showTimeButton.classList.add('show-time-button');
+                showTimeButton.addEventListener('click', () => selectShowtime(showtime.showDate, showtime.showTime, showtime.showtimeId, theaterID, movieID));
+                showtimesContainer.appendChild(showTimeButton);
+            });
+        }
+
+        function selectShowtime(showDate, showTime, showtimeId, theaterID, movieID) {
+            
+            console.log(`Đã chọn suất chiếu vào ngày ${showDate} lúc ${showTime} tại rạp ${theaterID} phim ${movieID} id:${showtimeId}`);
+            document.getElementById('selectedShowtimeId').textContent = showtimeId;
+            document.getElementById('selectedTheaterID').textContent = theaterID;
+
+
+            fetch(`/showtimes/getRoomName?theaterID=${theaterID}&movieID=${movieID}&showTime=${showTime}&showDate=${showDate}`)
+                .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Lỗi HTTP! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.length > 0) {
+                                roomName = data[0].roomname; 
+                                screeningRoomId = data[0].screeningRoomID
+                                console.log('Dữ liệu từ server:', data);
+                                console.log('Room', roomName);
+                                console.log('Id', screeningRoomId);
+                                
+
+                                const movieTitle = /*[[${movie.title}]]*/ 0;
+                                // Update modal content
+
+                                document.getElementById('movieTitle').textContent = 'Movie: ' + movieTitle;
+                                document.getElementById('showtime').textContent = 'Showtime: ' + showTime;
+                                document.getElementById('date').textContent = 'Date: ' + showDate;
+                                document.getElementById('roomName').textContent = 'Screening Room: ' + roomName;
+                                updateSelectedSeatsList(screeningRoomId, showtimeId);
+                                // Show the modal
+                                $('#chooseSeatModal').modal('show');
+                                fetch(`/seats/booked?screeningRoomId=${screeningRoomId}&showtimeId=${showtimeId}`)
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error(`Lỗi HTTP! status: ${response.status}`);
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(bookedSeats => {
+                                        console.log('Booked seats:', bookedSeats);
+                                        markBookedSeats(bookedSeats);
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching booked seats:', error);
+                                    });
+                            } else {
+                                console.error('Không có dữ liệu phòng chiếu từ server.');
+                                alert("Không có dữ liệu phòng chiếu từ server. Vui lòng thử lại sau.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Lỗi khi gọi API:', error);
+                            alert("Đã xảy ra lỗi khi gọi API. Vui lòng thử lại sau.");
+                        });
+
+                    }
+
+                function markBookedSeats(bookedSeats) {
+                    const seatContainer = document.getElementById('seatContainer');
+                    const seats = seatContainer.querySelectorAll('.seat');
+
+                    seats.forEach(seat => {
+                        const seatName = seat.textContent.trim(); 
+
+                        const isBooked = bookedSeats.some(bookedSeat => bookedSeat.seatName === seatName);
+
+                        if (isBooked) {
+                            seat.classList.add('booked');
+                            seat.disabled = true;
+                        } else {
+                            seat.classList.remove('booked');
+                            seat.disabled = false;
+                        }
+                    });
+                }
+
+        function showSelectedDate() {
+            // Hiển thị ngày được chọn
+            const selectedDateElement = document.querySelector('.selected-date');
+            if (selectedDateElement) {
+                selectedDateElement.textContent = selectedDate;
+            } else {
+                console.error('Không tìm thấy phần tử selected-date');
+            }
+        }
+
+            const seats = document.querySelectorAll('.seat');
+
+            // Lặp qua từng ghế và thêm sự kiện nhấp vào
+            document.querySelectorAll('.seat').forEach(seat => {
+                seat.addEventListener('click', () => {
+                    const selectedSeats = document.querySelectorAll('.seat.selected');
+                    if (seat.classList.contains('selected')) {
+                        seat.classList.remove('selected');
+                    } else if (selectedSeats.length < 6) {
+                        seat.classList.add('selected');
+                    }
+                    updateSelectedSeatsList();
+                });
+            });
+
+            const removeAllButton = document.getElementById('removeAllButton');
+            // Thêm sự kiện click cho nút "Remove All"
+            removeAllButton.addEventListener('click', () => {
+                // Lấy danh sách tất cả các ghế đã chọn
+                const selectedSeats = document.querySelectorAll('.seat.selected');
+                
+                // Lặp qua từng ghế đã chọn và xóa lớp 'selected'
+                selectedSeats.forEach(seat => {
+                    seat.classList.remove('selected');
+                });
+
+                // Cập nhật danh sách ghế đã chọn
+                updateSelectedSeatsList();
+            });
+        
+
+            // Hàm cập nhật danh sách các ghế đã chọn
+            function updateSelectedSeatsList(showtimeId) {
+                const selectedSeats = document.querySelectorAll('.seat.selected');
+                const selectedSeatsList = document.getElementById('selectedSeatsList');
+                var showtimeId = $('#selectedShowtimeId').text();
+                let seatsText = '';
+                let selectedSeatsArray = [];
+
+
+                // Tạo danh sách các ghế đã chọn
+                selectedSeats.forEach((seat, index) => {
+                    seatsText += seat.textContent;
+                    selectedSeatsArray.push({
+                    seatName: seat.textContent,
+                    seatType: seat.dataset.type,
+                    statusSeat: true,
+                    screeningRoomId: screeningRoomId,
+                    showtimeId: showtimeId
+                });
+                console.log(selectedSeatsArray);
+
+                    // Thêm dấu phẩy nếu không phải là ghế cuối cùng
+                    if (index !== selectedSeats.length - 1) {
+                        seatsText += ', ';
+                    }
+                });
+
+
+                selectedSeatsList.textContent = seatsText;
+                selectedSeatsList.style.display = 'block';
+                
+                window.selectedSeatsArray = selectedSeatsArray;
+            }
+
+
+
+        $(document).ready(function() {
+            var selectedSeats = [];
+            var totalPriceSeat = 0;
+            var maxSeats = 6;
+
+            function updateTotalPrice() {
+                $('#totalPriceSeat').text(totalPriceSeat.toLocaleString() + ' VND');
+            }
+
+            function updateSeatState() {
+                $('#chair .seat').each(function() {
+                    var seatID = $(this).text();
+                    var seatPrice = parseFloat($(this).data('price'));
+                    var seatType = $(this).data('type');
+
+                    if (selectedSeats.includes(seatID)) {
+                        this.style.backgroundColor = '#2f0000'; // Màu đã chọn
+                    } else {
+                        if (seatType === 'regular') {
+                            this.style.backgroundColor = '#fa3238'; // Màu ghế thường
+                        } else if (seatType === 'vip') {
+                            this.style.backgroundColor = '#891bf7'; // Màu ghế VIP
+                        }
+                    }
+                });
+            }
+
+            $('#chair .seat').click(function() {
+                var seatID = $(this).text();
+                var seatPrice = parseFloat($(this).data('price'));
+                var seatType = $(this).data('type');
+
+                if (selectedSeats.length >= maxSeats && !selectedSeats.includes(seatID)) {
+                    return;
+                }
+
+                if (selectedSeats.includes(seatID)) {
+                    selectedSeats = selectedSeats.filter(id => id !== seatID);
+                    totalPriceSeat -= seatPrice;
+                } else {
+                    selectedSeats.push(seatID);
+                    totalPriceSeat += seatPrice;
+                }
+
+                updateSeatState();
+                updateTotalPrice();
+            });
+
+            $('#removeAllButton').click(function() {
+                selectedSeats.forEach(function(seatID) {
+                    // Tìm các ghế đã chọn và xóa lớp selected
+                    $('#chair .seat:contains(' + seatID + ')').removeClass('selected');
+                });
+                selectedSeats = [];
+                totalPriceSeat= 0;
+                $('#selectedSeatsList').text();
+                $('#totalPriceSeat').text('0 VND');
+                
+                // Reset màu nền cho từng loại ghế
+                $('#chair .seat').each(function() {
+                    var seatType = $(this).data('type');
+                    if (seatType === 'regular') {
+                        this.style.backgroundColor = '#fa3238';
+                    } else if (seatType === 'vip') {
+                        this.style.backgroundColor = '#891bf7';
+                    }
+                });
+            });
+
+            updateSeatState();
+        });
+
+        
+        function showFood(theaterID) {
+            fetch(`/getFoodByTheaterId/${theaterID}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(foods => {
+                    updateFoodModal(foods);
+                    $('#FoodModal').modal('show');
+                })
+                .catch(error => {
+                    console.error('Error fetching food data:', error);
+                    alert('Error fetching food data.');
+                });
+        }
+
+        document.getElementById('continue').addEventListener('click', function() {
+            var theaterID = $('#selectedTheaterID').text();
+            showFood(theaterID);
+        });
+
+        function updateFoodModal(foods) {
+            var foodListContainer = document.getElementById('foodList');
+            foodListContainer.innerHTML = '';
+
+            foods.forEach(food => {
+                var foodItemHtml = `
+                    <div class="food-item">
+                        <img src="${food.photoFood}" alt="Food Image" style="max-width: 100%; height: auto;">
+                        <h5>${food.foodName}</h5>
+                        <p>${food.price} đ</p>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <button type="button" class="btn btn-sm btn-secondary decrease-quantity" data-food-id="${food.foodID}">-</button>
+                                <input type="text" class="form-control food-quantity" value="0" readonly data-food-id="${food.foodID}">
+                                <button type="button" class="btn btn-sm btn-secondary increase-quantity" data-food-id="${food.foodID}">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                foodListContainer.insertAdjacentHTML('beforeend', foodItemHtml);
+            });
+        }
+        // $('#continue').click(function() {
+
+        //     $('#FoodModal').modal('show');
+        // });
+
+        $('#back').click(function() {
+            $('#FoodModal').modal('hide'); 
+            $('#chooseSeatModal').modal('show'); 
+        });
+
+        
+        $(document).ready(function () {
+            // Xử lý khi nút tăng số lượng được click
+            $('.increase-quantity').click(function () {
+                var foodId = $(this).data('food-id');
+                var quantityInput = $('input[data-food-id="' + foodId + '"]');
+                var currentQuantity = parseInt(quantityInput.val());
+                quantityInput.val(currentQuantity + 1);
+                updateTotalPrice2(); // Cập nhật tổng giá khi số lượng thay đổi
+            });
+
+            // Xử lý khi nút giảm số lượng được click
+            $('.decrease-quantity').click(function () {
+                var foodId = $(this).data('food-id');
+                var quantityInput = $('input[data-food-id="' + foodId + '"]');
+                var currentQuantity = parseInt(quantityInput.val());
+                if (currentQuantity > 0) {
+                    quantityInput.val(currentQuantity - 1);
+                    updateTotalPrice2(); // Cập nhật tổng giá khi số lượng thay đổi
+                }
+            });
+
+                        // Xử lý khi số lượng combo bắp nước thay đổi
+            $('.food-quantity').change(function () {
+                updateTotalPrice2(); // Cập nhật tổng giá khi số lượng thay đổi
+            });
+
+            // Hàm cập nhật tổng giá
+            function updateTotalPrice2() {
+                var totalPriceFood = 0;
+                var selectedFood = [];
+                $('.food-item').each(function () {
+                    var foodId = $(this).find('.food-quantity').data('food-id');
+                    var foodName = $(this).find('h5').text();
+                    var quantity = parseInt($(this).find('.food-quantity').val());
+                    var price = parseFloat($(this).find('p').text().replace(' đ', ''));
+                    totalPriceFood += quantity * price;
+
+                    // Thêm vào mảng selectedFood nếu có số lượng lớn hơn 0
+                    if (quantity > 0) {
+                        selectedFood.push($(this).find('#foodName').text() + quantity + ' x ' + foodName + ' id' + foodId);
+                    }
+                });
+
+                // Cập nhật tổng giá và combo bắp nước đã chọn vào modal ticketDetail
+                $('#selectedFood').html('Combo bắp nước: ' + selectedFood.join('\n'));
+                $('#totalPriceFood').text(totalPriceFood.toLocaleString() + 'VND');
+
+                window.selectedFoodArray = selectedFood;
+            }
+        });
+
+
+
+        $(document).ready(function () {
+            $('#confirmPurchaseButton').click(function () {
+                var movieTitle = $('#movieTitle').text();
+                var showtime = $('#showtime').text();
+                var date = $('#date').text();
+                var roomName = $('#roomName').text();
+                var totalPriceSeat = parseFloat($('#totalPriceSeat').text().replace(/[^0-9.-]+/g, ''));
+                var totalPriceFood = parseFloat($('#totalPriceFood').text().replace(/[^0-9.-]+/g, ''));
+                var totalPrice3 = totalPriceSeat + totalPriceFood;
+
+                console.log('movieTitle:', movieTitle);
+                console.log('showtime:', showtime);
+                console.log('date:', date);
+                console.log(totalPriceSeat);
+                console.log(totalPriceFood);
+                console.log(totalPrice3);
+
+                // Hiển thị thông tin đã chọn trong modal ticketDetail
+
+                document.getElementById('ticketMovieTitle').textContent = movieTitle;
+                document.getElementById('ticketShowtime').textContent = showtime;
+                document.getElementById('ticketDate').textContent = date;
+                document.getElementById('ticketRoomName').textContent = roomName;
+                $('#selectedSeats').text( $('#selectedSeatsList').text());
+                $('#selectedFood').text( $('#selectedFood').text());
+                $('#totalPrice3').text(totalPrice3);
+
+                // Hiển thị modal ticketDetail
+                $('#ticketdetailModal').modal('show');
+            });
+        });
+
+        document.getElementById('view').addEventListener('click', function() {
+
+            window.location.href = '/user/mytickets'; 
+        });
+
+
+        document.getElementById('purchase').addEventListener('click', function() {
+
+            const movieId = /*[[${movieID}]]*/ '';
+            const userId = /*[[${user.userId}]]*/ '';
+            var showtime = $('#ticketShowtime').text();
+            var showdate = $('#ticketDate').text();
+            var selectedFood = window.selectedFoodArray;
+            var amount =  $('#totalPrice3').text();
+            var theaterId = $('#selectedTheaterID').text();
+            var showtimeId = $('#selectedShowtimeId').text();
+
+            var ticketData = {
+                userId: userId,
+                movieId: movieId,
+                theaterId: theaterId,
+                showtimeId: showtimeId,
+                selectedSeats: selectedSeatsArray,
+                selectedFood: selectedFood,
+                showdate: showdate,
+                totalPrice3: amount
+
+            };
+            console.log(ticketData);
+
+            fetch('/tickets/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(ticketData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === "success") {
+                    const redirectUrl = data.redirectUrl;
+                    window.location.href = redirectUrl;
+                } else {
+                    console.error('Failed to save ticket:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error saving ticket:', error);
+            });
+        });
+
+
+        $('.modal').on('hidden.bs.modal', function () {
+        });
+    
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+</body>
+</html>

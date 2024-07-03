@@ -41,4 +41,8 @@ public class FoodService {
         }
         repo.deleteById(foodID);
     }
+
+    public List<Food> getFoodByCinemaOwnerId(int cinemaOwnerId) {
+        return repo.getFoodByCinemaOwnerId(cinemaOwnerId);
+    }
 }

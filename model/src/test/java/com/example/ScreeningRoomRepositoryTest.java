@@ -30,7 +30,7 @@ public class ScreeningRoomRepositoryTest {
     @Test
     public void testAddNew() {
         ScreeningRoom screeningRoom = new ScreeningRoom();
-        screeningRoom.setTheaterID(5);
+        
         screeningRoom.setRoomname("VIP");
         ScreeningRoom savedScreeningRoom = repo.save(screeningRoom);
 

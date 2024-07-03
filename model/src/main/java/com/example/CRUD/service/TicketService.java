@@ -5,6 +5,8 @@ import com.example.mo.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.HashMap;
@@ -70,5 +72,18 @@ public class TicketService {
             }
         }
         return revenueByMonth;
+    }
+
+    public List<Ticket> getAllTickets() {
+        return ticketRepository.findAll();
+    }
+
+    public List<Ticket> getTicketsByUserId(int userId) {
+        return ticketRepository.findByUserUserId(userId);
+    }
+
+    @Transactional
+    public void deleteTicketById(int ticketId) {
+        ticketRepository.deleteById(ticketId);
     }
 }

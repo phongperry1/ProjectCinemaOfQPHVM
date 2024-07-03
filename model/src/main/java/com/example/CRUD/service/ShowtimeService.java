@@ -1,15 +1,20 @@
 package com.example.CRUD.service;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.CRUD.Repository.ScreeningRoomRepository;
 import com.example.CRUD.Repository.ShowtimeRepository;
 import com.example.CRUD.controller.ShowtimeNotFoundException;
+import com.example.mo.ScreeningRoom;
 import com.example.mo.Showtime;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ShowtimeService {
@@ -17,8 +22,23 @@ public class ShowtimeService {
     @Autowired
     private ShowtimeRepository repo;
 
+    @Autowired
+    private ScreeningRoomRepository screeningRoomRepository;
+
+    public Time getShowtimeNameById(int showtimeId) {
+        Showtime showtime = repo.findById(showtimeId)
+                .orElseThrow(() -> new EntityNotFoundException("Showtime not found"));
+        return showtime.getShowTime();
+    }
+
     public List<Showtime> getShowtimesByMovieID(Integer movieID) {
-        return repo.findByMovieID(movieID);
+        List<Showtime> showtimes = repo.findByMovie_MovieID(movieID);
+        System.out.println("Fetched showtimes for movie ID " + movieID + ": " + showtimes);
+        return showtimes;
+    }
+
+    public List<Object[]> getShowtimesByMovieIDAndTheaterID(Integer movieID, Integer theaterID) {
+        return repo.findByMovieIDAndTheaterID(movieID, theaterID);
     }
 
     public List<Showtime> getShowtimesByMovieIDAndCinemaOwnerID(Integer movieID, Integer cinemaOwnerID) {
@@ -30,7 +50,7 @@ public class ShowtimeService {
     }
 
     public List<Showtime> listAll() {
-        return repo.findAll();
+        return (List<Showtime>) repo.findAll();
     }
 
     public List<Showtime> listAllByCinemaOwnerID(Integer cinemaOwnerID) {
@@ -39,6 +59,14 @@ public class ShowtimeService {
 
     public void save(Showtime showtime) {
         repo.save(showtime);
+    }
+
+    public Integer getTheaterIdByScreeningRoomId(Integer screeningRoomId) {
+        Optional<ScreeningRoom> screeningRoomOptional = screeningRoomRepository.findById(screeningRoomId);
+        if (screeningRoomOptional.isPresent()) {
+            return screeningRoomOptional.get().getTheater().getTheaterID();
+        }
+        return null;
     }
 
     public Showtime get(Integer showtimeID) throws ShowtimeNotFoundException {

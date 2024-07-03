@@ -37,4 +37,8 @@ public class TheaterService {
         }
         repo.deleteById(theaterID);
     }
+
+    public Integer findCinemaOwnerIdByTheaterId(Integer theaterId) {
+        return repo.findCinemaOwnerIdByTheaterId(theaterId);
+    }
 }
