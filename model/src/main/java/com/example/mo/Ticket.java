@@ -54,9 +54,6 @@ public class Ticket {
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Seat> seats;   
 
-    // @Column(name = "status")
-    // private String status;
-    
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
     @JoinTable(
         name = "ticket_food",

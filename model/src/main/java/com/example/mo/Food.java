@@ -2,6 +2,7 @@ package com.example.mo;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class Food {
     @Column(nullable = true, length = 64, name = "PhotosImagePath")
     private String PhotoFood;
 
-    @ManyToMany(mappedBy = "foods")
+    @ManyToMany(mappedBy = "foods", cascade = CascadeType.REMOVE)
     private List<Ticket> tickets;
 
 

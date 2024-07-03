@@ -185,38 +185,63 @@
     <table class="ticket-table">
         <thead>
             <tr>
-                <th>Ticket ID</th>
+                <th>ID</th>
+                <th>Movie</th>
                 <th>Showtime</th>
                 <th>Show Date</th>
                 <th>Theater</th>
                 <th>Seats</th>
                 <th>Price</th>
-                <th>Combo</th>
-                <th>Movie</th>
+                <th>Food/Drinks</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Iterate through the tickets and display each ticket's information -->
+            <!-- Iterate through each ticket and display its information -->
             <tr th:each="ticket : ${tickets}">
-                <td th:text="${ticket.ticketId}"></td>
+                <td th:text="${ticket.ticketId}" style="width: 30px; white-space: nowrap;"></td>
+                <td th:text="${ticket.movie.title}"></td> 
                 <td th:text="${ticket.showtime.showTime}"></td>
                 <td th:text="${ticket.showtime.showDate}"></td>
                 <td th:text="${ticket.theater.theaterName}"></td>
-                <td>
-                    <ul>
-                        <li th:each="seat : ${ticket.seats}" th:text="${seat.seatId}"></li>
-                    </ul>
-                </td>
-                <td th:text="${ticket.price}"></td>
+                <td style="width: 200px; white-space: nowrap;">
+                    <!-- Iterate through seats and display seat names -->
+                    <span th:each="seat, iterStat : ${ticket.seats}">
+                        <span th:text="${seat.seatName}"></span>
+                        <span th:if="${!iterStat.last}">, </span>
+                    </span>
+                </td>                
+                <td th:text="${ticket.price} + ' VND'" ></td>
                 <td>
                     <ul>
                         <li th:each="food : ${ticket.foods}" th:text="${food.foodName}"></li>
                     </ul>
                 </td>
-                <td th:text="${ticket.movie.title}"></td> 
+                <td style="width: 30px; white-space: nowrap;">
+                    <button type="button" th:onclick="'deleteTicket(\'' + ${ticket.ticketId} + '\')'">Cancellation Request</button>
+                </td>                
             </tr>
         </tbody>
     </table>
+    <script>
+        function deleteTicket(ticketId) {
+            if (confirm('Are you sure you want to cancel this ticket?')) {
+                fetch('/tickets/delete/' + ticketId, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload(); 
+                    } else {
+                        console.error('Failed to cancel ticket');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+    </script>
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

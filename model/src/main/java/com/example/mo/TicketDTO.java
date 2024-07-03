@@ -80,4 +80,17 @@ public class TicketDTO {
     public void setTotalPrice3(double totalPrice3) {
         this.totalPrice3 = totalPrice3;
     }
+
+    public String toString() {
+        return "TicketDTO{" +
+                "userId='" + userId + '\'' +
+                ", movieId='" + movieId + '\'' +
+                ", showtimeId='" + showtimeId + '\'' +
+                ", theaterId='" + theaterId + '\'' +
+                ", showdate=" + showdate +
+                ", selectedSeats=" + selectedSeats +
+                ", selectedFood=" + selectedFood +
+                ", totalPrice3=" + totalPrice3 +
+                '}';
+    }
 }

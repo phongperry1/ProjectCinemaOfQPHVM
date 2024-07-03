@@ -2,19 +2,20 @@
 package com.example.CRUD.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.CRUD.config.VNPAYService;
+import com.example.mo.Ticket;
 import com.example.mo.TicketDTO;
 import com.example.mo.Transaction;
 import com.example.mo.Users;
@@ -23,13 +24,23 @@ import com.example.CRUD.service.UserService;
 
 import jakarta.mail.internet.ParseException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import reactor.core.publisher.Mono;
+
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
 public class PaymentController {
+
+    // @Autowired
+    // private WebClient.Builder webClientBuilder;
+    // @Autowired
+    // private RestTemplate restTemplate;
 
     private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
 
@@ -42,21 +53,14 @@ public class PaymentController {
     @Autowired
     private UserService usersService;
 
-    @PostMapping("/createOrder/{totalPrice3}")
-    public String createOrder(@RequestBody TicketDTO ticketDTO,
-                              @PathVariable("totalPrice3") Integer totalPrice3,
-                              Model model) {
-        // Xử lý logic của bạn ở đây nếu cần thiết
 
-        // Thêm dữ liệu vào model để truyền sang view
-        model.addAttribute("ticketData", ticketDTO);
-        model.addAttribute("totalPrice3", totalPrice3);
+    @GetMapping("/createOrder.html")
+    public String showCreateOrderPage(@RequestParam(value = "amount", required = false) String amount, Model model) {
 
-        // Chuyển hướng tới trang createOrder.html
-        return "createOrder";
+        model.addAttribute("amount", amount);
+        return "createOrder"; 
     }
-
-    @CrossOrigin(origins = "http://localhost:8080")
+    @PostMapping("/submitOrder")
     public String submitOrder(@RequestParam("amount") int orderTotal,
                               @RequestParam("orderInfo") String orderInfo,
                               HttpServletRequest request) {
@@ -64,8 +68,9 @@ public class PaymentController {
         String vnpayUrl = vnPayService.createOrder(request, orderTotal, orderInfo, baseUrl + "/vnpay-payment-return");
         return "redirect:" + vnpayUrl;
         }
+
+        
     
-    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/vnpay-payment-return")
     public String paymentCompleted(HttpServletRequest request, Model model, Principal principal) {
         boolean paymentStatus = vnPayService.validatePayment(request, model);
@@ -93,6 +98,26 @@ public class PaymentController {
                 );
                 transactionService.addTransaction(transaction);
                 logger.info("Transaction added: " + transaction.toString());
+
+                // HttpSession session = request.getSession();
+                // TicketDTO ticketDTO = (TicketDTO) session.getAttribute("ticketData");
+                // if (ticketDTO != null) {
+                //     Mono<TicketDTO> response = webClientBuilder.build()
+                //             .post()
+                //             .uri("http://localhost:8080/tickets/save")
+                //             .body(Mono.just(ticketDTO), TicketDTO.class)
+                //             .retrieve()
+                //             .bodyToMono(TicketDTO.class);
+
+                //     response.subscribe(savedTicket -> {
+                //         logger.info("Ticket saved: " + savedTicket.toString());
+                //     }, error -> {
+                //         logger.error("Failed to save ticket: " + error.getMessage());
+                //     });
+                // } else {
+                //     logger.error("TicketDTO is null.");
+                // }
+                
             } else {
                 logger.error("User not found with email: " + email);
             }

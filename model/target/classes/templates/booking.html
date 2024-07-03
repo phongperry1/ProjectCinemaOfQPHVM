@@ -12,6 +12,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
+
     <title>Ticket Booking</title>
     <style>
         body {
@@ -698,7 +699,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
 
 
     <script th:inline="javascript">
@@ -1090,7 +1091,7 @@
                 document.getElementById('ticketRoomName').textContent = roomName;
                 $('#selectedSeats').text( $('#selectedSeatsList').text());
                 $('#selectedFood').text( $('#selectedFood').text());
-                $('#totalPrice3').text('Tổng giá: ' + totalPrice3 + ' đ');
+                $('#totalPrice3').text(totalPrice3);
 
                 // Hiển thị modal ticketDetail
                 $('#ticketdetailModal').modal('show');
@@ -1102,13 +1103,38 @@
             window.location.href = '/user/mytickets'; 
         });
 
+        // document.getElementById('purchase').addEventListener('click', function() {
+        //     const movieId = /*[[${movieID}]]*/ '';
+        //     const userId = /*[[${user.userId}]]*/ '';
+        //     var showtime = $('#ticketShowtime').text();
+        //     var showdate = $('#ticketDate').text();
+        //     var selectedFood = window.selectedFoodArray;
+        //     var totalPrice3 = parseFloat$('#totalPrice3').text();
+        //     var theaterId = $('#selectedTheaterID').text();
+        //     var showtimeId = $('#selectedShowtimeId').text();
+
+        //     var ticketData = {
+        //         userId: userId,
+        //         movieId: movieId,
+        //         theaterId: theaterId,
+        //         showtimeId: showtimeId,
+        //         selectedSeats: selectedSeatsArray,
+        //         selectedFood: selectedFood,
+        //         showdate: showdate,
+        //         totalPrice3: totalPrice3
+
+        //     };
+        //     console.log(ticketData);
+        // });
+
         document.getElementById('purchase').addEventListener('click', function() {
+
             const movieId = /*[[${movieID}]]*/ '';
             const userId = /*[[${user.userId}]]*/ '';
             var showtime = $('#ticketShowtime').text();
             var showdate = $('#ticketDate').text();
             var selectedFood = window.selectedFoodArray;
-            var totalPrice3 = parseFloat($('#totalPrice3').text().replace('Tổng giá: ', '').replace(' đ', ''));
+            var amount =  $('#totalPrice3').text();
             var theaterId = $('#selectedTheaterID').text();
             var showtimeId = $('#selectedShowtimeId').text();
 
@@ -1120,40 +1146,42 @@
                 selectedSeats: selectedSeatsArray,
                 selectedFood: selectedFood,
                 showdate: showdate,
-                totalPrice3: totalPrice3
+                totalPrice3: amount
 
             };
             console.log(ticketData);
 
-
-            fetch(`/createOrder/${totalPrice3}`,  {
+            fetch('/tickets/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(ticketData)
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Ticket created successfully:', data);
-                alert('Ticket created successfully!');
-                window.location.href = `/createOrder?totalPrice3=${totalPrice3}`;
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
             })
-            .catch((error) => {
-                console.error('Error creating ticket:', error);
-                alert('Error creating ticket. Please try again.');
+            .then(data => {
+                if (data.status === "success") {
+                    const redirectUrl = data.redirectUrl;
+                    window.location.href = redirectUrl;
+                } else {
+                    console.error('Failed to save ticket:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error saving ticket:', error);
             });
         });
 
+
         $('.modal').on('hidden.bs.modal', function () {
-        // Không làm gì trong sự kiện này nếu không muốn xóa dữ liệu
-        // console.log('Modal đã được đóng.');
         });
     
     </script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 

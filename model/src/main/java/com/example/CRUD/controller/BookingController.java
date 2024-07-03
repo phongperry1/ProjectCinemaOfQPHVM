@@ -1,10 +1,13 @@
 package com.example.CRUD.controller;
 
+import java.net.URI;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.CRUD.Repository.FoodRepository;
 import com.example.CRUD.Repository.ScreeningRoomRepository;
@@ -32,6 +37,7 @@ import com.example.CRUD.service.MovieService;
 import com.example.CRUD.service.SeatService;
 import com.example.CRUD.service.ShowtimeService;
 import com.example.CRUD.service.TheaterService;
+import com.example.CRUD.service.TicketService;
 import com.example.CRUD.service.UserService;
 import com.example.mo.Food;
 import com.example.mo.Movie;
@@ -46,6 +52,8 @@ import com.example.mo.TicketDTO;
 import com.example.mo.Users;
 
 import jakarta.mail.internet.ParseException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -66,6 +74,8 @@ public class BookingController {
     private SeatRepository seatRepository;
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
+    private TicketService ticketService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -115,43 +125,52 @@ public class BookingController {
         List<ScreeningRoom> screeningroom = screeningRoomRepository.findScreeningRoomsByTheaterIdAndMovieIdAndShowTimeAndShowDate(theaterID, movieID, showTime, showDate);               
         return screeningroom;
     }
-    
-    @PostMapping("/tickets/create")
-    public Ticket updateSeatStatus(@RequestBody TicketDTO ticketDTO) throws ParseException {
 
+    // @PostMapping("/saveTicketDataToSession")
+    // public ResponseEntity<Map<String, String>> saveTicketDataToSession(@RequestBody TicketDTO ticketDTO, HttpSession session) {
+    //     session.setAttribute("ticketData", ticketDTO);
+    //     Map<String, String> response = new HashMap<>();
+    //     response.put("status", "success");
+    //     response.put("message", "Ticket data saved to session.");
+    //     return ResponseEntity.ok(response);
+    // }   
+    
+    @PostMapping("/tickets/save")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> saveTicket(@RequestBody TicketDTO ticketDTO) throws ParseException {
+        try {
             int userId = parseId(ticketDTO.getUserId(), "userId");
             int movieId = parseId(ticketDTO.getMovieId(), "movieId");
             int theaterId = Integer.parseInt(ticketDTO.getTheaterId());
             int showtimeId = Integer.parseInt(ticketDTO.getShowtimeId());
-
+    
             Movie movie = movieService.getMovieById(movieId);
             Users user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
             Theater theater = theaterRepository.findById(theaterId).orElseThrow(() -> new RuntimeException("Theater not found"));
             Showtime showtime = showtimeRepository.findById(showtimeId).orElseThrow(() -> new RuntimeException("Showtime not found"));
-
+    
             Ticket ticket = new Ticket();
             ticket.setUser(user);
             ticket.setMovie(movie);
             ticket.setTheater(theater);
             ticket.setShowtime(showtime);
             ticket.setPrice(ticketDTO.getTotalPrice3());
-
-
+    
             Ticket savedTicket = ticketRepository.save(ticket);
-
+    
             List<Seat> seats = new ArrayList<>();
             for (Seat seatDTO : ticketDTO.getSelectedSeats()) {
                 Seat seat = new Seat();
                 seat.setSeatName(seatDTO.getSeatName());
-                seat.setSeatType(seatDTO.getSeatType()); 
-                seat.setStatusSeat(true); 
+                seat.setSeatType(seatDTO.getSeatType());
+                seat.setStatusSeat(true);
                 seat.setScreeningRoomId(seatDTO.getScreeningRoomId());
                 seat.setShowtimeId(seatDTO.getShowtimeId());
-                seat.setTicket(savedTicket); 
+                seat.setTicket(savedTicket);
                 seats.add(seat);
             }
             seatRepository.saveAll(seats);
-
+    
             List<Food> selectedFoods = new ArrayList<>();
             for (String foodDetail : ticketDTO.getSelectedFood()) {
                 String[] details = foodDetail.split(" id");
@@ -163,15 +182,29 @@ public class BookingController {
             }
             ticket.setFoods(selectedFoods);
             ticketRepository.save(ticket);
-
-            return savedTicket;
+    
+            int amount = (int) ticketDTO.getTotalPrice3(); 
+            String redirectUrl = "/createOrder.html?amount=" + amount;
+    
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "Ticket saved successfully");
+            response.put("redirectUrl", redirectUrl);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "error");
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
-            private int parseId(String id, String fieldName) {
-                if (id == null || id.isEmpty()) {
-                    throw new IllegalArgumentException(fieldName + " không thể null hoặc trống");
-                }
-                return Integer.parseInt(id);
-            }
+
+    private int parseId(String id, String fieldName) {
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException(fieldName + " không thể null hoặc trống");
+        }
+        return Integer.parseInt(id);
+    }
 
     
 
@@ -196,7 +229,11 @@ public class BookingController {
         return foodSer.listAll();
     }
 
-
+    @DeleteMapping("tickets/delete/{ticketId}")
+    public String deleteTicket(@PathVariable int ticketId) {
+        ticketService.deleteTicketById(ticketId);
+        return "redirect:/mytickets";
+    }
     
 }
 

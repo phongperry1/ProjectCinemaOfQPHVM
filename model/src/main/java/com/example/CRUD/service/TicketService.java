@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.CRUD.Repository.TicketRepository;
 import com.example.mo.Ticket;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class TicketService {
 
@@ -20,5 +22,10 @@ public class TicketService {
     
     public List<Ticket> getTicketsByUserId(int userId) {
         return ticketRepository.findByUserUserId(userId);
+    }
+
+    @Transactional
+    public void deleteTicketById(int ticketId) {
+        ticketRepository.deleteById(ticketId);
     }
 }

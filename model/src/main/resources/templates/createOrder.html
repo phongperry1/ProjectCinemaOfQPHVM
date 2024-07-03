@@ -19,7 +19,7 @@
                     <form th:action="@{/submitOrder}" method="post">
                         <div class="form-group">
                             <label for="amount">Số tiền:</label>
-                            <input type="number" class="form-control" id="amount" name="amount" th:text="${totalPrice3}">
+                            <input type="number" class="form-control" id="amount" name="amount" th:value="${amount}">
                         </div>
                         <div class="form-group">
                             <label for="orderInfo">Thông tin đơn hàng:</label>
@@ -32,31 +32,6 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        // Gửi yêu cầu POST và nhận dữ liệu từ endpoint
-        $.ajax({
-            url: '/createOrder/' + totalPrice3, // Thay đổi totalPrice3 nếu cần thiết
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(ticketData),
-            success: function(data) {
-                // Xử lý dữ liệu nhận được (ví dụ: log ra console)
-                console.log('Ticket data:', data);
-
-                // Hiển thị dữ liệu lên trang createOrder.html (ví dụ: thông qua jQuery)
-                $('#amount').text(data.amount);
-                $('#movieId').text(data.movieId);
-                $('#theaterId').text(data.theaterId);
-                // Các thông tin khác của ticketData
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error('Error creating ticket:', errorThrown);
-                alert('Error creating ticket. Please try again.');
-            }
-        });
-    });
-</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
