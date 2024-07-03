@@ -36,11 +36,11 @@ public class Users {
     private Integer cinemaOwnerID; 
     private Double virtualWallet = 0.0; 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Transaction> transactions;
 
-    @OneToOne(mappedBy = "users")
-    private CinemaOwner cinemaOwner;
+    // @OneToOne(mappedBy = "users")
+    // private CinemaOwner cinemaOwner;
 
     // Getters and setters
 
@@ -200,13 +200,13 @@ public class Users {
         this.transactions = transactions;
     }
 
-    public CinemaOwner getCinemaOwner() {
-        return cinemaOwner;
-    }
+    // public CinemaOwner getCinemaOwner() {
+    //     return cinemaOwner;
+    // }
 
-    public void setCinemaOwner(CinemaOwner cinemaOwner) {
-        this.cinemaOwner = cinemaOwner;
-    }
+    // public void setCinemaOwner(CinemaOwner cinemaOwner) {
+    //     this.cinemaOwner = cinemaOwner;
+    // }
 
     // Methods to deposit and withdraw money
     public void deposit(Double amount) {

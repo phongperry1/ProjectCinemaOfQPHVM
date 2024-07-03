@@ -40,6 +40,7 @@ import com.example.CRUD.service.TheaterService;
 import com.example.CRUD.service.TicketService;
 import com.example.CRUD.service.UserService;
 import com.example.mo.Food;
+import com.example.mo.FoodDTO;
 import com.example.mo.Movie;
 import com.example.mo.ScreeningRoom;
 import com.example.mo.Seat;
@@ -217,9 +218,9 @@ public class BookingController {
 
     @GetMapping("/getFoodByTheaterId/{theaterID}")
     @ResponseBody
-    public List<Food> getFoodByCinemaOwnerId(@PathVariable int theaterID) {
+    public List<FoodDTO> getFoodByCinemaOwnerId(@PathVariable int theaterID) {
         Integer cinemaOwnerId = theaterSer.findCinemaOwnerIdByTheaterId(theaterID);
-        List<Food> foods = foodSer.getFoodByCinemaOwnerId(cinemaOwnerId);
+        List<FoodDTO> foods = foodSer.getFoodByCinemaOwnerId(cinemaOwnerId);
         return foods;
     }
 

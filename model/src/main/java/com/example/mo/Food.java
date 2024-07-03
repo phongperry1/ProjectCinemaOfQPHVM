@@ -2,13 +2,17 @@ package com.example.mo;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +35,7 @@ public class Food {
     @Column(nullable = true, length = 64, name = "PhotosImagePath")
     private String PhotoFood;
 
-    @ManyToMany(mappedBy = "foods")
+    @ManyToMany(mappedBy = "foods", fetch = FetchType.LAZY)
     private List<Ticket> tickets;
 
 

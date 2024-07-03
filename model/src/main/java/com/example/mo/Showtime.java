@@ -30,11 +30,11 @@ public class Showtime {
     @Column(name = "showtime_id")
     private int showtimeId;
    
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "movieID", nullable = false)
     private Movie movie;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "screening_room_id", nullable = false)
     private ScreeningRoom screeningRoom;
 
@@ -44,7 +44,7 @@ public class Showtime {
     @Column(name = "showTime")
     private Time showTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "theater_id", nullable = false)
     private Theater theater;
 

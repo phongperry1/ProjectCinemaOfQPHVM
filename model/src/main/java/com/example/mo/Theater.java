@@ -41,7 +41,7 @@ public class Theater {
     @Column(nullable = false)
     private Double rating;
 
-    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Showtime> showtimes;
 
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.CRUD.Repository.FoodRepository;
 import com.example.CRUD.controller.FoodNotFoundException;
 import com.example.mo.Food;
+import com.example.mo.FoodDTO;
 
 
 @Service
@@ -39,7 +40,7 @@ public class FoodService {
         repo.deleteById(FoodID);
     } 
 
-    public List<Food> getFoodByCinemaOwnerId(int cinemaOwnerId) {
+    public List<FoodDTO> getFoodByCinemaOwnerId(int cinemaOwnerId) {
         return repo.getFoodByCinemaOwnerId(cinemaOwnerId);
     }
 
