@@ -192,4 +192,13 @@ public class UserService {
             throw new InsufficientBalanceException("Insufficient balance or invalid amount.");
         }
     }
+
+    // Method to add member points
+    public void addMemberPoints(int userId, int points) {
+        Users user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        user.addMemberPoints(points);
+        userRepository.save(user);
+    }
 }

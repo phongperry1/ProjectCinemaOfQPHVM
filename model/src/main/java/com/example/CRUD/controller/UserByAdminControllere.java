@@ -132,13 +132,13 @@ public String showUpdateRankForm(@PathVariable("UserId") Integer UserId, Model m
     return "update-rank";
 }
 
-@GetMapping("/lockacount/{UserId}")
-public String lockAccount(@PathVariable("UserId") Integer userId, Model model) {
+@GetMapping("/lockaccount/{UserId}")
+public String lockAccount(@PathVariable("UserId") Integer userId, RedirectAttributes ra) {
     Users user = userByAdminService.findById(userId);
     user.setStatus(!user.isStatus()); 
     userByAdminService.saveUserProfile(user);
     
-    model.addAttribute("message", "Account status updated successfully!");
+    ra.addFlashAttribute("message", "Account status updated successfully!");
     return "redirect:/show";
 }
 

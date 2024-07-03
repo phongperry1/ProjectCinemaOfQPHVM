@@ -224,6 +224,10 @@ public class Users {
         }
     }
 
+    public void addMemberPoints(int points) {
+        this.memberPoints += points;
+    }
+
     @Override
     public String toString() {
         return "Users{" +

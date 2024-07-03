@@ -116,6 +116,11 @@ public class PaymentController {
                 );
                 transactionService.addTransaction(transaction);
                 logger.info("Transaction added: " + transaction.toString());
+
+                // Tính điểm thành viên
+                int amount = Integer.parseInt(totalPrice) / 100;
+                int points = (amount / 100000) * 10;
+                userService.addMemberPoints(user.getUserId(), points);
             } else {
                 logger.error("User not found with email: " + email);
             }

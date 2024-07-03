@@ -29,14 +29,14 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private UserService ser;
+    private UserService userService;
 
     @ModelAttribute
-    public void commonUser(Principal p, Model m) {
-        if (p != null) {
-            String email = p.getName();
-            Users user = ser.getUsersByEmail(email);
-            m.addAttribute("user", user);
+    public void commonUser(Principal principal, Model model) {
+        if (principal != null) {
+            String email = principal.getName();
+            Users user = userService.getUsersByEmail(email);
+            model.addAttribute("user", user);
         }
     }
 
@@ -46,7 +46,12 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String getProfile() {
+    public String getProfile(Model model, Principal principal) {
+        if (principal != null) {
+            String email = principal.getName();
+            Users user = userService.getUsersByEmail(email);
+            model.addAttribute("user", user);
+        }
         return "profile";
     }
 
@@ -54,12 +59,12 @@ public class UserController {
     public String changeAvatar(Model model, @RequestParam("file") MultipartFile file, Principal principal)
             throws IOException {
         String email = principal.getName();
-        Users user = ser.getUsersByEmail(email);
+        Users user = userService.getUsersByEmail(email);
         String originalFilename = file.getOriginalFilename();
         Path fileNameAndPath = Paths.get(System.getProperty("user.dir") + "/uploads", originalFilename);
         Files.write(fileNameAndPath, file.getBytes());
         user.setProfileImageURL(originalFilename);
-        ser.updateUser(user);
+        userService.updateUser(user);
         model.addAttribute("user", user);
         return "redirect:/user/profile";
     }
@@ -67,16 +72,56 @@ public class UserController {
     @GetMapping("/update-profile")
     public String showUpdateProfile(Model model, Principal principal) {
         String email = principal.getName();
-        Users user = ser.getUsersByEmail(email);
+        Users user = userService.getUsersByEmail(email);
         model.addAttribute("user", user);
         return "update-profile";
+    }
+
+    @PostMapping("/update-profile")
+    public String updateProfile(Users updatedUser, Principal principal) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        if (user != null) {
+            user.setUserName(updatedUser.getUserName());
+            user.setEmail(updatedUser.getEmail());
+            user.setPhone(updatedUser.getPhone());
+            user.setLocation(updatedUser.getLocation());
+            user.setBirthdate(updatedUser.getBirthdate());
+            userService.updateUser(user);
+        }
+        return "redirect:/user/profile";
     }
 
     @GetMapping("/change-password")
     public String showChangePasswordForm(Model model, Principal principal) {
         String email = principal.getName();
-        Users user = ser.getUsersByEmail(email);
+        Users user = userService.getUsersByEmail(email);
         model.addAttribute("user", user);
         return "change-password";
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam("password") String password,
+                                 Principal principal,
+                                 Model model) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        userService.updatePassword(user, password);
+        model.addAttribute("message", "Password changed successfully.");
+        return "change-password";
+    }
+
+    @GetMapping("/member-points")
+    public String showMemberPoints(Model model, Principal principal) {
+        if (principal != null) {
+            String email = principal.getName();
+            Users user = userService.getUsersByEmail(email);
+            if (user != null) {
+                model.addAttribute("points", user.getMemberPoints());
+            } else {
+                model.addAttribute("error", "User not found.");
+            }
+        }
+        return "member-points";
     }
 }
