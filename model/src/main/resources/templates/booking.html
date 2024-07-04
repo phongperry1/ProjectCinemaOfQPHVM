@@ -183,8 +183,6 @@
 
         }
 
-
-
         .row {
             display: flex;
             justify-content: center;
@@ -363,7 +361,96 @@
         .no-border {
             border: none !important;
         }
-                        
+        .food-item {
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .food-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .food-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .food-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .food-name {
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .food-price {
+            margin: 10px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group .form-control {
+            width: 50px !important;
+            text-align: center;
+            margin: 0 5px;
+        }
+
+        .input-group .btn {
+            width: 30px;
+        }        
+        
+        #selectedTheaterID, #selectedShowtimeId {
+            display: none;
+        }
+
+        .ticket-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center; /* Căn giữa các thành phần theo chiều dọc */
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        .detail1-item {
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+
+
+        .detail-item strong {
+            width: 175%; 
+            font-weight: 600;
+            text-align: right; 
+        }
+
+        .detail-item span {
+            width: 60%; 
+            text-align: left; 
+        }
     </style>
 </head>
 <body>
@@ -677,13 +764,22 @@
                         </div>
                                 
                         <div class="showtimes-container" id="movieInfo">
-                            <p id="movieTitle">Tên phim: </p>
-                            <p id="showtime">Suất chiếu: </p>
-                            <p id="date">Ngày: </p>
+                            <div>
+                                <span>Movie:</span>
+                                <span id="movieTitle"></span>
+                            </div>  
+                            <div>
+                                <span>Showtime:</span>
+                                <span id="showtime"> </span>
+                            </div>
+                            <div>
+                                <span>Date:</span>
+                                <span id="date"></span>
+                            </div>
 
                         </div>
                         <div id="selectedSeatsContainer" class="selected-seats-container">
-                            <span id="selectedSeatsList" class="selected-seats">Selected Seats: </span>
+                            <span id="selectedSeatsList" class="selected-seats"><p>Selected Seats:</p></span>
                             <i id="removeAllButton" class="fas fa-times-circle"></i>
                         </div>
                         <div class="total-price-container">
@@ -711,28 +807,15 @@
                 </div>
                 <div class="modal-body">
                     <div id="foodList">
-                        <!-- <div th:each="food : ${foods}">
-                            <div class="food-item">
-                                <img th:src="${food.photoFood}" alt="Food Image" style="max-width: 100%; height: auto;">
-                                <h5 th:text="${food.foodName}"></h5>
-                                <p th:text="${food.price} + ' đ'"></p>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <button type="button" class="btn btn-sm btn-secondary decrease-quantity" th:attr="data-food-id=${food.foodID}">-</button>
-                                        <input type="text" class="form-control food-quantity" value="0" readonly th:attr="data-food-id=${food.foodID}">
-                                        <button type="button" class="btn btn-sm btn-secondary increase-quantity" th:attr="data-food-id=${food.foodID}">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+
                     </div>
                     <div class="total-price-container">
-                        Tổng giá<h5><span id="totalPriceFood">0 </span></h5>
+                        Price<h5><span id="totalPriceFood">0 </span></h5>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="back">Quay lại</button>
-                    <button type="button" class="btn btn-primary" id="confirmPurchaseButton">Xác nhận mua</button>
+                    <button type="button" class="btn btn-secondary" id="back">Back</button>
+                    <button type="button" class="btn btn-primary" id="confirmPurchaseButton">Confirm</button>
                 </div>
             </div>
         </div>
@@ -744,30 +827,53 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ticketdetailModalLabel">Chi tiết vé</h5>
+                    <h5 class="modal-title" id="ticketdetailModalLabel">Ticket Detail</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="ticketDetailContent">
-                        <p id="ticketMovieTitle"></p>
-                        <p id="selectedShowtimeId"></p>
-                        <p id="selectedTheater"></p>
-                        <p id="selectedTheaterID"></p>
-                        <p id="ticketShowtime"></p>
-                        <p id="ticketDate"></p>
-                        <p id="ticketRoomName"></p>
-                        <p id="selectedSeats"></p>
-                        <p id="selectedFood"></p>
-                        <p id="totalPrice3"></p>
+                    <div id="ticketDetailContent" class="ticket-details">
+                        <div class="detail1-item">
+                            <span>Movie</span><br>
+                            <strong id="ticketMovieTitle"></strong>
+                        </div>
+                        <div class=""><span id="selectedShowtimeId"></span></div>
+                        <div class="detail1-item">
+                            <span>Theater</span><br> 
+                            <strong id="selectedTheater"></strong>
+                        </div>
+                        <div class=""><span id="selectedTheaterID"></span></div>  
+                        <div class="detail1-item">
+                            <span>Showtime</span><br> 
+                            <strong id="ticketShowtime"></strong>
+                        </div>
+                        <div class="detail1-item">
+                            <span>Date</span><br> 
+                            <strong id="ticketDate"></strong>
+                        </div>
+                        <div class="detail1-item">
+                            <span>Room</span><br> 
+                            <strong id="ticketRoomName"></strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Seats</span><br>
+                            <strong id="selectedSeats"></strong>
+                            <strong id="ticketSeatPrice"></strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Foods/Drinks</span><br>
+                            <strong id="selectedFood"></strong>
+                            <strong id="ticketFoodPrice"></strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Price</span> 
+                            <strong id="totalPrice3"></strong>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="purchase" >Tiến hành thanh toán</button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="view" >Xem vé</button>
+                    <button type="button" class="btn btn-primary" id="purchase">Tiến hành thanh toán</button>
                 </div>
             </div>
         </div>
@@ -884,10 +990,10 @@
                                 const movieTitle = /*[[${movie.title}]]*/ 0;
                                 // Update modal content
 
-                                document.getElementById('movieTitle').textContent = 'Movie: ' + movieTitle;
-                                document.getElementById('showtime').textContent = 'Showtime: ' + showTime;
+                                document.getElementById('movieTitle').textContent = movieTitle;
+                                document.getElementById('showtime').textContent = showTime;
                                 document.getElementById('date').textContent = showDate;
-                                document.getElementById('roomName').textContent = 'Screening Room: ' + roomName;
+                                document.getElementById('roomName').textContent = roomName;
                                 updateSelectedSeatsList(screeningRoomId, showtimeId);
                                 // Show the modal
                                 $('#chooseSeatModal').modal('show');
@@ -962,17 +1068,15 @@
             });
 
             const removeAllButton = document.getElementById('removeAllButton');
-            // Thêm sự kiện click cho nút "Remove All"
+
             removeAllButton.addEventListener('click', () => {
-                // Lấy danh sách tất cả các ghế đã chọn
+
                 const selectedSeats = document.querySelectorAll('.seat.selected');
                 
-                // Lặp qua từng ghế đã chọn và xóa lớp 'selected'
                 selectedSeats.forEach(seat => {
                     seat.classList.remove('selected');
                 });
 
-                // Cập nhật danh sách ghế đã chọn
                 updateSelectedSeatsList();
             });
         
@@ -1085,56 +1189,6 @@
             updateSeatState();
         });
 
-        
-        // function showFood(theaterID) {
-        //     fetch(`/getFoodByTheaterId/${theaterID}`)
-        //         .then(response => {
-        //             if (!response.ok) {
-        //                 throw new Error('Network response was not ok');
-        //             }
-        //             return response.json();
-        //         })
-        //         .then(foods => {
-        //             updateFoodModal(foods);
-        //             $('#FoodModal').modal('show');
-        //         })
-        //         .catch(error => {
-        //             console.error('Error fetching food data:', error);
-        //             alert('Error fetching food data.');
-        //         });
-        // }
-
-        // document.getElementById('continue').addEventListener('click', function() {
-        //     var theaterID = $('#selectedTheaterID').text();
-        //     showFood(theaterID);
-        // });
-
-        // function updateFoodModal(foods) {
-        //     var foodListContainer = document.getElementById('foodList');
-        //     foodListContainer.innerHTML = '';
-
-        //     foods.forEach(food => {
-        //         var foodItemHtml = `
-        //             <div class="food-item">
-        //                 <img src="${food.photoFood}" alt="Food Image" style="max-width: 100%; height: auto;">
-        //                 <h5>${food.foodName}</h5>
-        //                 <p>${food.price} đ</p>
-        //                 <div class="col-md-3">
-        //                     <div class="input-group">
-        //                         <button type="button" class="btn btn-sm btn-secondary decrease-quantity" th:attr="data-food-id=${food.foodID}">-</button>
-        //                         <input type="text" class="form-control food-quantity" value="0" readonly th:attr="data-food-id=${food.foodID}">
-        //                         <button type="button" class="btn btn-sm btn-secondary increase-quantity" th:attr="data-food-id=${food.foodID}">+</button>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         `;
-        //         foodListContainer.insertAdjacentHTML('beforeend', foodItemHtml);
-        //     });
-        // }
-        // $('#continue').click(function() {
-
-        //     $('#FoodModal').modal('show');
-        // });
 
         $('#back').click(function() {
             $('#FoodModal').modal('hide'); 
@@ -1182,7 +1236,7 @@
                     totalPriceFood += quantity * price;
 
                     if (quantity > 0) {
-                        selectedFood.push(foodName + ' x ' + ' id' + foodId);
+                        selectedFood.push(foodName + ' x ' + quantity + ' id' + foodId);
                     }
                 });
 
@@ -1221,19 +1275,22 @@
             // Function để cập nhật modal với danh sách thức ăn từ server
             function updateFoodModal(foods) {
                 var foodListContainer = $('#foodList');
+                var theaterID = $('#selectedTheaterID').text().trim();
                 foodListContainer.empty(); // Xóa các mục thức ăn hiện có
 
                 foods.forEach(food => {
                     var foodItemHtml = `
                         <div class="food-item">
-                            <img src="${food.photoFood}" alt="Food Image" style="max-width: 100%; height: auto;">
-                            <h5>${food.foodName}</h5>
-                            <p>${food.price} đ</p>
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <button type="button" class="btn btn-sm btn-secondary decrease-quantity" data-food-id="${food.foodID}">-</button>
-                                    <input type="text" class="form-control food-quantity" value="0" readonly data-food-id="${food.foodID}">
-                                    <button type="button" class="btn btn-sm btn-secondary increase-quantity" data-food-id="${food.foodID}">+</button>
+                            <div class="food-details">
+                                <img src="/food-photo/${food.foodID}/${food.photoFood}" alt="Food Image" class="food-image">
+                                <div class="food-info">
+                                    <h5 class="food-name">${food.foodName}</h5>
+                                    <p class="food-price">${food.price} VND</p>
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-sm btn-secondary decrease-quantity" data-food-id="${food.foodID}">-</button>
+                                        <input type="text" class="form-control food-quantity" value="0" readonly data-food-id="${food.foodID}">
+                                        <button type="button" class="btn btn-sm btn-secondary increase-quantity" data-food-id="${food.foodID}">+</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1264,13 +1321,16 @@
                 console.log(totalPrice3);
 
                 // Hiển thị thông tin đã chọn trong modal ticketDetail
-
+                document.getElementById('ticketSeatPrice').textContent = totalPriceSeat;
+                document.getElementById('ticketFoodPrice').textContent = totalPriceFood;
                 document.getElementById('ticketMovieTitle').textContent = movieTitle;
                 document.getElementById('ticketShowtime').textContent = showtime;
                 document.getElementById('ticketDate').textContent = date;
                 document.getElementById('ticketRoomName').textContent = roomName;
                 $('#selectedSeats').text( $('#selectedSeatsList').text());
-                $('#selectedFood').text( $('#selectedFood').text());
+                let currentText = $('#selectedFood').text();
+                let cleanedText = currentText.replace(/\sid\d+/g, '');
+                $('#selectedFood').text(cleanedText.trim());
                 $('#totalPrice3').text(totalPrice3);
 
                 // Hiển thị modal ticketDetail
@@ -1334,10 +1394,7 @@
             });
         });
 
-
-        $('.modal').on('hidden.bs.modal', function () {
-        });
-    
+            
     </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>

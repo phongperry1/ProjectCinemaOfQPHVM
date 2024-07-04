@@ -11,11 +11,18 @@ import com.example.CRUD.controller.FoodNotFoundException;
 import com.example.mo.Food;
 import com.example.mo.FoodDTO;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class FoodService {
-   @Autowired
+    @Autowired
     private FoodRepository repo;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
      public List<Food> listAll() {
         return (List<Food>) repo.findAll();
@@ -33,12 +40,30 @@ public class FoodService {
         throw new FoodNotFoundException("Could not find any food with ID " + foodID);
     }
 
-    public void delete(Integer FoodID) throws FoodNotFoundException {
-        if (!repo.existsById(FoodID)) {
-            throw new FoodNotFoundException("Could not find any food with ID " + FoodID);
+    // public void delete(Integer FoodID) throws FoodNotFoundException {
+    //     if (!repo.existsById(FoodID)) {
+    //         throw new FoodNotFoundException("Could not find any food with ID " + FoodID);
+    //     }
+    //     repo.deleteById(FoodID);
+    // } 
+    
+    @Transactional
+    public void delete(Integer foodId) throws FoodNotFoundException {
+        // Kiểm tra xem food có tồn tại hay không
+        Food food = entityManager.find(Food.class, foodId);
+        if (food == null) {
+            throw new FoodNotFoundException("Food not found with ID: " + foodId);
         }
-        repo.deleteById(FoodID);
-    } 
+
+        // Xóa các hàng trong bảng ticket_food trước
+        String deleteTicketFoodSql = "DELETE FROM ticket_food WHERE food_id = :foodId";
+        entityManager.createNativeQuery(deleteTicketFoodSql)
+            .setParameter("foodId", foodId)
+            .executeUpdate();
+
+        // Sau đó, xóa hàng trong bảng food
+        entityManager.remove(food);
+    }
 
     public List<FoodDTO> getFoodByCinemaOwnerId(int cinemaOwnerId) {
         return repo.getFoodByCinemaOwnerId(cinemaOwnerId);
