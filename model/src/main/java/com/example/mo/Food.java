@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,9 +18,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "food")
 public class Food {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "food_id")
     private int foodID;
 
     @Column(nullable = false)
@@ -34,7 +38,7 @@ public class Food {
     @Column(nullable = true, length = 64)
     private String photoFood;
 
-    @ManyToMany(mappedBy = "foods", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "foods", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Ticket> tickets;
 
     @Transient
@@ -42,7 +46,7 @@ public class Food {
         if (photoFood == null) return null;
         return "/food-photo/" + foodID + "/" + photoFood;
     }
-    
+
     // Getters and setters
     public int getFoodID() {
         return foodID;
@@ -82,5 +86,13 @@ public class Food {
 
     public void setPhotoFood(String photoFood) {
         this.photoFood = photoFood;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 }

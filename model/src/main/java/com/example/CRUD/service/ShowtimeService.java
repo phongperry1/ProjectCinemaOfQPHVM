@@ -25,6 +25,10 @@ public class ShowtimeService {
     @Autowired
     private ScreeningRoomRepository screeningRoomRepository;
 
+    public Date getShowDate(Integer showtimeId) {
+        return repo.findShowDateByShowtimeId(showtimeId);
+    }
+
     public Time getShowtimeNameById(int showtimeId) {
         Showtime showtime = repo.findById(showtimeId)
                 .orElseThrow(() -> new EntityNotFoundException("Showtime not found"));

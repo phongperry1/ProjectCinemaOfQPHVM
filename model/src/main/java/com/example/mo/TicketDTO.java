@@ -15,8 +15,9 @@ public class TicketDTO {
     private List<Seat> selectedSeats;
     private List<String> selectedFood;
     private double totalPrice3;
+    private String orderInfo; // Added orderInfo field
 
-
+    // Getters and Setters
     public String getUserId() {
         return userId;
     }
@@ -81,6 +82,16 @@ public class TicketDTO {
         this.totalPrice3 = totalPrice3;
     }
 
+    public String getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(String orderInfo) {
+        this.orderInfo = orderInfo;
+    }
+
+    // toString method
+    @Override
     public String toString() {
         return "TicketDTO{" +
                 "userId='" + userId + '\'' +
@@ -91,6 +102,7 @@ public class TicketDTO {
                 ", selectedSeats=" + selectedSeats +
                 ", selectedFood=" + selectedFood +
                 ", totalPrice3=" + totalPrice3 +
+                ", orderInfo='" + orderInfo + '\'' +
                 '}';
     }
 }

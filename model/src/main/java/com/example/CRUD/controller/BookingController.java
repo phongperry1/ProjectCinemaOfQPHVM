@@ -40,6 +40,7 @@ import com.example.CRUD.service.TheaterService;
 import com.example.CRUD.service.TicketService;
 import com.example.CRUD.service.UserService;
 import com.example.mo.Food;
+import com.example.mo.FoodDTO;
 import com.example.mo.Movie;
 import com.example.mo.ScreeningRoom;
 import com.example.mo.Seat;
@@ -52,8 +53,8 @@ import com.example.mo.TicketDTO;
 import com.example.mo.Users;
 
 import jakarta.mail.internet.ParseException;
-
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class BookingController {
@@ -86,7 +87,6 @@ public class BookingController {
     @Autowired
     private FoodService foodSer;
 
-
     @GetMapping("/booking/{userid}/{movieid}")
     public String showBookingPage(Model model, @PathVariable("movieid") Integer movieid, @PathVariable("userid") Integer userid) {
         Movie movie = movieService.getMovieById(movieid);
@@ -112,7 +112,7 @@ public class BookingController {
             Integer showtimeId = (Integer) result[2];
             showtimes.add(new ShowtimeDTO(showtimeId, showDate, showTime));
         }
-    return showtimes;
+        return showtimes;
     }
 
     @GetMapping("/showtimes/getRoomName")
@@ -123,16 +123,44 @@ public class BookingController {
                                          @RequestParam Date showDate) {
         List<ScreeningRoom> screeningroom = screeningRoomRepository.findScreeningRoomsByTheaterIdAndMovieIdAndShowTimeAndShowDate(theaterID, movieID, showTime, showDate);               
         return screeningroom;
-    }  
-    
+    }
+
     @PostMapping("/tickets/save")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> saveTicket(@RequestBody TicketDTO ticketDTO) throws ParseException {
+    public ResponseEntity<Map<String, Object>> saveTicket(@RequestBody TicketDTO ticketDTO, HttpSession session) throws ParseException {
         try {
+            session.setAttribute("ticketDTO", ticketDTO);
+
+            int amount = (int) ticketDTO.getTotalPrice3(); 
+            String redirectUrl = "/createOrder?amount=" + amount;
+    
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "Ticket information stored in session. Proceed to payment.");
+            response.put("redirectUrl", redirectUrl);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "error");
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @PostMapping("/tickets/saveAfterPayment")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> saveTicketAfterPayment(HttpSession session) throws ParseException {
+        try {
+            TicketDTO ticketDTO = (TicketDTO) session.getAttribute("ticketDTO");
+            if (ticketDTO == null) {
+                throw new RuntimeException("No ticket information found in session.");
+            }
+
             int userId = parseId(ticketDTO.getUserId(), "userId");
             int movieId = parseId(ticketDTO.getMovieId(), "movieId");
             int theaterId = Integer.parseInt(ticketDTO.getTheaterId());
             int showtimeId = Integer.parseInt(ticketDTO.getShowtimeId());
+            Date showdate = (ticketDTO.getShowdate());
     
             Movie movie = movieService.getMovieById(movieId);
             Users user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
@@ -144,6 +172,7 @@ public class BookingController {
             ticket.setMovie(movie);
             ticket.setTheater(theater);
             ticket.setShowtime(showtime);
+            ticket.setShowDate(showdate);
             ticket.setPrice(ticketDTO.getTotalPrice3());
     
             Ticket savedTicket = ticketRepository.save(ticket);
@@ -165,21 +194,20 @@ public class BookingController {
             for (String foodDetail : ticketDTO.getSelectedFood()) {
                 String[] details = foodDetail.split(" id");
                 if (details.length > 1) {
-                    int foodId = Integer.parseInt(details[details.length - 1]);
-                    Food food = foodRepository.findById(foodId).orElseThrow(() -> new RuntimeException("Food not found"));
+                    int foodId = Integer.parseInt(details[1].trim());
+                    Food food = foodRepository.findById(foodId)
+                            .orElseThrow(() -> new RuntimeException("Food not found with id: " + foodId));
                     selectedFoods.add(food);
                 }
             }
             ticket.setFoods(selectedFoods);
             ticketRepository.save(ticket);
     
-            int amount = (int) ticketDTO.getTotalPrice3(); 
-            String redirectUrl = "/createOrder.html?amount=" + amount;
+            session.removeAttribute("ticketDTO");
     
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "Ticket saved successfully");
-            response.put("redirectUrl", redirectUrl);
+            response.put("message", "Ticket saved successfully after payment.");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
@@ -195,8 +223,6 @@ public class BookingController {
         }
         return Integer.parseInt(id);
     }
-
-    
 
     @GetMapping("/seats/booked")
     @ResponseBody
@@ -215,16 +241,10 @@ public class BookingController {
 
     @GetMapping("/getFoodByTheaterId/{theaterID}")
     @ResponseBody
-    public List<Food> getFoodByCinemaOwnerId(@PathVariable int theaterID) {
+    public List<FoodDTO> getFoodByCinemaOwnerId(@PathVariable int theaterID) {
         Integer cinemaOwnerId = theaterSer.findCinemaOwnerIdByTheaterId(theaterID);
-        List<Food> foods = foodSer.getFoodByCinemaOwnerId(cinemaOwnerId);
+        List<FoodDTO> foods = foodSer.getFoodByCinemaOwnerId(cinemaOwnerId);
         return foods;
-    }
-
-    @GetMapping("/foods")
-    @ResponseBody
-    public List<Food> getAllFoods() {
-        return foodSer.listAll();
     }
 
     @DeleteMapping("tickets/delete/{ticketId}")
@@ -232,5 +252,4 @@ public class BookingController {
         ticketService.deleteTicketById(ticketId);
         return "redirect:/mytickets";
     }
-    
 }

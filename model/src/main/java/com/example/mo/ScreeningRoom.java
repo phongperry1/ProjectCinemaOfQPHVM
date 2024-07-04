@@ -27,7 +27,7 @@ public class ScreeningRoom {
     @Column(name = "screening_room_id", nullable = false)
     private Integer screeningRoomID;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "theater_id", nullable = false)    
     private Theater theater;
 
@@ -36,6 +36,11 @@ public class ScreeningRoom {
 
     @OneToMany(mappedBy = "screeningRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Showtime> showtimes = new ArrayList<>();
+
+    public ScreeningRoom(Integer screeningRoomID, String roomName) {
+        this.screeningRoomID = screeningRoomID;
+        this.roomname = roomName;
+    }
 
     public Integer getScreeningRoomID() {
         return this.screeningRoomID;

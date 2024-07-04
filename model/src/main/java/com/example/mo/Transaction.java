@@ -28,7 +28,7 @@ public class Transaction {
     private String transactionStatus;
     private String bankTranNo;
     private String responseCode;
-    private String transactionType; // New field to indicate "Credit" or "Debit"
+    private String transactionType;
 
     // Default constructor
     public Transaction() {}

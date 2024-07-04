@@ -5,27 +5,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>Tạo đơn hàng</title>
+    <title>Hóa đơn điện tử</title>
+    <style>
+        .invoice {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .invoice-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .invoice-header img {
+            width: 150px;
+        }
+        .invoice-body {
+            margin-bottom: 20px;
+        }
+        .invoice-body h5 {
+            margin-bottom: 15px;
+        }
+        .invoice-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .invoice-footer button {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
-<div class="container">
-    <div class="row justify-content-center mt-5">
-        <a href="/home" class="nav-link px-2 link-light">Home</a>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <img th:src="@{/vnpay-logo.png}" style="width: 200px">
-                    <h2 class="card-title">Tạo Đơn Hàng</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="invoice">
+                <div class="invoice-header">
+                    <img th:src="@{/vnpay-logo.png}" alt="VNPAY Logo">
+                    <h2>Hóa đơn điện tử</h2>
+                </div>
+                <div class="invoice-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Thông tin đơn hàng:</h5>
+                            <p><strong>Mã đơn hàng:</strong> <span th:text="${orderInfo}"></span></p>
+                        </div>
+                        <div class="col-6 text-right">
+                            <h5>Số tiền:</h5>
+                            <p><strong>VND</strong> <span th:text="${amount}"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="invoice-footer">
                     <form th:action="@{/submitOrder}" method="post">
-                        <div class="form-group">
-                            <label for="amount">Số tiền:</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required value="299999">
-                        </div>
-                        <div class="form-group">
-                            <label for="orderInfo">Thông tin đơn hàng:</label>
-                            <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="Thanh toan don hang 2923">
-                        </div>
+                        <input type="hidden" name="amount" th:value="${amount}">
+                        <input type="hidden" name="orderInfo" th:value="${orderInfo}">
                         <button type="submit" class="btn btn-primary">Thanh toán</button>
                     </form>
                 </div>

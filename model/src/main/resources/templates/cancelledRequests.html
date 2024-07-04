@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <title>Requests Management</title>
+  <style>
+    .content-section {
+      display: none;
+    }
+
+    .text-success {
+      color: green !important;
+      font-size: 20px;
+    }
+
+    .text-danger {
+      color: red !important;
+      font-size: 20px;
+    }
+
+    .badge {
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .bg-secondary {
+      background-color: #6c757d;
+    }
+
+    .bg-warning {
+      background-color: #ffc107;
+    }
+
+    .bg-light {
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+
+    .bg-danger {
+      background-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 bg-light vh-100">
+        <div class="py-4 text-center">
+          <h2>Requests</h2>
+        </div>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/show}">
+              <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/cinema_owner}">
+              <i class="fas fa-tachometer-alt"></i> Cinema Owner
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-10">
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline" th:action="@{/search}" method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="userName" th:value="${userName}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          <div class="ml-auto">
+            <span class="navbar-text mr-3">Admin</span>
+          </div>
+        </nav>
+        <div th:if="${message}" class="alert alert-success text-center">
+          [[${message}]]
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Movie</th>
+              <th>Show Date</th>
+              <th>Request Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="request : ${requests}">
+              <td th:text="${request.ticket.ticketId}"></td>
+              <td th:text="${request.ticket.movie.title}"></td>
+              <td th:text="${request.ticket.showDate}"></td>
+              <td th:text="${request.requestDate}"></td>
+              <td th:text="${request.status}"></td>
+              <td>
+                <form th:action="@{/admin/approve-cancellation}" method="post" style="display: inline;">
+                  <input type="hidden" name="requestId" th:value="${request.id}" />
+                  <button type="submit" class="btn btn-success">Approve</button>
+                </form>
+                <form th:action="@{/admin/reject-cancellation}" method="post" style="display: inline;">
+                  <input type="hidden" name="requestId" th:value="${request.id}" />
+                  <button type="submit" class="btn btn-danger">Reject</button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

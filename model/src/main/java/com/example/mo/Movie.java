@@ -62,7 +62,7 @@ public class Movie {
     @Column(name = "status_movie", nullable = false)
     private String statusMovie;
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movie")
     private List<Showtime> showtimes;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

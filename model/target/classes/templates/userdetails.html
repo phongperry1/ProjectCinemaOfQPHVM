@@ -102,6 +102,7 @@
               <th>Update Rank</th>
               <th>Refund</th>
               <th>Transfer to Cinema Owner</th>
+              <th>Cancelled Requests</th> <!-- New column for cancelled requests -->
             </tr>
           </thead>
           <tbody>
@@ -143,6 +144,9 @@
               </td>
               <td th:unless="${user.cinemaOwner != null}">
                 <span class="text-muted">Not a Cinema Owner</span>
+              </td>
+              <td> <!-- New column for cancelled requests -->
+                <a th:href="@{/admin/cancelled-requests/{userId}(userId=${user.userId})}" class="btn btn-secondary">View Cancelled Requests</a>
               </td>
             </tr>
           </tbody>

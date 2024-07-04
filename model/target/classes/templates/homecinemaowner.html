@@ -23,7 +23,7 @@
             flex-direction: column;
         }
         header {
-            background: #000;
+            background: linear-gradient(90deg, #141E30 0%, #243B55 100%);
             padding: 10px 100px;
             display: flex;
             justify-content: space-between;
@@ -56,6 +56,7 @@
             color: #fff;
             text-decoration: none;
             padding: 10px 15px;
+            border-radius: 5px;
             transition: background 0.3s, color 0.3s;
         }
         nav ul li a:hover {
@@ -179,18 +180,18 @@
 <body>
     <header>
         <div class="logo">
-            Movie<span>Ticket</span>
+            Movie<span>Tic</span>
         </div>
         <nav>
             <ul>
-                <li><a class="manage" th:href="@{/movie}">Manage Movie</a></li>
-                <li><a class="manage" th:href="@{/showtime}">Manage Showtime</a></li>
-                <li><a class="manage" th:href="@{/screeningroom}">Manage ScreeningRoom</a></li>
-                <li><a class="manage" th:href="@{/theater}">Manage Theater</a></li>
-                <li><a class="manage" th:href="@{/news}">Manage News</a></li>
-                <li><a class="manage" th:href="@{/promotions}">Manage Promotions</a></li>
-                <li><a class="manage" th:href="@{/food}">Manage Food</a></li>
-                <li><a class="manage" th:href="@{/revenue}">Manage Revenue</a></li>
+                <li><a class="manage" th:href="@{/movie}">Movie</a></li>
+                <li><a class="manage" th:href="@{/showtime}">Showtime</a></li>
+                <li><a class="manage" th:href="@{/screeningroom}">ScreeningRoom</a></li>
+                <li><a class="manage" th:href="@{/theater}">Theater</a></li>
+                <li><a class="manage" th:href="@{/news}">News</a></li>
+                <li><a class="manage" th:href="@{/promotions}">Promotions</a></li>
+                <li><a class="manage" th:href="@{/food}">Food</a></li>
+                <li><a class="manage" th:href="@{/revenue}">Revenue</a></li>
             </ul>
         </nav>
         <div class="header-right">

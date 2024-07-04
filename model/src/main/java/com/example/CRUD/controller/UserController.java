@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.CRUD.service.TicketService;
 import com.example.CRUD.service.UserService;
+import com.example.mo.Ticket;
 import com.example.mo.Users;
 
 import org.slf4j.Logger;
@@ -30,7 +33,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private TicketService ticketService;
     @ModelAttribute
     public void commonUser(Principal principal, Model model) {
         if (principal != null) {
@@ -123,5 +127,15 @@ public class UserController {
             }
         }
         return "member-points";
+    }
+
+        @GetMapping("/mytickets")
+    public String ShowMyTickets(Model model, Principal principal) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        int userId = user.getUserId();
+        List<Ticket> tickets = ticketService.getTicketsByUserId(userId);
+        model.addAttribute("tickets", tickets);
+        return "mytickets";
     }
 }

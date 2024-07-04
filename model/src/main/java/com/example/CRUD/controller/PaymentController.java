@@ -11,18 +11,21 @@ import com.example.CRUD.config.VNPAYService;
 import com.example.mo.Transaction;
 import com.example.mo.Users;
 import com.example.mo.CinemaOwner;
-import com.example.CRUD.service.IntermediaryWalletService;
-import com.example.CRUD.service.TransactionService;
-import com.example.CRUD.service.UserService;
-import com.example.CRUD.service.CinemaService;
-import com.example.CRUD.controller.InsufficientBalanceException;
+import com.example.mo.CinemaOwnerTransaction;
+import com.example.mo.TicketDTO;
+import com.example.mo.Ticket;
+import com.example.CRUD.service.*;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
+
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,15 +44,26 @@ public class PaymentController {
     private UserService userService;
 
     @Autowired
+    private CinemaService cinemaService;
+
+    @Autowired
     private IntermediaryWalletService intermediaryWalletService;
 
     @Autowired
-    private CinemaService cinemaService;
+    private TicketService ticketService;
+
+    @Autowired
+    private TheaterService theaterService;
+
+    @Autowired
+    private CinemaOwnerTransactionService cinemaOwnerTransactionService;
 
     private String generatedOtp;
 
-    @GetMapping({"/createOrder"})
-    public String home() {
+    @GetMapping("/createOrder")
+    public String createOrder(@RequestParam("amount") int amount, Model model) {
+        model.addAttribute("amount", amount);
+        model.addAttribute("orderInfo", "Ve xem phim");
         return "createOrder";
     }
 
@@ -58,6 +72,7 @@ public class PaymentController {
                               @RequestParam("orderInfo") String orderInfo,
                               HttpServletRequest request,
                               Principal principal,
+                              HttpSession session,
                               Model model) {
         String email = principal.getName();
         Users user = userService.getUsersByEmail(email);
@@ -68,21 +83,17 @@ public class PaymentController {
             return "errorPage"; // Redirect to an error page
         }
 
-        try {
-            userService.withdraw(user.getUserId(), (double) orderTotal);
-            intermediaryWalletService.addFunds((double) orderTotal);
-        } catch (InsufficientBalanceException e) {
-            model.addAttribute("error", e.getMessage());
+        // Lưu ticketDTO tạm thời vào session
+        TicketDTO ticketDTO = (TicketDTO) session.getAttribute("ticketDTO");
+        if (ticketDTO == null) {
+            model.addAttribute("error", "No ticket details found in session.");
             return "errorPage"; // Redirect to an error page
         }
 
-        // Record the transaction as a debit
-        Transaction transaction = new Transaction(
-            user, "VNPay", new java.util.Date().toString(), UUID.randomUUID().toString(),
-            "VNPAY_TMN_CODE", orderInfo, UUID.randomUUID().toString(),
-            -orderTotal, "Wallet", "00", "12345", "00", "Debit"
-        );
-        transactionService.addTransaction(transaction);
+        ticketDTO.setUserId(String.valueOf(user.getUserId()));
+        ticketDTO.setTotalPrice3(orderTotal);
+        ticketDTO.setOrderInfo(orderInfo);
+        session.setAttribute("ticketDTO", ticketDTO);
 
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         String vnpayUrl = vnPayService.createOrder(request, orderTotal, orderInfo, baseUrl + "/vnpay-payment-return");
@@ -90,7 +101,7 @@ public class PaymentController {
     }
 
     @GetMapping("/vnpay-payment-return")
-    public String paymentCompleted(HttpServletRequest request, Model model, Principal principal) {
+    public String paymentCompleted(HttpServletRequest request, Model model, Principal principal, HttpSession session) {
         boolean paymentStatus = vnPayService.validatePayment(request, model);
 
         String orderInfo = request.getParameter("vnp_OrderInfo");
@@ -121,6 +132,11 @@ public class PaymentController {
                 int amount = Integer.parseInt(totalPrice) / 100;
                 int points = (amount / 100000) * 10;
                 userService.addMemberPoints(user.getUserId(), points);
+
+                // Lưu vé vào cơ sở dữ liệu
+                TicketDTO ticketDTO = (TicketDTO) session.getAttribute("ticketDTO");
+                ticketService.savePendingTicket(ticketDTO, user);
+                session.removeAttribute("ticketDTO");
             } else {
                 logger.error("User not found with email: " + email);
             }
@@ -142,19 +158,16 @@ public class PaymentController {
             String email = principal.getName();
             Users user = userService.getUsersByEmail(email);
             if (user != null) {
-                List<Transaction> transactions = transactionService.getTransactionsByUserId(user.getUserId());
+                List<Transaction> transactions = transactionService.getTransactionsByUserId(user.getUserId())
+                        .stream()
+                        .filter(t -> !t.getTransactionType().equals("Transfer") && !t.getTransactionType().equals("Intermediary"))
+                        .collect(Collectors.toList());
                 logger.info("User ID: " + user.getUserId() + " has " + transactions.size() + " transactions.");
-                // Ensure there are no duplicate transactions
-                model.addAttribute("transactions", transactions.stream().distinct().collect(Collectors.toList()));
+                model.addAttribute("transactions", transactions);
             } else {
                 logger.error("User not found with email: " + email);
                 model.addAttribute("transactions", List.of());
             }
-        } else {
-            List<Transaction> transactions = transactionService.getAllTransactions();
-            logger.info("Showing all transactions, total: " + transactions.size());
-            // Ensure there are no duplicate transactions
-            model.addAttribute("transactions", transactions.stream().distinct().collect(Collectors.toList()));
         }
         return "transactionHistory";
     }
@@ -200,7 +213,7 @@ public class PaymentController {
 
             // Add a transaction for the fund addition
             Transaction transaction = new Transaction(
-                user, "VNPAY", new java.util.Date().toString(), UUID.randomUUID().toString(),
+                user, "VNPAY", new Date().toString(), UUID.randomUUID().toString(),
                 "VNPAY_TMN_CODE", "Funds added", UUID.randomUUID().toString(),
                 amount, "Wallet", "00", "12345", "00", "Credit"
             );
@@ -221,51 +234,57 @@ public class PaymentController {
         return "errorPage";
     }
 
-    // Refund endpoint
-    @PostMapping("/admin/refund")
-    public String refundUser(@RequestParam("userId") int userId, Model model) {
-        Users user = userService.getUsersById(userId);
+    // Refund and transfer logic during cancellation approval
+    @Transactional
+    public void processRefundAndTransfer(Ticket ticket) {
+        Users user = ticket.getUser();
+        Integer cinemaOwnerId = theaterService.findCinemaOwnerIdByTheaterId(ticket.getTheater().getTheaterID());
+        CinemaOwner cinemaOwner = cinemaService.getCinemaOwnerById(cinemaOwnerId);
 
-        if (user == null) {
-            logger.error("User not found with ID: " + userId);
-            model.addAttribute("error", "User not found.");
-            return "errorPage"; // Redirect to an error page
-        }
+        double totalPrice = ticket.getPrice();
+        double refundAmount = totalPrice * 0.7;
+        double transferAmount = totalPrice * 0.25;
+        double intermediaryAmount = totalPrice * 0.05;
 
-        // Get the last transaction amount for the user
-        Optional<Transaction> lastTransaction = transactionService.getTransactionsByUserId(userId).stream()
-                .filter(t -> "Debit".equals(t.getTransactionType()))
-                .findFirst();
+        // Refund 70% to user
+        userService.deposit(user.getUserId(), refundAmount);
 
-        if (!lastTransaction.isPresent()) {
-            model.addAttribute("error", "No transaction found to refund.");
-            return "errorPageFunds";
-        }
+        // Transfer 25% to cinema owner's wallet
+        cinemaOwner.addFundsToWallet(transferAmount);
+        cinemaService.saveCinemaOwner(cinemaOwner);
 
-        double originalAmount = lastTransaction.get().getAmount() * -1; // Convert negative debit amount to positive
-        double refundAmount = originalAmount * 0.7;
+        // Add 5% to intermediary wallet
+        intermediaryWalletService.addFunds(intermediaryAmount);
 
-        try {
-            intermediaryWalletService.withdrawFunds(refundAmount);
-            userService.deposit(user.getUserId(), refundAmount);
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            return "errorPageFunds"; // Redirect to an error page
-        }
-
-        // Record the transaction as a credit
-        Transaction transaction = new Transaction(
-            user, "VNPAY", new java.util.Date().toString(), UUID.randomUUID().toString(),
-            "VNPAY_TMN_CODE", "Refund", UUID.randomUUID().toString(),
-            refundAmount, "Wallet", "00", "12345", "00", "Credit"
+        // Add refund transaction
+        Transaction refundTransaction = new Transaction(
+                user, "Refund", new Date().toString(), UUID.randomUUID().toString(),
+                "Refund", "Refund for ticket " + ticket.getTicketId(), UUID.randomUUID().toString(),
+                refundAmount, "Wallet", "00", "12345", "00", "Credit"
         );
-        transactionService.addTransaction(transaction);
+        transactionService.addTransaction(refundTransaction);
 
-        model.addAttribute("message", "Refund processed successfully.");
-        return "refundSuccess"; // Redirect to success page
+        // Add transfer transaction for cinema owner
+        CinemaOwnerTransaction cinemaOwnerTransaction = new CinemaOwnerTransaction();
+        cinemaOwnerTransaction.setCinemaOwner(cinemaOwner);
+        cinemaOwnerTransaction.setTransactionType("Transfer");
+        cinemaOwnerTransaction.setAmount(transferAmount);
+        cinemaOwnerTransaction.setTransactionDate(new Date());
+        cinemaOwnerTransactionService.saveTransaction(cinemaOwnerTransaction);
+
+        // Add intermediary wallet transaction
+        // Transaction intermediaryTransaction = new Transaction(
+        //         user, "Intermediary", new Date().toString(), UUID.randomUUID().toString(),
+        //         "Intermediary", "Intermediary funds for ticket " + ticket.getTicketId(), UUID.randomUUID().toString(),
+        //         intermediaryAmount, "Wallet", "00", "12345", "00", "Credit"
+        // );
+        // transactionService.addTransaction(intermediaryTransaction);
     }
 
-    // Transfer funds from intermediary wallet to cinema owner's wallet
+    // Approve cancellation and refund
+    
+
+    // Transfer remaining funds from intermediary wallet to cinema owner
     @PostMapping("/admin/transferToCinemaOwner")
     public String transferToCinemaOwner(@RequestParam("cinemaOwnerId") int cinemaOwnerId, Model model) {
         CinemaOwner cinemaOwner = cinemaService.getCinemaOwnerById(cinemaOwnerId);
@@ -278,10 +297,12 @@ public class PaymentController {
 
         Double intermediaryBalance = intermediaryWalletService.getBalance();
         Double transferAmount = intermediaryBalance * 0.9; // Transfer 90% of the intermediary wallet balance
+        Double intermediaryAmount = intermediaryBalance * 0.1; // 10% for intermediary wallet
 
         try {
-            intermediaryWalletService.withdrawFunds(transferAmount);
+            intermediaryWalletService.withdrawFunds(intermediaryBalance); // Withdraw the full intermediary balance
             cinemaOwner.addFundsToWallet(transferAmount);
+            intermediaryWalletService.addFunds(intermediaryAmount); // Add 10% back to intermediary wallet
             cinemaService.saveCinemaOwner(cinemaOwner);
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
