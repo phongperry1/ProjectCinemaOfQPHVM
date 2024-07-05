@@ -130,9 +130,8 @@ public class PaymentController {
 
                 // Tính điểm thành viên
                 int amount = Integer.parseInt(totalPrice) / 100;
-                int points = (amount / 100000) * 10;
-                userService.addMemberPoints(user.getUserId(), points);
-
+            int points = amount / 10000; 
+            userService.addMemberPoints(user.getUserId(), points);
                 // Lưu vé vào cơ sở dữ liệu
                 TicketDTO ticketDTO = (TicketDTO) session.getAttribute("ticketDTO");
                 ticketService.savePendingTicket(ticketDTO, user);
@@ -263,6 +262,10 @@ public class PaymentController {
                 refundAmount, "Wallet", "00", "12345", "00", "Credit"
         );
         transactionService.addTransaction(refundTransaction);
+
+        // Deduct member points
+        int pointsToDeduct = (int) ((totalPrice / 100000) * 10);
+        userService.deductMemberPoints(user.getUserId(), pointsToDeduct);
 
         // Add transfer transaction for cinema owner
         CinemaOwnerTransaction cinemaOwnerTransaction = new CinemaOwnerTransaction();

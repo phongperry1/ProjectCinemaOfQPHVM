@@ -75,14 +75,13 @@
     <header>
       <nav>
           <p class="logo">
-              Movie<span>Ticket<span>
+              Movie<span>Tic<span>
           </p>
   
           <i class="fa fa-bars" id="menu"></i>
   
           <ul id="menu-box">
               <div class="marker"></div>
-              <li><a href="/">main</a></li>
               <div class="dropdown">
                   <button class="menu-btn">MOVIE</button>
                   <div class="dropdown-content">
@@ -90,14 +89,11 @@
                       <li><a class="manage" href=""></a></li>
                   </div>
               </div>
-              <li><a href="/nearby_theaters">theater</a></li>
-              <li><a href="/createOrder">Payment</a></li>
-              <li><a href="#">news</a></li>
-              <li><a href="#">promotion</a></li>
-              <li><a href="#">food</a></li>
-              <li><a href="#">contact</a></li>
-              <li><a href="/addFunds">Add Funds</a></li>
-              <li><a href="/register-cinemaowner">Register Cinema</a></li>
+              <li><a class="menu-btn" href="/nearby_theaters">theater</a></li>
+              <li><a class="menu-btn" href="#">news</a></li>
+              <li><a class="menu-btn" href="#">promotion</a></li>
+              <li><a class="menu-btn" href="/addFunds">Add Funds</a></li>
+              <li><a class="menu-btn" href="/register-cinemaowner">Register Cinema</a></li>
               <li>
                   <span><span th:text="${user.userName}"></span></span>
               </li>
@@ -106,7 +102,7 @@
                       <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
                   </a>
               </li>
-              <li><a href="/logout">Logout</a></li>
+              <li><a class="menu-btn" href="/logout">Logout</a></li>
           </ul>
       </nav>
   </header>
@@ -115,7 +111,7 @@
     <section>
       <div class="movie-list-section">
         <div>
-          <h1>Welcome</h1>
+          
           <div class="carousel-container">
             <button class="button prev-btn">
               <div class="button-box">

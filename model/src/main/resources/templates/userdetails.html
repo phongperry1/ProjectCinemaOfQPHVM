@@ -100,7 +100,7 @@
               <th>View Detail</th>
               <th>Lock Account</th>
               <th>Update Rank</th>
-              <th>Refund</th>
+             
               <th>Transfer to Cinema Owner</th>
               <th>Cancelled Requests</th> <!-- New column for cancelled requests -->
             </tr>
@@ -129,12 +129,6 @@
               </td>
               <td>
                 <a th:href="@{/RankInfo/{UserId}(UserId=${user.userId})}" class="btn btn-warning">Update Rank</a>
-              </td>
-              <td>
-                <form th:action="@{/admin/refund}" method="post">
-                  <input type="hidden" name="userId" th:value="${user.userId}" />
-                  <button type="submit" class="btn btn-success">Refund</button>
-                </form>
               </td>
               <td th:if="${user.cinemaOwner != null}">
                 <form th:action="@{/admin/transferToCinemaOwner}" method="post">

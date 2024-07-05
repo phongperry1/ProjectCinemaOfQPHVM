@@ -201,4 +201,18 @@ public class UserService {
         user.addMemberPoints(points);
         userRepository.save(user);
     }
+
+    // Method to deduct member points
+    public void deductMemberPoints(int userId, int points) {
+        Users user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        int currentPoints = user.getMemberPoints();
+        if (points > currentPoints) {
+            throw new IllegalArgumentException("Not enough member points.");
+        }
+
+        user.setMemberPoints(currentPoints - points);
+        userRepository.save(user);
+    }
 }

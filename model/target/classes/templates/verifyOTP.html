@@ -5,15 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTP Verification</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        body {
+            background-color: #1f2025;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            margin-top: 100px;
+            max-width: 600px;
+            background-color: #2e3037;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            color: #DB0000;
+        }
+
+        .form-group label {
+            color: #bbbbbb;
+        }
+
+        .form-control {
+            background-color: #3c3d44;
+            border: none;
+            color: #ffffff;
+        }
+
+        .btn-primary {
+            background-color: #DB0000;
+            border-color: #DB0000;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff0000;
+            border-color: #ff0000;
+        }
+
         .error-message {
             color: red;
             display: none;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <h2 class="text-center">OTP Verification</h2>
         <form id="otpForm" action="/api/payments/confirmOTP" method="post" class="mt-4">
             <div class="form-group">

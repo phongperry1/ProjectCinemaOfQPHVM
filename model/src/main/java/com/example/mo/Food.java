@@ -35,7 +35,7 @@ public class Food {
     @Column(name = "price")
     private double price;
 
-    @Column(nullable = true, length = 64)
+    @Column(nullable = true, length = 255)
     private String photoFood;
 
     @ManyToMany(mappedBy = "foods", cascade = { CascadeType.PERSIST, CascadeType.MERGE })

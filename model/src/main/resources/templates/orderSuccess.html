@@ -4,21 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            color: #fff;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1, h2 {
+            color: #DB0000;
+        }
+        .table {
+            color: #fff;
+        }
+        .btn-primary {
+            background-color: #DB0000;
+            border-color: #DB0000;
+        }
+        .btn-secondary {
+            background-color: #333;
+            border-color: #333;
+        }
+        .btn-primary:hover, .btn-secondary:hover {
+            opacity: 0.8;
+        }
+        .navbar {
+            background-color: #000;
+            padding: 10px 100px;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .navbar .logo {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        .navbar .logo span {
+            color: #DB0000;
+        }
+    </style>
     <title>Thanh toán thành công</title>
 </head>
 
 <body>
-<!-- back to top -->
+<!-- Navbar -->
+<header>
+    <div class="navbar">
+        <div class="logo">
+            Movie<span>Tic</span>
+        </div>
+        <nav>
+            <a href="/home">Home</a>
+        </nav>
+    </div>
+</header>
 
-<!-- start body -->
+<!-- Body -->
 <div class="body py-5">
     <div class="container">
         <div class="w-50 m-auto">
-            <!-- Thêm lớp "my-4" để tạo ra khoảng cách trên và dưới tiêu đề trang -->
             <h1 class="my-3 text-success text-center">Thanh toán thành công</h1>
-            <!-- Sử dụng lớp "alert" và "alert-danger" để tạo ra thông báo lỗi -->
-            <h2 class="my-2">Chi tiết đơn hàng</h2>
-            <!-- Sử dụng lớp "table" và "table-bordered" để tạo ra bảng hiển thị thông tin chi tiết đơn hàng -->
+            <h2 class="my-2 text-center">Chi tiết đơn hàng</h2>
             <table class="table table-bordered">
                 <tbody>
                 <tr>
@@ -39,18 +89,23 @@
                 </tr>
                 </tbody>
             </table>
-            <a href="/" class="btn btn-primary">Về trang chủ</a>
-            <a href="/transactionHistory" class="btn btn-secondary">Xem lịch sử giao dịch</a>
+            <div class="text-center">
+                <a href="/" class="btn btn-primary m-2">Về trang chủ</a>
+                <a href="/transactionHistory" class="btn btn-secondary m-2">Xem lịch sử giao dịch</a>
+            </div>
         </div>
     </div>
 </div>
-<!-- end body -->
 
-<!-- start footer -->
+<!-- Footer -->
+<footer>
+    <div class="text-center py-3">
+        <p>&copy; 2024 MovieTicket. All Rights Reserved.</p>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 </body>
-
 </html>

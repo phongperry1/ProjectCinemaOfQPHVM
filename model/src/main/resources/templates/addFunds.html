@@ -5,9 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Funds to Wallet</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #1f2025;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            margin-top: 100px;
+            max-width: 600px;
+            background-color: #2e3037;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            color: #DB0000;
+        }
+
+        .form-group label {
+            color: #bbbbbb;
+        }
+
+        .form-control {
+            background-color: #3c3d44;
+            border: none;
+            color: #ffffff;
+        }
+
+        .btn-primary {
+            background-color: #DB0000;
+            border-color: #DB0000;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff0000;
+            border-color: #ff0000;
+        }
+
+        .btn-home {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+
+        .btn-home:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <h2 class="text-center">Add Funds to Your Wallet</h2>
         <form action="/api/payments/verifyOTP" method="post" class="mt-4">
             <div class="form-group">
@@ -22,8 +74,11 @@
                 <label for="amount">Amount to Add (VND):</label>
                 <input type="number" class="form-control" id="amount" name="amount" required>
             </div>
-            <button type="submit" class="btn btn-primary">Proceed to OTP Verification</button>
+            <button type="submit" class="btn btn-primary btn-block">Proceed to OTP Verification</button>
         </form>
+        <div class="text-center mt-3">
+            <a href="/home" class="btn btn-home">Home</a>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
