@@ -10,19 +10,20 @@ import com.example.CRUD.Repository.NewsRepository;
 import com.example.CRUD.controller.NewsNotFoundException;
 import com.example.mo.News;
 
-
-
-
 @Service
 public class NewsService {
     @Autowired
     private NewsRepository repo;
 
-     public List<News> listAll() {
-        return (List<News>) repo.findAll();
+    public List<News> listAll() {
+        return repo.findAll();
     }
 
-     public News save(News news) {
+    public List<News> listAllByCinemaOwnerID(Integer cinemaOwnerID) {
+        return repo.findByCinemaOwnerID(cinemaOwnerID);
+    }
+
+    public News save(News news) {
         return repo.save(news);
     }
 
@@ -34,10 +35,10 @@ public class NewsService {
         throw new NewsNotFoundException("Could not find any news with ID " + newsID);
     }
 
-    public void delete(Integer NewsID) throws NewsNotFoundException {
-        if (!repo.existsById(NewsID)) {
-            throw new NewsNotFoundException("Could not find any news with ID " + NewsID);
+    public void delete(Integer newsID) throws NewsNotFoundException {
+        if (!repo.existsById(newsID)) {
+            throw new NewsNotFoundException("Could not find any news with ID " + newsID);
         }
-        repo.deleteById(NewsID);
-    } 
+        repo.deleteById(newsID);
+    }
 }

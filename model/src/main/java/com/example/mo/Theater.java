@@ -86,7 +86,6 @@ public class Theater {
     @Transient
     public String getPhotosImagePath() {
         if (photoTheater == null) return null;
-
         return "/theater-photo/" + theaterID + "/" + photoTheater;
     }
 

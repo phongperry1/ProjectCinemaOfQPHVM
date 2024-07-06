@@ -26,11 +26,11 @@
                         <th>ShowDate</th>
                         <th>ShowTime</th>
                         <th>Status</th>
+                        <th>CinemaOwnerID</th>
                         <th>Created At</th>
                         <th>Updated At</th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
-    
                 </thead>
                 <tbody>
                     <th:block th:each="showtime : ${listShowtime}">
@@ -41,6 +41,7 @@
                             <td>[[${showtime.showDate}]]</td>
                             <td>[[${showtime.showTime}]]</td>
                             <td>[[${showtime.status}]]</td>
+                            <td>[[${showtime.cinemaOwnerID}]]</td>
                             <td>[[${showtime.createdAt}]]</td>
                             <td>[[${showtime.updatedAt}]]</td>
                             <td>

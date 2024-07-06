@@ -10,22 +10,20 @@ import com.example.CRUD.Repository.PromotionsRepository;
 import com.example.CRUD.controller.PromotionsNotFoundException;
 import com.example.mo.Promotions;
 
-
-
 @Service
 public class PromotionsService {
-     @Autowired
+    @Autowired
     private PromotionsRepository repo;
 
-     public List<Promotions> listAll() {
-        return (List<Promotions>) repo.findAll();
+    public List<Promotions> listAllByCinemaOwnerID(Integer cinemaOwnerID) {
+        return repo.findByCinemaOwnerID(cinemaOwnerID);
     }
 
-     public Promotions save(Promotions promotions) {
+    public Promotions save(Promotions promotions) {
         return repo.save(promotions);
     }
 
-     public Promotions get(Integer promotionsID) throws PromotionsNotFoundException {
+    public Promotions get(Integer promotionsID) throws PromotionsNotFoundException {
         Optional<Promotions> result = repo.findById(promotionsID);
         if (result.isPresent()) {
             return result.get();
@@ -33,14 +31,10 @@ public class PromotionsService {
         throw new PromotionsNotFoundException("Could not find any promotions with ID " + promotionsID);
     }
 
-
-     public void delete(Integer PromotionID) throws PromotionsNotFoundException {
-        if (!repo.existsById(PromotionID)) {
-            throw new PromotionsNotFoundException("Could not find any promotions with ID " + PromotionID);
+    public void delete(Integer promotionID) throws PromotionsNotFoundException {
+        if (!repo.existsById(promotionID)) {
+            throw new PromotionsNotFoundException("Could not find any promotions with ID " + promotionID);
         }
-        repo.deleteById(PromotionID);
-    } 
-
-
-
+        repo.deleteById(promotionID);
+    }
 }

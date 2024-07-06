@@ -19,15 +19,22 @@ public class TheaterService {
         return repo.findAll();
     }
 
+    public List<Theater> listAllByCinemaOwnerID(Integer cinemaOwnerID) {
+        return repo.findByCinemaOwnerID(cinemaOwnerID);
+    }
+
     public Theater save(Theater theater) {
         return repo.save(theater);
     }
 
-    public Theater get(Integer id) throws TheaterNotFoundException {
-        return repo.findById(id).orElseThrow(() -> new TheaterNotFoundException("Could not find any theaters with ID " + id));
+    public Theater get(Integer theaterID) throws TheaterNotFoundException {
+        return repo.findById(theaterID).orElseThrow(() -> new TheaterNotFoundException("Theater not found"));
     }
 
-    public void delete(Integer id) {
-        repo.deleteById(id);
+    public void delete(Integer theaterID) throws TheaterNotFoundException {
+        if (!repo.existsById(theaterID)) {
+            throw new TheaterNotFoundException("Theater not found");
+        }
+        repo.deleteById(theaterID);
     }
 }

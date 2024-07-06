@@ -18,9 +18,11 @@ public class ShowtimeService {
     private ShowtimeRepository repo;
 
     public List<Showtime> getShowtimesByMovieID(Integer movieID) {
-        List<Showtime> showtimes = repo.findByMovieID(movieID);
-        System.out.println("Fetched showtimes for movie ID " + movieID + ": " + showtimes);
-        return showtimes;
+        return repo.findByMovieID(movieID);
+    }
+
+    public List<Showtime> getShowtimesByMovieIDAndCinemaOwnerID(Integer movieID, Integer cinemaOwnerID) {
+        return repo.findByMovieIDAndCinemaOwnerID(movieID, cinemaOwnerID);
     }
 
     public List<Showtime> getShowtimesByDate(Date showDate) {
@@ -28,7 +30,11 @@ public class ShowtimeService {
     }
 
     public List<Showtime> listAll() {
-        return (List<Showtime>) repo.findAll();
+        return repo.findAll();
+    }
+
+    public List<Showtime> listAllByCinemaOwnerID(Integer cinemaOwnerID) {
+        return repo.findByCinemaOwnerID(cinemaOwnerID);
     }
 
     public void save(Showtime showtime) {

@@ -124,14 +124,14 @@
             </thead>
             <tbody>
                 <tr th:each="food : ${listFood}">
-                    <td th:text="${food.FoodID}">FoodID</td>
-                    <td th:text="${food.CinemaOwnerID}">CinemaOwnerID</td>
-                    <td th:text="${food.FoodName}">FoodName</td>
-                    <td th:text="${food.Price}">Price</td>
-                    <td><img th:src="@{${food.PhotosImagePath}}" class="img-round" alt="No pic" width="100" height="60" /></td>
+                    <td th:text="${food.foodID}">FoodID</td>
+                    <td th:text="${food.cinemaOwnerID}">CinemaOwnerID</td>
+                    <td th:text="${food.foodName}">FoodName</td>
+                    <td th:text="${food.price}">Price</td>
+                    <td><img th:src="@{${food.photosImagePath}}" class="img-round" alt="No pic" width="100" height="60" /></td>
                     <td>
-                        <a class="btn btn-warning btn-sm me-2" th:href="@{'/food/edit/' + ${food.FoodID}}">Edit</a>
-                        <a class="btn btn-danger btn-sm" th:href="@{'/food/delete/' + ${food.FoodID}}" th:onclick="return confirm('Are you sure you want to delete this food?');">Delete</a>
+                        <a class="btn btn-warning btn-sm me-2" th:href="@{'/food/edit/' + ${food.foodID}}">Edit</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{'/food/delete/' + ${food.foodID}}" th:onclick="return confirm('Are you sure you want to delete this food?');">Delete</a>
                     </td>
                 </tr>
             </tbody>

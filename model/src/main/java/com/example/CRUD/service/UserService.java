@@ -11,12 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.mo.Users;
+import com.example.CRUD.Repository.UserRepository;
 
 import jakarta.mail.internet.MimeMessage;
 
-import com.example.CRUD.Repository.UserRepository;
-
-@Service("userServiceImpl")
+@Service
 public class UserService {
 
     @Autowired
@@ -56,10 +55,10 @@ public class UserService {
             if (passwordEncoder.matches(currentPassword, existingUser.getUserPassword())) {
                 existingUser.setUserPassword(passwordEncoder.encode(newPassword));
                 userRepository.save(existingUser);
-                return true; // Mật khẩu đã được cập nhật thành công
+                return true; // Password updated successfully
             }
         }
-        return false; // Cập nhật mật khẩu thất bại
+        return false; // Password update failed
     }
 
     public List<Users> getUsers() {
@@ -85,13 +84,13 @@ public class UserService {
         user.setStatus(false);
         user.setVerificationCode(UUID.randomUUID().toString());
 
-        Users newuser = userRepository.save(user);
+        Users newUser = userRepository.save(user);
 
-        if (newuser != null) {
-            sendEmail(newuser, url);
+        if (newUser != null) {
+            sendEmail(newUser, url);
         }
 
-        return newuser;
+        return newUser;
     }
 
     public void sendEmail(Users user, String url) {
@@ -158,7 +157,7 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    // Phương thức login để xác thực người dùng
+    // Method for logging in a user
     public Users login(String email, String password) {
         Users user = userRepository.findByEmail(email);
         if (user != null && passwordEncoder.matches(password, user.getUserPassword())) {

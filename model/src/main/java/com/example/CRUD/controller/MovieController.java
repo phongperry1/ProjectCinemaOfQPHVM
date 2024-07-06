@@ -1,5 +1,16 @@
 package com.example.CRUD.controller;
 
+import com.example.CRUD.service.MovieService;
+import com.example.CRUD.service.ShowtimeService;
+import com.example.mo.Movie;
+import com.example.mo.Showtime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,23 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.example.CRUD.service.MovieService;
-import com.example.CRUD.service.ShowtimeService;
-import com.example.mo.Movie;
-import com.example.mo.Showtime;
 
 @Controller
 @RequestMapping("/movie")
@@ -36,12 +30,11 @@ public class MovieController {
     private ShowtimeService showtimeService;
 
     @GetMapping
-public String getAllMovies(Model model) {
-    List<Movie> movies = movieService.getAllMovies();
-    model.addAttribute("movies", movies);
-    return "movie";
-}
-
+    public String getAllMovies(Model model) {
+        List<Movie> movies = movieService.getAllMovies();
+        model.addAttribute("movies", movies);
+        return "movie";
+    }
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
@@ -88,10 +81,11 @@ public String getAllMovies(Model model) {
 
     @PostMapping("/update/{id}")
     public String updateMovie(@PathVariable Integer id, @ModelAttribute Movie movieDetails,
-                              @RequestParam("imageFile") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
+                              @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                              RedirectAttributes redirectAttributes) {
         Movie movie = movieService.getMovieById(id);
         if (movie != null) {
-            if (!imageFile.isEmpty()) {
+            if (imageFile != null && !imageFile.isEmpty()) {
                 try {
                     // Save uploaded file to local directory
                     String uploadDir = System.getProperty("user.dir") + "/uploads/";
