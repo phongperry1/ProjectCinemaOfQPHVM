@@ -16,12 +16,16 @@
     <title>Ticket Booking</title>
     <style>
         body {
+            background: #1f2025 !important;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
             display: flex;
             gap: 20px;
+
         }
 
         .poster {
@@ -165,6 +169,8 @@
             box-shadow: rgba(254, 83, 83, 0.2) 0 2px 4px, rgba(254, 83, 83, 0.15) 0 7px 13px -3px, #e7d6d6 0 -3px 0 inset;
             transform: translateY(-2px);
         }
+
+        
 
         .screen {
             position: relative;
@@ -358,6 +364,17 @@
             color: #000000 !important;
         }
 
+        .show-date-button.selected {
+            background-color: #de0000b4 !important;
+            border-color: #052e1b !important;
+            color: #000000 !important;
+        }
+
+        .selected-theater {
+            background-color: #de0000b4 !important;
+            border-color: #052e1b !important;
+            color: #000000 !important;
+        }
         .no-border {
             border: none !important;
         }
@@ -451,12 +468,151 @@
             width: 60%; 
             text-align: left; 
         }
+
+        header {
+            background-color: #282a36;
+            padding: 20px 0;
+            border-bottom: 2px solid #44475a;
+        }
+
+        header .navbar-brand {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        header .navbar-brand span {
+            color: red;
+        }
+
+        header .nav-link {
+            color: #ffffff;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        header .nav-link:hover {
+            color: red;
+        }
+
+        header .rounded-circle {
+            border: 2px solid white;
+        }
+
+        header .user-info {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        header .user-info span {
+            margin-right: 10px;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .container {
+        margin-top: 20px;
+        }
+
+        .card {
+            background-color: #9d9d9dec;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        /* .card-body {
+            padding: 20px;
+        } */
+
+        .card.no-border {
+            border: none;
+            box-shadow: none;
+        }
+
+        .movie-info h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+
+        .schedule-container .list-group-item {
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .schedule-container .list-group-item:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.02);
+        }
+
+        .schedule-container .cinema-item img {
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .schedule-container .cinema-item {
+            margin-right: 15px;
+        }
+
+        .schedule-container p {
+            margin: 0;
+        }
+
+        .dates-container, .showtimes-container {
+            margin-top: 20px;
+        }
+
+        .dates-container h3, .showtimes-container h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        @media (min-width: 768px) {
+            .card {
+                padding: 20px;
+            }
+        }
+
     </style>
 </head>
 <body>
-    <div class="poster">
 
-    </div>
+    <header class="p-3 mb-3 border-bottom">
+        <div class="container1">
+          <div class="d-flex flex-wrap align-items-center justify-content-between">
+            <a class="navbar-brand logo" href="/">Movie<span>Tic</span></a>
+      
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="/home" class="nav-link px-2 link-light">Home</a></li>
+              <li><a href="/nearby_theaters" class="nav-link px-2 link-secondary">Theater</a></li>
+              <li><a href="/addFunds" class="nav-link px-2 link-secondary">Add Funds</a></li>
+              <li><a href="/register-cinemaowner" class="nav-link px-2 link-secondary">Register Cinema</a></li>
+            </ul>
+      
+            <div class="user-info d-flex align-items-center">
+              <span th:text="${user.userName}"></span>
+              <a th:href="@{/user/profile}">
+                <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="mdo" width="32" height="32" class="rounded-circle">
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+
     <div class="container">
         <div class="row justify-content-center col-md-12">
             <div class="row">
@@ -465,16 +621,15 @@
                         <div class="movie-info">
                             <h2>Lịch chiếu <span th:text="${movie.title}"></span></h2>
                             <div class="schedule-container mb-3" id="schedule-container">
-                                <div th:each="theater : ${theaters}">
+                                <!-- Hiển thị các nút rạp chiếu -->
+                                <div th:each="entry : ${theaterMap}">
+                                    <!-- entry.key là tên rạp chiếu -->
                                     <button type="button" class="list-group-item list-group-item-action mt-3 custom"
-                                            th:attr="data-theater-id=${theater.theaterID}, data-theater-name=${theater.theaterName}"
-                                            onclick="showShowtimes(this, this.getAttribute('data-theater-id'),this.getAttribute('data-theater-name'))">
-                                        <div class="cinema-item">
-                                            <img th:src="@{'/theater-photo/' + ${theater.theaterID} + '/' + ${theater.photoTheater}}" class="img-round" alt="No photo" width="100" height="60" />
-                                        </div>
+                                            th:attr="data-theater-name=${entry.key}, data-theater=${entry.value}"
+                                            onclick="showTheaters(this, this.getAttribute('data-theater-name'), this.getAttribute('data-theater'))">
                                         <div>
-                                            <p th:text="${theater.theaterName}"></p>
-                                            <p th:text="${theater.address}"></p>
+                                            <p th:text="${entry.key}"></p>
+                                            
                                         </div>
                                     </button>
                                 </div>
@@ -484,7 +639,7 @@
                         <div class="card no-border ">
                             <div class="card-body"> 
                                 <div class="dates-container mt-3">
-                                    <!-- Showtimes for this theater will be displayed here -->
+                                    <!-- ShowDate for this theater will be displayed here -->
                                 </div>
                             </div>
                         </div>
@@ -496,7 +651,6 @@
                                 </div>
                             </div>
                         </div>
-    
                     </div>
                 </div>
             </div>
@@ -504,7 +658,7 @@
     </div>
 
 <!-- Seat Modal -->
-    <div class="modal fade" id="chooseSeatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade modal-xl modal-dialog modal-dialog-scrollable    " id="chooseSeatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="max-width: 1000px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -884,6 +1038,68 @@
         const movieID = /*[[${movieID}]]*/ 1; 
         let currentShowtimes = {}; 
         let selectedDate = null; 
+
+        function parseTheatersString(theatersString) {
+            const regex = /TheaterID='(\d+)'.*?TheaterName='([^']+)'.*?Address='([^']+)'/g;
+            const theaters = [];
+            let match;
+            
+            while ((match = regex.exec(theatersString)) !== null) {
+                const theater = {
+                    TheaterID: parseInt(match[1]),
+                    TheaterName: match[2],
+                    Address: match[3]
+                };
+                theaters.push(theater);
+            }
+            
+            return theaters;
+        }
+
+        function showTheaters(button, theaterName, theaters) {
+            const theatersString = parseTheatersString(theaters);
+            const theaterButtons = document.querySelectorAll('.list-group-item-action');
+            console.log(theaterName);
+            console.log(theaters);
+
+            theaterButtons.forEach(btn => {
+                btn.classList.remove('selected-theater'); 
+            });
+            
+            button.classList.add('selected-theater');
+
+            const theaterContainer = document.getElementById('schedule-container');
+
+            const oldTheaterItems = theaterContainer.querySelectorAll('.theater-item');
+                    oldTheaterItems.forEach(item => {
+                        item.parentNode.removeChild(item);
+                    });
+            const datesContainer = document.querySelector('.dates-container');
+            datesContainer.innerHTML = ''; 
+            const showtimeContainer = document.querySelector('.showtimes-container');
+            showtimeContainer.innerHTML = '';
+
+
+                theatersString.forEach(theater => {
+                const theaterItemHtml = `
+
+                        <div class="theater-item">
+                            <button type="button" class="list-group-item list-group-item-action mt-3 custom" 
+                                    data-theater-id="${theater.TheaterID}" 
+                                    data-theater-name="${theater.TheaterName}"
+                                    onclick="showShowtimes(this, '${theater.TheaterID}', '${theater.TheaterName}')">
+                                    <div>
+                                        <strong><p class="theater-name text-left">${theater.TheaterName}</p></strong>
+                                        <p class="theater-address">${theater.Address}</p>
+                                    </div>
+                            </button>
+                        </div>
+                `;
+                theaterContainer.innerHTML += theaterItemHtml; 
+            });
+        }
+
+
         function showShowtimes(button, theaterID, theaterName) {
         console.log('Theater ID:', theaterID);
         console.log('Theater Name:', theaterName);
@@ -898,7 +1114,7 @@
 
         button.classList.add('selected-cinema');
 
-    fetch(`/showtimes/getShowtimes?movieID=${movieID}&theaterID=${theaterID}`)
+        fetch(`/showtimes/getShowtimes?movieID=${movieID}&theaterID=${theaterID}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Lỗi HTTP! status: ${response.status}`);
@@ -924,12 +1140,18 @@
             showtimeContainer.innerHTML = '';
 
             const uniqueDates = new Set();
+            const currentDate = new Date().setHours(0, 0, 0, 0);
+
             currentShowtimes[theaterID].forEach(showtime => {
-                const showDate = new Date(showtime.showDate).toLocaleDateString();
-                uniqueDates.add(showDate);
+                const showDate = new Date(showtime.showDate).setHours(0, 0, 0, 0); 
+                if (showDate >= currentDate) { 
+                    uniqueDates.add(new Date(showtime.showDate).toLocaleDateString());
+                }
             });
 
-            uniqueDates.forEach(showDate => {
+            const sortedDates = Array.from(uniqueDates).sort((a, b) => new Date(a) - new Date(b));
+
+            sortedDates.forEach(showDate => {
                 const dateDiv = document.createElement('div');
                 dateDiv.classList.add('date-item');
                 const dateString = document.createElement('span');
@@ -940,19 +1162,33 @@
                 dateButton.addEventListener('click', () => {
                     selectedDate = showDate; 
                     displayShowtimesForDate(theaterID, showDate);
+                    updateSelectedDateButton(dateButton);
                 });
                 datesContainer.appendChild(dateButton);
             });
+        }
+
+        function updateSelectedDateButton(selectedButton) {
+            const buttons = document.querySelectorAll('.show-date-button');
+            buttons.forEach(button => {
+                button.classList.remove('selected'); 
+            });
+            selectedButton.classList.add('selected'); 
         }
 
         function displayShowtimesForDate(theaterID, showDate) {
             const showtimesContainer = document.querySelector('.showtimes-container');
             showtimesContainer.innerHTML = ''; 
 
-            // Lọc và hiển thị các suất chiếu cho ngày được chọn và rạp tương ứng
             const showtimes = currentShowtimes[theaterID].filter(showtime => {
                 const formattedDate = new Date(showtime.showDate).toLocaleDateString();
                 return formattedDate === showDate;
+            });
+
+            showtimes.sort((a, b) => {
+                const timeA = new Date(`1970/01/01 ${a.showTime}`);
+                const timeB = new Date(`1970/01/01 ${b.showTime}`);
+                return timeA - timeB;
             });
 
             showtimes.forEach(showtime => {
@@ -971,7 +1207,7 @@
             document.getElementById('selectedTheaterID').textContent = theaterID;
 
 
-            fetch(`/showtimes/getRoomName?theaterID=${theaterID}&movieID=${movieID}&showTime=${showTime}&showDate=${showDate}`)
+            fetch(`/showtimes/getRoomName?theaterID=${theaterID}&movieID=${movieID}&showTime=${showTime}&showDate=${showDate}&showTimeId=${showtimeId}`)
                 .then(response => {
                             if (!response.ok) {
                                 throw new Error(`Lỗi HTTP! status: ${response.status}`);

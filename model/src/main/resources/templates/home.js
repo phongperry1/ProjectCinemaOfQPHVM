@@ -1,3 +1,4 @@
+
 let marker = document.querySelector('.marker');
 let items = document.querySelectorAll('nav ul li');
 

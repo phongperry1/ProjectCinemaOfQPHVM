@@ -1,3 +1,4 @@
+
 package com.example.CRUD.controller;
 
 import java.net.URI;
@@ -95,8 +96,12 @@ public class BookingController {
         List<Theater> theaters = theaterSer.listAll(); 
         List<Food> foods = foodSer.listAll();
         Users user = userService.getUserById(userid);
+
+        Map<String, List<Theater>> theaterMap = theaters.stream()
+        .collect(Collectors.groupingBy(Theater::getTheaterName));
+
         model.addAttribute("user", user); 
-        model.addAttribute("theaters", theaters); 
+        model.addAttribute("theaterMap", theaterMap); 
         model.addAttribute("movie", movie);
         model.addAttribute("foods", foods);
         model.addAttribute("movieID", movie.getMovieID());
@@ -105,7 +110,8 @@ public class BookingController {
 
     @GetMapping("/showtimes/getShowtimes")
     @ResponseBody
-    public List<ShowtimeDTO> getShowtimesByMovieIDAndTheaterID(@RequestParam("movieID") Integer movieID, @RequestParam("theaterID") Integer theaterID) {
+    public List<ShowtimeDTO> getShowtimesByMovieIDAndTheaterID(@RequestParam("movieID") Integer movieID,
+                                                               @RequestParam("theaterID") Integer theaterID) {
         List<Object[]> results = showtimeSer.getShowtimesByMovieIDAndTheaterID(movieID, theaterID);
         List<ShowtimeDTO> showtimes = new ArrayList<>();
         for (Object[] result : results) {
@@ -122,8 +128,9 @@ public class BookingController {
     public List<ScreeningRoom> getRoomName(@RequestParam int theaterID, 
                                          @RequestParam int movieID, 
                                          @RequestParam Time showTime,
-                                         @RequestParam Date showDate) {
-        List<ScreeningRoom> screeningroom = screeningRoomRepository.findScreeningRoomsByTheaterIdAndMovieIdAndShowTimeAndShowDate(theaterID, movieID, showTime, showDate);               
+                                         @RequestParam Date showDate,
+                                         @RequestParam int showTimeId) {
+        List<ScreeningRoom> screeningroom = screeningRoomRepository.findScreeningRoomsByTheaterIdAndMovieIdAndShowTimeAndShowDate(theaterID, movieID, showTime, showDate, showTimeId);               
         return screeningroom;
     }
     
@@ -232,4 +239,3 @@ public class BookingController {
     }
     
 }
-

@@ -40,12 +40,6 @@ public class FoodService {
         throw new FoodNotFoundException("Could not find any food with ID " + foodID);
     }
 
-    // public void delete(Integer FoodID) throws FoodNotFoundException {
-    //     if (!repo.existsById(FoodID)) {
-    //         throw new FoodNotFoundException("Could not find any food with ID " + FoodID);
-    //     }
-    //     repo.deleteById(FoodID);
-    // } 
     
     @Transactional
     public void delete(Integer foodId) throws FoodNotFoundException {

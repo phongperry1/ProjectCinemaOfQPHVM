@@ -35,7 +35,7 @@ public class Theater {
     @Column(length = 100, nullable = false, name = "address")
     private String Address;
 
-    @Column(nullable = true, length = 64, name = "photoTheater")
+    @Column(nullable = false, length = 64, name = "photoTheater")
     private String photoTheater;
 
     @Column(nullable = false)
