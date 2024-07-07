@@ -68,6 +68,27 @@ public class Movie {
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Ticket> tickets;
 
+    @ElementCollection
+    @CollectionTable(name = "cinema_owner_votes", joinColumns = @JoinColumn(name = "movie_id"))
+    @Column(name = "user_id")
+    private List<Integer> cinemaOwnerVotes;
+
+    public List<Integer> getCinemaOwnerVotes() {
+        return cinemaOwnerVotes;
+    }
+
+    public void setCinemaOwnerVotes(List<Integer> cinemaOwnerVotes) {
+        this.cinemaOwnerVotes = cinemaOwnerVotes;
+    }
+
+    public void addVote(Integer userId) {
+        this.cinemaOwnerVotes.add(userId);
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theater_id", nullable = false)
+    private Theater theater;
+
     // Getter và Setter cho address
     public String getAddress() {
         return address;
@@ -78,8 +99,8 @@ public class Movie {
     }
 
     public enum StatusMovie {
-        NOW_SHOWING("Đang Chiếu"),
-        COMING_SOON("Sắp Chiếu");
+        NOW_SHOWING("NOW_SHOWING"),
+        COMING_SOON("COMING_SOON");
 
         private final String status;
 
@@ -104,7 +125,8 @@ public class Movie {
         this.averageRating = movieDetails.getAverageRating();
         this.description = movieDetails.getDescription();
         this.trailerURL = movieDetails.getTrailerURL();
-        this.address = movieDetails.getAddress();  // Cập nhật thuộc tính này
+        this.address = movieDetails.getAddress();  
+        this.statusMovie = movieDetails.getStatusMovie();
     }
 
     @Override

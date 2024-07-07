@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Promotion Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+        .menu-btn {
+  background-color: #09000000; /* Màu nền */
+  border: none; /* Không có viền */
+  color: white; /* Màu chữ */
+  padding: 10px 20px; /* Kích thước nút */
+  text-align: center; /* Căn giữa văn bản */
+  text-decoration: none; /* Không có gạch chân */
+  display: inline-block; /* Hiển thị là khối nút */
+  font-size: 16px; /* Cỡ chữ */
+  margin: 4px 2px; /* Khoảng cách giữa nút */
+  cursor: pointer; /* Con trỏ khi hover */
+  border-radius: 4px; /* Bo tròn cạnh */
+}
+.menu-btn:hover {
+  background-color: #00000000; /* Màu nền khi hover */
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all .2s;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  overflow-y: scroll;
+  background-color: #000;
+}
+
+
+.shadow__btn {
+  padding: 10px 20px;
+  border: none;
+  font-size: 17px;
+  color: #ffffff;
+  border-radius: 7px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: 0.5s;
+  transition-property: box-shadow;
+  background: rgb(255, 0, 13);
+  box-shadow: 0 0 25px rgb(255, 0, 0);
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  margin-top: auto;
+}
+
+.shadow__btn:hover {
+  box-shadow: 0 0 5px rgb(255, 0, 0),
+    0 0 25px rgb(255, 0, 0),
+    0 0 50px rgb(255, 0, 0),
+    0 0 100px rgb(255, 0, 0);
+}
+
+
+    @media (max-width: 767px) {
+      .movie-item {
+        width: 50%;
+        /* Hiển thị hai phim mỗi hàng trên các thiết bị nhỏ hơn */
+      }
+    }
+
+    header {
+
+      background-position: center;
+      width: 100%;
+      height: 56px;
+
+    }
+
+    header:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6%;
+      background-color: rgba(0, 0, 0, .75);
+      box-shadow: inset 0 0 80px #000;
+    }
+
+
+    header nav {
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px 100px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 99;
+      width: 100%;
+      background-color: black;
+
+    }
+
+
+    header nav .fa {
+      cursor: pointer;
+      display: none;
+    }
+
+
+    header nav .fa:hover {
+      color: #DB0000;
+      
+    }
+
+    .nav {
+      background-color: black;
+      color: #000;
+      transition: background .5s;
+
+    }
+
+    .navBlack {
+      background: #000;
+      color: #fff;
+      transition: background .5s;
+
+    }
+
+    header nav .logo {
+      font-weight: 700;
+      font-size: 1.5em;
+    }
+
+    header nav .logo span {
+      color: #DB0000;
+    }
+
+    header nav ul .marker {
+      background: #DB0000;
+      width: 40px;
+      height: 2px;
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      border-radius: 20px;
+    }
+
+
+    header nav ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      text-transform: uppercase;
+      list-style: none;
+      position: relative;
+    }
+
+
+    header nav ul li {
+      cursor: pointer;
+    }
+
+
+    header nav ul li span {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    header nav ul li img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+        .promotion-container {
+            padding: 20px;
+            background-color: #413a3a;
+            border: 1px solid ;
+            border-radius: 5px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        .promotion-image {
+            max-height: 300px;
+            width: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .promotion-description {
+            margin-top: 20px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+            background: #413a3a;
+        }
+
+        .card-title {
+            color: red; /* Changed color to red */
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: white; /* Changed color to white */
+        }
+
+        .back-btn {
+            margin-top: 20px;
+        }
+        footer {
+      background: #222;
+      color: #fff;
+      padding: 40px 100px;
+      display: grid;
+      grid-template-columns: auto auto auto;
+      align-items: center;
+    }
+
+
+    footer .logo-box {
+      font-size: .85em;
+    }
+
+
+    footer .logo-box .logo {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    footer .logo-box .logo span {
+      color: #DB0000;
+    }
+
+
+
+    footer ul {
+      text-transform: uppercase;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+
+    footer ul li {
+      cursor: pointer;
+      color: #888;
+    }
+
+
+    footer ul li:nth-child(1) {
+      color: #fff;
+    }
+
+    footer ul li:hover {
+      color: #fff;
+    }
+
+
+    footer .socail-box {
+      display: flex;
+      gap: 10px;
+      justify-content: end;
+    }
+
+    footer .socail-box .fa {
+      border: 2px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    footer .socail-box .fa:hover {
+      background: #fff;
+      color: #DB0000;
+    }
+    </style>
+</head>
+<body>
+  <header>
+    <nav>
+        <p class="logo">
+            Movie<span>Ticket<span>
+        </p>
+
+        <i class="fa fa-bars" id="menu"></i>
+
+        <ul id="menu-box">
+            <div class="marker"></div>
+            <li><a href="/guest/">main</a></li>
+            <div class="dropdown">
+                <button class="menu-btn">MOVIE</button>
+                <div class="dropdown-content">
+                    <li><a class="manage" href="">Movies are showing</a></li>
+                    <li><a class="manage" href=""></a></li>
+                </div>
+            </div>
+            <li><a href="/guest/theaters_Guest">theater</a></li>
+            <li><a href="/guest/createOrder">Payment</a></li>
+            <li><a href="/guest/newlist_Guest">news</a></li>
+            <li><a href="/login">login</a></li>
+            <li><a href="/register">Sign up</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container promotion-container">
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Promotion Title -->
+            <h2 style="color: red;" th:text="${promotion.promotionName}" class="mb-4">Promotion Title</h2>
+            <!-- Promotion Image -->
+            <img th:src="@{${promotion.photosImagePath}}" alt="Promotion Image" class="img-fluid promotion-image mb-4"/>
+        </div>
+        <div class="col-md-4">
+            <!-- Promotion Details -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Details</h5>
+                    <p class="card-text"><strong>Start Date:</strong> <span th:text="${#dates.format(promotion.startDate, 'dd/MM/yyyy')}">Start Date</span></p>
+                    <p class="card-text"><strong>End Date:</strong> <span th:text="${#dates.format(promotion.endDate, 'dd/MM/yyyy')}">End Date</span></p>
+                    <p class="card-text"><strong>Discount:</strong> <span th:text="${promotion.discountRate}">Discount</span>%</p>
+                    <p class="card-text"><strong>Terms:</strong></p>
+                    <p class="card-text" th:text="${promotion.description}">Promotion Terms</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Promotion Description -->
+    <div class="row promotion-description">
+        <div class="col">
+            <h3 style="color: red;">Description</h3>
+            <p style="color: white;" th:text="${promotion.description}">Promotion Description</p>
+            <!-- Back button -->
+            <a href="/theaters_Guest" class="btn btn-primary back-btn mt-3">Back to Theaters</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="logo-box">
+        <p class="logo">
+            multi<span>flex</span>
+        </p>
+        <p><i class="fa fa-copyright"></i> 2001-2017, SIA Multiflex</p>
+    </div>
+
+    <ul>
+        <li>main</li>
+        <li>schedules</li>
+        <li>tickets</li>
+        <li>news</li>
+        <li>contact</li>
+    </ul>
+
+    <div class="socail-box">
+        <i class="fa fa-facebook-f"></i>
+        <i class="fa fa-twitter"></i>
+        <i class="fa fa-instagram"></i>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"
+        integrity="sha384-Es5k6qS6iit//CpJm0QfW0Iy8BbYXb/vWH4yLqF4oTlWteO0F7pL/EfdDCkvZ2jc"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+YG/cTSD8VIcVV6ixpak9i/CG0xlXItmSHb"
+        crossorigin="anonymous"></script>
+</body>
+</html>

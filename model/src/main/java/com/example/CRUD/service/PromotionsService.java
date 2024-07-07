@@ -37,4 +37,11 @@ public class PromotionsService {
         }
         repo.deleteById(promotionID);
     }
+    public List<Promotions> listAll() {
+        return (List<Promotions>) repo.findAll();
+    }
+
+    public Promotions getPromotionById(Integer id) {
+        return repo.findById(id).orElse(null);
+    }
 }

@@ -40,7 +40,7 @@ public class CinemaOwnerRequestService {
         CinemaOwnerRequest request = cinemaOwnerRequestRepository.findById(cinemaOwnerRequestId)
                 .orElseThrow(() -> new IllegalArgumentException("Cinema owner request not found"));
         Users user = request.getUsers();
-        user.setRole("ROLE_CINEMA_OWNER");
+        user.setRole("CINEMA_OWNER");
         userRepository.save(user);
         CinemaOwner cinemaOwner = new CinemaOwner();
         cinemaOwner.setUsers(request.getUsers());

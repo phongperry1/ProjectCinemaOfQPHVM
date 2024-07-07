@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import com.example.CRUD.service.CinemaOwnerRequestService;
 import com.example.CRUD.service.UserService;
 import com.example.mo.CinemaOwnerRequest;
@@ -36,7 +37,7 @@ public class CinemaOwnerRequestController {
 public String createCinemaOwnerRequest(@ModelAttribute("cinemaOwnerRequest") CinemaOwnerRequest cinemaOwnerRequest, Principal principal, Model model) {
     String email = principal.getName();
     Users currentUser = userService.getUsersByEmail(email);
-    if (currentUser.getRole().equals("ROLE_CINEMA_OWNER")) {
+    if (currentUser.getRole().equals("CINEMA_OWNER")) {
         model.addAttribute("errorMessage", "You are already a Cinema Owner. You cannot register again.");
         return "register-cinema-owner";
     }

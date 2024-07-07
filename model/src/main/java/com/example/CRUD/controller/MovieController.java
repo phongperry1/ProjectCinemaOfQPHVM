@@ -1,18 +1,5 @@
 package com.example.CRUD.controller;
 
-import com.example.CRUD.service.MovieService;
-import com.example.CRUD.service.ShowtimeService;
-import com.example.CRUD.service.UserService;
-import com.example.mo.Movie;
-import com.example.mo.Showtime;
-import com.example.mo.Users;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,45 +9,68 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.CRUD.service.MovieService;
+import com.example.CRUD.service.RatingService;
+import com.example.CRUD.service.TheaterService;
+import com.example.CRUD.service.UserService;
+import com.example.mo.Movie;
+import com.example.mo.Rating;
+import com.example.mo.Theater;
+import com.example.mo.Users;
+
 @Controller
 @RequestMapping("/movie")
 public class MovieController {
 
+    private final MovieService movieService;
+    private final RatingService ratingService;
+    private final UserService userService;
     @Autowired
-    private MovieService movieService;
+    private TheaterService theaterService;
 
-    @Autowired
-    private ShowtimeService showtimeService;
-
-    @Autowired
-    private UserService userService;
+    public MovieController(MovieService movieService, UserService userService, RatingService ratingService) {
+        this.movieService = movieService;
+        this.ratingService = ratingService;
+        this.userService = userService;
+    }
 
     @GetMapping
     public String getAllMovies(Model model, Principal principal) {
-        Integer cinemaOwnerID = getCinemaOwnerIDFromPrincipal(principal);
-        List<Movie> movies = movieService.getAllMoviesByCinemaOwnerID(cinemaOwnerID);
+        List<Movie> movies = movieService.getAllMovies();
         model.addAttribute("movies", movies);
         return "movie";
     }
 
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
+    public String showCreateForm(Model model, Principal principal) {
+        Integer cinemaOwnerID = getCinemaOwnerIDFromPrincipal(principal);
+        List<Theater> listTheater = theaterService.listAllByCinemaOwnerID(cinemaOwnerID);
+        model.addAttribute("listTheater", listTheater);
         model.addAttribute("movie", new Movie());
         return "movie-form";
     }
 
     @PostMapping("/create")
     public String createMovie(@ModelAttribute Movie movie, @RequestParam("imageFile") MultipartFile imageFile,
-                              RedirectAttributes redirectAttributes, Principal principal) {
+                              RedirectAttributes redirectAttributes,Principal principal) {
         movie.setRatingCount(0);
         movie.setAverageRating(0.0);
-
-        // Set cinemaOwnerID from Principal
         movie.setCinemaOwnerID(getCinemaOwnerIDFromPrincipal(principal));
-
         if (!imageFile.isEmpty()) {
             try {
-                // Save uploaded file to local directory
+                // Lưu tệp tải lên vào thư mục cục bộ
                 String uploadDir = System.getProperty("user.dir") + "/uploads/";
                 File uploadDirFile = new File(uploadDir);
                 if (!uploadDirFile.exists()) {
@@ -69,22 +79,24 @@ public class MovieController {
                 String fileName = imageFile.getOriginalFilename();
                 Path filePath = Paths.get(uploadDir + fileName);
                 Files.write(filePath, imageFile.getBytes());
-                movie.setAddress("/uploads/"+ fileName); // Save image path to address attribute
+                movie.setAddress("/uploads/" + fileName); // Lưu đường dẫn ảnh vào thuộc tính address
             } catch (IOException e) {
                 e.printStackTrace();
-                redirectAttributes.addFlashAttribute("message", "Cannot upload image file.");
+                redirectAttributes.addFlashAttribute("message", "Không thể tải lên tệp ảnh.");
                 return "redirect:/movie/new";
             }
         }
         movieService.saveMovie(movie);
         return "redirect:/movie";
     }
-
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Integer id, Model model) {
+    public String showEditForm(@PathVariable Integer id, Model model, Principal principal) {
         Movie movie = movieService.getMovieById(id);
         if (movie != null) {
+            Integer cinemaOwnerID = getCinemaOwnerIDFromPrincipal(principal);
+            List<Theater> listTheater = theaterService.listAllByCinemaOwnerID(cinemaOwnerID);
             model.addAttribute("movie", movie);
+            model.addAttribute("listTheater", listTheater);
             return "movie-form";
         }
         return "redirect:/movie";
@@ -92,13 +104,12 @@ public class MovieController {
 
     @PostMapping("/update/{id}")
     public String updateMovie(@PathVariable Integer id, @ModelAttribute Movie movieDetails,
-                              @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-                              RedirectAttributes redirectAttributes) {
+                              @RequestParam("imageFile") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
         Movie movie = movieService.getMovieById(id);
         if (movie != null) {
-            if (imageFile != null && !imageFile.isEmpty()) {
+            if (!imageFile.isEmpty()) {
                 try {
-                    // Save uploaded file to local directory
+                    // Lưu tệp tải lên vào thư mục cục bộ
                     String uploadDir = System.getProperty("user.dir") + "/uploads/";
                     File uploadDirFile = new File(uploadDir);
                     if (!uploadDirFile.exists()) {
@@ -107,10 +118,10 @@ public class MovieController {
                     String fileName = imageFile.getOriginalFilename();
                     Path filePath = Paths.get(uploadDir + fileName);
                     Files.write(filePath, imageFile.getBytes());
-                    movie.setAddress("/uploads/" + fileName); // Save image path to address attribute
+                    movie.setAddress("/uploads/" + fileName); // Lưu đường dẫn ảnh vào thuộc tính address
                 } catch (IOException e) {
                     e.printStackTrace();
-                    redirectAttributes.addFlashAttribute("message", "Cannot upload image file.");
+                    redirectAttributes.addFlashAttribute("message", "Không thể tải lên tệp ảnh.");
                     return "redirect:/movie/edit/" + id;
                 }
             }
@@ -119,7 +130,6 @@ public class MovieController {
         }
         return "redirect:/movie";
     }
-
     @GetMapping("/delete/{id}")
     public String deleteMovie(@PathVariable Integer id) {
         movieService.deleteMovie(id);
@@ -137,13 +147,15 @@ public class MovieController {
     }
 
     @GetMapping("/home")
-    public String getAllMoviesForHome(Model model) {
+    public String getAllMoviesForHome(Model model, Principal principal) {
+        Users user = userService.getUserByUserName(principal.getName());
+        model.addAttribute("user", user);
+
         List<Movie> movies = movieService.getAllMovies();
         List<Movie> simplifiedMovies = movies.stream()
                 .map(m -> {
                     Movie simplifiedMovie = new Movie();
                     simplifiedMovie.setTitle(m.getTitle());
-                    simplifiedMovie.setGenre(m.getGenre());
                     simplifiedMovie.setAddress(m.getAddress());
                     return simplifiedMovie;
                 })
@@ -152,20 +164,90 @@ public class MovieController {
         return "home";
     }
 
-    @GetMapping("/book/{id}")
-public String showMovieDetails(@PathVariable("id") Integer id, Model model, Principal principal) {
-    Movie movie = movieService.getMovieById(id);
+    @PostMapping("/vote/{id}")
+    public String voteForMovie(@PathVariable Integer id, Principal principal, RedirectAttributes redirectAttributes) {
+        try {
+            Users user = userService.getUsersByEmail(principal.getName());
+            movieService.voteForMovie(id, user.getUserId());
+            redirectAttributes.addFlashAttribute("message", "Vote successful!");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+        return "redirect:/movie";
+    }
 
-    if (movie != null && principal != null) {
+    @GetMapping("/book/{movieId}")
+    public String getMovieRatings(@PathVariable Integer movieId,
+                                  @RequestParam(value = "page", defaultValue = "0") int page,
+                                  @RequestParam(value = "size", defaultValue = "10") int size,
+                                  Model model, Principal principal) {
+        Movie movie = movieService.getMovieById(movieId);
+        if (movie == null) {
+            return "redirect:/error";
+        }
+
+        List<Rating> ratings = ratingService.getAllRatingsByMovieId(movieId);
+
+        int start = Math.min(page * size, ratings.size());
+        int end = Math.min((page + 1) * size, ratings.size());
+
+        List<Rating> paginatedRatings = ratings.subList(start, end);
+
+        model.addAttribute("movie", movie);
+        model.addAttribute("ratings", paginatedRatings);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", (int) Math.ceil((double) ratings.size() / size));
         String email = principal.getName();
         Users user = userService.getUsersByEmail(email);
-        
+
         model.addAttribute("user", user);
-        model.addAttribute("movie", movie);
-        return "book"; // Tên của trang HTML cho chi tiết phim
+        return "book";
     }
-    return "redirect:/movie";
-}
+
+    @GetMapping("/search")
+    public String searchMovies(@RequestParam(name = "keyword", required = false) String keyword, Model model, Principal p) {
+        List<Movie> allMovies = movieService.getAllMovies();
+        List<Movie> comingSoonMovies = movieService.getAllComingSoonMovies();
+        List<Movie> movies = allMovies;
+        String email = p.getName();
+        Users user = userService.getUsersByEmail(email);
+
+        if (keyword != null && !keyword.isEmpty()) {
+            movies = movies.stream().filter(m -> m.getTitle().toLowerCase().contains(keyword.toLowerCase()))
+                    .collect(Collectors.toList());
+
+            if (movies.isEmpty()) {
+                model.addAttribute("message", "Không tìm thấy phim nào");
+                movies = allMovies; // Hiển thị tất cả phim nếu không tìm thấy phim nào
+            }
+        }
+
+        List<Movie> simplifiedMovies = movies.stream()
+                .map(m -> {
+                    Movie simplifiedMovie = new Movie();
+                    simplifiedMovie.setMovieID(m.getMovieID());
+                    simplifiedMovie.setTitle(m.getTitle());
+                    simplifiedMovie.setAddress(m.getAddress());
+                    return simplifiedMovie;
+                })
+                .collect(Collectors.toList());
+        model.addAttribute("user", user);
+        model.addAttribute("comingSoonMovies", comingSoonMovies);
+        model.addAttribute("movies", simplifiedMovies);
+        return "home"; // Trả về view 'home' để hiển thị kết quả tìm kiếm
+    }
+
+    @GetMapping("/general/genre")
+    public String searchByGenre(@RequestParam("genre") String genre, Model model, Principal p) {
+        String email = p.getName();
+        Users user = userService.getUsersByEmail(email);
+        List<Movie> moviesByGenre = movieService.getMoviesByGenre(genre);
+        List<Movie> comingSoonMovies = movieService.getAllComingSoonMovies();
+        model.addAttribute("user", user);
+        model.addAttribute("comingSoonMovies", comingSoonMovies);
+        model.addAttribute("movies", moviesByGenre);
+        return "home";
+    }
 
     private Integer getCinemaOwnerIDFromPrincipal(Principal principal) {
         Users user = userService.getUsersByEmail(principal.getName());

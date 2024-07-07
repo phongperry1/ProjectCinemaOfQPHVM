@@ -38,8 +38,9 @@ public class TicketService {
     @Autowired
     private FoodRepository foodRepository;
 
+    @Transactional(readOnly = true)
     public Map<String, Double> calculateRevenueByMovie() {
-        List<Ticket> allTickets = ticketRepository.findAll();
+        List<Ticket> allTickets = ticketRepository.findAllTicketsWithMovies();
         Map<String, Double> revenueByMovie = new HashMap<>();
 
         for (Ticket ticket : allTickets) {
@@ -57,8 +58,9 @@ public class TicketService {
         return revenueByMovie;
     }
 
+    @Transactional(readOnly = true)
     public Map<String, Map<LocalDate, Double>> calculateRevenueByDay() {
-        List<Ticket> allTickets = ticketRepository.findAll();
+        List<Ticket> allTickets = ticketRepository.findAllTicketsWithMovies();
         Map<String, Map<LocalDate, Double>> revenueByDay = new HashMap<>();
 
         for (Ticket ticket : allTickets) {
@@ -74,8 +76,9 @@ public class TicketService {
         return revenueByDay;
     }
 
+    @Transactional(readOnly = true)
     public Map<String, Map<String, Double>> calculateRevenueByMonth() {
-        List<Ticket> allTickets = ticketRepository.findAll();
+        List<Ticket> allTickets = ticketRepository.findAllTicketsWithMovies();
         Map<String, Map<String, Double>> revenueByMonth = new HashMap<>();
 
         for (Ticket ticket : allTickets) {
@@ -92,10 +95,12 @@ public class TicketService {
         return revenueByMonth;
     }
 
+    @Transactional(readOnly = true)
     public List<Ticket> getAllTickets() {
-        return ticketRepository.findAll();
+        return ticketRepository.findAllTicketsWithMovies();
     }
 
+    @Transactional(readOnly = true)
     public List<Ticket> getTicketsByUserId(int userId) {
         return ticketRepository.findByUserUserId(userId);
     }
@@ -164,6 +169,7 @@ public class TicketService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Ticket getTicketById(int ticketId) {
         return ticketRepository.findById(ticketId).orElseThrow(() -> new RuntimeException("Ticket not found with ID: " + ticketId));
     }

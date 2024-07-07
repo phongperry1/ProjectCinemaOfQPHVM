@@ -48,6 +48,63 @@
     .bg-danger {
       background-color: #dc3545;
     }
+    .notification-icon {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .notification-icon img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .notification-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 5px 10px;
+    }
+
+    .notification-list {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: white;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .notification-list .title {
+      padding: 10px;
+      font-weight: bold;
+      border-bottom: 1px solid #ccc;
+      background-color: #f8f9fa;
+    }
+
+    .notification-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      background-color: #f9f9f9;
+      transition: background-color 0.3s;
+      font-size: 14px;
+    }
+
+    .notification-item:hover {
+      background-color: #f1f1f1;
+    }
+
+    .notification-item:last-child {
+      border-bottom: none;
+    }
   </style>
 </head>
 <body>
@@ -83,8 +140,18 @@
           </form>
           <div class="ml-auto">
             <span class="navbar-text mr-3">Admin</span>
+            <div class="notification-icon" onclick="toggleNotifications()">
+              <img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-bell-512.png" alt="Notifications">
+              <span class="notification-count" th:text="${unreadCount}"></span>
+            </div>
           </div>
         </nav>
+        <div class="notification-list" id="notification-list">
+          <div class="title">Notifications</div>
+          <div th:each="notification : ${notifications}" class="notification-item">
+            <span th:text="${notification.message}"></span>
+          </div>
+        </div>
         <div th:if="${message}" class="alert alert-success text-center">
           [[${message}]]
         </div>
@@ -103,6 +170,7 @@
              
               <th>Transfer to Cinema Owner</th>
               <th>Cancelled Requests</th> <!-- New column for cancelled requests -->
+              <th>Chat</th>
             </tr>
           </thead>
           <tbody>
@@ -142,6 +210,9 @@
               <td> <!-- New column for cancelled requests -->
                 <a th:href="@{/admin/cancelled-requests/{userId}(userId=${user.userId})}" class="btn btn-secondary">View Cancelled Requests</a>
               </td>
+              <td>
+                <a th:href="@{/chat/{UserId}(UserId=${user.userId})}" class="btn btn-warning">Chat</a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -152,6 +223,56 @@
     function confirmLock() {
       return confirm("Are you sure you want to lock user?");
     }
+    function toggleNotifications() {
+      var notificationList = document.getElementById('notification-list');
+      if (notificationList.style.display === 'none' || notificationList.style.display === '') {
+        notificationList.style.display = 'block';
+        markNotificationsAsRead();
+      } else {
+        notificationList.style.display = 'none';
+      }
+    }
+
+    function markNotificationsAsRead() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/markNotificationsAsRead", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          document.querySelector('.notification-count').style.display = 'none';
+        }
+      };
+      xhr.send();
+    }
+
+    function checkForNewNotifications() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "/checkNewNotifications", true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var notifications = JSON.parse(xhr.responseText);
+          if (notifications.length > 0) {
+            document.querySelector('.notification-count').style.display = 'block';
+            document.querySelector('.notification-count').innerText = notifications.length;
+            var notificationList = document.getElementById('notification-list');
+            notificationList.innerHTML = '<div class="title">Notifications</div>';
+            notifications.forEach(function (notification) {
+              var notificationItem = document.createElement('div');
+              notificationItem.className = 'notification-item';
+              notificationItem.innerText = notification.message;
+              notificationList.appendChild(notificationItem);
+            });
+          }
+        }
+      };
+      xhr.send();
+    }
+
+    setInterval(checkForNewNotifications, 5000); 
+  </script>
+</body>
+
+</html>
   </script>
 </body>
 </html>

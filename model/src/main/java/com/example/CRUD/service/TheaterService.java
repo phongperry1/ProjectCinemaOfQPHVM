@@ -41,4 +41,19 @@ public class TheaterService {
     public Integer findCinemaOwnerIdByTheaterId(Integer theaterId) {
         return repo.findCinemaOwnerIdByTheaterId(theaterId);
     }
+    public List<Theater> getAllTheaters() {
+        return repo.findAll();
+    }
+
+    public List<Theater> searchTheaters(String keyword) {
+        return repo.findByTheaterNameContainingIgnoreCaseOrAddressContainingIgnoreCase(keyword, keyword);
+    }
+
+    public List<Theater> searchTheatersByLocation(String location) {
+        return repo.findByAddressContainingIgnoreCase(location);
+    }
+
+    public Theater getTheaterById(int theaterId) {
+        return repo.findById(theaterId).orElse(null);
+    }
 }

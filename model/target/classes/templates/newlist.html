@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Latest movie news, trailers, and articles.">
+    <title>Movie News</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+        .menu-btn {
+          background-color: #09000000; /* Màu nền */
+          border: none; /* Không có viền */
+          color: white; /* Màu chữ */
+          padding: 10px 20px; /* Kích thước nút */
+          text-align: center; /* Căn giữa văn bản */
+          text-decoration: none; /* Không có gạch chân */
+          display: inline-block; /* Hiển thị là khối nút */
+          font-size: 16px; /* Cỡ chữ */
+          margin: 4px 2px; /* Khoảng cách giữa nút */
+          cursor: pointer; /* Con trỏ khi hover */
+          border-radius: 4px; /* Bo tròn cạnh */
+        }
+        .menu-btn:hover {
+          background-color: #00000000; /* Màu nền khi hover */
+        }
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          transition: all .2s;
+        }
+
+        body {
+          font-family: 'Roboto', sans-serif;
+          overflow: hidden;
+          overflow-y: scroll;
+          background-color: #000;
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+
+        .content {
+          flex: 1;
+        }
+
+        .shadow__btn {
+          padding: 10px 20px;
+          border: none;
+          font-size: 17px;
+          color: #ffffff;
+          border-radius: 7px;
+          letter-spacing: 4px;
+          font-weight: 700;
+          text-transform: uppercase;
+          transition: 0.5s;
+          transition-property: box-shadow;
+          background: rgb(255, 0, 13);
+          box-shadow: 0 0 25px rgb(255, 0, 0);
+          display: inline-block;
+          text-align: center;
+          text-decoration: none;
+          margin-top: auto;
+        }
+
+        .shadow__btn:hover {
+          box-shadow: 0 0 5px rgb(255, 0, 0),
+            0 0 25px rgb(255, 0, 0),
+            0 0 50px rgb(255, 0, 0),
+            0 0 100px rgb(255, 0, 0);
+        }
+
+        @media (max-width: 767px) {
+          .movie-item {
+            width: 50%;
+            /* Hiển thị hai phim mỗi hàng trên các thiết bị nhỏ hơn */
+          }
+        }
+
+        header {
+          background-position: center;
+          width: 100%;
+          height: 56px;
+        }
+
+        header:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 6%;
+          background-color: rgba(0, 0, 0, .75);
+          box-shadow: inset 0 0 80px #000;
+        }
+
+        header nav {
+          color: #fff;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0px 100px;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 99;
+          width: 100%;
+          background-color: black;
+        }
+
+        header nav .fa {
+          cursor: pointer;
+          display: none;
+        }
+
+        header nav .fa:hover {
+          color: #DB0000;
+        }
+
+        .nav {
+          background-color: black;
+          color: #000;
+          transition: background .5s;
+        }
+
+        .navBlack {
+          background: #000;
+          color: #fff;
+          transition: background .5s;
+        }
+
+        header nav .logo {
+          font-weight: 700;
+          font-size: 1.5em;
+        }
+
+        header nav .logo span {
+          color: #DB0000;
+        }
+
+        header nav ul .marker {
+          background: #DB0000;
+          width: 40px;
+          height: 2px;
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          border-radius: 20px;
+        }
+
+        header nav ul {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+          text-transform: uppercase;
+          list-style: none;
+          position: relative;
+        }
+
+        header nav ul li {
+          cursor: pointer;
+        }
+
+        header nav ul li span {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+
+        header nav ul li img {
+          width: 35px;
+          height: 35px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .carousel-item img {
+          width: 100%;
+          height: 450px;
+          object-fit: cover;
+        }
+
+        .news-item {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+
+        .card {
+          background: #ffffff;
+          border-radius: 8px;
+          overflow: hidden;
+          transition: transform 0.3s ease-in-out;
+          height: 550px; /* Set the desired height */
+        }
+
+        .card-body {
+          padding: 15px;
+          height: 100%; /* Ensure the card body fills the entire height */
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+
+        .card:hover {
+          transform: translateY(-5px);
+        }
+
+        .card-img-top {
+          height: 250px;
+          object-fit: cover;
+        }
+
+        .btn-primary {
+          margin-top: 10px;
+          font-weight: bold;
+          background-color: #007bff;
+          border: none;
+        }
+
+        .news-list {
+          display: grid;
+          gap: 25px;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+
+        .sidebar {
+          background-color: #252121;
+          padding: 20px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+        }
+
+        footer {
+          background: #222;
+          color: #fff;
+          padding: 40px 100px;
+          display: grid;
+          grid-template-columns: auto auto auto;
+          align-items: center;
+          margin-top: 40px;
+        }
+
+        footer .logo-box {
+          font-size: .85em;
+        }
+
+        footer .logo-box .logo {
+          font-size: 1.8em;
+          font-weight: 700;
+        }
+
+        footer .logo-box .logo span {
+          color: #DB0000;
+        }
+
+        footer ul {
+          text-transform: uppercase;
+          list-style: none;
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+        }
+
+        footer ul li {
+          cursor: pointer;
+          color: #888;
+        }
+
+        footer ul li:nth-child(1) {
+          color: #fff;
+        }
+
+        footer ul li:hover {
+          color: #fff;
+        }
+
+        footer .socail-box {
+          display: flex;
+          gap: 10px;
+          justify-content: end;
+        }
+
+        footer .socail-box .fa {
+          border: 2px solid #fff;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
+
+        footer .socail-box .fa:hover {
+          background: #fff;
+          color: #DB0000;
+        }
+
+        .promotion-section  {
+          margin-top: 50px;
+          background-color: #343a40;
+          padding: 30px;
+          border-radius: 8px;
+        }
+        
+        .promotion-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 20px;
+        }
+
+        .promotion-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 15px;
+        }
+
+        .promotion-item {
+          background-color: #343a40;
+          border-radius: 8px;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        
+        .promotion-item .card {
+          border-radius: 8px;
+          height: 700px; /* Set the desired height */
+        }
+
+        .promotion-item p {
+          margin-top: 10px;
+          font-weight: 600;
+        }
+
+        .promotion-pagination {
+          text-align: center;
+          margin-top: 20px;
+        }
+
+        .promotion-pagination .page-link {
+          color: #343a40;
+          cursor: pointer;
+        }
+
+        .promotion-pagination .page-link:hover {
+          background-color: #343a40;
+        }
+
+        .trailer-section {
+          margin-top: 30px;
+          background-color: #252121;
+          padding: 20px;
+          border-radius: 8px;
+        }
+
+        .trailer-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 20px;
+        }
+
+        .trailer-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 15px;
+        }
+
+        .trailer-item {
+          text-align: center;
+          padding: 10px;
+          background-color: #ffffff;
+          border-radius: 8px;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .trailer-item:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <p class="logo">
+            Movie<span>Tic<span>
+        </p>
+
+        <i class="fa fa-bars" id="menu"></i>
+
+        <ul id="menu-box">
+            <div class="marker"></div>
+            <li><a class="menu-btn" href="/home">main</a></li>
+            <div class="dropdown">
+                <button class="menu-btn">MOVIE</button>
+                <div class="dropdown-content">
+                    <li><a class="manage" href="">Movies are showing</a></li>
+                    <li><a class="manage" href=""></a></li>
+                </div>
+            </div>
+            <li><a class="menu-btn" href="/user/theaters">theater</a></li>
+            <li><a class="menu-btn" href="/user/newlist">news</a></li>
+            <li><a class="menu-btn" href="/addFunds">Add Funds</a></li>
+            <li><a class="menu-btn" href="/register-cinemaowner">Register Cinema</a></li>
+            <li><a class="menu-btn" href="/chat/3">Chat With ADMIN</a></li>
+            <li>
+              <span><span th:text="${user.userName}"></span></span>
+          </li>
+          <li>
+              <a th:href="@{/user/profile}">
+                  <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
+              </a>
+          </li>
+            <li><a class="menu-btn" href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container mt-4 content">
+    <div class="row">
+        <div class="col-md-8">
+            <div id="carouselExampleIndicators" class="carousel slide mb-4" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li th:each="movie, iterStat : ${movies}" data-target="#carouselExampleIndicators" th:data-slide-to="${iterStat.index}" th:class="${iterStat.index == 0} ? 'active' : ''"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div th:each="movie, iterStat : ${movies}" th:classappend="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
+                        <img th:src="@{${movie.address}}" class="d-block w-100" alt="Movie Poster">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h3 style="color:white;" th:text="${movie.title}"></h3>
+                            <!-- Add other movie details here if needed -->
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+            <div class="news-list">
+                <div th:each="news : ${listNews}" class="news-item">
+                    <div class="card mb-3">
+                        <img th:if="${news.photoNews}" th:src="@{'/news-photo/' + ${news.newsID} + '/' + ${news.photoNews}}" class="card-img-top" alt="News Image">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${news.title}"></h5>
+                            <p class="card-text" th:text="${news.content}"></p>
+                            <p class="card-text"><small class="text-muted" th:text="${news.publishDate}"></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside class="col-md-4">
+            <div class="sidebar">
+                  <div class="promotion-item" id="currentPromotion">
+                    <!-- Display only one promotion here dynamically using Thymeleaf -->
+                    <div th:each="promotion : ${promotions}">
+                        <div class="card ">
+                            <img th:src="@{${promotion.photosImagePath}}" class="card-img-top" alt="Promotion Image">
+                            <div class="card-body">
+                                <h6 class="card-title" th:text="${promotion.promotionName}">Promotion Title</h6>
+                                <p class="card-text" th:text="${promotion.description}">Promotion Description</p>
+                                <a th:href="@{/user/promotionDetail/{id}(id=${promotion.promotionID})}" class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+
+            <div class="trailer-section">
+                <h3 style="color: red;" class="trailer-title">Latest Trailers</h3>
+                <div class="trailer-grid">
+                    <div th:each="movie, iterStat : ${movies}" class="trailer-item" th:if="${iterStat.index < 3}">
+                        <div th:if="${movie.trailerURL != null}">
+                            <iframe width="200" height="150" th:src="@{'https://www.youtube.com/embed/' + ${movie.trailerURL}}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <span th:unless="${movie.trailerURL != null}">N/A</span>
+                        <p class="mt-2" th:text="${movie.title}"></p>
+                    </div>
+                    <div th:unless="${#lists.size(movies) > 0}">
+                        <p>No trailers available.</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<footer>
+  <div class="logo-box">
+    <p class="logo">
+      Movie<span>Tic</span>
+    </p>
+    <p><i class="fa fa-copyright"></i> 2001-2017, SIA Multiflex</p>
+  </div>
+
+  <ul>
+    <li>main</li>
+    <li>schedlues</li>
+    <li>tickets</li>
+    <li>news</li>
+    <li>contact</li>
+  </ul>
+
+  <div class="socail-box">
+    <i class="fa fa-facebook-f"></i>
+    <i class="fa fa-twitter"></i>
+    <i class="fa fa-instagram"></i>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function() {
+      var promotions = /*[[${promotions}]]*/ [];
+      var promotionIndex = 0;
+      
+      function displayCurrentPromotion() {
+          if (promotions.length > 0) {
+              var promotion = promotions[promotionIndex];
+              var promotionHtml = '';
+              promotionHtml += '<div class="card mb-3">';
+              promotionHtml += '<img src="' + promotion.photosImagePath + '" class="card-img-top" alt="Promotion Image">';
+              promotionHtml += '<div class="card-body">';
+              promotionHtml += '<h6 class="card-title">' + promotion.promotionName + '</h6>';
+              promotionHtml += '<p class="card-text">' + promotion.description + '</p>';
+              promotionHtml += '<a href="/user/promotionDetail/' + promotion.promotionID + '" class="btn btn-primary btn-sm">Read More</a>';
+              promotionHtml += '</div></div>';
+              $('#currentPromotion').html(promotionHtml);
+              promotionIndex = (promotionIndex + 1) % promotions.length; // Loop through promotions
+          } else {
+              $('#currentPromotion').html('<p>No promotions available.</p>');
+          }
+      }
+      
+      // Initial display of promotion
+      displayCurrentPromotion();
+
+      setInterval(displayCurrentPromotion, 5000); // 5000 milliseconds = 5 seconds
+  });
+  /*]]>*/
+</script>
+</body>
+</html>

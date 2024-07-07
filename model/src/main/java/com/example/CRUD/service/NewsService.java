@@ -41,4 +41,9 @@ public class NewsService {
         }
         repo.deleteById(newsID);
     }
+    public List<News> getAllNews() {
+        // Implement logic to fetch all news items from repository or database
+        // Example:
+        return repo.findAll(); // Assuming newsRepository is an instance of JpaRepository or similar
+    }
 }

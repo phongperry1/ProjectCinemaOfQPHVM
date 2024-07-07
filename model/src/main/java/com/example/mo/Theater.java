@@ -48,7 +48,9 @@ public class Theater {
 
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Showtime> showtimes;
-
+    
+    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Movie> movies;
     // Getter and setter for theaterID
     public Integer getTheaterID() {
         return theaterID;

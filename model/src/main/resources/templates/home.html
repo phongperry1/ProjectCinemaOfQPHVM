@@ -82,6 +82,7 @@
   
           <ul id="menu-box">
               <div class="marker"></div>
+              <li><a class="menu-btn" href="/home">main</a></li>
               <div class="dropdown">
                   <button class="menu-btn">MOVIE</button>
                   <div class="dropdown-content">
@@ -89,11 +90,11 @@
                       <li><a class="manage" href=""></a></li>
                   </div>
               </div>
-              <li><a class="menu-btn" href="/nearby_theaters">theater</a></li>
-              <li><a class="menu-btn" href="#">news</a></li>
-              <li><a class="menu-btn" href="#">promotion</a></li>
+              <li><a class="menu-btn" href="/user/theaters">theater</a></li>
+              <li><a class="menu-btn" href="/user/newlist">news</a></li>
               <li><a class="menu-btn" href="/addFunds">Add Funds</a></li>
               <li><a class="menu-btn" href="/register-cinemaowner">Register Cinema</a></li>
+              <li><a class="menu-btn" href="/chat/3">Chat With ADMIN</a></li>
               <li>
                   <span><span th:text="${user.userName}"></span></span>
               </li>
@@ -132,7 +133,7 @@
               </div>
             </button>
             <div class="carousel">
-              <div class="movie-card" th:each="movie : ${movies}">
+              <div class="movie-card" th:each="movie : ${comingSoonMovies}">
                 <figure class="card2">
                   <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
                     style="height: 400px; width: 400px; border-top-left-radius: 17px; border-top-right-radius: 17px;">
@@ -169,34 +170,33 @@
 
       <div class="filter-search-box">
 
-        <div class="filters-box">
-
-          <div class="all-filters filters">
-            All formats <i class="fa fa-angle-down"></i>
+          <div class="dropdown">
+            <button class="menu-btn">By Category</button>
+            <div class="dropdown-content">
+                <form action="/movie/general/genre" method="get">
+                    <button type="submit" class="manage" name="genre" value="Kinh Dị">Kinh Dị</button>
+                    <button type="submit" class="manage" name="genre" value="Hành Động">Hành Động</button>
+                    <button type="submit" class="manage" name="genre" value="Hài">Hài</button>
+                    <button type="submit" class="manage" name="genre" value="Phiêu Lưu">Phiêu Lưu</button>
+                    <button type="submit" class="manage" name="genre" value="Tình Cảm">Tình Cảm</button>
+                    <button type="submit" class="manage" name="genre" value="Viễn Tưởng">Viễn Tưởng</button>
+                    <button type="submit" class="manage" name="genre" value="Hoạt Hình">Hoạt Hình</button>
+                    <button type="submit" class="manage" name="genre" value="Khoa Học">Khoa Học</button>
+                    <button type="submit" class="manage" name="genre" value="Tội Phạm">Tội Phạm</button>
+                    <!-- Thêm các thể loại phim khác bạn muốn hỗ trợ -->
+                </form>
+            </div>
           </div>
+      
+      
 
-          <div class="date-filters filters">
-            By Date <i class="fa fa-angle-down"></i>
-          </div>
-
-          <div class="category-filters filters">
-            By category <i class="fa fa-angle-down"></i>
-          </div>
-
-          <div class="category-filters filters">
-            Coming soon
-          </div>
-
-        </div>
-
-        <div class="search-filters">
-          <input type="text" placeholder="Search by name...">
-          <i class="fa fa-search"></i>
-        </div>
-
-        <div class="search-bar">
-          <div class="bar"></div>
-        </div>
+          <form action="/movie/search" method="GET">
+            <input type="text" name="keyword" placeholder="Nhập tên phim...">
+            <button type="submit">Tìm kiếm</button>
+            <div th:if="${message}" class="error-message">
+              <p th:text="${message}"></p>
+            </div>
+          </form>
 
       </div>
       <!----filter-search-box---->
@@ -227,50 +227,7 @@
       
 
 
-      <div class="movie-list-section">
-        <div class="filter-search-box">
-          <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <div class="shine">PROMOTIONS</div>
-          <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-
-        <div class="promotions-container">
-          <div th:each="promotion : ${listPromotions}" class="promotion">
-            <div class="promotion-item">
-              <img th:src="${promotion.photosImagePath}" alt="Promotion Image" />
-              <div class="promotion-details">
-                <p><strong>Description:</strong> <span th:text="${promotion.description}"></span></p>
-                <p><strong>Start Date:</strong> <span th:text="${promotion.startDate}"></span></p>
-                <p><strong>End Date:</strong> <span th:text="${promotion.endDate}"></span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!---movie-card--->
-
-      <div class="show">
-        <div class="show-bar">
-          <div class="bar"></div>
-        </div>
-        <button>Show more</button>
-      </div>
-      <!---bar--->
+      
 
 
     </section>
@@ -279,7 +236,7 @@
 
       <div class="logo-box">
         <p class="logo">
-          multi<span>flex</span>
+          Movie<span>Tic</span>
         </p>
         <p><i class="fa fa-copyright"></i> 2001-2017, SIA Multiflex</p>
       </div>

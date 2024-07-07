@@ -1,24 +1,35 @@
 package com.example.CRUD.controller;
 
+import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.example.CRUD.Repository.CinemaOwnerRepository;
+import com.example.CRUD.Repository.TicketRepository;
 import com.example.CRUD.Repository.UserByAdminRepository;
 import com.example.CRUD.service.CinemaService;
-import com.example.CRUD.service.PurchaseHistoryService;
+import com.example.CRUD.service.NotificationService;
+import com.example.CRUD.service.TicketService;
 import com.example.CRUD.service.UserByAdminService;
+import com.example.CRUD.service.UserService;
 import com.example.mo.CinemaOwner;
-import com.example.mo.PurchaseHistory;
+import com.example.mo.Notification;
+import com.example.mo.Ticket;
 import com.example.mo.Users;
 
 // import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 // @RestController
 @Controller
@@ -29,28 +40,65 @@ public class UserByAdminControllere {
     @Autowired
     private UserByAdminService userByAdminService;
     private final UserByAdminRepository userByAdminRepository;
-    private final PurchaseHistoryService historyService;
+    private final TicketRepository ticketRepository;
     private final CinemaService cinemaService;
     private final CinemaOwnerRepository cinemaOwnerRepository;
+    private final UserService userService;
+    private final NotificationService notificationService;
+    private final TicketService ticketService;
     
-    // @GetMapping
-    // public ResponseEntity<List<UserByAdmin>> getTicket() throws IOException,
-    // WriterException {
-    // List<UserByAdmin> userByAdmins = userByAdminService.getTickets();
-    // if (userByAdmins.size() != 0) {
-    // for (UserByAdmin userByAdmin : userByAdmins) {
-    // QRCodeGenerator.generateQRCode(userByAdmin);
-    // }
-    // }
-    // return ResponseEntity.ok(userByAdminService.getTickets());
-    // }
+      @GetMapping("/notifications")
+    public String getNotifications(Model model, Principal principal) {
+        String email = principal.getName();
+        Users currentUser = userService.getUsersByEmail(email);
+
+        if (currentUser.getUserName().equals("ADMIN")) { 
+            List<Notification> notifications = notificationService.getUnreadNotifications();
+            model.addAttribute("notifications", notifications);
+        }
+
+        return "notifications";
+    }
+    
+    @PostMapping("/markNotificationsAsRead")
+    @ResponseBody
+    public String markNotificationsAsRead() {
+        notificationService.markAllAsRead();
+        return "success";
+    }
+    @GetMapping("/checkNewNotifications")
+    @ResponseBody
+    public List<Notification> checkNewNotifications(Principal principal) {
+        String email = principal.getName();
+        Users currentUser = userService.getUsersByEmail(email);
+
+        if (currentUser.getUserName().equals("ADMIN")) { 
+            return notificationService.getUnreadNotifications();
+        }
+
+        return List.of();
+    }
 
     @GetMapping("/show")
-    public String getUserDetails(Model model) {
-        List<Users> userByAdmins = userByAdminService.getUserByAdmins();
-        model.addAttribute("UserByAdmins", userByAdmins);
-        return "userdetails";
+public String getUserDetails(Model model, Principal principal) {
+    String email = principal.getName();
+    Users currentUser = userService.getUsersByEmail(email);
+    List<Users> userByAdmins = userByAdminService.getUserByAdmins()
+        .stream()
+        .filter(user -> !user.getUserName().equals("ADMIN"))
+        .collect(Collectors.toList());
+    
+    model.addAttribute("UserByAdmins", userByAdmins);
+
+    if (currentUser.getUserName().equals("ADMIN")) { 
+        List<Notification> notifications = notificationService.getUnreadNotifications();
+        model.addAttribute("notifications", notifications);
+        model.addAttribute("unreadCount", notifications.size());
     }
+
+    return "userdetails";
+}
+
 
     @PostMapping()
     public Users addTicket(@RequestBody Users userByAdmin) {
@@ -144,9 +192,9 @@ public String lockAccount(@PathVariable("UserId") Integer userId, RedirectAttrib
 
 @GetMapping("/purchasehistory/{UserId}")
 public String getPurchaseHistory(@PathVariable("UserId") Integer userId, Model model){
-    List<PurchaseHistory> purchaseHistories = historyService.getPurchaseHistoryById(userId);
-    model.addAttribute("purchaseHistories", purchaseHistories);
-    return "test";
+    List<Ticket> tickets = ticketService.getTicketsByUserId(userId);
+    model.addAttribute("tickets", tickets);
+    return "puchar-info";
 }
 
     // @GetMapping("/{id}")
@@ -172,6 +220,18 @@ public String searcgCinemaOwner(@RequestParam(name = "cinemaName", required = fa
     model.addAttribute("cinemaOwners", cinemaOwners);
     model.addAttribute("cinemaName", cinemaName);
     return "cinemaowner";
+}
+@GetMapping("/search_ticket")
+public String searchTickByMovieName(@RequestParam(name = "moiveName", required = false) String moiveName, Model model) {
+    List<Ticket> tickets;
+    if (moiveName == null || moiveName.isEmpty()) {
+        tickets = ticketService.getAllTickets();
+    } else {
+        tickets = ticketRepository.findTicketsByMovieTitleContainingIgnoreCase(moiveName);
+    }
+    model.addAttribute("tickets", tickets);
+    model.addAttribute("moiveName", moiveName);
+    return "puchar-info";
 }
 
 }

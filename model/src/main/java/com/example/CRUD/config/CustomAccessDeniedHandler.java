@@ -24,14 +24,14 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         if (authentication != null) {
             Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
-            if (roles.contains("ROLE_ADMIN")) {
-                response.sendRedirect("/admin/admin_profile");
-            } else if (roles.contains("ROLE_CINEMA_OWNER")) {
+            if (roles.contains("ADMIN")) {
+                response.sendRedirect("/show");
+            } else if (roles.contains("CINEMA_OWNER")) {
                 response.sendRedirect("/cinemaowner/homecinemaowner");
-            } else if (roles.contains("ROLE_USER")) {
+            } else if (roles.contains("USER")) {
                 response.sendRedirect("/user/home");
             } else {
-                response.sendRedirect("/login?error=accessDenied");
+                response.sendRedirect("/"); // Redirect to the homepage or another appropriate page
             }
         } else {
             response.sendRedirect("/login?error=accessDenied");

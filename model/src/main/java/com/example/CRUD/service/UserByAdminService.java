@@ -1,6 +1,8 @@
 package com.example.CRUD.service;
 
+import com.example.CRUD.Repository.TicketRepository;
 import com.example.CRUD.Repository.UserByAdminRepository;
+import com.example.mo.Ticket;
 import com.example.mo.Users;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,8 @@ public class UserByAdminService {
 
     @Autowired
     private UserByAdminRepository userByAdminRepository;
+    private TicketService ticketService;
+    private TicketRepository ticketRepository;
 
     public List<Users> getUserByAdmins() {
         return userByAdminRepository.findAll();
@@ -45,5 +49,11 @@ public class UserByAdminService {
         }
     }
 
-    
+    public List<Ticket> searchTicketByMoveName(String movieName) {
+        if (movieName == null || movieName.isEmpty()) {
+            return ticketService.getAllTickets();
+        } else {
+            return ticketRepository.findTicketsByMovieTitleContainingIgnoreCase(movieName);
+        }
+    }
 }
