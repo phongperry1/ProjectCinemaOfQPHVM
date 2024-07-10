@@ -106,55 +106,69 @@ public class PaymentController {
     }
 
     @GetMapping("/vnpay-payment-return")
-    public String paymentCompleted(HttpServletRequest request, Model model, Principal principal, HttpSession session) {
-        boolean paymentStatus = vnPayService.validatePayment(request, model);
+public String paymentCompleted(HttpServletRequest request, Model model, Principal principal, HttpSession session) {
+    boolean paymentStatus = vnPayService.validatePayment(request, model);
 
-        String orderInfo = request.getParameter("vnp_OrderInfo");
-        String paymentTime = request.getParameter("vnp_PayDate");
-        String transactionId = request.getParameter("vnp_TransactionNo");
-        String totalPrice = request.getParameter("vnp_Amount");
-        String bankCode = request.getParameter("vnp_BankCode");
-        String tmnCode = request.getParameter("vnp_TmnCode");
-        String txnRef = request.getParameter("vnp_TxnRef");
-        String cardType = request.getParameter("vnp_CardType");
-        String transactionStatus = request.getParameter("vnp_TransactionStatus");
-        String bankTranNo = request.getParameter("vnp_BankTranNo");
-        String responseCode = request.getParameter("vnp_ResponseCode");
+    String orderInfo = request.getParameter("vnp_OrderInfo");
+    String paymentTime = request.getParameter("vnp_PayDate");
+    String transactionId = request.getParameter("vnp_TransactionNo");
+    String totalPrice = request.getParameter("vnp_Amount");
+    String bankCode = request.getParameter("vnp_BankCode");
+    String tmnCode = request.getParameter("vnp_TmnCode");
+    String txnRef = request.getParameter("vnp_TxnRef");
+    String cardType = request.getParameter("vnp_CardType");
+    String transactionStatus = request.getParameter("vnp_TransactionStatus");
+    String bankTranNo = request.getParameter("vnp_BankTranNo");
+    String responseCode = request.getParameter("vnp_ResponseCode");
 
-        if (paymentStatus && principal != null) {
-            String email = principal.getName();
-            Users user = userService.getUsersByEmail(email);
-            if (user != null) {
-                Transaction transaction = new Transaction(
-                    user, bankCode, paymentTime, transactionId, tmnCode,
-                    orderInfo, txnRef, Integer.parseInt(totalPrice) / 100, cardType,
-                    transactionStatus, bankTranNo, responseCode, "Debit"
-                );
-                transactionService.addTransaction(transaction);
-                logger.info("Transaction added: " + transaction.toString());
+    if (paymentStatus && principal != null) {
+        String email = principal.getName();
+        Users user = userService.getUsersByEmail(email);
+        if (user != null) {
+            int amount = Integer.parseInt(totalPrice) / 100;
 
-                // Tính điểm thành viên
-                int amount = Integer.parseInt(totalPrice) / 100;
-            int points = amount / 10000; 
-            userService.addMemberPoints(user.getUserId(), points);
-                // Lưu vé vào cơ sở dữ liệu
-                TicketDTO ticketDTO = (TicketDTO) session.getAttribute("ticketDTO");
-                ticketService.savePendingTicket(ticketDTO, user);
-                session.removeAttribute("ticketDTO");
-            } else {
-                logger.error("User not found with email: " + email);
+            // Deduct the amount from user's virtual wallet
+            if (user.getVirtualWallet() < amount) {
+                model.addAttribute("error", "Insufficient balance in virtual wallet.");
+                return "errorPage"; // Redirect to an error page
             }
+            user.setVirtualWallet(user.getVirtualWallet() - amount);
+            userService.updateUser(user); // Ensure this method updates the user record in the database
+
+            // Add transaction
+            Transaction transaction = new Transaction(
+                user, bankCode, paymentTime, transactionId, tmnCode,
+                orderInfo, txnRef, amount, cardType,
+                transactionStatus, bankTranNo, responseCode, "Debit"
+            );
+            transactionService.addTransaction(transaction);
+            logger.info("Transaction added: " + transaction.toString());
+
+            // Add member points
+            int points = amount / 10000;
+            userService.addMemberPoints(user.getUserId(), points);
+
+            // Save ticket to the database
+            TicketDTO ticketDTO = (TicketDTO) session.getAttribute("ticketDTO");
+            ticketService.savePendingTicket(ticketDTO, user);
+            session.removeAttribute("ticketDTO");
+
+            model.addAttribute("orderId", orderInfo);
+            model.addAttribute("totalPrice", amount);
+            model.addAttribute("paymentTime", paymentTime);
+            model.addAttribute("transactionId", transactionId);
+
+            return "orderSuccess";
         } else {
-            logger.error("Payment failed or principal is null. Payment status: " + paymentStatus);
+            logger.error("User not found with email: " + email);
         }
-
-        model.addAttribute("orderId", orderInfo);
-        model.addAttribute("totalPrice", totalPrice != null ? Integer.parseInt(totalPrice) / 100 : 0);
-        model.addAttribute("paymentTime", paymentTime);
-        model.addAttribute("transactionId", transactionId);
-
-        return paymentStatus ? "orderSuccess" : "orderFail";
+    } else {
+        logger.error("Payment failed or principal is null. Payment status: " + paymentStatus);
     }
+
+    return "orderFail";
+}
+
 
     @GetMapping("/transactionHistory")
     public String transactionHistory(Principal principal, Model model) {

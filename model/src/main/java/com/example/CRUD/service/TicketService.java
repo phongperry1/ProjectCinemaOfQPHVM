@@ -42,18 +42,31 @@ public class TicketService {
     public Map<String, Double> calculateRevenueByMovie() {
         List<Ticket> allTickets = ticketRepository.findAllTicketsWithMovies();
         Map<String, Double> revenueByMovie = new HashMap<>();
+        double totalRevenue = 0.0;
 
+        // Tính tổng doanh thu và doanh thu cho từng phim
         for (Ticket ticket : allTickets) {
             if (ticket.getMovie() != null && ticket.getMovie().getTitle() != null) {
                 String movieTitle = ticket.getMovie().getTitle();
                 double price = ticket.getPrice();
-
                 revenueByMovie.put(movieTitle, revenueByMovie.getOrDefault(movieTitle, 0.0) + price);
             }
         }
 
+        // Tính tổng doanh thu
+        for (double revenue : revenueByMovie.values()) {
+            totalRevenue += revenue;
+        }
+
+        // Chuyển đổi doanh thu thành phần trăm nếu tổng doanh thu lớn hơn 0
+        if (totalRevenue > 0) {
+            for (Map.Entry<String, Double> entry : revenueByMovie.entrySet()) {
+                revenueByMovie.put(entry.getKey(), (entry.getValue() / totalRevenue) * 100);
+            }
+        }
+
         // Log the calculated revenue for debugging purposes
-        revenueByMovie.forEach((movie, revenue) -> logger.info("Movie: " + movie + ", Revenue: " + revenue));
+        revenueByMovie.forEach((movie, revenue) -> logger.info("Movie: " + movie + ", Revenue Percentage: " + revenue));
 
         return revenueByMovie;
     }

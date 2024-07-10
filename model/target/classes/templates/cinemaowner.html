@@ -71,6 +71,11 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link active" th:href="@{/revenue}">
+                <i class="fas fa-chart-bar"></i> View Revenue
+            </a>
+        </li>
+          <li class="nav-item">
             <a class="nav-link" href="/logout">
               <i class="fas fa-sign-out-alt"></i> Logout
             </a>
@@ -105,7 +110,6 @@
                     <th>Address</th>
                     <th>Hotline</th>
                     <th>Email</th>
-                    <th>Employee ID</th>
                 </tr>
             </thead>
             <tbody>
@@ -115,7 +119,6 @@
                     <td th:text="${owner.addressCinema}"></td>
                     <td th:text="${owner.hotline}"></td>
                     <td th:text="${owner.email}"></td>
-                    <td th:text="${owner.employeeID}"></td>
                 </tr>
             </tbody>
         </table>

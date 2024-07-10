@@ -138,6 +138,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th>MovieID</th>
                     <th>Title</th>
                     <th>Genre</th>
                     <th>Duration</th>
@@ -145,17 +146,16 @@
                     <th>Cast</th>
                     <th>Release Date</th>
                     <th>Languages</th>
-                    <th>Rating Count</th>
-                    <th>Average Rating</th>
+                    <th>Status</th>
                     <th>Description</th>
                     <th>Trailer</th>
                     <th>Image</th>
-                    
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="movie : ${movies}">
+                <tr th:each="movie : ${movies}" th:if="${movie.statusMovie} != 'END'">
+                    <td th:text="${movie.movieID}">MovieID</td>
                     <td th:text="${movie.title}">Title</td>
                     <td th:text="${movie.genre}">Genre</td>
                     <td th:text="${movie.duration}">Duration</td>
@@ -163,8 +163,8 @@
                     <td th:text="${movie.cast}">Cast</td>
                     <td th:text="${#dates.format(movie.releaseDate, 'yyyy-MM-dd')}">Release Date</td>
                     <td th:text="${movie.languages}">Languages</td>
-                    <td th:text="${movie.ratingCount}">Rating Count</td>
-                    <td th:text="${movie.averageRating}">Average Rating</td>
+                    <td th:text="${movie.statusMovie}">Status</td>
+                    
                     <td th:text="${movie.description}">Description</td>
                     <td>
                         <div th:if="${movie.trailerURL != null}">

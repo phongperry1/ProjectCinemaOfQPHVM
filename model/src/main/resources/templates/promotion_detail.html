@@ -336,14 +336,14 @@ body {
     <header>
         <nav>
             <p class="logo">
-                Movie<span>Ticket<span>
+                Movie<span>Tic<span>
             </p>
     
             <i class="fa fa-bars" id="menu"></i>
     
             <ul id="menu-box">
                 <div class="marker"></div>
-                <li><a href="/">main</a></li>
+                <li><a class="menu-btn" href="/user/home">main</a></li>
                 <div class="dropdown">
                     <button class="menu-btn">MOVIE</button>
                     <div class="dropdown-content">
@@ -351,12 +351,12 @@ body {
                         <li><a class="manage" href=""></a></li>
                     </div>
                 </div>
-                <li><a href="/theaters">theater</a></li>
-                <li><a href="/createOrder">Payment</a></li>
-                <li><a href="/user/newlist">news</a></li>
-                <li><a href="#">promotion</a></li>
-                <li><a href="#">food</a></li>
-                <li><a href="#">contact</a></li>
+                <li><a class="menu-btn" href="/user/theaters">theater</a></li>
+                
+                <li><a class="menu-btn" href="/user/newlist">news</a></li>
+                <li><a class="menu-btn" href="/addFunds">Add Funds</a></li>
+                <li><a class="menu-btn" href="/register-cinemaowner">Register Cinema</a></li>
+                <li><a class="menu-btn" href="/chat/3">Chat With ADMIN</a></li>
                 <li>
                     <span><span th:text="${user.userName}"></span></span>
                 </li>
@@ -365,7 +365,7 @@ body {
                         <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="Avatar">
                     </a>
                 </li>
-                <li><a href="/logout">Logout</a></li>
+                <li><a class="menu-btn" href="/logout">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -397,7 +397,7 @@ body {
             <h3 style="color: red;">Description</h3>
             <p style="color: white;" th:text="${promotion.description}">Promotion Description</p>
             <!-- Back button -->
-            <a href="/theaters" class="btn btn-primary back-btn mt-3">Back to Theaters</a>
+            <a href="/user/theaters" class="btn btn-primary back-btn mt-3">Back to Theaters</a>
         </div>
     </div>
 </div>
@@ -405,7 +405,7 @@ body {
 
     <div class="logo-box">
       <p class="logo">
-        multi<span>flex</span>
+        Movie<span>Tic</span>
       </p>
       <p><i class="fa fa-copyright"></i> 2001-2017, SIA Multiflex</p>
     </div>

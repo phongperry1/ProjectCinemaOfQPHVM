@@ -5,28 +5,61 @@
     <title>Revenue By Movie</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
         canvas {
             max-width: 100%;
         }
+        .navbar {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Revenue By Movie</h2>
-        <canvas id="myChart"></canvas>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 bg-light vh-100">
+                <div class="py-4 text-center">
+                    <h2>User Details</h2>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/show}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/cinema_owner}">
+                            <i class="fas fa-user"></i> Cinema Owner
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/revenue}">
+                            <i class="fas fa-chart-bar"></i> View Revenue
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10">
+                <div class="container mt-5">
+                    <h2 class="mb-4">Revenue By Movie</h2>
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
     <script th:inline="javascript">
         /*<![CDATA[*/
         var revenueByMovie = /*[[${revenueByMovie}]]*/ '{}';
-        console.log("Revenue By Movie JSON:", revenueByMovie);  // Log the JSON string
         revenueByMovie = JSON.parse(revenueByMovie);
-        console.log("Parsed Revenue By Movie:", revenueByMovie);  // Log the parsed object
 
         var xValues = Object.keys(revenueByMovie);
         var yValues = Object.values(revenueByMovie);
-        console.log("X Values (Movies):", xValues);  // Log the x values (movie titles)
-        console.log("Y Values (Revenue):", yValues);  // Log the y values (revenue)
 
         var barColors = ["red", "green", "blue", "orange", "purple", "cyan", "magenta"];
 
@@ -43,13 +76,18 @@
                 legend: { display: false },
                 title: {
                     display: true,
-                    text: "Revenue By Movie"
+                    text: "Revenue By Movie (Percentage)"
                 },
                 scales: {
                     yAxes: [{
                         ticks: {
-                            min: 50000,
-                            max: 1000000
+                            min: 0,
+                            max: 100,
+                            callback: function(value) { return value + "%" }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Percentage (%)'
                         }
                     }],
                     xAxes: [{

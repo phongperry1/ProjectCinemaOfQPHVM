@@ -1,20 +1,16 @@
 package com.example.CRUD.controller;
 
-import com.example.mo.Movie;
-import com.example.mo.Promotions;
-import com.example.mo.Users;
-import com.example.CRUD.Repository.UserRepository;
-import com.example.CRUD.service.MovieService;
-import com.example.CRUD.service.PromotionsService;
-import com.example.CRUD.service.UserService;
-
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +21,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.CRUD.Repository.UserRepository;
+import com.example.CRUD.service.MovieService;
+import com.example.CRUD.service.PromotionsService;
+import com.example.CRUD.service.UserService;
+import com.example.mo.Movie;
+import com.example.mo.Promotions;
+import com.example.mo.Users;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -78,6 +83,8 @@ public class HomeController {
         model.addAttribute("movies", simplifiedMovies);
         List<Promotions> listPromotions = promotionsService.listAllByCinemaOwnerID(cinemaOwnerID);
         model.addAttribute("listPromotions", listPromotions);
+        List<Movie> comingSoonMovies = movieService.getAllComingSoonMovies();
+                model.addAttribute("comingSoonMovies", comingSoonMovies);
         return "home";
     }
 
@@ -113,15 +120,33 @@ public class HomeController {
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute Users user, HttpSession session, Model model, HttpServletRequest request) {
         String url = Utility.getSiteURL(request);
+
+        Users storedUser = userRepo.findByEmail(user.getEmail());
+        if (storedUser != null) {
+            session.setAttribute("msg", "This email has already been used for registration.");
+            return "redirect:/register"; // Redirect back to registration form
+        }
+
         Users savedUser = userService.saveUser(user, url);
         if (savedUser != null) {
-            session.setAttribute("msg", "Register successfully");
+            session.setAttribute("msg", "Registration successful. Please check your email for verification.");
         } else {
-            session.setAttribute("msg", "Something wrong server");
+            session.setAttribute("msg", "Something went wrong on the server.");
         }
+
         return "redirect:/register";
     }
 
+    @GetMapping("/checkEmail")
+    @ResponseBody
+    public Map<String, Boolean> checkEmail(@RequestParam String email) {
+        Users storedUser = userRepo.findByEmail(email);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", storedUser != null);
+        return response;
+    }
+
+    
     @GetMapping("/verify")
     public String verifyAccount(@Param("code") String code, Model model) {
         boolean verified = userService.verifyAccount(code);
@@ -164,7 +189,7 @@ public class HomeController {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom("dhquan235@shopme.com", "Shopme Support");
+        helper.setFrom("dhquan235@shopme.com", "MovieTic");
         helper.setTo(recipientEmail);
 
         String subject = "Here's the link to reset your password";

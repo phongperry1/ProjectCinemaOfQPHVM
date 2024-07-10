@@ -20,9 +20,8 @@
                 <a href="/home">Home</a>
                
                 <a class="menu-btn" href="">Movie</a> 
-                <a class="menu-btn" href="/nearby_theaters">Theater</a>
-                <a class="menu-btn" href="#">News</a>
-                <a class="menu-btn" href="#">Promotion</a>
+                <a class="menu-btn" href="/user/theaters">Theater</a>
+                <a class="menu-btn" href="/user/newlist">News</a>
                 <a class="menu-btn" href="/addFunds">Add Funds</a>
                 <a class="menu-btn" href="/register-cinemaowner">Register Cinema</a>
                 <div class="user-info">
@@ -40,7 +39,7 @@
     <div class="book">
         <div class="left">
             <img th:src="${movie.address}" alt="Movie Poster" id="poster">
-            <a th:href="@{'/booking/' + ${user.userId} + '/' + ${movie.movieID}}" class="btn">Book Ticket</a>
+            <a th:href="@{'/booking/' + ${user.userId} + '/' + ${movie.movieID}}" class="btn" th:if="${movie.statusMovie != 'COMING_SOON' and movie.statusMovie != 'END'}">Book Ticket</a>
             <div class="cont">
                 <h5 th:text="${movie.title}">Movie Title</h5>
                 <p>Description: <span th:text="${movie.description}">A thrilling movie about...</span></p>
@@ -340,7 +339,7 @@
 
     .book .left, .book .right {
         width: 50%;
-        padding: 20px;
+        padding: 80px;
     }
 
     .book .left {
@@ -397,7 +396,7 @@
         box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
     }
 

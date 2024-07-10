@@ -46,8 +46,8 @@ public class SecurityConfig {
                                  "/user/home", "/user/theaters", "/user/newlist", "/user/promotionDetail/**", "/user/profile/**",
                                  "/admin/show/**", "/book_Guest/**", "/user/update-profile/**", "/user/change-password", 
                                  "/user/transactionHistory/**", "/user/mytickets/**", "/user/edit/profile", "/user/edit/upload-avatar",
-                                 "/user/edit/update-profile", "/user/edit/update-profile/save", "/user/edit/change-password",
-                                 "/user/edit/change-password/save", "/user/edit/history").permitAll()
+                                 "/user/edit/update-profile", "/user/edit/update-profile/save", "/user/edit/change-password","/user/upload-avatar",
+                                 "/user/edit/change-password/save", "/user/edit/history","/checkEmail").permitAll()
                 .requestMatchers("admin/show/**").hasRole("ADMIN")
                 .requestMatchers("/cinemaowner/homecinemaowner/").hasRole("CINEMA_OWNER")
                 .requestMatchers("/user/**").hasRole("USER")

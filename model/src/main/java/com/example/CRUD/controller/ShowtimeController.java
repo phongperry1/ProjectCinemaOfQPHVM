@@ -4,6 +4,9 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,16 +34,20 @@ public class ShowtimeController {
     private UserService userService;
 
     @GetMapping
-    public String showShowtimeList(@RequestParam(name = "movieID", required = false) Integer movieID, Model model, Principal principal) {
+    public String showShowtimeList(@RequestParam(name = "movieID", required = false) Integer movieID,
+                                   @RequestParam(name = "page", defaultValue = "0") int page,
+                                   Model model, Principal principal) {
         Integer cinemaOwnerID = getCinemaOwnerIDFromPrincipal(principal);
-        List<Showtime> listShowtime;
+        Pageable pageable = PageRequest.of(page, 10); // 10 items per page
+        Page<Showtime> showtimePage;
         if (movieID != null) {
-            listShowtime = service.getShowtimesByMovieIDAndCinemaOwnerID(movieID, cinemaOwnerID);
+            showtimePage = service.getShowtimesByMovieIDAndCinemaOwnerID(movieID, cinemaOwnerID, pageable);
         } else {
-            listShowtime = service.listAllByCinemaOwnerID(cinemaOwnerID);
+            showtimePage = service.listAllByCinemaOwnerID(cinemaOwnerID, pageable);
         }
-        model.addAttribute("listShowtime", listShowtime);
+        model.addAttribute("listShowtime", showtimePage.getContent());
         model.addAttribute("movieID", movieID);
+        model.addAttribute("page", showtimePage);
         model.addAttribute("pageTitle", "Manage Showtimes");
         return "showtime";
     }

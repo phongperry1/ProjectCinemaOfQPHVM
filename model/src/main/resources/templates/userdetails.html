@@ -15,36 +15,29 @@
     .content-section {
       display: none;
     }
-
     .text-success {
       color: green !important;
       font-size: 20px;
     }
-
     .text-danger {
       color: red !important;
       font-size: 20px;
     }
-
     .badge {
       font-size: 14px;
       padding: 5px 10px;
       border-radius: 5px;
     }
-
     .bg-secondary {
       background-color: #6c757d;
     }
-
     .bg-warning {
       background-color: #ffc107;
     }
-
     .bg-light {
       background-color: #f8f9fa;
       color: #343a40;
     }
-
     .bg-danger {
       background-color: #dc3545;
     }
@@ -53,12 +46,10 @@
       display: inline-block;
       cursor: pointer;
     }
-
     .notification-icon img {
       width: 30px;
       height: 30px;
     }
-
     .notification-count {
       position: absolute;
       top: -10px;
@@ -68,7 +59,6 @@
       border-radius: 50%;
       padding: 5px 10px;
     }
-
     .notification-list {
       display: none;
       position: absolute;
@@ -82,14 +72,12 @@
       overflow-y: auto;
       z-index: 1000;
     }
-
     .notification-list .title {
       padding: 10px;
       font-weight: bold;
       border-bottom: 1px solid #ccc;
       background-color: #f8f9fa;
     }
-
     .notification-item {
       padding: 15px;
       border-bottom: 1px solid #eee;
@@ -97,11 +85,9 @@
       transition: background-color 0.3s;
       font-size: 14px;
     }
-
     .notification-item:hover {
       background-color: #f1f1f1;
     }
-
     .notification-item:last-child {
       border-bottom: none;
     }
@@ -123,6 +109,11 @@
           <li class="nav-item">
             <a class="nav-link active" th:href="@{/cinema_owner}">
               <i class="fas fa-tachometer-alt"></i> Cinema Owner
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/revenue}">
+              <i class="fas fa-chart-bar"></i> View Revenue
             </a>
           </li>
           <li class="nav-item">
@@ -167,7 +158,6 @@
               <th>View Detail</th>
               <th>Lock Account</th>
               <th>Update Rank</th>
-             
               <th>Transfer to Cinema Owner</th>
               <th>Cancelled Requests</th> <!-- New column for cancelled requests -->
               <th>Chat</th>
@@ -180,7 +170,7 @@
                 <span th:if="${user.status}" class="text-success">&#10004;</span>
                 <span th:unless="${user.status}" class="text-danger">&#10006;</span>
               </td>
-              <td th:text="${user.userType}"></td>
+              <td th:text="${user.role}"></td>
               <td>
                 <span th:if="${user.userRank == 'None'}" class="badge bg-secondary">None</span>
                 <span th:if="${user.userRank == 'Bronze'}" class="badge bg-danger">Bronze</span>
@@ -269,10 +259,6 @@
     }
 
     setInterval(checkForNewNotifications, 5000); 
-  </script>
-</body>
-
-</html>
   </script>
 </body>
 </html>

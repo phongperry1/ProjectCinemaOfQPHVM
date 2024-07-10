@@ -14,23 +14,51 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/model/src/main/resources/static/css/styles.css">
+  <link rel="stylesheet" href="/model/src/main/resources/static/css/plugins.css">
   <title>Document</title>
   <style>
     .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+    position: relative;
+    display: inline-block;
+}
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
+.menu-btn1 {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
 
-        .dropdown-content a {
+.menu-btn1:hover {
+    background-color: #2980b9;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content button {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    border: none;
+    background-color: inherit;
+    width: 100%;
+    cursor: pointer;
+}
+
+.dropdown-content a {
             color: black;
             padding: 12px 16px;
             text-decoration: none;
@@ -41,14 +69,19 @@
             background-color: #f1f1f1;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+.dropdown-content button:hover {
+    background-color: #ddd;
+}
 
-        .dropdown:hover .dropbtn {
-            background-color: #3e8e41;
-        }
-        .menu-btn {
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Optional: Center the dropdown content */
+.dropdown-content {
+    right: 0;
+}
+.menu-btn {
   background-color: #09000000; /* Màu nền */
   border: none; /* Không có viền */
   color: white; /* Màu chữ */
@@ -63,6 +96,64 @@
 }
 .menu-btn:hover {
   background-color: #00000000; /* Màu nền khi hover */
+}
+
+.custom-btn3 {
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+  font-size: 15px;
+}
+
+.btn-3 {
+  background: #004dff;
+  background: linear-gradient(0deg, #004dff 0%, #004dff 100%);
+  border: none;
+}
+
+.btn-3:before {
+  height: 0%;
+  width: 2px;
+}
+
+.btn-3:hover {
+  box-shadow: 4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .5), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.2),
+    inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+}
+
+    .input {
+  background-color: #212121;
+  max-width: 190px;
+  height: 40px;
+  padding: 10px;
+  /* text-align: center; */
+  border: 2px solid white;
+  border-radius: 5px;
+  /* box-shadow: 3px 3px 2px rgb(249, 255, 85); */
+}
+
+.input:focus {
+  color: rgb(0, 255, 255);
+  background-color: #212121;
+  outline-color: rgb(0, 255, 255);
+  box-shadow: -3px -3px 15px rgb(0, 255, 255);
+  transition: .1s;
+  transition-property: box-shadow;
 }
   </style>
 
@@ -87,7 +178,7 @@
                   <button class="menu-btn">MOVIE</button>
                   <div class="dropdown-content">
                       <li><a class="manage" href="">Movies are showing</a></li>
-                      <li><a class="manage" href=""></a></li>
+                      <li><a class="manage" href="">Movies coming soon</a></li>
                   </div>
               </div>
               <li><a class="menu-btn" href="/user/theaters">theater</a></li>
@@ -112,55 +203,55 @@
     <section>
       <div class="movie-list-section">
         <div>
-          
-          <div class="carousel-container">
-            <button class="button prev-btn">
-              <div class="button-box">
-                <span class="button-elem">
-                  <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
-                    </path>
-                  </svg>
-                </span>
-                <span class="button-elem">
-                  <svg viewBox="0 0 46 40">
-                    <path
-                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
-                    </path>
-                  </svg>
-                </span>
-              </div>
-            </button>
-            <div class="carousel">
-              <div class="movie-card" th:each="movie : ${comingSoonMovies}">
-                <figure class="card2">
-                  <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
-                    style="height: 400px; width: 400px; border-top-left-radius: 17px; border-top-right-radius: 17px;">
-                </figure>
-              </div>
+            <div class="carousel-container">
+                <button id="prevButton" class="button prev-btn">
+                    <div class="button-box">
+                        <span class="button-elem">
+                            <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+                                </path>
+                            </svg>
+                        </span>
+                        <span class="button-elem">
+                            <svg viewBox="0 0 46 40">
+                                <path
+                                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+                                </path>
+                            </svg>
+                        </span>
+                    </div>
+                </button>
+                <div id="carousel" class="carousel">
+                    <div class="movie-card" th:each="movie : ${comingSoonMovies}">
+                        <figure class="card2">
+                            <img class="card-img-top" th:src="${movie.address}" alt="Movie Poster"
+                                style="height: 400px; width: 400px; border-top-left-radius: 17px; border-top-right-radius: 17px;">
+                        </figure>
+                    </div>
+                </div>
+                <button id="nextButton" class="button next-btn">
+                    <div class="button-box">
+                        <span class="button-elem">
+                            <svg class="rotated-arrow" viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+                                </path>
+                            </svg>
+                        </span>
+                        <span class="button-elem">
+                            <svg class="rotated-arrow" viewBox="0 0 46 40">
+                                <path
+                                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+                                </path>
+                            </svg>
+                        </span>
+                    </div>
+                </button>
             </div>
-            <button class="button next-btn">
-              <div class="button-box">
-                <span class="button-elem">
-                  <svg class="rotated-arrow" viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
-                    </path>
-                  </svg>
-                </span>
-                <span class="button-elem">
-                  <svg class="rotated-arrow" viewBox="0 0 46 40">
-                    <path
-                      d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
-                    </path>
-                  </svg>
-                </span>
-              </div>
-            </button>
-          </div>
         </div>
-      </div>
+    </div>
+    
 
 
 
@@ -171,7 +262,7 @@
       <div class="filter-search-box">
 
           <div class="dropdown">
-            <button class="menu-btn">By Category</button>
+            <button class="menu-btn1">By Category</button>
             <div class="dropdown-content">
                 <form action="/movie/general/genre" method="get">
                     <button type="submit" class="manage" name="genre" value="Kinh Dị">Kinh Dị</button>
@@ -191,15 +282,14 @@
       
 
           <form action="/movie/search" method="GET">
-            <input type="text" name="keyword" placeholder="Nhập tên phim...">
-            <button type="submit">Tìm kiếm</button>
+            <input placeholder="Nhập tên phim..." class="input" name="keyword" type="text">
+            <button class="custom-btn3 btn-3"> Search </button>
             <div th:if="${message}" class="error-message">
               <p th:text="${message}"></p>
             </div>
           </form>
 
       </div>
-      <!----filter-search-box---->
       <div class="movie-list-section">
         <div class="container">
           <div class="row justify-content-center">
@@ -224,6 +314,25 @@
         </div>
       </div>
       
+      <div class="container">
+        <div class="in-theater">
+            <h1>Trailers</h1>
+            <div class="video-section">
+                <div class="video-container">
+                    <iframe class="trailer-iframe" th:src="@{'https://www.youtube.com/embed/' + ${comingSoonMovies[0].trailerURL}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-list">
+                    <div th:each="movie, iterStat : ${comingSoonMovies}" class="video-item" onclick="changeTrailer(this, '${movie.trailerURL}')">
+                        <img th:src="${movie.address}" th:alt="${movie.title}">
+                        <div>
+                            <p th:text="${movie.title}">Movie Title</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
       
 
 
@@ -260,6 +369,73 @@
 
   </body>
   <style>
+body {
+            background-color: #0b0d17;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            padding: 20px;
+            display: ruby-text;
+        }
+
+        .in-theater h1 {
+            margin-bottom: 20px;
+        }
+
+        .video-section {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .video-section iframe {
+            flex: 1;
+        }
+
+        .video-list {
+            margin-left: 20px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-item {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: center;
+            background-color: #1c1e26;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .video-item img {
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        .video-item p {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .video-item span {
+            font-size: 12px;
+            color: #aaa;
+        }
+        .video-item.selected {
+    background-color: #4c8bf5;
+    cursor: pointer;
+}
+        .view-all {
+            text-align: right;
+            color: #4c8bf5;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+    
 * {
   margin: 0;
   padding: 0;
@@ -286,7 +462,7 @@ body {
 
 .movie-item {
   flex: 0 0 auto;
-  width: 18%;
+  width: auto;
   /* Adjusted to fit more cards per row */
   padding: 0 10px;
   margin-bottom: 20px;
@@ -313,7 +489,7 @@ body {
   height: auto;
   border-top-left-radius: 17px;
   border-top-right-radius: 17px;
-  object-fit: cover;
+
 }
 
 .card-body {
@@ -1405,29 +1581,49 @@ body {
         background-position: 200px;
       }
     }
+    .hide {
+        display: none;
+    }
+    
   </style>
 
-
+<script src="/model/src/main/resources/templates/plugins.js"></script>
 <script>
+    function changeTrailer(element, trailerURL) {
+        // Đổi src của iframe để hiển thị video tương ứng
+        var iframe = element.parentElement.parentElement.previousElementSibling.querySelector('iframe');
+        iframe.src = 'https://www.youtube.com/embed/' + trailerURL;
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const manageLink = document.querySelector('.manage');
+    const movieListSection = document.querySelector('.card');
+
+    manageLink.addEventListener('click', function(event) {
+      event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a
+      movieListSection.scrollIntoView({ behavior: 'smooth' }); // Cuộn mượt đến vị trí của phần movie list
+    });
+  });
   document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.getElementById('carousel');
     const prevButton = document.getElementById('prevButton');
     const nextButton = document.getElementById('nextButton');
 
     prevButton.addEventListener('click', () => {
-      carousel.scrollBy({
-        left: -carousel.clientWidth,
-        behavior: 'smooth'
-      });
+        carousel.scrollBy({
+            left: -400, // Adjust this value based on your carousel item width
+            behavior: 'smooth'
+        });
     });
 
     nextButton.addEventListener('click', () => {
-      carousel.scrollBy({
-        left: carousel.clientWidth,
-        behavior: 'smooth'
-      });
+        carousel.scrollBy({
+            left: 400, // Adjust this value based on your carousel item width
+            behavior: 'smooth'
+        });
     });
-  });
+});
 </script>
 </body>
 

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.CRUD.Repository.ScreeningRoomRepository;
@@ -45,20 +47,20 @@ public class ShowtimeService {
         return repo.findByMovieIDAndTheaterID(movieID, theaterID);
     }
 
-    public List<Showtime> getShowtimesByMovieIDAndCinemaOwnerID(Integer movieID, Integer cinemaOwnerID) {
-        return repo.findByMovieIDAndCinemaOwnerID(movieID, cinemaOwnerID);
+    public Page<Showtime> getShowtimesByMovieIDAndCinemaOwnerID(Integer movieID, Integer cinemaOwnerID, Pageable pageable) {
+        return repo.findByMovieIDAndCinemaOwnerID(movieID, cinemaOwnerID, pageable);
     }
 
-    public List<Showtime> getShowtimesByDate(Date showDate) {
-        return repo.findByShowDate(showDate);
+    public Page<Showtime> getShowtimesByDate(Date showDate, Pageable pageable) {
+        return repo.findByShowDate(showDate, pageable);
     }
 
-    public List<Showtime> listAll() {
-        return (List<Showtime>) repo.findAll();
+    public Page<Showtime> listAll(Pageable pageable) {
+        return repo.findAll(pageable);
     }
 
-    public List<Showtime> listAllByCinemaOwnerID(Integer cinemaOwnerID) {
-        return repo.findByCinemaOwnerID(cinemaOwnerID);
+    public Page<Showtime> listAllByCinemaOwnerID(Integer cinemaOwnerID, Pageable pageable) {
+        return repo.findByCinemaOwnerID(cinemaOwnerID, pageable);
     }
 
     public void save(Showtime showtime) {

@@ -22,7 +22,6 @@ public class TicketController {
     public String viewRevenueByMovie(Model model) {
         Map<String, Double> revenueByMovie = ticketService.calculateRevenueByMovie();
         String revenueByMovieJson = new Gson().toJson(revenueByMovie);
-        System.out.println("Revenue By Movie JSON: " + revenueByMovieJson);  // Log the JSON string
         model.addAttribute("revenueByMovie", revenueByMovieJson);
         return "revenue";
     }

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -74,30 +76,34 @@
         }
 
         .showtimes {
-        display: none;
+            display: none;
         }
+
         .showtimes.active {
-        display: block;
+            display: block;
         }
 
         .list-group-item {
-        border-radius: 10px;
+            border-radius: 10px;
         }
 
         .dates {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px; 
-            margin-top: 20px;
-        }
-        .showtimes {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px; /* Khoảng cách giữa các nút */
+            gap: 30px;
             margin-top: 20px;
         }
 
-        .show-date-button, .show-time-button {
+        .showtimes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            /* Khoảng cách giữa các nút */
+            margin-top: 20px;
+        }
+
+        .show-date-button,
+        .show-time-button {
             width: 150px;
             margin-right: 15px;
             align-items: center;
@@ -129,7 +135,8 @@
             will-change: box-shadow, transform;
             font-size: 20px;
         }
-        .custom{
+
+        .custom {
 
             margin-right: 15px;
             align-items: center;
@@ -162,7 +169,9 @@
             border-radius: 10% !important;
         }
 
-        .custom:hover, .show-date-button:hover, .show-time-button:hover {
+        .custom:hover,
+        .show-date-button:hover,
+        .show-time-button:hover {
             box-shadow: rgba(254, 83, 83, 0.2) 0 2px 4px, rgba(254, 83, 83, 0.15) 0 7px 13px -3px, #e7d6d6 0 -3px 0 inset;
             transform: translateY(-2px);
         }
@@ -197,7 +206,7 @@
             margin: 0 5px;
         }
 
-         .right .screen::before {
+        .right .screen::before {
             content: '';
             position: absolute;
             width: 100%;
@@ -214,6 +223,7 @@
             margin: auto;
 
         }
+
         .right .chair .row {
             width: 100%;
             display: flex;
@@ -221,6 +231,7 @@
             justify-content: space-between;
             margin-top: 15px;
         }
+
         .right .chair .row button {
             position: relative;
             width: 30px;
@@ -239,25 +250,28 @@
         }
 
         .right .chair .row button::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 5px;
-        background: rgb(184, 184, 184, .1);
-        bottom: -8px;
-        border-radius: 10px;
-    }
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background: rgb(184, 184, 184, .1);
+            bottom: -8px;
+            border-radius: 10px;
+        }
 
         .right .chair .row button:hover {
             background: rgb(255, 96, 133);
             color: #000;
         }
+
         .right .chair .row button:nth-child(6) {
             margin-right: 20px;
         }
+
         .right .chair .row button:nth-last-child(6) {
             margin-left: 20px;
         }
+
         .right .chair .row span {
             color: #fff;
             font-weight: 600;
@@ -282,8 +296,8 @@
             width: 30px;
             height: 30px;
             border: 1px solid #ff0cf3;
-            background-color: #891bf7; 
-            color: #ffffff; 
+            background-color: #891bf7;
+            color: #ffffff;
             font-size: 14px;
             cursor: pointer;
         }
@@ -318,6 +332,7 @@
             background-color: #da000033;
             flex-grow: 1;
         }
+
         .selected-seats-container {
             display: flex;
             justify-content: space-between;
@@ -373,7 +388,7 @@
             color: #000000 !important;
         }
 
-        
+
 
         .no-border {
             border: none !important;
@@ -431,9 +446,10 @@
 
         .input-group .btn {
             width: 30px;
-        }        
-        
-        #selectedTheaterID, #selectedShowtimeId {
+        }
+
+        #selectedTheaterID,
+        #selectedShowtimeId {
             display: none;
         }
 
@@ -446,7 +462,8 @@
 
         .detail-item {
             display: flex;
-            align-items: center; /* Căn giữa các thành phần theo chiều dọc */
+            align-items: center;
+            /* Căn giữa các thành phần theo chiều dọc */
             border-bottom: 1px solid #dee2e6;
             padding-bottom: 5px;
             margin-bottom: 5px;
@@ -460,16 +477,16 @@
 
 
         .detail-item strong {
-            width: 175%; 
+            width: 175%;
             font-weight: 600;
-            text-align: right; 
+            text-align: right;
         }
 
         .detail-item span {
-            width: 60%; 
-            text-align: left; 
+            width: 60%;
+            text-align: left;
         }
-        
+
         header {
             background-color: #282a36;
             padding: 20px 0;
@@ -515,7 +532,7 @@
         }
 
         .container {
-        margin-top: 20px;
+            margin-top: 20px;
         }
 
         .card {
@@ -567,11 +584,13 @@
             margin: 0;
         }
 
-        .dates-container, .showtimes-container {
+        .dates-container,
+        .showtimes-container {
             margin-top: 20px;
         }
 
-        .dates-container h3, .showtimes-container h3 {
+        .dates-container h3,
+        .showtimes-container h3 {
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 15px;
@@ -585,28 +604,30 @@
         }
     </style>
 </head>
+
 <body>
     <header class="p-3 mb-3 border-bottom">
         <div class="container1">
-          <div class="d-flex flex-wrap align-items-center justify-content-between">
-            <a class="navbar-brand logo" href="/">Movie<span>Tic</span></a>
-      
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="/home" class="nav-link px-2 link-light">Home</a></li>
-              <li><a href="/nearby_theaters" class="nav-link px-2 link-secondary">Theater</a></li>
-              <li><a href="/addFunds" class="nav-link px-2 link-secondary">Add Funds</a></li>
-              <li><a href="/register-cinemaowner" class="nav-link px-2 link-secondary">Register Cinema</a></li>
-            </ul>
-      
-            <div class="user-info d-flex align-items-center">
-              <span th:text="${user.userName}"></span>
-              <a th:href="@{/user/profile}">
-                <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="mdo" width="32" height="32" class="rounded-circle">
-              </a>
+            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                <a class="navbar-brand logo" href="/home">Movie<span>Tic</span></a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/home" class="nav-link px-2 link-light">Home</a></li>
+                    <li><a href="/nearby_theaters" class="nav-link px-2 link-secondary">Theater</a></li>
+                    <li><a href="/addFunds" class="nav-link px-2 link-secondary">Add Funds</a></li>
+                    <li><a href="/register-cinemaowner" class="nav-link px-2 link-secondary">Register Cinema</a></li>
+                </ul>
+
+                <div class="user-info d-flex align-items-center">
+                    <span th:text="${user.userName}"></span>
+                    <a th:href="@{/user/profile}">
+                        <img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" alt="mdo" width="32"
+                            height="32" class="rounded-circle">
+                    </a>
+                </div>
             </div>
-          </div>
         </div>
-      </header>
+    </header>
 
     </div>
     <div class="container">
@@ -621,25 +642,25 @@
                                 <div th:each="entry : ${theaterMap}">
                                     <!-- entry.key là tên rạp chiếu -->
                                     <button type="button" class="list-group-item list-group-item-action mt-3 custom"
-                                            th:attr="data-theater-name=${entry.key}, data-theater=${entry.value}"
-                                            onclick="showTheaters(this, this.getAttribute('data-theater-name'), this.getAttribute('data-theater'))">
+                                        th:attr="data-theater-name=${entry.key}, data-theater=${entry.value}"
+                                        onclick="showTheaters(this, this.getAttribute('data-theater-name'), this.getAttribute('data-theater'))">
                                         <div>
                                             <p th:text="${entry.key}"></p>
-                                            
+
                                         </div>
                                     </button>
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="card no-border ">
-                            <div class="card-body"> 
+                            <div class="card-body">
                                 <div class="dates-container mt-3">
                                     <!-- ShowDate for this theater will be displayed here -->
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="card no-border ">
                             <div class="card-body">
                                 <div class="showtimes-container mt-3">
@@ -653,15 +674,15 @@
         </div>
     </div>
 
-<!-- Seat Modal -->
+    <!-- Seat Modal -->
     <div class="modal fade" id="chooseSeatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="max-width: 1000px;">
             <div class="modal-content">
                 <div class="modal-header">
-                        <span>
-                            <h5 class="modal-title" id="exampleModalLabel">Choose Seat</h5>
-                            <p id="roomName">Screening Room: </p>
-                        </span>
+                    <span>
+                        <h5 class="modal-title" id="exampleModalLabel">Choose Seat</h5>
+                        <p id="roomName">Screening Room: </p>
+                    </span>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -912,7 +933,7 @@
                                 <span>Booked</span>
                             </div>
                         </div>
-                                
+
                         <div class="showtimes-container" id="movieInfo">
                             <p id="movieTitle">Tên phim: </p>
                             <p id="showtime">Suất chiếu: </p>
@@ -924,7 +945,7 @@
                             <i id="removeAllButton" class="fas fa-times-circle"></i>
                         </div>
                         <div class="total-price-container">
-                            Price: <span id="totalPriceSeat">0</span> 
+                            Price: <span id="totalPriceSeat">0</span>
                         </div>
                     </div>
                 </div>
@@ -937,7 +958,8 @@
 
     <!-- Food Modal -->
 
-    <div class="modal fade" id="FoodModal" tabindex="-1" role="dialog" aria-labelledby="comboModalLabel" aria-hidden="true">
+    <div class="modal fade" id="FoodModal" tabindex="-1" role="dialog" aria-labelledby="comboModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -964,7 +986,8 @@
 
     <!-- Ticket Detail -->
 
-    <div class="modal fade" id="ticketdetailModal" tabindex="-1" role="dialog" aria-labelledby="ticketdetailModalLabel" aria-hidden="true">
+    <div class="modal fade" id="ticketdetailModal" tabindex="-1" role="dialog" aria-labelledby="ticketdetailModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -981,20 +1004,20 @@
                         </div>
                         <div class=""><span id="selectedShowtimeId"></span></div>
                         <div class="detail1-item">
-                            <span>Theater</span><br> 
+                            <span>Theater</span><br>
                             <strong id="selectedTheater"></strong>
                         </div>
-                        <div class=""><span id="selectedTheaterID"></span></div>  
+                        <div class=""><span id="selectedTheaterID"></span></div>
                         <div class="detail1-item">
-                            <span>Showtime</span><br> 
+                            <span>Showtime</span><br>
                             <strong id="ticketShowtime"></strong>
                         </div>
                         <div class="detail1-item">
-                            <span>Date</span><br> 
+                            <span>Date</span><br>
                             <strong id="ticketDate"></strong>
                         </div>
                         <div class="detail1-item">
-                            <span>Room</span><br> 
+                            <span>Room</span><br>
                             <strong id="ticketRoomName"></strong>
                         </div>
                         <div class="detail-item">
@@ -1008,8 +1031,16 @@
                             <strong id="ticketFoodPrice"></strong>
                         </div>
                         <div class="detail-item">
-                            <span>Total Price</span> 
-                            <strong id="totalPrice3"></strong>
+                            <span>Total Price</span>
+                            <strong id="ticketPrice"></strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>User Rank: </span><br>
+                            <strong id="ticketUserRank"></strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Discount Price</span>
+                            <strong id="ticketdiscountPrice"></strong>
                         </div>
                     </div>
                 </div>
@@ -1018,18 +1049,18 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
 
     <script th:inline="javascript">
-        const movieID = /*[[${movieID}]]*/ 1; 
-        let currentShowtimes = {}; 
-        let selectedDate = null; 
+        const movieID = /*[[${movieID}]]*/ 1;
+        let currentShowtimes = {};
+        let selectedDate = null;
 
         function parseTheatersString(theatersString) {
             const regex = /theaterID=(\d+).*?theaterName=([^,]+).*?address=([^,]+(?:,[^,]+)*?),\s*description=/g;
             const theaters = [];
             let match;
-            
+
             while ((match = regex.exec(theatersString)) !== null) {
                 const theater = {
                     theaterID: parseInt(match[1]),
@@ -1038,7 +1069,7 @@
                 };
                 theaters.push(theater);
             }
-            
+
             return theaters;
         }
 
@@ -1049,24 +1080,24 @@
             console.log(theaters);
 
             theaterButtons.forEach(btn => {
-                btn.classList.remove('selected-theater'); 
+                btn.classList.remove('selected-theater');
             });
-            
+
             button.classList.add('selected-theater');
 
             const theaterContainer = document.getElementById('schedule-container');
 
             const oldTheaterItems = theaterContainer.querySelectorAll('.theater-item');
-                    oldTheaterItems.forEach(item => {
-                        item.parentNode.removeChild(item);
-                    });
+            oldTheaterItems.forEach(item => {
+                item.parentNode.removeChild(item);
+            });
             const datesContainer = document.querySelector('.dates-container');
-            datesContainer.innerHTML = ''; 
+            datesContainer.innerHTML = '';
             const showtimeContainer = document.querySelector('.showtimes-container');
             showtimeContainer.innerHTML = '';
 
 
-                theatersString.forEach(theater => {
+            theatersString.forEach(theater => {
                 const theaterItemHtml = `
 
                         <div class="theater-item">
@@ -1081,46 +1112,46 @@
                             </button>
                         </div>
                 `;
-                theaterContainer.innerHTML += theaterItemHtml; 
+                theaterContainer.innerHTML += theaterItemHtml;
             });
         }
 
         function showShowtimes(button, theaterID, theaterName) {
-        console.log('Theater ID:', theaterID);
-        console.log('Theater Name:', theaterName);
+            console.log('Theater ID:', theaterID);
+            console.log('Theater Name:', theaterName);
 
-        document.getElementById('selectedTheater').textContent = theaterName;
-        document.getElementById('selectedTheaterID').textContent = theaterID
-        
-        var cinemas = document.querySelectorAll('.list-group-item');
-        cinemas.forEach(function(cinema) {
-            cinema.classList.remove('selected-cinema');
-        });
+            document.getElementById('selectedTheater').textContent = theaterName;
+            document.getElementById('selectedTheaterID').textContent = theaterID
 
-        button.classList.add('selected-cinema');
+            var cinemas = document.querySelectorAll('.list-group-item');
+            cinemas.forEach(function (cinema) {
+                cinema.classList.remove('selected-cinema');
+            });
 
-    fetch(`/showtimes/getShowtimes?movieID=${movieID}&theaterID=${theaterID}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Lỗi HTTP! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
+            button.classList.add('selected-cinema');
 
-            currentShowtimes[theaterID] = data; 
+            fetch(`/showtimes/getShowtimes?movieID=${movieID}&theaterID=${theaterID}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Lỗi HTTP! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
 
-            displayDatesForTheater(theaterID);
-        })
-        .catch(error => {
-            console.error('Lỗi khi lấy suất chiếu:', error);
-            alert("Đã xảy ra lỗi khi lấy suất chiếu. Vui lòng thử lại sau.");
-        });
-    }
+                    currentShowtimes[theaterID] = data;
+
+                    displayDatesForTheater(theaterID);
+                })
+                .catch(error => {
+                    console.error('Lỗi khi lấy suất chiếu:', error);
+                    alert("Đã xảy ra lỗi khi lấy suất chiếu. Vui lòng thử lại sau.");
+                });
+        }
 
         function displayDatesForTheater(theaterID) {
             const datesContainer = document.querySelector('.dates-container');
-            datesContainer.innerHTML = ''; 
+            datesContainer.innerHTML = '';
             const showtimeContainer = document.querySelector('.showtimes-container');
             showtimeContainer.innerHTML = '';
 
@@ -1128,8 +1159,8 @@
             const currentDate = new Date().setHours(0, 0, 0, 0);
 
             currentShowtimes[theaterID].forEach(showtime => {
-                const showDate = new Date(showtime.showDate).setHours(0, 0, 0, 0); 
-                if (showDate >= currentDate) { 
+                const showDate = new Date(showtime.showDate).setHours(0, 0, 0, 0);
+                if (showDate >= currentDate) {
                     uniqueDates.add(new Date(showtime.showDate).toLocaleDateString());
                 }
             });
@@ -1146,7 +1177,7 @@
                 dateButton.textContent = showDate;
                 dateButton.classList.add('show-date-button');
                 dateButton.addEventListener('click', () => {
-                    selectedDate = showDate; 
+                    selectedDate = showDate;
                     displayShowtimesForDate(theaterID, showDate);
                     updateSelectedDateButton(dateButton);
                 });
@@ -1157,14 +1188,14 @@
         function updateSelectedDateButton(selectedButton) {
             const buttons = document.querySelectorAll('.show-date-button');
             buttons.forEach(button => {
-                button.classList.remove('selected'); 
+                button.classList.remove('selected');
             });
-            selectedButton.classList.add('selected'); 
+            selectedButton.classList.add('selected');
         }
 
         function displayShowtimesForDate(theaterID, showDate) {
             const showtimesContainer = document.querySelector('.showtimes-container');
-            showtimesContainer.innerHTML = ''; 
+            showtimesContainer.innerHTML = '';
 
             // Lọc và hiển thị các suất chiếu cho ngày được chọn và rạp tương ứng
             const showtimes = currentShowtimes[theaterID].filter(showtime => {
@@ -1188,7 +1219,7 @@
         }
 
         function selectShowtime(showDate, showTime, showtimeId, theaterID, movieID) {
-            
+
             console.log(`Đã chọn suất chiếu vào ngày ${showDate} lúc ${showTime} tại rạp ${theaterID} phim ${movieID} id:${showtimeId}`);
             document.getElementById('selectedShowtimeId').textContent = showtimeId;
             document.getElementById('selectedTheaterID').textContent = theaterID;
@@ -1196,74 +1227,74 @@
 
             fetch(`/showtimes/getRoomName?theaterID=${theaterID}&movieID=${movieID}&showTime=${showTime}&showDate=${showDate}&showTimeId=${showtimeId}`)
                 .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`Lỗi HTTP! status: ${response.status}`);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.length > 0) {
-                                roomName = data[0].roomname; 
-                                screeningRoomId = data[0].screeningRoomID
-                                console.log('Dữ liệu từ server:', data);
-                                console.log('Room', roomName);
-                                console.log('Id', screeningRoomId);
-                                
-
-                                const movieTitle = /*[[${movie.title}]]*/ 0;
-                                // Update modal content
-
-                                document.getElementById('movieTitle').textContent = movieTitle;
-                                document.getElementById('showtime').textContent = showTime;
-                                document.getElementById('date').textContent = showDate;
-                                document.getElementById('roomName').textContent = roomName;
-                                updateSelectedSeatsList(screeningRoomId, showtimeId);
-                                // Show the modal
-                                $('#chooseSeatModal').modal('show');
-                                fetch(`/seats/booked?screeningRoomId=${screeningRoomId}&showtimeId=${showtimeId}`)
-                                    .then(response => {
-                                        if (!response.ok) {
-                                            throw new Error(`Lỗi HTTP! status: ${response.status}`);
-                                        }
-                                        return response.json();
-                                    })
-                                    .then(bookedSeats => {
-                                        console.log('Booked seats:', bookedSeats);
-                                        markBookedSeats(bookedSeats);
-                                    })
-                                    .catch(error => {
-                                        console.error('Error fetching booked seats:', error);
-                                    });
-                            } else {
-                                console.error('Không có dữ liệu phòng chiếu từ server.');
-                                alert("Không có dữ liệu phòng chiếu từ server. Vui lòng thử lại sau.");
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Lỗi khi gọi API:', error);
-                            alert("Đã xảy ra lỗi khi gọi API. Vui lòng thử lại sau.");
-                        });
-
+                    if (!response.ok) {
+                        throw new Error(`Lỗi HTTP! status: ${response.status}`);
                     }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.length > 0) {
+                        roomName = data[0].roomname;
+                        screeningRoomId = data[0].screeningRoomID
+                        console.log('Dữ liệu từ server:', data);
+                        console.log('Room', roomName);
+                        console.log('Id', screeningRoomId);
 
-                function markBookedSeats(bookedSeats) {
-                    const seatContainer = document.getElementById('seatContainer');
-                    const seats = seatContainer.querySelectorAll('.seat');
 
-                    seats.forEach(seat => {
-                        const seatName = seat.textContent.trim(); 
+                        const movieTitle = /*[[${movie.title}]]*/ 0;
+                        // Update modal content
 
-                        const isBooked = bookedSeats.some(bookedSeat => bookedSeat.seatName === seatName);
+                        document.getElementById('movieTitle').textContent = movieTitle;
+                        document.getElementById('showtime').textContent = showTime;
+                        document.getElementById('date').textContent = showDate;
+                        document.getElementById('roomName').textContent = roomName;
+                        updateSelectedSeatsList(screeningRoomId, showtimeId);
+                        // Show the modal
+                        $('#chooseSeatModal').modal('show');
+                        fetch(`/seats/booked?screeningRoomId=${screeningRoomId}&showtimeId=${showtimeId}`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`Lỗi HTTP! status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then(bookedSeats => {
+                                console.log('Booked seats:', bookedSeats);
+                                markBookedSeats(bookedSeats);
+                            })
+                            .catch(error => {
+                                console.error('Error fetching booked seats:', error);
+                            });
+                    } else {
+                        console.error('Không có dữ liệu phòng chiếu từ server.');
+                        alert("Không có dữ liệu phòng chiếu từ server. Vui lòng thử lại sau.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi khi gọi API:', error);
+                    alert("Đã xảy ra lỗi khi gọi API. Vui lòng thử lại sau.");
+                });
 
-                        if (isBooked) {
-                            seat.classList.add('booked');
-                            seat.disabled = true;
-                        } else {
-                            seat.classList.remove('booked');
-                            seat.disabled = false;
-                        }
-                    });
+        }
+
+        function markBookedSeats(bookedSeats) {
+            const seatContainer = document.getElementById('seatContainer');
+            const seats = seatContainer.querySelectorAll('.seat');
+
+            seats.forEach(seat => {
+                const seatName = seat.textContent.trim();
+
+                const isBooked = bookedSeats.some(bookedSeat => bookedSeat.seatName === seatName);
+
+                if (isBooked) {
+                    seat.classList.add('booked');
+                    seat.disabled = true;
+                } else {
+                    seat.classList.remove('booked');
+                    seat.disabled = false;
                 }
+            });
+        }
 
         function showSelectedDate() {
             // Hiển thị ngày được chọn
@@ -1275,50 +1306,50 @@
             }
         }
 
-            const seats = document.querySelectorAll('.seat');
+        const seats = document.querySelectorAll('.seat');
 
-            // Lặp qua từng ghế và thêm sự kiện nhấp vào
-            document.querySelectorAll('.seat').forEach(seat => {
-                seat.addEventListener('click', () => {
-                    const selectedSeats = document.querySelectorAll('.seat.selected');
-                    if (seat.classList.contains('selected')) {
-                        seat.classList.remove('selected');
-                    } else if (selectedSeats.length < 6) {
-                        seat.classList.add('selected');
-                    }
-                    updateSelectedSeatsList();
-                });
-            });
-
-            const removeAllButton = document.getElementById('removeAllButton');
-            // Thêm sự kiện click cho nút "Remove All"
-            removeAllButton.addEventListener('click', () => {
-                // Lấy danh sách tất cả các ghế đã chọn
+        // Lặp qua từng ghế và thêm sự kiện nhấp vào
+        document.querySelectorAll('.seat').forEach(seat => {
+            seat.addEventListener('click', () => {
                 const selectedSeats = document.querySelectorAll('.seat.selected');
-                
-                // Lặp qua từng ghế đã chọn và xóa lớp 'selected'
-                selectedSeats.forEach(seat => {
+                if (seat.classList.contains('selected')) {
                     seat.classList.remove('selected');
-                });
-
-                // Cập nhật danh sách ghế đã chọn
+                } else if (selectedSeats.length < 6) {
+                    seat.classList.add('selected');
+                }
                 updateSelectedSeatsList();
             });
-        
+        });
 
-            // Hàm cập nhật danh sách các ghế đã chọn
-            function updateSelectedSeatsList(showtimeId) {
-                const selectedSeats = document.querySelectorAll('.seat.selected');
-                const selectedSeatsList = document.getElementById('selectedSeatsList');
-                var showtimeId = $('#selectedShowtimeId').text();
-                let seatsText = '';
-                let selectedSeatsArray = [];
+        const removeAllButton = document.getElementById('removeAllButton');
+        // Thêm sự kiện click cho nút "Remove All"
+        removeAllButton.addEventListener('click', () => {
+            // Lấy danh sách tất cả các ghế đã chọn
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+
+            // Lặp qua từng ghế đã chọn và xóa lớp 'selected'
+            selectedSeats.forEach(seat => {
+                seat.classList.remove('selected');
+            });
+
+            // Cập nhật danh sách ghế đã chọn
+            updateSelectedSeatsList();
+        });
 
 
-                // Tạo danh sách các ghế đã chọn
-                selectedSeats.forEach((seat, index) => {
-                    seatsText += seat.textContent;
-                    selectedSeatsArray.push({
+        // Hàm cập nhật danh sách các ghế đã chọn
+        function updateSelectedSeatsList(showtimeId) {
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+            const selectedSeatsList = document.getElementById('selectedSeatsList');
+            var showtimeId = $('#selectedShowtimeId').text();
+            let seatsText = '';
+            let selectedSeatsArray = [];
+
+
+            // Tạo danh sách các ghế đã chọn
+            selectedSeats.forEach((seat, index) => {
+                seatsText += seat.textContent;
+                selectedSeatsArray.push({
                     seatName: seat.textContent,
                     seatType: seat.dataset.type,
                     statusSeat: true,
@@ -1327,22 +1358,22 @@
                 });
                 console.log(selectedSeatsArray);
 
-                    // Thêm dấu phẩy nếu không phải là ghế cuối cùng
-                    if (index !== selectedSeats.length - 1) {
-                        seatsText += ', ';
-                    }
-                });
+                // Thêm dấu phẩy nếu không phải là ghế cuối cùng
+                if (index !== selectedSeats.length - 1) {
+                    seatsText += ', ';
+                }
+            });
 
 
-                selectedSeatsList.textContent = seatsText;
-                selectedSeatsList.style.display = 'block';
-                
-                window.selectedSeatsArray = selectedSeatsArray;
-            }
+            selectedSeatsList.textContent = seatsText;
+            selectedSeatsList.style.display = 'block';
+
+            window.selectedSeatsArray = selectedSeatsArray;
+        }
 
 
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             var selectedSeats = [];
             var totalPriceSeat = 0;
             var maxSeats = 6;
@@ -1352,7 +1383,7 @@
             }
 
             function updateSeatState() {
-                $('#chair .seat').each(function() {
+                $('#chair .seat').each(function () {
                     var seatID = $(this).text();
                     var seatPrice = parseFloat($(this).data('price'));
                     var seatType = $(this).data('type');
@@ -1369,7 +1400,7 @@
                 });
             }
 
-            $('#chair .seat').click(function() {
+            $('#chair .seat').click(function () {
                 var seatID = $(this).text();
                 var seatPrice = parseFloat($(this).data('price'));
                 var seatType = $(this).data('type');
@@ -1390,18 +1421,18 @@
                 updateTotalPrice();
             });
 
-            $('#removeAllButton').click(function() {
-                selectedSeats.forEach(function(seatID) {
+            $('#removeAllButton').click(function () {
+                selectedSeats.forEach(function (seatID) {
                     // Tìm các ghế đã chọn và xóa lớp selected
                     $('#chair .seat:contains(' + seatID + ')').removeClass('selected');
                 });
                 selectedSeats = [];
-                totalPriceSeat= 0;
+                totalPriceSeat = 0;
                 $('#selectedSeatsList').text();
                 $('#totalPriceSeat').text('0 VND');
-                
+
                 // Reset màu nền cho từng loại ghế
-                $('#chair .seat').each(function() {
+                $('#chair .seat').each(function () {
                     var seatType = $(this).data('type');
                     if (seatType === 'regular') {
                         this.style.backgroundColor = '#fa3238';
@@ -1414,63 +1445,14 @@
             updateSeatState();
         });
 
-        
-        // function showFood(theaterID) {
-        //     fetch(`/getFoodByTheaterId/${theaterID}`)
-        //         .then(response => {
-        //             if (!response.ok) {
-        //                 throw new Error('Network response was not ok');
-        //             }
-        //             return response.json();
-        //         })
-        //         .then(foods => {
-        //             updateFoodModal(foods);
-        //             $('#FoodModal').modal('show');
-        //         })
-        //         .catch(error => {
-        //             console.error('Error fetching food data:', error);
-        //             alert('Error fetching food data.');
-        //         });
-        // }
 
-        // document.getElementById('continue').addEventListener('click', function() {
-        //     var theaterID = $('#selectedTheaterID').text();
-        //     showFood(theaterID);
-        // });
 
-        // function updateFoodModal(foods) {
-        //     var foodListContainer = document.getElementById('foodList');
-        //     foodListContainer.innerHTML = '';
-
-        //     foods.forEach(food => {
-        //         var foodItemHtml = `
-        //             <div class="food-item">
-        //                 <img src="${food.photoFood}" alt="Food Image" style="max-width: 100%; height: auto;">
-        //                 <h5>${food.foodName}</h5>
-        //                 <p>${food.price} đ</p>
-        //                 <div class="col-md-3">
-        //                     <div class="input-group">
-        //                         <button type="button" class="btn btn-sm btn-secondary decrease-quantity" th:attr="data-food-id=${food.foodID}">-</button>
-        //                         <input type="text" class="form-control food-quantity" value="0" readonly th:attr="data-food-id=${food.foodID}">
-        //                         <button type="button" class="btn btn-sm btn-secondary increase-quantity" th:attr="data-food-id=${food.foodID}">+</button>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         `;
-        //         foodListContainer.insertAdjacentHTML('beforeend', foodItemHtml);
-        //     });
-        // }
-        // $('#continue').click(function() {
-
-        //     $('#FoodModal').modal('show');
-        // });
-
-        $('#back').click(function() {
-            $('#FoodModal').modal('hide'); 
-            $('#chooseSeatModal').modal('show'); 
+        $('#back').click(function () {
+            $('#FoodModal').modal('hide');
+            $('#chooseSeatModal').modal('show');
         });
 
-        
+
         $(document).ready(function () {
             // Xử lý khi nút tăng số lượng được click
             $(document).on('click', '.increase-quantity', function () {
@@ -1532,8 +1514,8 @@
                         return response.json();
                     })
                     .then(foods => {
-                        updateFoodModal(foods); 
-                        $('#FoodModal').modal('show'); 
+                        updateFoodModal(foods);
+                        $('#FoodModal').modal('show');
                     })
                     .catch(error => {
                         console.error('Error fetching food data:', error);
@@ -1570,7 +1552,7 @@
                             </div>
                         </div>
                     `;
-                    foodListContainer.append(foodItemHtml); 
+                    foodListContainer.append(foodItemHtml);
                 });
             }
         });
@@ -1580,33 +1562,63 @@
 
         $(document).ready(function () {
             $('#confirmPurchaseButton').click(function () {
+                const userRank = /*[[${userRank}]]*/ '';
+                switch (userRank) {
+                    case "Gold":
+                        discountPercentage = -15;
+                        break;
+                    case "Silver":
+                        discountPercentage = -10;
+                        break;
+                    case "Bronze":
+                        discountPercentage = -5;
+                        break;
+                    default:
+                        discountPercentage = 0; // Nếu không khớp thì không có giảm giá
+                }
+                let userRankText = `${userRank} (${discountPercentage}%)`;
                 var movieTitle = $('#movieTitle').text();
                 var showtime = $('#showtime').text();
                 var date = $('#date').text();
                 var roomName = $('#roomName').text();
                 var totalPriceSeat = parseFloat($('#totalPriceSeat').text().replace(/[^0-9.-]+/g, ''));
                 var totalPriceFood = parseFloat($('#totalPriceFood').text().replace(/[^0-9.-]+/g, ''));
-                var totalPrice3 = totalPriceSeat + totalPriceFood;
+                var totalPrice2 = totalPriceSeat + totalPriceFood;
+                var totalPrice3 = totalPrice2;
+
+                if (userRank === "Bronze") {
+                    totalPrice3 = totalPrice2 * 0.95;
+                } else if (userRank === "Silver") {
+                    totalPrice3 = totalPrice2 * 0.90;
+                } else if (userRank === "Gold") {
+                    totalPrice3 = totalPrice2 * 0.85;
+                }
 
                 console.log('movieTitle:', movieTitle);
                 console.log('showtime:', showtime);
                 console.log('date:', date);
                 console.log(totalPriceSeat);
                 console.log(totalPriceFood);
+                console.log(totalPrice2);
                 console.log(totalPrice3);
 
+
                 // Hiển thị thông tin đã chọn trong modal ticketDetail
+                document.getElementById('ticketUserRank').textContent = userRankText;
                 document.getElementById('ticketSeatPrice').textContent = totalPriceSeat;
                 document.getElementById('ticketFoodPrice').textContent = totalPriceFood;
                 document.getElementById('ticketMovieTitle').textContent = movieTitle;
                 document.getElementById('ticketShowtime').textContent = showtime;
                 document.getElementById('ticketDate').textContent = date;
                 document.getElementById('ticketRoomName').textContent = roomName;
-                $('#selectedSeats').text( $('#selectedSeatsList').text());
+                document.getElementById('ticketdiscountPrice').textContent = totalPrice3;
+                document.getElementById('ticketPrice').textContent = totalPrice2;
+
+                $('#selectedSeats').text($('#selectedSeatsList').text());
                 let currentText = $('#selectedFood').text();
                 let cleanedText = currentText.replace(/\sid\d+/g, '');
                 $('#selectedFood').text(cleanedText.trim());
-                $('#totalPrice3').text(totalPrice3);
+
 
                 // Hiển thị modal ticketDetail
                 $('#ticketdetailModal').modal('show');
@@ -1615,14 +1627,14 @@
 
 
 
-        document.getElementById('purchase').addEventListener('click', function() {
+        document.getElementById('purchase').addEventListener('click', function () {
 
             const movieId = /*[[${movieID}]]*/ '';
             const userId = /*[[${user.userId}]]*/ '';
             var showtime = $('#ticketShowtime').text();
             var showdate = $('#ticketDate').text();
             var selectedFood = window.selectedFoodArray;
-            var amount =  $('#totalPrice3').text();
+            var amount = $('#ticketdiscountPrice').text();
             var theaterId = $('#selectedTheaterID').text();
             var showtimeId = $('#selectedShowtimeId').text();
 
@@ -1646,28 +1658,33 @@
                 },
                 body: JSON.stringify(ticketData)
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.status === "success") {
-                    const redirectUrl = data.redirectUrl;
-                    window.location.href = redirectUrl;
-                } else {
-                    console.error('Failed to save ticket:', data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error saving ticket:', error);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === "success") {
+                        const redirectUrl = data.redirectUrl;
+                        window.location.href = redirectUrl;
+                    } else {
+                        console.error('Failed to save ticket:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving ticket:', error);
+                });
         });
-    
+
     </script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
 
 </body>
+
 </html>

@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.mo.Users;
 import com.example.CRUD.Repository.UserRepository;
 import com.example.CRUD.controller.InsufficientBalanceException;
+import com.example.mo.Users;
 
 import jakarta.mail.internet.MimeMessage;
 
@@ -81,7 +81,7 @@ public class UserService {
     public Users saveUser(Users user, String url) {
         String password = passwordEncoder.encode(user.getUserPassword());
         user.setUserPassword(password);
-        user.setRole("ROLE_USER");
+        user.setRole("USER");
         user.setStatus(false);
         user.setVerificationCode(UUID.randomUUID().toString());
 
@@ -99,7 +99,7 @@ public class UserService {
         String to = user.getEmail();
         String subject = "Account Verification";
         String content = "Dear [[name]],<br>" + "Please click the link below to verify your registration:<br>"
-                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>" + "Thank you,<br>" + "Becoder";
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>" + "Thank you,<br>" + "MovieTic";
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -214,5 +214,9 @@ public class UserService {
 
         user.setMemberPoints(currentPoints - points);
         userRepository.save(user);
+    }
+
+    public Users findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

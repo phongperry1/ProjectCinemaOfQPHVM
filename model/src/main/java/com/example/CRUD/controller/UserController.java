@@ -75,6 +75,8 @@ public class UserController {
         model.addAttribute("movies", simplifiedMovies);
         List<Promotions> listPromotions = promotionsService.listAllByCinemaOwnerID(cinemaOwnerID);
         model.addAttribute("listPromotions", listPromotions);
+        List<Movie> comingSoonMovies = movieService.getAllComingSoonMovies();
+        model.addAttribute("comingSoonMovies", comingSoonMovies);
         return "home";
     }
 

@@ -499,7 +499,7 @@ header .carousel a{
     font-size: 12px;
 }
 .carousel .list .item img{
-    width: 100%;
+    width: 1950px;
     height: 100%;
     object-fit: cover;
 }
@@ -861,18 +861,14 @@ header .carousel a{
         <div class="list">
             <div class="list">
     <!-- Thymeleaf each loop to iterate over movies -->
-    <th:block th:each="movie, iterStat : ${movies}">
+    <div th:each="promotion : ${promotions}">
         <div class="item active">
-            <img th:src="@{${movie.address}}" alt="Movie Image">
-            <div class="content">
-                <div class="title" th:text="${movie.title}">Movie Title</div>
-                <div class="topic" th:text="${movie.genre}">Movie Genre</div>
-                <div class="buttons">
-                    <button>View More</button>
-                </div>
-            </div>
+            <a th:href="@{/guest/promotionDetailGuest/{id}(id=${promotion.promotionID})}">
+                <img th:src="@{${promotion.photosImagePath}}" alt="Promotion Image">
+            </a>
         </div>
-    </th:block>
+    </div>
+
 </div>
             <!-- Add more items dynamically using Thymeleaf -->
         </div>

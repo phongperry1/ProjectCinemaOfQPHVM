@@ -90,6 +90,13 @@
         .table-hover tbody tr:hover {
             background-color: #f1f1f1;
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+        }
+        .pagination li {
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
@@ -148,6 +155,20 @@
                     </th:block>
                 </tbody>
             </table>
+        </div>
+
+        <div class="pagination">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{/showtime(page=${page.number - 1})}">&laquo;</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}" th:classappend="${i == page.number} ? 'active'">
+                    <a class="page-link" th:href="@{/showtime(page=${i})}">[[${i + 1}]]</a>
+                </li>
+                <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{/showtime(page=${page.number + 1})}">&raquo;</a>
+                </li>
+            </ul>
         </div>
     </div>
 
