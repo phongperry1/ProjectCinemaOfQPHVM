@@ -28,6 +28,9 @@ public class Theater {
     @Column(nullable = false)
     private Integer cinemaOwnerID;
 
+    @Column(name = "movie_id", nullable = false)
+    private Integer movieID;
+
 
     @Column(length = 45, nullable = false)
     private String theaterName;
@@ -68,7 +71,13 @@ public class Theater {
     }
 
     // Getter and setter for movieID
-    
+    public Integer getMovieID() {
+        return movieID;
+    }
+
+    public void setMovieID(Integer movieID) {
+        this.movieID = movieID;
+    }
 
     // Getter and setter for theaterName
     public String getTheaterName() {

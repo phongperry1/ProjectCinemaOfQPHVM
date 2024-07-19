@@ -190,6 +190,11 @@ public String lockAccount(@PathVariable("UserId") Integer userId, RedirectAttrib
     return "redirect:/show";
 }
 
+@PostMapping("/updateAllUsers")
+    public String updateAllUsers() {
+        userByAdminService.updateAllUsers();
+        return "redirect:/show";
+    }
 @GetMapping("/purchasehistory/{UserId}")
 public String getPurchaseHistory(@PathVariable("UserId") Integer userId, Model model){
     List<Ticket> tickets = ticketService.getTicketsByUserId(userId);

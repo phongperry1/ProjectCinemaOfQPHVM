@@ -897,25 +897,30 @@ header .carousel a{
 
 
     <!-- Promotions Section -->
-        <section id="slider" class="pt-5">
-            <div class="container">
-                <h1 style="color:white" class="text-center"><b>Promotions</b></h1>
-                <div class="slider">
-                    <div class="owl-carousel">
-                        <!-- Thymeleaf loop to display promotions -->
-                        <div th:each="promotion : ${promotions}" class="slider-card">
+    <section id="slider" class="pt-5">
+        <div class="container">
+            <h1 style="color:white" class="text-center"><b>Promotions</b></h1>
+            <div class="slider">
+                <div class="owl-carousel">
+                    <!-- Thymeleaf loop to display promotions -->
+                    <div th:each="promotion : ${promotions}" class="slider-card">
+                        <a th:href="@{/user/promotionDetailGuest/{id}(id=${promotion.promotionID})}">
                             <div class="d-flex justify-content-center align-items-center mb-4">
                                 <img th:src="@{${promotion.photosImagePath}}" alt="Promotion Image">
                             </div>
+                        </a>
+                            
+                            
                             <h5 class="mb-0 text-center">
-                                <a th:href="@{/promotionDetailGuest/{id}(id=${promotion.promotionID})}" th:text="${promotion.promotionName}"></a>
+                                <b th:text="${promotion.promotionName}"></b>
                             </h5>
                             <p class="p-4" th:text="${promotion.description}"></p>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     
 
 

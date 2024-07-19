@@ -212,7 +212,9 @@ public class MovieController {
         String email = p.getName();
         Users user = userService.getUsersByEmail(email);
 
-        if (keyword != null && !keyword.isEmpty()) {
+        if (keyword == null || keyword.isEmpty()) {
+            model.addAttribute("message", "Bạn hãy nhập tên phim");
+        } else {
             movies = movies.stream().filter(m -> m.getTitle().toLowerCase().contains(keyword.toLowerCase()))
                     .collect(Collectors.toList());
 

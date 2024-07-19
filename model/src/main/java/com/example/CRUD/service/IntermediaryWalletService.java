@@ -20,6 +20,9 @@ public class IntermediaryWalletService {
 
     public void withdrawFunds(Double amount) {
         IntermediaryWallet wallet = intermediaryWalletRepository.findById(1L).orElse(new IntermediaryWallet());
+        if (wallet.getBalance() < amount) {
+            throw new IllegalArgumentException("Insufficient funds in intermediary wallet.");
+        }
         wallet.withdrawFunds(amount);
         intermediaryWalletRepository.save(wallet);
     }

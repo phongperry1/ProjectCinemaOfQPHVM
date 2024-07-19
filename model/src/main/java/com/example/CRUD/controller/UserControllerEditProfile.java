@@ -145,7 +145,7 @@ public class UserControllerEditProfile {
         }
         return "change-password";
     }
-
+    
     @GetMapping("/edit/history")
     public String getPurchaseHistory(Model model, Principal principal) {
         String email = principal.getName();

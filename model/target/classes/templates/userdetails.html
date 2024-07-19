@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,46 +11,57 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <title>Users Management</title>
   <style>
     .content-section {
       display: none;
     }
+
     .text-success {
       color: green !important;
       font-size: 20px;
     }
+
     .text-danger {
       color: red !important;
       font-size: 20px;
     }
+
     .badge {
       font-size: 14px;
       padding: 5px 10px;
       border-radius: 5px;
     }
+
     .bg-secondary {
       background-color: #6c757d;
     }
+
     .bg-warning {
       background-color: #ffc107;
     }
+
     .bg-light {
       background-color: #f8f9fa;
       color: #343a40;
     }
+
     .bg-danger {
       background-color: #dc3545;
     }
+
     .notification-icon {
       position: relative;
       display: inline-block;
       cursor: pointer;
     }
+
     .notification-icon img {
       width: 30px;
       height: 30px;
     }
+
     .notification-count {
       position: absolute;
       top: -10px;
@@ -59,6 +71,7 @@
       border-radius: 50%;
       padding: 5px 10px;
     }
+
     .notification-list {
       display: none;
       position: absolute;
@@ -72,12 +85,14 @@
       overflow-y: auto;
       z-index: 1000;
     }
+
     .notification-list .title {
       padding: 10px;
       font-weight: bold;
       border-bottom: 1px solid #ccc;
       background-color: #f8f9fa;
     }
+
     .notification-item {
       padding: 15px;
       border-bottom: 1px solid #eee;
@@ -85,14 +100,17 @@
       transition: background-color 0.3s;
       font-size: 14px;
     }
+
     .notification-item:hover {
       background-color: #f1f1f1;
     }
+
     .notification-item:last-child {
       border-bottom: none;
     }
   </style>
 </head>
+
 <body>
   <div class="container-fluid">
     <div class="row">
@@ -125,14 +143,21 @@
       </div>
       <div class="col-md-10">
         <nav class="navbar navbar-light bg-light">
+          <button class="btn btn-danger" id="updateUsersButton">Reset User Points and Rank</button>
+          <div id="countdown" style="display:none; margin-top: 20px;"></div>
+          <div id="successMessage" class="alert alert-success" style="display:none; margin-top: 20px;">
+              All users have been updated successfully.
+          </div>
           <form class="form-inline" th:action="@{/search}" method="get">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="userName" th:value="${userName}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="userName"
+              th:value="${userName}">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
           <div class="ml-auto">
             <span class="navbar-text mr-3">Admin</span>
             <div class="notification-icon" onclick="toggleNotifications()">
-              <img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-bell-512.png" alt="Notifications">
+              <img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-bell-512.png"
+                alt="Notifications">
               <span class="notification-count" th:text="${unreadCount}"></span>
             </div>
           </div>
@@ -159,7 +184,7 @@
               <th>Lock Account</th>
               <th>Update Rank</th>
               <th>Transfer to Cinema Owner</th>
-              <th>Cancelled Requests</th> <!-- New column for cancelled requests -->
+              <th>Cancelled Requests</th>
               <th>Chat</th>
             </tr>
           </thead>
@@ -178,12 +203,14 @@
                 <span th:if="${user.userRank == 'Gold'}" class="badge bg-warning">Gold</span>
               </td>
               <td th:text="${user.memberPoints}"></td>
-              <td><img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" width="50" height="50" /></td>
+              <td><img th:src="@{/uploads/{imageName}(imageName=${user.profileImageURL})}" width="50" height="50" />
+              </td>
               <td>
                 <a th:href="@{/userdetails/{UserId}(UserId=${user.userId})}" class="btn btn-primary">View Detail</a>
               </td>
               <td>
-                <a th:href="@{/lockaccount/{UserId}(UserId=${user.userId})}" class="btn btn-danger" onclick="return confirmLock()">Lock Account</a>
+                <a th:href="@{/lockaccount/{UserId}(UserId=${user.userId})}" class="btn btn-danger"
+                  onclick="return confirmLock()">Lock Account</a>
               </td>
               <td>
                 <a th:href="@{/RankInfo/{UserId}(UserId=${user.userId})}" class="btn btn-warning">Update Rank</a>
@@ -197,8 +224,9 @@
               <td th:unless="${user.cinemaOwner != null}">
                 <span class="text-muted">Not a Cinema Owner</span>
               </td>
-              <td> <!-- New column for cancelled requests -->
-                <a th:href="@{/admin/cancelled-requests/{userId}(userId=${user.userId})}" class="btn btn-secondary">View Cancelled Requests</a>
+              <td>
+                <a th:href="@{/admin/cancelled-requests/{userId}(userId=${user.userId})}"
+                  class="btn btn-secondary">View Cancelled Requests</a>
               </td>
               <td>
                 <a th:href="@{/chat/{UserId}(UserId=${user.userId})}" class="btn btn-warning">Chat</a>
@@ -213,6 +241,7 @@
     function confirmLock() {
       return confirm("Are you sure you want to lock user?");
     }
+
     function toggleNotifications() {
       var notificationList = document.getElementById('notification-list');
       if (notificationList.style.display === 'none' || notificationList.style.display === '') {
@@ -258,7 +287,64 @@
       xhr.send();
     }
 
-    setInterval(checkForNewNotifications, 5000); 
+    setInterval(checkForNewNotifications, 5000);
   </script>
+  <script>
+    $(document).ready(function() {
+        const RESET_INTERVAL = 30 * 24 * 60 * 60 * 1000;
+        // const RESET_INTERVAL = 1 * 60 * 1000;
+        let lastResetTime = localStorage.getItem('lastResetTime');
+        if (lastResetTime) {
+            lastResetTime = new Date(parseInt(lastResetTime));
+            const timeUntilResetAllowed = RESET_INTERVAL - (Date.now() - lastResetTime.getTime());
+            if (timeUntilResetAllowed > 0) {
+                $('#updateUsersButton').prop('disabled', true);
+                startCountdown(timeUntilResetAllowed);
+            }
+        }
+
+        $('#updateUsersButton').on('click', function() {
+            if (confirm('Are you sure you want to reset all user points and rank?')) {
+                $.ajax({
+                    url: '/updateAllUsers',
+                    type: 'POST',
+                    success: function() {
+                        $('#successMessage').show();
+                        $('#updateUsersButton').prop('disabled', true);  // Disable the button
+                        localStorage.setItem('lastResetTime', Date.now().toString());
+                        startCountdown(RESET_INTERVAL);
+                        window.location.href = '/show'; 
+                    },
+                    error: function() {
+                        alert('An error occurred while updating users.');
+                    }
+                });
+            }
+        });
+
+        function startCountdown(duration) {
+            const countdownElement = $('#countdown');
+            countdownElement.show();
+
+            function updateCountdown() {
+                const hours = Math.floor(duration / (1000 * 60 * 60));
+                const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((duration % (1000 * 60)) / 1000);
+                countdownElement.text(`Time until next reset: ${hours}h ${minutes}m ${seconds}s`);
+                if (duration <= 0) {
+                    clearInterval(countdownInterval);
+                    $('#updateUsersButton').prop('disabled', false); 
+                    countdownElement.hide();
+                } else {
+                    duration -= 1000;
+                }
+            }
+
+            updateCountdown();
+            const countdownInterval = setInterval(updateCountdown, 1000);
+        }
+    });
+</script>
 </body>
+
 </html>

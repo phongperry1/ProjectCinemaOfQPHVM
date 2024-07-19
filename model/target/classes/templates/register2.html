@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration Form</title>
+    <style>
+        /* Custom CSS */
+        html, body {
+            background-image: url(https://user-images.githubusercontent.com/33485020/108069438-5ee79d80-7089-11eb-8264-08fdda7e0d11.jpg);
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            margin: 0;
+        }
+
+
+        body {
+            background-position: center;
+            background-size: cover;
+            min-height: 100vh;
+            width: 100%;
+            background-color: #032124;
+        }
+
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+
+        .register-form {
+            position: relative;
+            width: 400px;
+            height: 750px; /* Increase height to accommodate captcha */
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            display: flex;
+            background-color: #032124;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+
+        .register-form h2 {
+            color: white;
+            text-align: center;
+            font-size: 32px;
+            margin: 20px 0;
+        }
+
+
+        .register-input {
+            position: relative;
+            margin: 15px 0;
+            width: 310px;
+            border-bottom: 2px solid white;
+        }
+
+
+        .register-input label {
+            color: white;
+        }
+
+
+        .register-input input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            padding: 10px 0;
+        }
+
+
+        .captcha {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            width: 100%;
+        }
+
+
+        .captcha .preview {
+            display: flex;
+            margin-right: 10px;
+            width: 100%;
+            background-color: white; /* White background for captcha */
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+
+        .captcha-refresh {
+            height: 45px; /* Same height as input */
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 0 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+
+        .captcha-refresh i {
+            font-size: 16px;
+        }
+
+
+        .captcha-input-container {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            width: 100%;
+        }
+
+
+        .captcha-input-container input {
+            height: 45px; /* Same height as input */
+            width: calc(100% - 110px); /* Adjust width to accommodate button */
+            border: 2px solid white;
+            border-radius: 5px;
+            outline: none;
+            padding: 10px;
+            margin-right: 10px;
+            color: black;
+            background-color: white;
+        }
+
+
+        .check-captcha-button {
+            height: 45px; /* Same height as input */
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 0 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .check-captcha-button button {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: none;
+            color: black;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+
+
+        .register-button {
+            width: 310px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45px;
+            background-color: white;
+            border: none;
+            outline: none;
+            border-radius: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            cursor: pointer;
+            font-size: 16px;
+            color: black;
+            font-weight: 600;
+            margin-top: 20px;
+            pointer-events: none; /* Initially disable the button */
+            opacity: 0.5; /* Make the button look disabled */
+        }
+
+
+        .register-button button {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: none;
+            color: black;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+
+
+        .register-button button:hover {
+            background: #ddd;
+        }
+
+
+        .container-header {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+
+        .container-header .btn {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="container-header">
+        <a href="#" th:href="@{/login}" class="btn">Back</a>
+    </div>
+    <div class="register-form">
+        <h2>User Registration Form</h2>
+        <div class="card">
+            <!-- Form with fields for registration -->
+            <form id="registration-form" action="saveUser" method="post" class="px-4">
+                <!-- Form fields for user registration -->
+                <div class="register-input">
+                    <label>Enter Full Name</label>
+                    <input type="text" name="userName" class="form-control" required>
+                </div>
+                <div class="register-input">
+                    <label>Enter Email</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+                <div class="register-input">
+                    <label>Enter Password</label>
+                    <input type="password" name="userPassword" class="form-control" required>
+                </div>
+                <div class="register-input">
+                    <label>Enter Mobile Number</label>
+                    <input type="number" name="phone" class="form-control" required>
+                </div>
+                <!-- Captcha verification -->
+                <div class="captcha">
+                    <div class="preview"></div>
+                    <button type="button" class="captcha-refresh"><i class="fa fa-refresh"></i> Refresh</button>
+                </div>
+                <div class="captcha-input-container">
+                    <input type="text" id="captcha-input" class="form-control" placeholder="Enter Captcha" required>
+                    <div class="check-captcha-button">
+                        <button type="button" id="check-captcha-btn">Check Captcha</button>
+                    </div>
+                </div>
+                <!-- Register button -->
+                <div class="register-button">
+                    <button type="submit" id="register-btn" disabled>Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+   
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        (function(){
+            const fonts = ["cursive", "sans-serif", "serif", "monospace"];
+            let captchaValue = "";
+   
+            function generateCaptcha() {
+                let value = btoa(Math.random() * 1000000000).substr(0, 5 + Math.random() * 5);
+                captchaValue = value;
+                setCaptcha();
+            }
+   
+            function setCaptcha() {
+                const html = captchaValue.split("").map((char) => {
+                    const rotate = -20 + Math.trunc(Math.random() * 30);
+                    const font = Math.trunc(Math.random() * fonts.length);
+                    return `<span style="transform:rotate(${rotate}deg); font-family:${fonts[font]};">${char}</span>`;
+                }).join("");
+                document.querySelector(".captcha .preview").innerHTML = html;
+            }
+   
+            function initCaptcha() {
+                document.querySelector(".captcha-refresh").addEventListener("click", function() {
+                    generateCaptcha();
+                });
+                generateCaptcha();
+            }
+   
+            function validateForm() {
+                const form = document.getElementById('registration-form');
+                const inputs = form.querySelectorAll('input');
+                let allFilled = true;
+                inputs.forEach(input => {
+                    if (!input.value) {
+                        allFilled = false;
+                    }
+                });
+   
+                // Check password length
+                const passwordInput = document.querySelector('input[name="userPassword"]');
+                if (passwordInput.value.length < 6 || passwordInput.value.length > 16) {
+                    allFilled = false;
+                }
+   
+                const registerButton = document.getElementById('register-btn');
+                if (allFilled && document.getElementById('captcha-input').value === captchaValue) {
+                    registerButton.disabled = false;
+                    registerButton.style.pointerEvents = "auto";
+                    registerButton.style.opacity = 1;
+                } else {
+                    registerButton.disabled = true;
+                    registerButton.style.pointerEvents = "none";
+                    registerButton.style.opacity = 0.5;
+                }
+            }
+   
+            function checkCaptcha() {
+                const inputCaptchaValue = document.getElementById('captcha-input').value;
+                if (inputCaptchaValue === captchaValue) {
+                    Swal.fire("", "Captcha matched!", "success");
+                    validateForm();
+                } else {
+                    Swal.fire("", "Invalid captcha", "error");
+                }
+            }
+   
+            initCaptcha();
+   
+            document.getElementById('check-captcha-btn').addEventListener('click', checkCaptcha);
+   
+            document.querySelectorAll('#registration-form input').forEach(input => {
+                input.addEventListener("input", validateForm);
+            });
+   
+            document.getElementById('registration-form').addEventListener('submit', async function(event) {
+                const inputCaptchaValue = document.getElementById('captcha-input').value;
+                const passwordInput = document.querySelector('input[name="userPassword"]');
+                const emailInput = document.querySelector('input[name="email"]');
+               
+                if (inputCaptchaValue !== captchaValue) {
+                    event.preventDefault();
+                    Swal.fire("Invalid captcha");
+                } else if (passwordInput.value.length < 6 || passwordInput.value.length > 16) {
+                    event.preventDefault();
+                    Swal.fire("Password must be between 8 and 10 characters");
+                } else {
+                    const email = emailInput.value.trim();
+                    const emailExists = await checkEmailAvailability(email);
+                    if (emailExists) {
+                        event.preventDefault();
+                        Swal.fire("This email has already been used for registration.");
+                    }
+                }
+            });
+        })();
+   
+        (function () {
+        // Function to check email availability using Fetch API
+        async function checkEmailAvailability(email) {
+            try {
+                const response = await fetch(`/checkEmail?email=${encodeURIComponent(email)}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                return !data.exists; // Return true if email is available, false if already used
+            } catch (error) {
+                console.error('Error checking email availability:', error);
+                return false;
+            }
+        }
+
+
+        // Function to validate form inputs
+        function validateForm() {
+            const form = document.getElementById('registration-form');
+            const emailInput = form.querySelector('input[name="email"]');
+            const passwordInput = form.querySelector('input[name="userPassword"]');
+            const phoneInput = form.querySelector('input[name="phone"]');
+            const registerButton = document.getElementById('register-btn');
+
+
+            // Disable inputs if there's an error checking email availability
+            emailInput.addEventListener('blur', async function () {
+                const email = emailInput.value.trim();
+                if (email) {
+                    const emailAvailable = await checkEmailAvailability(email);
+                    if (!emailAvailable) {
+                        // Email already used, disable password and phone inputs
+                        passwordInput.disabled = true;
+                        phoneInput.disabled = true;
+                        registerButton.disabled = true;
+                        Swal.fire("This email has already been used for registration.");
+                    } else {
+                        // Email available, enable password and phone inputs
+                        passwordInput.disabled = false;
+                        phoneInput.disabled = false;
+                        registerButton.disabled = false;
+                    }
+                }
+            });
+
+
+            // Other form validation logic as needed
+            // ...
+        }
+
+
+        // Initialize form validation
+        validateForm();
+    })();
+    </script>
+   
+
+
+</body>
+</html>
+
+
+
+
+
