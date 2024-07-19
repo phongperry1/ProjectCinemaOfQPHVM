@@ -154,6 +154,11 @@ public class BookingController {
             ticket.setTheater(theater);
             ticket.setShowtime(showtime);
             ticket.setPrice(ticketDTO.getTotalPrice3());
+            // if (user.getUserRank()equals("None")){
+                
+            // }
+                
+            
     
             Ticket savedTicket = ticketRepository.save(ticket);
     

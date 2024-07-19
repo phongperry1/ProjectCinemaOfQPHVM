@@ -19,4 +19,6 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Integer > {
 
     @Query(value = "SELECT s.show_date, s.show_time, s.showtime_id FROM Showtime s JOIN Theater t ON s.theater_id = t.theater_id WHERE s.movieid = :movieID AND t.theater_id = :theaterID", nativeQuery = true)
     List<Object[]> findByMovieIDAndTheaterID(@Param("movieID") Integer movieID, @Param("theaterID") Integer theaterID);
+
+    
 }
