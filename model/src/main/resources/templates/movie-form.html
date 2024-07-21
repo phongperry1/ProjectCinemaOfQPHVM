@@ -80,14 +80,7 @@
         <form th:action="@{/movie/create}" method="post" th:object="${movie}" class="w-100" style="max-width: 500px;" enctype="multipart/form-data">
             <input type="hidden" th:field="*{movieID}">
             <div class="card shadow border-0">
-                <div class="card-body p-4">
-                    <div class="form-group mb-3">
-                        <label for="theater">Theater:</label>
-                        <select id="theater" name="theater" class="form-control" required>
-                            <option value="" disabled selected>Select a Theater</option>
-                            <option th:each="theater : ${listTheater}" th:value="${theater.theaterID}" th:text="${theater.theaterName}"></option>
-                        </select>
-                    </div>        
+                <div class="card-body p-4">      
                     <div class="form-group mb-3">
                         <label for="title" class="form-label">Title:</label>
                         <input type="text" th:field="*{title}" class="form-control" id="title" required />

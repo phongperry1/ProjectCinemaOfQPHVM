@@ -291,8 +291,8 @@
   </script>
   <script>
     $(document).ready(function() {
-        const RESET_INTERVAL = 30 * 24 * 60 * 60 * 1000;
-        // const RESET_INTERVAL = 1 * 60 * 1000;
+        // const RESET_INTERVAL = 30 * 24 * 60 * 60 * 1000;
+        const RESET_INTERVAL = 1 * 60 * 1000;
         let lastResetTime = localStorage.getItem('lastResetTime');
         if (lastResetTime) {
             lastResetTime = new Date(parseInt(lastResetTime));

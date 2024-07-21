@@ -53,7 +53,7 @@ public class TheaterService {
         return repo.findByAddressContainingIgnoreCase(location);
     }
 
-    public Theater getTheaterById(int theaterId) {
-        return repo.findById(theaterId).orElse(null);
+    public List<Theater> getTheatersByMovieID(Integer movieID) {
+        return repo.findTheatersByMovieID(movieID);
     }
 }

@@ -499,7 +499,7 @@ header .carousel a{
     font-size: 12px;
 }
 .carousel .list .item img{
-    width: 1950px;
+    width: 100%;
     height: 100%;
     object-fit: cover;
 }
@@ -835,93 +835,89 @@ header .carousel a{
         </div>
         <section class="cinema-list-section">
             <div class="cinema-list">
-                <!-- Example using Thymeleaf for dynamic content -->
                 <div class="cinema" th:each="theater : ${theaters}">
                     <div class="cinema-name" th:text="${theater.theaterName}">Cinema Name</div>
                     <div class="cinema-description" th:text="${theater.address}">Address</div>
-                    <button class="view-more-btn">View More</button>
-    
-                    <div class="owl-carousel cinema-details" id="movies-for-theater-${theater.theaterID}">
-                        <!-- Example using Thymeleaf for dynamic content -->
-                        <div th:each="movie : ${theater.movies}" class="movie-item">
-                            <div class="movie-image">
-                                <img th:src="@{${movie.address}}" alt="Movie Image">
-                            </div>
-                            <div style="color: white;" class="movie-title" th:text="${movie.title}">Movie Title</div>
+                    <button class="view-more-btn" th:onclick="'viewMore(' + ${theater.theaterID} + ')'" >View More</button>
+                    
+                    <div class="owl-carousel cinema-details" th:id="'movies-for-theater-' + ${theater.theaterID}">
+                        <div th:each="movie : ${theater.movies}" class="movie-card">
+                            <img th:src="@{|${movie.address}|}" alt="Movie Image" th:if="${movie.address != null}" />
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         
+        
     
-<div class="container-fluid">
-    <div class="carousel">
-        <!-- Carousel Items -->
-        <div class="list">
-            <div class="list">
-    <!-- Thymeleaf each loop to iterate over movies -->
-    <div th:each="promotion : ${promotions}">
-        <div class="item active">
-            <a th:href="@{/guest/promotionDetailGuest/{id}(id=${promotion.promotionID})}">
-                <img th:src="@{${promotion.photosImagePath}}" alt="Promotion Image">
-            </a>
-        </div>
-    </div>
-
-</div>
-            <!-- Add more items dynamically using Thymeleaf -->
-        </div>
-        <!-- list thumnail -->
-        <div class="thumbnail">
-            <th:block th:each="movie, iterStat : ${movies}">
-                <div class="item">
-                    <img th:src="@{${movie.address}}" alt="Movie Image">
-                    <div class="content">
-                        <div class="title" th:text="${movie.title}"></div>
-                    </div>
-                </div>
-            </th:block>
-        </div>
-        <!-- next prev -->
-
-        <div class="arrows">
-            <button id="prev"><</button>
-            <button id="next">></button>
-        </div>
-        <!-- time running -->
-        <div class="time"></div>
-    </div>  
-</div>
-
-
-
-    <!-- Promotions Section -->
-    <section id="slider" class="pt-5">
-        <div class="container">
-            <h1 style="color:white" class="text-center"><b>Promotions</b></h1>
-            <div class="slider">
-                <div class="owl-carousel">
-                    <!-- Thymeleaf loop to display promotions -->
-                    <div th:each="promotion : ${promotions}" class="slider-card">
-                        <a th:href="@{/user/promotionDetailGuest/{id}(id=${promotion.promotionID})}">
-                            <div class="d-flex justify-content-center align-items-center mb-4">
-                                <img th:src="@{${promotion.photosImagePath}}" alt="Promotion Image">
-                            </div>
-                        </a>
-                            
-                            
-                            <h5 class="mb-0 text-center">
-                                <b th:text="${promotion.promotionName}"></b>
-                            </h5>
-                            <p class="p-4" th:text="${promotion.description}"></p>
-                        
-                    </div>
+        <div class="container-fluid">
+            <div class="carousel">
+                <!-- Carousel Items -->
+                <div class="list">
+                    <div class="list">
+            <!-- Thymeleaf each loop to iterate over movies -->
+            <div th:each="promotion : ${promotions}">
+                <div class="item active">
+                    <a th:href="@{/guest/promotionDetailGuest/{id}(id=${promotion.promotionID})}">
+                        <img th:src="@{${promotion.photosImagePath}}" alt="Promotion Image">
+                    </a>
                 </div>
             </div>
+        
         </div>
-    </section>
-    
+                    <!-- Add more items dynamically using Thymeleaf -->
+                </div>
+                <!-- list thumnail -->
+                <div class="thumbnail">
+                    <th:block th:each="movie, iterStat : ${movies}">
+                        <div class="item">
+                            <img th:src="@{${movie.address}}" alt="Movie Image">
+                            <div class="content">
+                                <div class="title" th:text="${movie.title}"></div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+                <!-- next prev -->
+        
+                <div class="arrows">
+                    <button id="prev"><</button>
+                    <button id="next">></button>
+                </div>
+                <!-- time running -->
+                <div class="time"></div>
+            </div>  
+        </div>
+        
+        
+        
+            <!-- Promotions Section -->
+            <section id="slider" class="pt-5">
+                <div class="container">
+                    <h1 style="color:white" class="text-center"><b>Promotions</b></h1>
+                    <div class="slider">
+                        <div class="owl-carousel">
+                            <!-- Thymeleaf loop to display promotions -->
+                            <div th:each="promotion : ${promotions}" class="slider-card">
+                                <a th:href="@{/user/promotionDetailGuest/{id}(id=${promotion.promotionID})}">
+                                    <div class="d-flex justify-content-center align-items-center mb-4">
+                                        <img th:src="@{${promotion.photosImagePath}}" alt="Promotion Image">
+                                    </div>
+                                </a>
+                                    
+                                    
+                                    <h5 class="mb-0 text-center">
+                                        <b th:text="${promotion.promotionName}"></b>
+                                    </h5>
+                                    <p class="p-4" th:text="${promotion.description}"></p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
 
 
 
@@ -965,14 +961,15 @@ header .carousel a{
             var moviesContainer = button.nextElementSibling;
             if (moviesContainer.style.display === 'none') {
                 moviesContainer.style.display = 'block';
-                button.textContent = 'Hide Movies'; // Optionally change button text
+                button.textContent = 'Hide Movies'; // Change button text
             } else {
                 moviesContainer.style.display = 'none';
-                button.textContent = 'View More'; // Optionally change button text
+                button.textContent = 'View More'; // Change button text
             }
         });
     });
 });
+
             //step 1: get DOM
 let nextDom = document.getElementById('next');
 let prevDom = document.getElementById('prev');

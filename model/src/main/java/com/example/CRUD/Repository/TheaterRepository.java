@@ -15,9 +15,13 @@ public interface TheaterRepository extends JpaRepository<Theater, Integer> {
 
     @Query("SELECT t.cinemaOwnerID FROM Theater t WHERE t.theaterID = :theaterID")
     Integer findCinemaOwnerIdByTheaterId(@Param("theaterID") Integer theaterID);
+
     List<Theater> findByTheaterNameContainingIgnoreCaseOrAddressContainingIgnoreCase(String theaterName,
             String address);
 
     List<Theater> findByAddressContainingIgnoreCase(String address);
+
+    @Query("SELECT t FROM Theater t JOIN t.movies m WHERE m.movieID = :movieID")
+    List<Theater> findTheatersByMovieID(@Param("movieID") Integer movieID);
 
 }

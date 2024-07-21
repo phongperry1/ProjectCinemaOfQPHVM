@@ -59,8 +59,8 @@ public class UserByAdminService {
         if (lastResetTime != null) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(lastResetTime);
-            cal.add(Calendar.DAY_OF_MONTH, 30);
-            // cal.add(Calendar.MINUTE, 1);
+            // cal.add(Calendar.DAY_OF_MONTH, 30);
+            cal.add(Calendar.MINUTE, 1);
             Timestamp thirtyDaysLater = new Timestamp(cal.getTimeInMillis());
 
             if (currentTime.before(thirtyDaysLater)) {
@@ -85,8 +85,8 @@ public class UserByAdminService {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(lastResetTime);
-        cal.add(Calendar.DAY_OF_MONTH, 30);
-        // cal.add(Calendar.MINUTE, 1);
+        // cal.add(Calendar.DAY_OF_MONTH, 30);
+        cal.add(Calendar.MINUTE, 1);
         Timestamp thirtyDaysLater = new Timestamp(cal.getTimeInMillis());
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 

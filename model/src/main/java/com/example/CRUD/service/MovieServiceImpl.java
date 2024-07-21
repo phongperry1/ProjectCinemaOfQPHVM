@@ -107,4 +107,5 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> findByCinemaOwnerID(int theaterId) {
         return movieRepository.findByCinemaOwnerID(theaterId);
     }
+    
 }

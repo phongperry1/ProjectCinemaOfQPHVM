@@ -54,17 +54,14 @@ public class MovieController {
     }
 
     @GetMapping("/new")
-    public String showCreateForm(Model model, Principal principal) {
-        Integer cinemaOwnerID = getCinemaOwnerIDFromPrincipal(principal);
-        List<Theater> listTheater = theaterService.listAllByCinemaOwnerID(cinemaOwnerID);
-        model.addAttribute("listTheater", listTheater);
+    public String showCreateForm(Model model) {
         model.addAttribute("movie", new Movie());
         return "movie-form";
     }
 
     @PostMapping("/create")
     public String createMovie(@ModelAttribute Movie movie, @RequestParam("imageFile") MultipartFile imageFile,
-                              RedirectAttributes redirectAttributes,Principal principal) {
+            RedirectAttributes redirectAttributes, Principal principal) {
         movie.setRatingCount(0);
         movie.setAverageRating(0.0);
         movie.setCinemaOwnerID(getCinemaOwnerIDFromPrincipal(principal));
@@ -89,6 +86,7 @@ public class MovieController {
         movieService.saveMovie(movie);
         return "redirect:/movie";
     }
+
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Integer id, Model model, Principal principal) {
         Movie movie = movieService.getMovieById(id);
@@ -97,45 +95,53 @@ public class MovieController {
             List<Theater> listTheater = theaterService.listAllByCinemaOwnerID(cinemaOwnerID);
             model.addAttribute("movie", movie);
             model.addAttribute("listTheater", listTheater);
-            return "movie-form";
+            return "movie-form2";
         }
         return "redirect:/movie";
     }
 
     @PostMapping("/update/{id}")
-    public String updateMovie(@PathVariable Integer id, @ModelAttribute Movie movieDetails,
-                              @RequestParam("imageFile") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
-        Movie movie = movieService.getMovieById(id);
-        if (movie != null) {
+public String updateMovie(@PathVariable Integer id, @ModelAttribute Movie movieDetails,
+                          @RequestParam("imageFile") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
+    Movie movie = movieService.getMovieById(id);
+    if (movie != null) {
+        if (!movie.getTitle().equalsIgnoreCase(movieDetails.getTitle()) && movieService.isDuplicateTitle(movieDetails.getTitle())) {
+            redirectAttributes.addFlashAttribute("message", "Đã có bộ phim với title này.");
+            return "redirect:/movie/edit/" + id;
+        }
+
+        if (imageFile.isEmpty() && (movie.getAddress() == null || movie.getAddress().isEmpty())) {
+            redirectAttributes.addFlashAttribute("message", "Bạn hãy upload ảnh phim.");
+            return "redirect:/movie/edit/" + id;
+        }
+
+        try {
             if (!imageFile.isEmpty()) {
-                try {
-                    // Lưu tệp tải lên vào thư mục cục bộ
-                    String uploadDir = System.getProperty("user.dir") + "/uploads/";
-                    File uploadDirFile = new File(uploadDir);
-                    if (!uploadDirFile.exists()) {
-                        uploadDirFile.mkdirs();
-                    }
-                    String fileName = imageFile.getOriginalFilename();
-                    Path filePath = Paths.get(uploadDir + fileName);
-                    Files.write(filePath, imageFile.getBytes());
-                    movie.setAddress("/uploads/" + fileName); // Lưu đường dẫn ảnh vào thuộc tính address
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    redirectAttributes.addFlashAttribute("message", "Không thể tải lên tệp ảnh.");
-                    return "redirect:/movie/edit/" + id;
+                String uploadDir = System.getProperty("user.dir") + "/uploads/";
+                File uploadDirFile = new File(uploadDir);
+                if (!uploadDirFile.exists()) {
+                    uploadDirFile.mkdirs();
                 }
+
+                String fileName = imageFile.getOriginalFilename();
+                Path filePath = Paths.get(uploadDir + fileName);
+                Files.write(filePath, imageFile.getBytes());
+
+                movie.setAddress("/uploads/" + fileName);
             }
+
             movie.updateDetails(movieDetails);
             movieService.saveMovie(movie);
+        } catch (IOException e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("message", "Không thể tải lên tệp ảnh.");
+            return "redirect:/movie/edit/" + id;
         }
-        return "redirect:/movie";
+    } else {
+        redirectAttributes.addFlashAttribute("message", "Bộ phim không tồn tại.");
     }
-    @GetMapping("/delete/{id}")
-    public String deleteMovie(@PathVariable Integer id) {
-        movieService.deleteMovie(id);
-        return "redirect:/movie";
-    }
-
+    return "redirect:/movie";
+}
     @GetMapping("/home/{id}")
     public String getMovieForHome(@PathVariable Integer id, Model model) {
         Movie movie = movieService.getMovieById(id);

@@ -115,6 +115,10 @@
         <div th:if="${message}" class="alert alert-success text-center" role="alert">
             [[${message}]]
         </div>
+        <!-- Display error message if any -->
+        <div th:if="${error}" class="alert alert-danger text-center" role="alert">
+            [[${error}]]
+        </div>
         <!-- Table to display list of theaters -->
         <table class="table table-hover">
             <thead>
@@ -124,6 +128,7 @@
                     <th>Theater Name</th>
                     <th>Address</th>
                     <th>Description</th>
+                    <th>Movie ID</th>
                     <th>Photo</th>
                     <th>Rating</th>
                     <th>Actions</th>
@@ -131,12 +136,13 @@
             </thead>
             <tbody>
                 <!-- Iterate over the list of theaters -->
-                <tr th:each="theater : ${listTheater}">
+                <tr th:each="theater : ${listTheaters}">
                     <td th:text="${theater.theaterID}">Theater ID</td>
                     <td th:text="${theater.cinemaOwnerID}">Cinema Owner ID</td>
                     <td th:text="${theater.theaterName}">Theater Name</td>
                     <td th:text="${theater.address}">Address</td>
                     <td th:text="${theater.description}">Description</td>
+                    <td th:text="${theater.movieID}">MovieID</td>
                     <td>
                         <!-- Display theater photo if available -->
                         <img th:src="@{'/theater-photo/' + ${theater.theaterID} + '/' + ${theater.photoTheater}}" class="img-round" alt="No photo" width="100" height="60" />
@@ -145,14 +151,11 @@
                     <td>
                         <!-- Edit and Delete buttons -->
                         <a class="btn btn-warning btn-sm me-2" th:href="@{'/theater/edit/' + ${theater.theaterID}}">Edit</a>
-                        <a class="btn btn-danger btn-sm" th:href="@{'/theater/delete/' + ${theater.theaterID}}" th:onclick="return confirm('Are you sure you want to delete this theater?');">Delete</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{'/theater/delete/' + ${theater.theaterID}}">Delete</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <!-- Include Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>

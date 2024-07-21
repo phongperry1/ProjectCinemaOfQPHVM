@@ -78,7 +78,7 @@ public class GuestController {
         List<Movie> movies = movieService.getAllMovies();
         model.addAttribute("movies", movies);
 
-        return "theaters_Guest"; // Thymeleaf template name
+        return "theaters_Guest";
     }
 
     @GetMapping("/promotionDetailGuest/{id}")
@@ -90,12 +90,5 @@ public class GuestController {
         } else {
             return "redirect:/theaters_Guest";
         }
-    }
-
-    @GetMapping("/book_Guest/{id}")
-    public String showMovieDetail(@PathVariable("id") Integer id, Model model, Principal principal) {
-        Movie movie = movieService.getMovieById(id);
-            model.addAttribute("movie", movie);
-            return "book_Guest"; // Tên của trang HTML cho chi tiết phim
     }
 }
