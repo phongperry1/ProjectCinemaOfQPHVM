@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.CRUD.service.ChatService;
 import com.example.CRUD.service.NotificationService;
@@ -19,8 +21,6 @@ import com.example.CRUD.service.UserService;
 import com.example.mo.Chat;
 import com.example.mo.Notification;
 import com.example.mo.Users;
-
-import org.springframework.ui.Model;
 
 @Controller
 public class ChatController {
@@ -32,6 +32,19 @@ public class ChatController {
         this.chatService = chatService;
         this.userService = userService;
         this.notificationService = notificationService;
+    }
+
+    @GetMapping("/api/chats/{recipientId}")
+    @ResponseBody
+    public List<Chat> getNewChats(@PathVariable Integer recipientId, Principal principal) {
+        String email = principal.getName();
+        Users currentUser = userService.getUsersByEmail(email);
+        Users recipient = userService.getUserById(recipientId);
+        List<Chat> chats = chatService.getChatsBetweenUsers(currentUser, recipient)
+                .stream()
+                .sorted(Comparator.comparing(Chat::getTimestamp))
+                .collect(Collectors.toList());
+        return chats;
     }
 
     @GetMapping("/chat/{recipientId}")
@@ -46,6 +59,7 @@ public class ChatController {
         model.addAttribute("chats", chats);
         model.addAttribute("user", currentUser);
         model.addAttribute("recipient", recipient);
+        model.addAttribute("currentUserName", currentUser.getUserName());
         return "chat";
     }
 
@@ -55,7 +69,7 @@ public class ChatController {
         String email = principal.getName();
         Users currentUser = userService.getUsersByEmail(email);
         Users recipient = userService.getUserById(receiverId);
-        if (!currentUser.getUserName().equals("ADMIN")) { 
+        if (!currentUser.getUserName().equals("ADMIN")) {
             createNotificationForAdmin(currentUser, message);
         }
         Chat chat = new Chat();
@@ -74,5 +88,4 @@ public class ChatController {
         notification.setTimestamp(new Timestamp(System.currentTimeMillis()));
         notificationService.saveNotification(notification);
     }
-
 }

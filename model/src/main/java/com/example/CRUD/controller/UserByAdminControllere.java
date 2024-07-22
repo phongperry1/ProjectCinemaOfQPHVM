@@ -15,7 +15,7 @@ import com.example.mo.Users;
 // import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -70,11 +70,12 @@ public class UserByAdminControllere {
     }
    @GetMapping("/show")
 public String getUserDetails(Model model, Principal principal) {
+    boolean isResetAllowed = userByAdminService.isResetAllowed();
     List<Users> userByAdmins = userByAdminService.getUserByAdmins();
     model.addAttribute("UserByAdmins", userByAdmins);
     String email = principal.getName();
     Users currentUser = userService.getUsersByEmail(email);
-
+    model.addAttribute("isResetAllowed", isResetAllowed);
     if (currentUser.getUserName().equals("ADMIN")) { 
         List<Notification> notifications = notificationService.getUnreadNotifications();
         model.addAttribute("notifications", notifications);
@@ -129,7 +130,12 @@ public String getUserDetails(Model model, Principal principal) {
 
         userByAdminService.updateRankUser(user);
         model.addAttribute("message", "Rank updated successfully!");
-
+        ra.addFlashAttribute("message", "Rank updated successfully!");
+        return "redirect:/show";
+    }
+    @PostMapping("/updateAllUsers")
+    public String updateAllUsers() {
+        userByAdminService.updateAllUsers();
         return "redirect:/show";
     }
 
@@ -182,9 +188,5 @@ public String getUserDetails(Model model, Principal principal) {
         return "test";
     }
 
-    // @GetMapping("/{id}")
-    // public UserByAdmin findById(@PathVariable("id") Long id) {
-    // return userByAdminService.findById("id");
-    // }
 
 }

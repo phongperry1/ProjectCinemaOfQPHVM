@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,6 +10,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <title>Users Management</title>
   <style>
     .content-section {
@@ -137,6 +137,11 @@
       </div>
       <div class="col-md-10">
         <nav class="navbar navbar-light bg-light">
+          <button class="btn btn-danger" id="updateUsersButton">Reset User Points and Rank</button>
+          <div id="countdown" style="display:none; margin-top: 20px;"></div>
+          <div id="successMessage" class="alert alert-success" style="display:none; margin-top: 20px;">
+              All users have been updated successfully.
+          </div>
           <form class="form-inline" th:action="@{/search}" method="get">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="userName"
               th:value="${userName}">
@@ -175,7 +180,7 @@
               <td th:text="${user.userName}"></td>
               <td>
                 <span th:if="${user.Status}" class="text-success">&#10004;</span>
-                <span th:unless="${user.Status}" class="text-danger">&#10006;</span>
+                <span th:unless="${user.Status}" class="text-danger">&#10006;"></span>
               </td>
               <td th:text="${user.userType}"></td>
               <td>
@@ -257,6 +262,62 @@
 
     setInterval(checkForNewNotifications, 5000); 
   </script>
-</body>
+  <script>
+    $(document).ready(function() {
+        // const RESET_INTERVAL = 30 * 24 * 60 * 60 * 1000;
+        const RESET_INTERVAL = 1 * 60 * 1000;
+        let lastResetTime = localStorage.getItem('lastResetTime');
+        if (lastResetTime) {
+            lastResetTime = new Date(parseInt(lastResetTime));
+            const timeUntilResetAllowed = RESET_INTERVAL - (Date.now() - lastResetTime.getTime());
+            if (timeUntilResetAllowed > 0) {
+                $('#updateUsersButton').prop('disabled', true);
+                startCountdown(timeUntilResetAllowed);
+            }
+        }
 
+        $('#updateUsersButton').on('click', function() {
+            if (confirm('Are you sure you want to reset all user points and rank?')) {
+                $.ajax({
+                    url: '/updateAllUsers',
+                    type: 'POST',
+                    success: function() {
+                        $('#successMessage').show();
+                        $('#updateUsersButton').prop('disabled', true);  // Disable the button
+                        localStorage.setItem('lastResetTime', Date.now().toString());
+                        startCountdown(RESET_INTERVAL);
+                    },
+                    error: function() {
+                        alert('An error occurred while updating users.');
+                    }
+                });
+            }
+        });
+
+        function startCountdown(duration) {
+            const countdownElement = $('#countdown');
+            countdownElement.show();
+
+            function updateCountdown() {
+                const hours = Math.floor(duration / (1000 * 60 * 60));
+                const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((duration % (1000 * 60)) / 1000);
+
+                countdownElement.text(`Time until next reset: ${hours}h ${minutes}m ${seconds}s`);
+
+                if (duration <= 0) {
+                    clearInterval(countdownInterval);
+                    $('#updateUsersButton').prop('disabled', false); 
+                    countdownElement.hide();
+                } else {
+                    duration -= 1000;
+                }
+            }
+
+            updateCountdown();
+            const countdownInterval = setInterval(updateCountdown, 1000);
+        }
+    });
+</script>
+</body>
 </html>

@@ -154,15 +154,7 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
                 <div class="chat-container" id="chatContainer">
-                    <div th:each="chat : ${chats}">
-                        <div th:class="${chat.sender.userName == user.userName} ? 'chat-message sent' : 'chat-message received'">
-                            <img th:src="@{/uploads/{imageName}(imageName=${chat.sender.profileImageURL})}" alt="Profile Image" width="40px" height="40px">
-                            <strong th:text="${chat.sender.userName}"></strong>:
-                            <span th:text="${chat.message}"></span>
-                            <br>
-                            <small th:text="${#dates.format(chat.timestamp, 'HH:mm dd/MM/yyyy')}"></small>
-                        </div>
-                    </div>
+                    <!-- Chat messages will be dynamically inserted here -->
                 </div>
                 <div class="form-container">
                     <form id="chatForm" th:action="@{/send}" method="post">
@@ -178,6 +170,11 @@
             </div>
         </div>
     </div>
+
+    <!-- Thẻ input ẩn để lưu trữ giá trị username của người dùng hiện tại -->
+    <input type="hidden" id="currentUserName" th:value="${currentUserName}">
+    <!-- Thẻ input ẩn để lưu trữ giá trị recipientId -->
+    <input type="hidden" id="recipientId" th:value="${recipient.userId}">
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -199,16 +196,45 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        window.onload = scrollToBottom;
+        function fetchChats() {
+            const recipientId = document.getElementById('recipientId').value;
+            const currentUserName = document.getElementById('currentUserName').value;
+            $.ajax({
+                url: `/api/chats/${recipientId}`,
+                method: 'GET',
+                success: function(chats) {
+                    const chatContainer = $('#chatContainer');
+                    const documentFragment = $(document.createDocumentFragment());
 
-        document.getElementById('menu').onclick = function() {
-            const navUl = document.getElementById('nav-ul');
-            if (navUl.classList.contains('show')) {
-                navUl.classList.remove('show');
-            } else {
-                navUl.classList.add('show');
-            }
+                    chats.forEach(chat => {
+                        const chatClass = chat.sender.userName === currentUserName ? 'chat-message sent' : 'chat-message received';
+                        const chatMessage = `
+                            <div class="${chatClass}">
+                                <img src="/uploads/${chat.sender.profileImageURL}" alt="Profile Image" width="40px" height="40px">
+                                <strong>${chat.sender.userName}</strong>:
+                                <span>${chat.message}</span>
+                                <br>
+                                <small>${new Date(chat.timestamp).toLocaleTimeString('en-GB')}</small>
+                            </div>
+                        `;
+                        documentFragment.append(chatMessage);
+                    });
+
+                    chatContainer.empty().append(documentFragment);
+                    scrollToBottom();
+                }
+            });
         }
+
+        $(document).ready(function() {
+            setInterval(fetchChats, 500);  
+
+            $('#menu').on('click', function() {
+                $('#nav-ul').toggleClass('show');
+            });
+
+            scrollToBottom();
+        });
     </script>
 </body>
 </html>
